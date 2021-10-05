@@ -1,0 +1,101 @@
+#macro wh_Image 1
+#macro wh_Font 2
+#macro wh_Audio 3
+
+var Loading
+
+class LAsset
+
+	ReadOnly String File
+	ReadOnly String Tag
+	ReadOnly Int what
+	ReadOnly Var data
+	
+
+	Static Table Lijst
+
+	CONSTRUCTOR(String F,String T,Int w)
+		File = F
+		Tag = T
+		what = w
+		Lijst += self
+	end
+	
+	Static Void C(String F,String T,Int w,data)
+		var a 
+		a = new LAsset(F,T,W)
+		// Woe of a language still in development!
+	end
+end
+
+
+// Testing if the file is actually compiled correctly at all and running
+Init
+	FPS.MinTicks=25;
+	Print("Klahre welcomes you")
+	Print("Apollo is running in "..Core.Platform)
+	
+	Events.HideMouse();
+	Kthura.SetAutoVisible()
+
+
+	// Configure loading assets
+	LAsset.C("GFX/Loading/Graphic.png","LOADING",wh_Image) // Must always be first
+	LAsset.C("Fonts/SysFont.jfbf","SYSFONT",wh_Font,true)
+	LAsset.C("GFX/Cursor/Default.png","MOUSE",wh_Image)
+
+	for elem in each {"Dark", "Earth", "Fire", "Frost", "Light", "Lightning", "Water", "Wind"}
+		LAsset.C("GFX/Elements/"..elem..".png","ELEM_"..(elem:upper()),wh_image)
+	end
+	//for status in each { "Block",  "Damned", "Death", "Disease", "Paralysis", "Poison", "Will" }
+	//	LAsset.C("GFX/StatusChanges/"..status..".png","STATUS_"..(status:upper()),wh_image)
+	//end
+	//LAsset.C("Audio/SFX/Transporter/Beam.ogg","BEAM",wh_Audio)
+	LAsset.C("Audio/Raw/145438__soughtaftersounds__old-music-box-5.ogg","AUDIO_LEVELUP",wh_Audio)
+	LAsset.C("Audio/Raw/145434__soughtaftersounds__old-music-box-1.ogg","SOLVED",wh_Audio)
+	LAsset.C("Audio/SFX/Alg/Buzz.wav","BUZZ",wh_Audio)
+	LAsset.C("Audio/SFX/Signal.ogg","SIGNAL",wh_Audio)
+	//LAsset.C("Audio/Crystal ARM.ogg","CRYSTAL_ARM",wh_Audio)
+	
+
+
+	// Loading assets
+	Int m=#LAsset.Lijst
+	for i,LA in ipairs(LAsset.Lijst)
+		Events.Poll()
+		Graphics.Cls()
+		Graphics.Color(255,255,255)
+		if Loading
+			Loading.Draw((Screen.W/2)-(Loading.Width/2),(Screen.H/2)-(Loading.Height/2))
+		end
+		Graphics.Color(65,65,65)
+		Graphics.Rect(0,Screen.H-50,Screen.W,50)
+		Graphics.Color(0,180,255)
+		Graphics.Rect(0,Screen.H-50,math.floor( (i/m) * Screen.W ),50)
+		Graphics.Color(255,255,255)
+		Graphics.Flip()
+		Events.Poll()
+		printf("%5d/%5d: Loading ",i,m)
+		switch LA.what
+			case wh_Image
+				cout("image ",LA.File," to ",LA.Tag)
+				var I =  Image.Load(LA.File,LA.Tag)
+				Loading = Loading or I
+			case wh_Font
+				cout("font ",LA.File," to ",LA.Tag)
+				ImageFont.Load(LA.File,LA.Tag).Fixed = LA.data==true
+			case wh_Audio
+				cout("audio ",LA.File," to ",LA.Tag)
+				Audio.Load(LA.File,LA.Tag)
+			default
+				print("ERROR!")
+				lua.error("Unknown loader switch ("..LA.what..")")
+		end
+		print();
+	end
+
+
+	// Chaining to main menu
+	Flow.Load("MAINMENU","Script/Flow/FlowMain.neil")
+	Flow.Current="MAINMENU"		
+end
