@@ -46,7 +46,7 @@
 
 #macro TimeOutNext false
 
-#macro __BUGS "https://github.com/PhantasarProductions/StarStory/issues"
+#macro __BUGS "https://github.com/PhantasarProductions/StarStory2/issues"
 
 // These lines are from the original BlitzMax code, and used as a kind of helper for me
 // Field P:TPixmap = LoadPixmap(JCR_B(JCR,"GFX/Intro/Introtext.png"))
