@@ -64,7 +64,7 @@ var Phantasar = Image.Load("GFX/Intro/PhantasarProductions.png")
 var StarStory = Image.Load("GFX/Intro/StarStory.png")
 //var ScrollText = Image.LoadAnim("GFX/Intro/Introtext.png",IntroTextWidth,1,IntroTextHeight)
 var ScrollText = Image.Load("GFX/Intro/IntroText.jpbf")
-var Mouse = Image.Obtain("MOUSE")
+//var Mouse = Image.Obtain("MOUSE")
 var MenuFont = ImageFont.Obtain("BOXTEXT")
 
 
