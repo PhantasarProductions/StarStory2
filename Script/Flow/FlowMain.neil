@@ -38,8 +38,11 @@
 #use "Script/Use/Anyway"
 #use "Script/Use/Misc/PSaveGame"
 
-#macro IntroTextWidth 640
-#macro IntroTextHeight 1140
+//#macro IntroTextWidth 640
+//#macro IntroTextHeight 1140
+
+#macro IntroTextWidth 800
+#macro IntroTextHeight 600
 
 #macro QuickQuit true
 #macro LogoCD 500
@@ -231,9 +234,11 @@ void DoMenu()
 	if not showmenu
 		return
 	end	
-	Graphics.Color(255,180,0)
+	//Graphics.Color(255,180,0)
+	Graphics.Color(154,174,206)
 	Graphics.Rect(0,Screen.H-32,Screen.W,5)
-	Graphics.Color(0,0,0)
+	//Graphics.Color(0,0,0)
+	Graphics.Color(0,23,61)
 	Graphics.Rect(0,Screen.H-28,Screen.W,28)
 	static int iw = math.floor(Screen.W/(#Menu+1))
 	static int iwh = iw/2
@@ -273,7 +278,8 @@ end
 
 void ContinueGame()
 	Loading()
-	PerformLoadGame("QUIT")
+	Lua.error("This feature is NOT yet operational")
+	//PerformLoadGame("QUIT")
 	Flow.Current="FIELD"
 end
 
