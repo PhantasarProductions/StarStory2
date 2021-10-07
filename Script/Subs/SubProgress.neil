@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Subs/SubProgress.neil
-// Version: 21.10.06
+// Version: 21.10.07
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -84,6 +84,7 @@ Class ProgressBar
 		Static Var Banner = Image.Obtain("LOADING")
 		Banner.HotCenter()
 		Graphics.Color(255,255,255)
+		Graphics.Cls()
 		//Back.Tile(0,0,Screen.W,Screen.H)
 		Banner.Draw(Screen.W div 2, Screen.H div 2)
 		DrawAll()
