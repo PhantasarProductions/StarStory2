@@ -1,0 +1,61 @@
+Module
+
+	Get Int InvSlots
+		Switch __skill
+			Case 0
+				return 0
+			Case 1
+				return 100
+			Case 2
+				return 50
+			Case 3
+				return 25
+			Default
+				Lua.error("Unknown skill number ("..__skill..") to retrieve max inventory slots")
+		End
+	End
+	
+	Get Int InvItemsPerSlot
+		Switch __skill
+			Case 0
+				Return 0
+			Case 1
+				Return 25
+			Case 2
+				Return 10
+			Case 3
+				Return 1
+			Default
+				Lua.error("Unknown skill number ("..__skill..") to retrieve max number of items per inventory slot")
+		End
+	End
+
+	Get Int ExpNeeded
+		Return 10*(25^__skill)
+	End
+	
+	Get Int Cycle
+		Return math.max(1,gv.gint.Cycle)
+	End
+
+	Set Int Cycle
+		gv.gint.Cycle = Value
+	End
+
+	
+	Get Int MaxLevel
+		Switch __skill
+			Case 0
+				Return 0
+			Case 1
+				Return math.min(100,Cycle)*1000
+			Case 2
+				Return math.min(400,Cycle)*250
+			Case 3
+				Return math.min(1000,Cycle)*100
+			Default
+				Lua.error("Unknown skill number ("..__skill..") to get the level cap")
+		End
+	End
+
+End
