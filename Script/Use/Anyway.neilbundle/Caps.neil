@@ -93,5 +93,18 @@ Module
 				Lua.error("Unknown skill number ("..__skill..") to get the level cap")
 		End
 	End
-
+	
+	Get Int LevelMargin
+		Switch __skill
+			Case 0 1
+				// 0 means infinite
+				Return 0
+			Case 2
+				Return 25
+			Case 3
+				Return 5
+			Default
+				Lua.error("Unknown skill number ("..__skill..") to get the level cap")
+		End
+	End
 End
