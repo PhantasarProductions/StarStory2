@@ -37,3 +37,5 @@
 #use "Libs/Music"
 
 #macro __skill gv.gint.skill
+
+#macro __white Graphics.Color(255,255,255)
