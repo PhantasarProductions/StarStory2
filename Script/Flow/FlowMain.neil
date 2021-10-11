@@ -54,20 +54,16 @@
 // These lines are from the original BlitzMax code, and used as a kind of helper for me
 // Field P:TPixmap = LoadPixmap(JCR_B(JCR,"GFX/Intro/Introtext.png"))
 // Field IntroText:TImage = LoadAnimImage(P,PixmapWidth(P),1,0,PixmapHeight(P))	
-//	Field stars:TImage = LoadImage(JCR_B(JCR,"GFX/Intro/Starfield.png"))
-//	Field StarStory:TImage = LoadImage(JCR_B(JCR,"GFX/Intro/StarStory.png"))
-//	Field Phantasar:TImage = LoadImage(JCR_B(JCR,"GFX/Intro/PhantasarProductions.png"))
+// Field stars:TImage = LoadImage(JCR_B(JCR,"GFX/Intro/Starfield.png"))
+// Field StarStory:TImage = LoadImage(JCR_B(JCR,"GFX/Intro/StarStory.png"))
+// Field Phantasar:TImage = LoadImage(JCR_B(JCR,"GFX/Intro/PhantasarProductions.png"))
 
 bool ShowMenu = False
 var Stars = Image.Load("GFX/Intro/Starfield.png","STARFIELD")
 var Phantasar = Image.Load("GFX/Intro/PhantasarProductions.png")
 var StarStory = Image.Load("GFX/Intro/StarStory.png")
-//var ScrollText = Image.LoadAnim("GFX/Intro/Introtext.png",IntroTextWidth,1,IntroTextHeight)
 var ScrollText = Image.Load("GFX/Intro/IntroText.jpbf")
-//var Mouse = Image.Obtain("MOUSE")
-var MenuFont = ImageFont.Obtain("BOXTEXT")
-
-
+var MenuFont = ImageFont.Obtain("BOXCOMP")
 
 class MenuItem
 	readonly string Caption
@@ -80,15 +76,14 @@ class MenuItem
 	end
 end
 
-
 class Stage
 	static int AtStage=1
 	static table Stages
 	readonly delegate Flow
 	readonly delegate Start
 	CONSTRUCTOR(delegate AFlow,delegate AStart=nil)
-		Flow = AFlow
-		Start = AStart
+		Flow    = AFlow
+		Start   = AStart
 		Stages += self
 	end
 	static void NewStage(delegate AFlow,delegate AStart=nil)
