@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowNewGame.neil
-// Version: 21.10.07
+// Version: 21.10.08
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -36,8 +36,13 @@
 // End License Information
 #use "Script/Use/Anyway"
 
+#macro __alphabet a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z
+
 Class NGS
 	Abstract Void Flow()
+	
+	Static ReadOnly Var Big = ImageFont.Obtain("BIGTEXT")
+	Static ReadOnly Var Fnt = ImageFont.Obtain("BOXTEXT")
 	
 	Static Table Stages = {}
 	Static Int Stage = 1
@@ -58,7 +63,81 @@ End
 
 Class NGSkill Extends NGS
 
+	Static Int MEX
+	Static ReadOnly Table SklNames = {"I never played an RPG before","I know the genre","Why are all games piss-easy? I have no life! Gimme a true challenge!"}
+	Const Int ith=25
+	
+	Void Para(string a,int esety=0)
+		static int y
+		if esety>0
+			y = esety
+		end
+		__white
+		NGS.Fnt.Text(a,5,y)
+		y+=ith
+	End
+	
+	Void ParaF(string fmt,__alphabet)
+		Para( sPrintf(fmt,__alphabet))
+	End
+
 	Void Flow()
+		__Skill = 0
+		__SkyBlue
+		NGS.Big.Text("How tough are you?",Screen.W div 2,10,2)
+		For i,name in iPairs(SklNames)
+			int y = (i*ith)+30
+			int m = 0
+			__SkyBlue
+			if Mouse.MX<10+NGS.FNT.TextWidth(Name) && Mouse.MY>y && Mouse.MY<y+ith
+				__Cyan
+				__Skill = i
+				m = 5 
+			End
+			NGS.Fnt.Text(Name,5+m,y)
+		End
+		
+		If __skill>0
+			string desc = "??"
+			string Store = ""
+			string cname = ""
+			switch __skill
+				case 1
+					CName = "easy"
+					Desc = "This mode is only for beginners. Many things have been simplefied."
+					Store = "Prices in stores cut by 50%"
+				case 2
+					CName = "casual"
+					Desc = "This mode shows you the game the way it was meant to be."
+				case 3
+					Cname = "hard"
+					Desc = "When you want a hard game. This is for you. Next to impossible!"
+					Store = "Prices in stores are doubled"
+			end
+			Para(Desc,150)
+			Para("A few parameters on how this mode affects the difficulty")
+			ParaF("Inventory slots: %d",Caps.InvSlots)
+			ParaF("Number of (same) items per inventory slot: %d",Caps.InvSlots)
+			ParaF("Level cap (first cycle): %d",Caps.MaxLevel)
+			ParaF("Experience needed compared to hard mode: %03.2f%%",(Caps.ExpNeeded / MEX) * 100)
+			If __Skill>1
+				ParaF("When you are %d level higher then your enemy no more experience points for you",Caps.LevelMargin)
+			End
+			If Store!=""
+				Para(Store)
+			End
+			Para("")
+			Para("The changes in the game are not limited just to this.")
+			Para("Enemies can also show different behavior some puzzles can be harder or easier based on your pick")
+			Para("And there can be many more things different.")
+			Para("")
+			Para("For that reason you can NOT change the difficulty once the game has begun, so CHOOSE WISELY!")
+			If Mouse.ML
+				If Sys.Yes("So you have chosen for the "..CName.." mode?\n\nPlease note you can NOT change this mode afterward.\n\nAre you sure?")
+					Self.Next()
+				End
+			End
+		End
 	End
 	
 End
@@ -84,6 +163,8 @@ End
 
 Init
 	gv.Clear()
+	__skill=3
+	NGSkill.MEX = Caps.EXPNeeded
 	NGS.Stages += new NGSkill()
 	NGS.Stages += new NGLang()
 	NGS.Stages += new NGReady()
