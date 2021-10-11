@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Main.neil
-// Version: 21.10.07
+// Version: 21.10.08
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -78,7 +78,10 @@ Init
 	// Configure loading assets
 	LAsset.C("GFX/Loading/Graphic.png","LOADING",wh_Image) // Must always be first
 	LAsset.C("Fonts/SysFont.jfbf","SYSFONT",wh_Font,true)
-	LAsset.C("Fonts/Computerfont.20.jfbf","BOXTEXT",wh_Font,true)
+	LAsset.C("Fonts/Computerfont.20.jfbf","BOXCOMP",wh_Font,true)
+	LAsset.C("Fonts/Computerfont.40.jfbf","BIGCOMP",wh_Font,true)
+	LAsset.C("Fonts/Techover.25.jfbf","BOXTEXT",wh_font,true)
+	LAsset.C("Fonts/Techover.50.jfbf","BIGTEXT",wh_font,true)
 	LAsset.C("GFX/Cursor/Default.png","MOUSE",wh_Image)
 
 	for elem in each {"Dark", "Earth", "Fire", "Frost", "Light", "Lightning", "Water", "Wind"}
