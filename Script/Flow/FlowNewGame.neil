@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowNewGame.neil
-// Version: 21.10.08
+// Version: 21.10.14
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -142,14 +142,85 @@ Class NGSkill Extends NGS
 	
 End
 
+Class LRec
+	Static Int Total = 0
+	ReadOnly Int Num
+	Get Int Col
+		Return Num % 4
+	End
+	Get Int Row
+		Return Num div 4
+	End
+	Get Int X
+		Return Col * (Screen.W div 4)
+	End
+	Get Int Y
+		Return (Row * 30)+100
+	End
+	
+	ReadOnly String Lang
+	
+	Constructor(string L)
+		Lang = L
+		Num = Total
+		Total++
+		CSayF("%03d> Added language '%s' as num %d",Total,Lang,Num)
+	End
+End
+	
+
 Class NGLang Extends NGS
+
+	Table Langs = {}
+	Int ExY
+	
+	Constructor
+		Plua D = JCR6.GetDir("Scenario")
+		For LT in Each(D)
+			pLua LS = Split(LT,"/")
+			String LN = LS[2]
+			Langs[LN] = Langs[LN] || new LRec(LN)
+			ExY = math.max(Langs[LN].Y+50)
+		End
+	End
+
 	Void Flow()
+		__skyblue
+		NGS.Big.Text("Which language do you desire for the scenario?",Screen.W div 2,5,2)
+		For Lang,Data in Pairs(Langs)
+			__skyblue
+			If Mouse.MX>Data.X && Mouse.MY>Data.Y && Mouse.MX<Data.X+NGS.Fnt.TextWidth(Lang) && Mouse.MY<Data.Y+25
+				__Cyan
+				If Mouse.ML
+					__Lang=Lang
+					Self.Next()
+				End
+			End
+			NGS.Fnt.Text(Lang,Data.X,Data.Y)
+		End
+		__White
+		NGS.Fnt.Text("Your choice only affects the scenario!"              ,5,Exy+000)
+		NGS.Fnt.Text("System messages, ability names, item names and so on",5,Exy+025)
+		NGS.Fnt.Text("Will ALWAYS be shown in English regardless of"       ,5,Exy+050)
+		NGS.Fnt.Text("The language you chose."                             ,5,Exy+075)
 	End
 End
 
 
 Class NGReady Extends NGS
+
+	Const Int MaxTime = 800 
+
 	Void Flow()
+		Static Int Time = 0
+		__White
+		NGS.Fnt.Text("Very good."                      ,5,000)
+		NGS.Fnt.Text("Your adventure is about to begin",5,025)
+		NGS.Fnt.Text("Have fun!"                       ,5,075)
+		Time = (Time+1) % MaxTime
+		If Time==0
+			Self.Next()
+		End
 	End
 End
 
