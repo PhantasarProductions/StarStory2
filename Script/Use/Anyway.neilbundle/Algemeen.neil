@@ -36,6 +36,12 @@
 // End License Information
 #use "Libs/Music"
 
+#macro __Game "Star Story II"
+
+
+#macro __Chapter gv.gint.Chapter
+#macro __PartyLevel gv.gint.PartyLevel
+
 #macro __skill gv.gint.skill
 
 #macro __white   Graphics.Color(255,255,255)
