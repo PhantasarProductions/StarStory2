@@ -1,0 +1,8 @@
+#use "Script/Use/Anyway"
+
+Group MScript
+
+	ReadOnly Bool HasDraw = False
+	ReadOnly Bool HasUpdate = False
+	
+End
