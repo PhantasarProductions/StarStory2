@@ -47,7 +47,7 @@ Void LoadLoading()
 	_CSayF("Loaded")
 End
 
-void L_Create(String Tag,Int Max,int R=255,int G=180, B=0)
+void L_Create(String Tag,Int Max,int R=0,int G=180, B=255)
 	//LoadLoading()	
 	_CSayF("Create Progessbar >> '%s',%d,%d,%d,%d",Tag,Max,R,G,B)
 	State.Call("SUB_LOADING","ProgressBar.Create",sPrintF("'%s',%d,%d,%d,%d",Tag,Max,R,G,B))
