@@ -1,0 +1,5 @@
+// This is just a dirty try to fool and force the builder to importing a library it would otherwise never see, but which I should not have here!
+#use "Libs/Scenario"
+
+
+// This script itself will never be used, though
