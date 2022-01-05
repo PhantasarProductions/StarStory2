@@ -1,0 +1,15 @@
+#use "Script/Use/Anyway"
+
+Group MScript
+
+	ReadOnly Bool HasDraw = False
+	ReadOnly Bool HasUpdate = False
+	
+	Void GameStart()
+		Map.HideByLabel("Bridge")
+		Map.ShowByLabel("Back")
+		MapText("START1")
+		Lua.error("The rest has not yet been scripted")
+	End
+	
+End
