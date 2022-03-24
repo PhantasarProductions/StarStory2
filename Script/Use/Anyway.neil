@@ -1,7 +1,7 @@
 // License Information:
-// src/Tricky Script/Script/Use/Anyway.neilbundle/ZZ_Links.neil
-// Version: 21.10.06
-// Copyright (C) 2021 Jeroen Petrus Broks
+// src/Tricky Script/Script/Use/Anyway.neil
+// Version: 22.03.24
+// Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -34,5 +34,33 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+#use "libs/uwn"
+#use "libs/music"
 
-#use "Script/Use/Link"
+#macro __dev Any.Dev
+#macro __Mouse Any.Mouse
+
+
+#macro __Game "Star Story II"
+
+
+#macro __Chapter gv.gint.Chapter
+#macro __PartyLevel gv.gint.PartyLevel
+
+#macro __skill gv.gint.skill
+
+#macro __white   Graphics.Color(255,255,255)
+#macro __skyblue Graphics.Color(  0,180,255)
+#macro __cyan    Graphics.Color(  0,255,255)
+
+#macro __lang    gv.gstring.lang
+
+readonly global var Any = UWN("Script/Use/Any.uwn")
+readonly global var Lnk = UWN("Script/Use/Lnk.uwn")
+
+readonly var _LLoading = Lnk.Loading_h
+
+
+Init
+	Print("Script runs in '"..Any.Dev.Mode.."' mode!")
+End

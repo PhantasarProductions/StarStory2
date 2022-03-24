@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowConsole.neil
-// Version: 21.10.07
-// Copyright (C) 2020, 2021 Jeroen Petrus Broks
+// Version: 22.03.24
+// Copyright (C) 2020, 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -38,7 +38,7 @@
 #pragma debug
 
 #use "script/use/anyway"
-#use "script/use/link"
+//#use "script/use/link"
 
 table icommandtable
 
@@ -194,7 +194,7 @@ class CLine
 		end
 	end
 
-	static void RFlow()
+	static void RFlow()		
 		static string command = ""
 		int y = Screen.H - (thght*2)
 		bool allowscrollup = false
@@ -224,7 +224,7 @@ class CLine
 		end
 		for ch=32,122
 			if Events.KeyHit(ch)
-				if Events.KeyDown(Key.LeftShift) or Events.KeyDown(Key.RightShift)
+				if Events.KeyDown(Any.Key.LeftShift) or Events.KeyDown(Any.Key.RightShift)
 					switch ch
 						case '1'
 							command += "!"

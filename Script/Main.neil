@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Main.neil
-// Version: 21.10.14
-// Copyright (C) 2020, 2021 Jeroen Petrus Broks
+// Version: 22.03.24
+// Copyright (C) 2020, 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -80,7 +80,9 @@ Init
 	LAsset.C("Fonts/SysFont.jfbf","SYSFONT",wh_Font,true)
 	LAsset.C("Fonts/Computerfont.20.jfbf","BOXCOMP",wh_Font,true)
 	LAsset.C("Fonts/Computerfont.40.jfbf","BIGCOMP",wh_Font,true)
-	LAsset.C("Fonts/Techover.25.jfbf","BOXTEXT",wh_font,true)
+	//LAsset.C("Fonts/Techover.25.jfbf","BOXTEXT",wh_font,true)
+	LAsset.C("Fonts/Ryanna.jfbf","BOXTEXT",wh_font,true)
+	LAsset.C("Fonts/Techover.25.jfbf","NEWTEXT",wh_font,true)
 	LAsset.C("Fonts/Techover.50.jfbf","BIGTEXT",wh_font,true)
 	LAsset.C("GFX/Cursor/Default.png","MOUSE",wh_Image)
 

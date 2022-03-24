@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowNewGame.neil
-// Version: 21.10.14
-// Copyright (C) 2021 Jeroen Petrus Broks
+// Version: 22.03.24
+// Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -43,6 +43,7 @@ Class NGS
 	
 	Static ReadOnly Var Big = ImageFont.Obtain("BIGTEXT")
 	Static ReadOnly Var Fnt = ImageFont.Obtain("BOXTEXT")
+	Static ReadOnly Var Skl = ImageFont.Obtain("NEWTEXT")
 	
 	Static Table Stages = {}
 	Static Int Stage = 1
@@ -73,7 +74,7 @@ Class NGSkill Extends NGS
 			y = esety
 		end
 		__white
-		NGS.Fnt.Text(a,5,y)
+		NGS.Skl.Text(a,5,y)
 		y+=ith
 	End
 	
@@ -89,7 +90,7 @@ Class NGSkill Extends NGS
 			int y = (i*ith)+30
 			int m = 0
 			__SkyBlue
-			if Mouse.MX<10+NGS.FNT.TextWidth(Name) && Mouse.MY>y && Mouse.MY<y+ith
+			if __Mouse.MX<10+NGS.FNT.TextWidth(Name) && __Mouse.MY>y && __Mouse.MY<y+ith
 				__Cyan
 				__Skill = i
 				m = 5 
@@ -116,12 +117,12 @@ Class NGSkill Extends NGS
 			end
 			Para(Desc,150)
 			Para("A few parameters on how this mode affects the difficulty")
-			ParaF("Inventory slots: %d",Caps.InvSlots)
-			ParaF("Number of (same) items per inventory slot: %d",Caps.InvSlots)
-			ParaF("Level cap (first cycle): %d",Caps.MaxLevel)
-			ParaF("Experience needed compared to hard mode: %03.2f%%",(Caps.ExpNeeded / MEX) * 100)
+			ParaF("Inventory slots: %d",Any.Caps.InvSlots)
+			ParaF("Number of (same) items per inventory slot: %d",Any.Caps.InvSlots)
+			ParaF("Level cap (first cycle): %d",Any.Caps.MaxLevel)
+			ParaF("Experience needed compared to hard mode: %03.2f%%",(Any.Caps.ExpNeeded / MEX) * 100)
 			If __Skill>1
-				ParaF("When you are %d level higher then your enemy no more experience points for you",Caps.LevelMargin)
+				ParaF("When you are %d level higher then your enemy no more experience points for you",Any.Caps.LevelMargin)
 			End
 			If Store!=""
 				Para(Store)
@@ -132,7 +133,7 @@ Class NGSkill Extends NGS
 			Para("And there can be many more things different.")
 			Para("")
 			Para("For that reason you can NOT change the difficulty once the game has begun, so CHOOSE WISELY!")
-			If Mouse.ML
+			If __Mouse.ML
 				If Sys.Yes("So you have chosen for the "..CName.." mode?\n\nPlease note you can NOT change this mode afterward.\n\nAre you sure?")
 					Self.Next()
 				End
@@ -189,9 +190,9 @@ Class NGLang Extends NGS
 		NGS.Big.Text("Which language do you desire for the scenario?",Screen.W div 2,5,2)
 		For Lang,Data in Pairs(Langs)
 			__skyblue
-			If Mouse.MX>Data.X && Mouse.MY>Data.Y && Mouse.MX<Data.X+NGS.Fnt.TextWidth(Lang) && Mouse.MY<Data.Y+25
+			If __Mouse.MX>Data.X && __Mouse.MY>Data.Y && __Mouse.MX<Data.X+NGS.Fnt.TextWidth(Lang) && __Mouse.MY<Data.Y+25
 				__Cyan
-				If Mouse.ML
+				If __Mouse.ML
 					__Lang=Lang
 					Self.Next()
 				End
@@ -225,9 +226,9 @@ Class NGReady Extends NGS
 End
 
 Global Void Apollo_Flow()
-	Dev.ToConsole()
+	__Dev.ToConsole()
 	NGS.Current.Flow()
-	Mouse.Draw()
+	__Mouse.Draw()
 End
 
 
@@ -235,7 +236,7 @@ End
 Init
 	gv.Clear()
 	__skill=3
-	NGSkill.MEX = Caps.EXPNeeded
+	NGSkill.MEX = Any.Caps.EXPNeeded
 	NGS.Stages += new NGSkill()
 	NGS.Stages += new NGLang()
 	NGS.Stages += new NGReady()

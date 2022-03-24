@@ -1,7 +1,7 @@
 // License Information:
-// src/Tricky Script/Script/Use/Anyway.neilbundle/Key.neil
-// Version: 21.10.07
-// Copyright (C) 2021 Jeroen Petrus Broks
+// src/Tricky Script/Script/Use/Any.uwn/Caps.neil
+// Version: 22.03.24
+// Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -35,14 +35,76 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 Module
-	// list is not complete. I will add more if I need them!
-	readonly int up = Events.KeyByName("Up")
-	readonly int down = Events.KeyByName("Down")
-	readonly int pageup = Events.KeyByName("PageUp")
-	readonly int pagedown = Events.KeyByName("PageDown")
-	readonly int backspace = Events.KeyByName("Backspace")
-	readonly int leftshift = Events.KeyByName("Left Shift")
-	readonly int rightshift = Events.KeyByName("Right Shift")
-	readonly int kp_minus = Events.KeyByName("Keypad -")
+
+	Get Int InvSlots
+		Switch __skill
+			Case 0
+				return 0
+			Case 1
+				return 100
+			Case 2
+				return 50
+			Case 3
+				return 25
+			Default
+				Lua.error("Unknown skill number ("..__skill..") to retrieve max inventory slots")
+		End
+	End
 	
+	Get Int InvItemsPerSlot
+		Switch __skill
+			Case 0
+				Return 0
+			Case 1
+				Return 25
+			Case 2
+				Return 10
+			Case 3
+				Return 1
+			Default
+				Lua.error("Unknown skill number ("..__skill..") to retrieve max number of items per inventory slot")
+		End
+	End
+
+	Get Int ExpNeeded
+		Return 10*(25^__skill)
+	End
+	
+	Get Int Cycle
+		Return math.max(1,gv.gint.Cycle)
+	End
+
+	Set Int Cycle
+		gv.gint.Cycle = Value
+	End
+
+	
+	Get Int MaxLevel
+		Switch __skill
+			Case 0
+				Return 0
+			Case 1
+				Return math.min(100,Cycle)*1000
+			Case 2
+				Return math.min(400,Cycle)*250
+			Case 3
+				Return math.min(1000,Cycle)*100
+			Default
+				Lua.error("Unknown skill number ("..__skill..") to get the level cap")
+		End
+	End
+	
+	Get Int LevelMargin
+		Switch __skill
+			Case 0 1
+				// 0 means infinite
+				Return 0
+			Case 2
+				Return 25
+			Case 3
+				Return 5
+			Default
+				Lua.error("Unknown skill number ("..__skill..") to get the level cap")
+		End
+	End
 End
