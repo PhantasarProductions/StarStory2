@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Main.neil
-// Version: 22.03.24
+// Version: 22.03.26
 // Copyright (C) 2020, 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -77,6 +77,7 @@ Init
 
 	// Configure loading assets
 	LAsset.C("GFX/Loading/Graphic.png","LOADING",wh_Image) // Must always be first
+	LAsset.C("GFX/TextureS/Door/Metal/Bay Door.png","LOADDOOR",wh_Image)
 	LAsset.C("Fonts/SysFont.jfbf","SYSFONT",wh_Font,true)
 	LAsset.C("Fonts/Computerfont.20.jfbf","BOXCOMP",wh_Font,true)
 	LAsset.C("Fonts/Computerfont.40.jfbf","BIGCOMP",wh_Font,true)
@@ -97,6 +98,8 @@ Init
 	LAsset.C("Audio/Raw/145434__soughtaftersounds__old-music-box-1.ogg","SOLVED",wh_Audio)
 	LAsset.C("Audio/SFX/Alg/Buzz.wav","BUZZ",wh_Audio)
 	LAsset.C("Audio/SFX/Signal.ogg","SIGNAL",wh_Audio)
+	LAsset.C("Audio/Loading/Open.wav","LOADOPEN",wh_Audio)
+	LAsset.C("Audio/Loading/Close.wav","LOADCLOSE",wh_Audio)
 	//LAsset.C("Audio/Crystal ARM.ogg","CRYSTAL_ARM",wh_Audio)
 	
 
