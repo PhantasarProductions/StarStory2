@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Anyway.neil
-// Version: 22.03.24
+// Version: 22.03.30
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -34,11 +34,17 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
 #use "libs/uwn"
 #use "libs/music"
 
+
 #macro __dev Any.Dev
 #macro __Mouse Any.Mouse
+#macro __BoxText Lnk.BoxText
+#macro __MapText Lnk.BoxText.Map
+#macro __LMap Lnk.Map
+
 
 
 #macro __Game "Star Story II"
@@ -61,6 +67,12 @@ readonly global var Lnk = UWN("Script/Use/Lnk.uwn")
 readonly var _LLoading = Lnk.Loading_h
 
 
+// Empty function required to make sure some things won't crash!
+Global Void NIKS()
+End
+
+
+
 Init
-	Print("Script runs in '"..Any.Dev.Mode.."' mode!")
+	Print(ApolloState.Name.."> Script runs in '"..Any.Dev.Mode.."' mode!")
 End
