@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/lnk.uwn/Loading_h.neil
-// Version: 22.03.24
+// Version: 22.03.26
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -88,4 +88,14 @@ End
 Global Void Loading()
 	LoadLoading()
 	State.Call("SUB_LOADING","ProgressBar.LDNG","nil")
+End
+
+Global Void CDLoading()
+	LoadLoading()
+	State.Call("SUB_LOADING","ProgressBar.CloseDoor",sprintf("\"%s\"",ApolloState.Name))
+End
+
+Global Void ODLoading()
+	LoadLoading()
+	State.Call("SUB_LOADING","ProgressBar.OpenDoor",sprintf("\"%s\"",ApolloState.Name))
 End
