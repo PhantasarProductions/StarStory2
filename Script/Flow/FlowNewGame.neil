@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowNewGame.neil
-// Version: 22.03.24
+// Version: 22.03.31
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -38,6 +38,8 @@
 
 #macro __alphabet a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z
 
+Global Delegate PRGL = NIKS 
+
 Class NGS
 	Abstract Void Flow()
 	
@@ -56,7 +58,16 @@ Class NGS
 		Stage++
 		CSayF("Went to stage %d",Stage)
 		If !Current
-			Lua.error("No script yet when all stages have been done!")
+			RPGParty.Max=4
+			For i,ch in iPairs{"Z_Wendicka","Z_Sue","Z_Admiral"}
+				Lnk.Party.CreateCharacter(ch,0)
+				RPGParty[i]=ch
+			End
+			CDLoading()
+			Lua.Neil.Globals.Flow.Load("FIELD","Script/Flow/FlowField.neil")
+			Lnk.Map.GoToMap("Hawk","BRIDGE","Start")
+			//Lua.error("No script yet when all stages have been done!")
+			Lua.Neil.Globals.Flow.Current="FLOW_FIELD"
 		End
 	End
 	
@@ -65,7 +76,7 @@ End
 Class NGSkill Extends NGS
 
 	Static Int MEX
-	Static ReadOnly Table SklNames = {"I never played an RPG before","I know the genre","Why are all games piss-easy? I have no life! Gimme a true challenge!"}
+	Static ReadOnly Table SklNames = {"I never played an RPG before","I know the genre","Why are all games piss-easy? I have no life!"}
 	Const Int ith=25
 	
 	Void Para(string a,int esety=0)
