@@ -1,0 +1,22 @@
+; Behavior Apollo Quick Script for 'E:/Projects/Applications/Apollo/Games/Star Story 2/src/Tricky Story/Kthura/Hawk'
+; Created 3/30/2022 4:43:01 PM
+
+Include Basis.aqs
+
+
+Chunk Load
+	call CSay,"Welcome to The Hawk"
+
+
+
+
+
+
+
+
+
+
+
+
+
+

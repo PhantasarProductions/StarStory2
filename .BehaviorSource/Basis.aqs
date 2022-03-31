@@ -1,0 +1,9 @@
+; Just make sure the absolute basis is present
+; When finding more chunk commands with the same data, the AQS compiler will
+; Just start merging, no problem, as long as you know what you are doing!
+
+Chunk Load
+	Call CSay,"Behavior Script"
+Chunk Update
+Chunk PreDraw
+Chunk PostDraw
