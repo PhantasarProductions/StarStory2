@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Subs/SubProgress.neil
-// Version: 21.10.07
-// Copyright (C) 2021 Jeroen Petrus Broks
+// Version: 22.03.27
+// Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -34,11 +34,27 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
+#macro __inactive 0
+#macro __opening 1
+#macro __closing 2
+
 Class ProgressBar
 	ReadOnly Int R = 255
 	ReadOnly Int G = 180
 	ReadOnly Int B = 0
 	ReadOnly Int MaxValue = 1
+	
+	Static ReadOnly Int TimeClose = 4
+	Static ReadOnly Int TimeOpen  = 4
+	Static ReadOnly Var Door = Image.Obtain("LOADDOOR")
+	Static Int DoorState = 0
+	Static Int DoorY = 0
+	Static Number DoorY2 = 0
+	Static Int DoorTime = 0
+	Static Int DoorOldTime = os.time()
+	Const Number DoorSpeed = 5.5
+	
 	Int CurrentValue
 	
 	Void Draw(int Y)
@@ -79,12 +95,75 @@ Class ProgressBar
 		End
 	End
 	
+	Static Void DrawDoor(string fl="")		
+		DoorTime = os.Time() - DoorOldTime 
+		Switch DoorState
+			Case __inactive
+				Return
+			Case __Opening
+				//DoorY = Screen.H - math.ceil( (DoorTime/TimeOpen) * (Screen.H+5) )
+				//If DoorY<=0
+				//	DoorState=__inactive
+				//End
+				DoorY2-=DoorSpeed
+				If DoorY2<0-(Screen.H+5)
+					DoorState=__inactive
+				End
+			Case __Closing
+				//DoorY = math.min(Screen.H,math.ceil( (DoorTime/TimeClose) * (Screen.H+5) ))
+				DoorY2 = math.min(0,DoorY2+DoorSpeed)
+			Default
+		End
+		Graphics.Color(255,255,255)
+		If Fl!=""
+			State.Call(fl,"PRGL","nil")
+		End
+		Graphics.Color(255,255,255)
+		Door.Tile(0,math.ceil(DoorY2),Screen.W,Screen.H)
+	End
+	
+	Static Void CloseDoor(string fl)
+		Var AU = Audio.Obtain("LOADCLOSE")
+		AU.Play()
+		if DoorState!=__Closing
+			DoorOldTime = os.time()
+			DoorY2=0-Screen.H
+		End
+		DoorState = __Closing
+		Repeat
+			Graphics.Cls()
+			DrawDoor(fl)
+			Graphics.Flip()
+			Events.Poll()
+			FPS.WaitMinTicks()
+		//LoopWhile (DoorState == __closing) && (DoorTime < TimeClose)
+		LoopWhile (DoorState == __closing) && (DoorY2<0)
+		self.LDNG()
+	End
+
+	Static Void OpenDoor(string fl)
+		Var AU = Audio.Obtain("LOADOPEN")
+		AU.Play()
+		if DoorState!=__Opening
+			DoorOldTime = os.time()
+			DoorY2=0
+		End
+		DoorState = __Closing
+		Repeat
+			DrawDoor(fl)
+			Graphics.Flip()
+			Events.Poll()
+		LoopWhile DoorState == __opening
+	End	
+	
 	Static Void LDNG()
+		Graphics.Cls()
+		Graphics.Color(255,255,255)
+		Door.Tile(0,0,Screen.W,Screen.H)
 		//Static Var Back = Image.Obtain("BACKGROUND")
 		Static Var Banner = Image.Obtain("LOADING")
 		Banner.HotCenter()
 		Graphics.Color(255,255,255)
-		Graphics.Cls()
 		//Back.Tile(0,0,Screen.W,Screen.H)
 		Banner.Draw(Screen.W div 2, Screen.H div 2)
 		DrawAll()
