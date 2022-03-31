@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/lnk.uwn/Map.Neil
-// Version: 22.03.24
+// Version: 22.03.31
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -75,7 +75,8 @@ End
 Module
 
 	Get Var Ach
-		Return Lua.Neil.Globals.Ach
+		//Return Lua.Neil.Globals.Ach
+		Return Lnk.Ach
 	End
 
 	ReadOnly Var Meta
