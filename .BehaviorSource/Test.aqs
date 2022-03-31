@@ -1,0 +1,29 @@
+; Behavior Apollo Quick Script for 'E:/Projects/Applications/Apollo/Games/Star Story 2/src/Tricky Story/Kthura/Test'
+; Created 3/30/2022 4:42:46 PM
+
+Include Basis.aqs
+
+Chunk Load
+	call CSay,"Welcome to E:/Projects/Applications/Apollo/Games/Star Story 2/src/Tricky Story/Kthura/Test"
+	call CSay,"Testing one two three"
+
+chunk Test
+	call CSay,"Testing one two three"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
