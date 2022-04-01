@@ -114,7 +114,7 @@ Module
 			ElseIf prefixed(s,"SPAWNPOS:")
 				String sp = right(s,#s-9)
 				Table xy = Split(sp,",")
-				FlowField.Map.CurLayer.Spawn("PLAYER",Lua.tonumber(xy[1]),Lua.tonumber(xy[2]))
+				FlowField.Map.CurLayer.Spawn("PLAYER1",Lua.tonumber(xy[1]),Lua.tonumber(xy[2]))
 			ElseIf prefixed(s,"MAPTEXT:")
 				__MapText(right(s,#s-8))
 			ElseIf prefixed(s,"LAYER:")
