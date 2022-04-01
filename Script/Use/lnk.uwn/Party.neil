@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/lnk.uwn/Party.neil
-// Version: 22.03.25
+// Version: 22.03.31
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -38,6 +38,9 @@
 Module
 	Void CreateCharacter(string ch,int Level=1)
 		State.Call("SUB_PARTY","SubParty.CreateCharacter",sprintf("\"%s\",%d",ch,level))
+	End
+	
+	Void Boxes()
 	End
 
 	Constructor
