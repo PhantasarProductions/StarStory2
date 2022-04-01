@@ -184,17 +184,13 @@ Module
 
 	
 	Void GoToLayer(string aLayer, string SpawnPoint)
-		If HasTag("PLAYER")
-			Self.Kill("PLAYER",False)
-		End
-		For i=2,4
-			String P = "PLAYER"..i
-			If HasTag(P)
-				Self.Kill(P,False)
+		for i=1,4
+			If HasTag("PLAYER"..i)
+				Self.Kill("PLAYER"..i,False)
 			End
 		End
 		MCall("FlowField.Map.SetLayer",aLayer)
-		Self.Spawn("PLAYER",SpawnPoint)
+		Self.Spawn("PLAYER1",SpawnPoint)
 		Ach.Auto()
 	End
 	
@@ -213,7 +209,7 @@ Module
 	End
 	
 	Void SpawnPlayer(a,b)		
-		Spawn("PLAYER",a,b)
+		Spawn("PLAYER1",a,b)
 	End
 	
 	Void Script(String Func,Args="nil")
