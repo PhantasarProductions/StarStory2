@@ -35,6 +35,7 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 void _DS()
+	FlowField.Map.AutoTex()
 	FlowField.Map.KthuraMap.Draw(FieldFlow.Map.Layer,FieldFlow.Map.ScrollX,FieldFlow.Map.ScrollY)
 End
 
