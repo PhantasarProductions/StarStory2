@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Map.neil
-// Version: 22.03.27
+// Version: 22.04.01
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -36,7 +36,7 @@
 // End License Information
 Module
 
-Var KthuraMap
+	Var KthuraMap
 	String Layer
 	Bool MSDraw 
 	Bool MSUpdate
@@ -47,6 +47,7 @@ Var KthuraMap
 	Bool AllowAutoScroll 
 	Var ArriveFunc = Nil
 	String ArriveParam 
+	Var ActorWind
 
 	Get String LoadedMap
 		Return gv.gstr.LoadedMap
@@ -56,7 +57,7 @@ Var KthuraMap
 	End
 	
 	
-	Get Var CurLayer
+	Get Var CurLayer		
 		Return KthuraMap.Layer(Layer)
 	End
 	
@@ -64,7 +65,37 @@ Var KthuraMap
 		Return CurLayer
 	End
 	
+	Get Table ActorWindDefault
+		Var Ret
+		Ret = {}
+		for i=1,4
+			Ret["PLAYER"..i]={["W"]="Auto",["T"]=RPGParty[i]}
+		end
+		return Ret
+	End
+	
+	Void AutoTex()
+		ActorWind = ActorWind || ActorWindDefault
+		For k,_w in pairs(ActorWind)
+			if CurLayer.HasTag(k)
+				string w = _w.W				
+				if w=="Auto"
+					w = CurLayer.Obj(k).Wind
+				end
+				if _w.OT!=w
+					CurLayer.Obj(k).Texture=sprintf("GFX/Actors/%s.%s.jpbf",_w.T,w)
+					_w.OT=w
+				End
+			End
+		End
+		// Placeholder
+	End
+	
+	Void Walking()
+	End
+	
 	Void CBLoadMap(string MapBundle)
+		ActorWind = ActorWindDefault
 		AllowAutoScroll = true
 		LoadedMap = MapBundle:upper()
 		CSayF("= Loading Kthura Map: %s",MapBundle)
