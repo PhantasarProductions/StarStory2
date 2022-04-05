@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/LoadMap.Neil
-// Version: 22.03.29
+// Version: 22.04.05
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -97,6 +97,7 @@ Init
 	//LoadActions += Remap
 	// MapScript always second last
 	//LoadActions += LoadMapScript
+	LoadActions += "Script" 
 	// Music always the very last
 	LoadActions += LoadMapMusic	
 	Kthura.SetAutoVisible()
