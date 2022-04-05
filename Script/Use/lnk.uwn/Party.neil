@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/lnk.uwn/Party.neil
-// Version: 22.03.31
+// Version: 22.04.05
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -41,6 +41,15 @@ Module
 	End
 	
 	Void Boxes()
+	End
+	
+	Void Portrait(string ch,Int x,Int Y)
+		static var LP
+		string chu = ch:upper()
+		LP = LP || {}		
+		LP[chu] = LP[chu] || Image.LoadNew(sprintf("GFX/BoxText/Portret/%s/General.png",ch),"PORTRET_"..chu)
+		LP[chu].HotBottomCenter()
+		LP[chu].Draw(x,y)
 	End
 
 	Constructor
