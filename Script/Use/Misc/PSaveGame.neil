@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Use/Misc/PSaveGame.neil
-// Version: 21.10.06
-// Copyright (C) 2021 Jeroen Petrus Broks
+// Version: 22.04.05
+// Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -34,5 +34,64 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
+
+void MakeHeader()
+	string r = "Map:"..gv.gStr.MapTitle.."\n"
+	r += "Difficulty:"..({"Easy","Casual","Hard"})[gv.vInt.skill].."\n"
+	r += "Saved:"..gv.vInt.Saved.."\n"
+	//r += "LevelCap:"..gv.vInt.LevelCap.."\n"
+	//r += "Chapter:"..__Chapter.."\n"
+	For i=1,4
+		String Ch
+		Ch=RPGParty[i]
+		If Ch!=""
+			r += sPrintF("P%d:%s=%d\n",i,Ch,RPGChar[Ch].Stat.Level)
+		End
+	End			
+	SaveGame.Data.Head = r
+end
+
+Global Void PerformSaveGame(string f)
+	GV.vInt.Saved++
+	CSayF("Saving: %s",f)
+	SaveGame.Clear()
+	SaveGame.Assign(f)
+	SaveGame.Data["*PARTY"] = "YES"
+	SaveGame.Data["Vars.ini"] = gv.GINIE
+	if f=="QUIT"
+		SaveGame.Data["KILL ME"]="KILL ME"
+	end
+	MakeHeader()
+	SaveGame.Save()	
+	//Lua.error("Saving not yet implemented")
+End
+
+Global Void PerformLoadgame()
+	Lua.error("Loading not yet implemented")
+End
+
+
+global string GetSGFileName(int page,int slot)
+	return SPRINTF("Star Story II - The Virus Strikes Back.%06d.%03d",page,slot)
+end
+
+global table GetHeader(int page,int i)
+	table ret
+	string h = SaveGame.GetHeader(GetSGFileName(page,i))
+	// cout("<SaveGame Header ",i,">\n",h,"\n</SaveGame Header>\n")
+	table lines = Split(h,"\n")
+	for _,line in ipairs(lines)
+		// cout("Parse> ",line,"\n")
+		table chopped = Split(line,":")
+		//print(Serialize("chopped",chopped),#chopped)
+		if #chopped==2
+			ret[chopped[1]] = chopped[2]
+		end
+	end
+	//print(Serialize("SG"..page.."."..i,ret))
+	return ret
+end
+
 Init
 End
