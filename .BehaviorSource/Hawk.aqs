@@ -8,50 +8,5 @@ Chunk Load
 	call CSay,"Welcome to The Hawk"
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Chunk AZA_StartGame
+	call CSay,Game Start Event
