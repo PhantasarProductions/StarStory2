@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowMain.neil
-// Version: 22.03.24
+// Version: 22.04.05
 // Copyright (C) 2020, 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -267,7 +267,7 @@ end
 void LoadGame()
 	Loading()
 	Flow.Load("SAVEGAME","Script/Flow/FlowSaveGame.neil")
-	State.Call("FLOW_SAVEGAME","SetActionLoad","nil")
+	State.Call("FLOW_SAVEGAME","WantLoad","nil")
 	Flow.Current="SAVEGAME"
 end
 
