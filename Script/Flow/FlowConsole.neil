@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowConsole.neil
-// Version: 22.03.24
+// Version: 22.04.05
 // Copyright (C) 2020, 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -131,7 +131,7 @@ class CLine
 			dpara += "\""..v.."\""
 		end
 		dpara += "}"
-		State.Call(ReturnToFlow,"Dev.CommandCallBack",dpara)
+		State.Call(ReturnToFlow,"Any.Dev.CommandCallBack",dpara)
 	end
 
 	static void DoCommand(string command)
