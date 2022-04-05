@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Main.neil
-// Version: 22.03.26
+// Version: 22.04.05
 // Copyright (C) 2020, 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -78,6 +78,8 @@ Init
 	// Configure loading assets
 	LAsset.C("GFX/Loading/Graphic.png","LOADING",wh_Image) // Must always be first
 	LAsset.C("GFX/TextureS/Door/Metal/Bay Door.png","LOADDOOR",wh_Image)
+	LASSET.C("GFX/Scroll/Down.png","DOWN",wh_Image)
+	LASSET.C("GFX/Scroll/Up.png","Up",wh_Image)
 	LAsset.C("Fonts/SysFont.jfbf","SYSFONT",wh_Font,true)
 	LAsset.C("Fonts/Computerfont.20.jfbf","BOXCOMP",wh_Font,true)
 	LAsset.C("Fonts/Computerfont.40.jfbf","BIGCOMP",wh_Font,true)
