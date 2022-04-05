@@ -2,6 +2,8 @@
 ; When finding more chunk commands with the same data, the AQS compiler will
 ; Just start merging, no problem, as long as you know what you are doing!
 
+Include StdCalls.aqs
+
 Chunk Load
 	Call CSay,"Behavior Script"
 Chunk Update

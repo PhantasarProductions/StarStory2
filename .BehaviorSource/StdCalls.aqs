@@ -1,0 +1,6 @@
+;Essential Standard Calls
+CSCHUNK CSay,CSay
+CSCHUNK CSayF,CSayF
+CSCHUNK MapScript,Map.Script
+CSCHUNK BoxText,Lnk.BoxText.Serial
+CSCHUNK MapText,Lnk.BoxText.Map
