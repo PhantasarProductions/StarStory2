@@ -4,3 +4,11 @@ CSCHUNK CSayF,CSayF
 CSCHUNK MapScript,Map.Script
 CSCHUNK BoxText,Lnk.BoxText.Serial
 CSCHUNK MapText,Lnk.BoxText.Map
+CSCHUNK GoToMap,Lnk.Map.GoToMap
+CSCHUNK GoToLayer,Lnk.Map.GoToLayer
+CSChunk Hide,Lnk.Map.HideObj
+CSChunk Show,Lnk.Map.ShowObj
+CSChunk LHide,Lnk.Map.HideByLabel
+CsCHunk LShow,Lnk.Map.ShowByLabel
+CSChunk Pop,FlowField.FollowTheLeader.PartyPop
+CSChunk iPop,FlowField.FollowTheLeader.iPop

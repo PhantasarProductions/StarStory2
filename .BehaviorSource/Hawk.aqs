@@ -6,7 +6,21 @@ Include Basis.aqs
 
 Chunk Load
 	call CSay,"Welcome to The Hawk"
+	call LHide,Bridge
+	chk &AfterPrologue
+	JmpTrue AfterPrologue
+; call CSay,"Party Pop!"
+;	call iPop,Start,South
+	:AfterPrologue
+	call CSay,All pre-do stuff taken care of!
 
 
-Chunk AZA_StartGame
+Chunk ZA_Wendicka
 	call CSay,Game Start Event
+	call LHide,Bridge
+	Done Done_Wendicka_Prologue
+	JmpTrue AfterPrologue
+	call CSay,"Party Pop!"
+	call iPop,Start,South
+	call Hide,PLAYER2
+	:AfterPrologue
