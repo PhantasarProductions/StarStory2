@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Subs/SubParty.neil
-// Version: 22.03.25
+// Version: 22.04.09
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -35,10 +35,18 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
+#use "libs/xmath"
 #use "script/use/anyway"
+#use "script/use/misc/box"
+
+#macro __BoxPosY Screen.H - 138
 
 Group SubParty
 
+	Get Var Mouse 
+		Return Any.Mouse
+	End
+	
 	ReadOnly Var Stats
 	
 	Int ToNumber(anything)
@@ -101,6 +109,117 @@ Group SubParty
 				RPGChar[ch].Data.Used="True"
 				GrabLevel(ch,level)
 				CSayF("Character %s created at level %d",ch)
+		End
+	End
+	
+	Table LvScale = {}
+	Void Boxes(string HLChar,bool nohover)
+		static var Fnt = ImageFont.Obtain("MINITEXT")
+		__Black
+		Graphics.Rect(0,Screen.H-50,Screen.W,50)
+		__White
+		lnk.Ach.Show()
+		Static Table Boxes = { new Box(0,__BoxPosY,20,100,false),new Box(0,__BoxPosY,20,100,false),new Box(0,__BoxPosY,20,100,false),new Box(0,__BoxPosY,20,100,false)}
+		Int C  = lnk.Party.Count
+		Int M3 = 0
+		Int W = Screen.W Div C
+		Int Hover=0		
+		Graphics.Scale(1,1)
+		If C==3
+			M3 = Screen.W % 3
+		End
+		Lua.assert(C>0,"Empty party")
+		For i=1,C
+			String Ch = RPGParty[i]
+			Int W2 = W
+			if i==3
+				W2+=M3
+			End
+			LvScale[Ch] = LvScale[Ch] || 0
+			// Background Box
+			Boxes[i].X = (W*(i-1))
+			Boxes[i].Y = __BoxPosY
+			Boxes[i].W = W2
+			Boxes[i].H = 100
+			Boxes[i].Draw()
+
+			if (!Prefixed(CH,"Z_"))
+				if LvScale[Ch]>0  
+					LvScale[Ch] = (LvScale[Ch]+1) % 2500
+					//Graphics.SetScale(math.min(LvScale[Ch] / 500,1))
+					//ImgLevelUp.Draw(Boxes[i].X+(Boxes[i].W div 2),Boxes[i].Y-5)
+				End
+				If RPGChar[Ch].Stat.Level<Any.Cap.LevelCap && RPGChar[Ch].Stat.Experience<=0
+					//ImgLevelUp.HotBottomCenter()
+					//AudLevelUp.Play()
+					//LvScale[Ch]=1
+					//RPGChar[Ch].Stat.Level++
+					//Grablevel(Ch,RPGChar[Ch].Stat.Level)
+					//RPGChar[ch].Stat.Experience += EXP.ByLevel(RPGChar[Ch].Stat.Level)
+					//RPGChar[ch].Points.HP.Have     = RPGChar[ch].Points.HP.Maximum
+					//RPGChar[ch].Points.VIT.Have    = RPGChar[ch].Points.VIT.Maximum
+				End
+			End
+			If Mouse.MX>Boxes[i].X && Mouse.MY>Boxes[i].Y && Mouse.MX<Boxes[i].X+Boxes[i].W && Mouse.MY<Boxes[i].Y+Boxes[i].H && (!nohover)
+				Hover=i
+				__Ember
+				Graphics.SetAlpha(50)
+				Graphics.Rect(Boxes[i].X,Boxes[i].Y,Boxes[i].W,Boxes[i].H)
+				Graphics.SetAlpha(255)
+			End
+			Var B=Boxes[i]
+			// Portrait
+			__White
+				If ch==HLChar
+					plua alf = math.abs(math.floor(xmath.sin(FPS.Ticks/50)*255))
+					//CSayF("Alpha: %03d / Tricks: %05d",alf,FPS.Ticks)
+					Graphics.SetAlpha(alf)
+				end
+			lnk.Party.Portrait(ch,B.X,Screen.H-40)
+			Graphics.SetAlpha(255)
+			if !prefixed(ch,"Z_")
+				// Bars			
+				Int barx = B.X + 100
+				Int barwidth = B.W-110			
+				// HP
+				Do
+					Var HP = RPGChar[ch].Points.HP
+					Number Breuk = HP.Have / HP.Maximum
+					Int HPG = math.floor(255*Breuk)
+					Int HPR = math.floor(255 - HPG)
+					Int HBR = Math.floor(barwidth*Breuk)
+					// print(HPR,HPG,0)
+					Graphics.Color(50,50,50)
+					Graphics.Rect(barx,B.Y+25,barwidth,10)
+					Graphics.Color(HPR,HPG,0)
+					Graphics.Rect(barx,B.Y+25,HBR,10)
+					Fnt.DarkText("HP",barx,B.Y+35,1,1)
+					Fnt.DarkText(HP.Have,barx+barwidth,B.Y+35,1,1)
+				End
+				// AP
+				If RPGChar[ch].Points.AP.Maximum>0
+					Var AP = RPGChar[ch].Points.AP
+					Number Breuk = AP.Have / AP.Maximum
+					Int APG = math.floor(180*Breuk)			
+					Int ABB = 255
+					Int ABR = Math.floor(barwidth*Breuk)
+					// print(APR,APG,0)
+					Graphics.Color(50,50,50)
+					Graphics.Rect(barx,B.Y+50,barwidth,10)
+					Graphics.Color(0,APG,ABB)
+					Graphics.Rect(barx,B.Y+50,ABR,10)
+					Fnt.DarkText("AP",barx,B.Y+60,1,1)
+					Fnt.DarkText(AP.Have,barx+barwidth,B.Y+60,1,1)
+					If gv.gbool.Cheat_Merlin
+						AP.Have++
+					End
+				End
+				// Experience
+				// To Do
+			End
+		End
+		If Mouse.ML && Hover>0 && (!nohover)
+			State.Call(Flow.Current,"PartyClick",sprintf("%d,\"%s\"",Hover,RPGParty[Hover]))
 		End
 	End
 
