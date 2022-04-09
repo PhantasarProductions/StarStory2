@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowSaveGame.neil
-// Version: 22.04.07
+// Version: 22.04.09
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -232,4 +232,5 @@ Init
 	NeilDoString(s || "Init\nEnd\n")
 	RenewPage()
 	PageNames[page] = PageNames[page] || sprintf("Page: %09d",page)
+	Lnk.Party.Hello() // Forces the party flow to be loaded right away, avoiding hiccups when hovering the first savegame file.
 End
