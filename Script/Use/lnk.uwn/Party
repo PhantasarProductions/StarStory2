@@ -1,7 +1,0 @@
-Module
-
-
-	Constructor
-		State.LoadNew("Script/Subs/SubParty.neil","FLOW_PARTY")
-	End
-End
