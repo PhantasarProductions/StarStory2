@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Script.neil
-// Version: 22.04.05
+// Version: 22.04.07
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -42,6 +42,27 @@ Module
 
 	Get Bool HasNeil
 		Return FlowField.Map.KthuraMap.Meta.UseNeil:upper()=="YES"
+	End
+	
+	Void RunAQS(string chunk,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z)
+		Lua.assert(HasAQS,"Call to AQS done, while no AQS is present")
+		Lua.assert(AQS.HasChunk("BEHAVIOR",Chunk),"Behavior AQS to non-existent chunk: "..Chunk)			
+		AQS.Call("BEHAVIOR",Chunk,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z)
+	End
+	
+	Void RunNeil(string func,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z)
+		Lua.assert(HasNeil,"Call to AQS done, while no AQS is present")
+		State.Call("MAPSCRIPT",func,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z)
+	End
+	
+	Void Run(string fc,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z)
+		If HasAQS || AQS.HasChunk("BEHAVIOR",fc)
+			RunAQS(fc,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z)
+		ElseIf HasNeil
+			RunNeil(fc,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z)
+		Else
+			Lua.error("No way known to run: "..fc)
+		End
 	End
 
 	Void CBLoadMap(string MapBundle)

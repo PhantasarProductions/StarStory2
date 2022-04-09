@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Misc/PSaveGame.neil
-// Version: 22.04.05
+// Version: 22.04.07
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -42,6 +42,12 @@ void MakeHeader()
 	r += "Saved:"..gv.vInt.Saved.."\n"
 	//r += "LevelCap:"..gv.vInt.LevelCap.."\n"
 	//r += "Chapter:"..__Chapter.."\n"
+	r+=sprintf("Cycle:%d\n",Any.Caps.Cycle)
+	if RPGParty[1]=="Z_Wendicka"
+		r += "Lvl:Wendicka\n"
+	else
+		R += sprintf("Lvl:Klahr|'e level %06d/%06d\n",RPGChar.Klahre.Stat.Level,Any.Caps.MaxLevel)
+	End		
 	For i=1,4
 		String Ch
 		Ch=RPGParty[i]
@@ -59,6 +65,9 @@ Global Void PerformSaveGame(string f)
 	SaveGame.Assign(f)
 	SaveGame.Data["*PARTY"] = "YES"
 	SaveGame.Data["Vars.ini"] = gv.GINIE
+	SaveGame.Data["Permakill.ini"] = GINIE.UnParse("PERMAKILL")
+	SaveGame.Data["Inventory.ini"] = GINIE.Unparse("INVENTORY")
+	Lnk.Map.SG()
 	if f=="QUIT"
 		SaveGame.Data["KILL ME"]="KILL ME"
 	end
@@ -67,8 +76,88 @@ Global Void PerformSaveGame(string f)
 	//Lua.error("Saving not yet implemented")
 End
 
-Global Void PerformLoadgame()
-	Lua.error("Loading not yet implemented")
+Global Void PerformLoadgame(string f)
+	//Lua.error("Loading not yet implemented")
+	
+	static var tfnt
+	Int MProcess=14
+	Progress.Create("AAA_LOADSAVEGAME",MProcess,180,255,0)
+	Loading()
+	Progress.AAA_LOADSAVEGAME = 1
+	Loading()
+	CSay("Clearing SaveGame buffer")
+	Progress.AAA_LOADSAVEGAME = 2
+	Loading()
+	SaveGame.Clear()
+	Progress.AAA_LOADSAVEGAME = 3
+	Loading()
+	SaveGame.Assign(f)
+	CSayF("Loading: %s",f)
+	//try
+	
+		// Load in general
+		Progress.AAA_LOADSAVEGAME = 4
+		Loading()
+		SaveGame.Load()
+		
+		
+		// Game Vars (must be first, as some data I need later is in there!
+		Progress.AAA_LOADSAVEGAME = 5
+		Loading()
+		CSayF("Parsing Game Vars")
+		//NeilDoString(SaveGame.Data["GAMEVARS.NEIL"],"SG:GameVars.Neil")
+		gv.GINIE = SaveGame.Data["VARS.INI"]
+		
+		// Inventory
+		Progress.AAA_LOADSAVEGAME = 6
+		Loading()
+		CSay("Loading Inventory")
+		//CSay("!!! NOT YET PRESENT !!!")
+		GINIE.Parse("INVENTORY",SaveGame.Data["INVENTORY.INI"])
+		Progress.AAA_LOADSAVEGAME = 7
+		
+		
+		// Map
+		Progress.AAA_LOADSAVEGAME = 8
+		Loading()
+		CSay("Loading Field Flow")
+		Flow.Load("FIELD","Script/Flow/FlowField.neil")
+		CSay("Map stuff")
+		Progress.AAA_LOADSAVEGAME = 9
+		
+		CSay("Parsing Permakills")
+		Loading()
+		//State.Call("FLOW_FIELD","FlowField.Kill.LG","nil")
+		GINIE.Parse("PERMAKILL",SaveGame.Data["PERMAKILL.INI"])		
+		Progress.AAA_LOADSAVEGAME = 10		
+		Loading()
+		
+		State.Call("FLOW_FIELD","FlowField.Map.LG","nil")	
+		Progress.AAA_LOADSAVEGAME = 11
+		Loading()
+		
+		
+		CSay("Achievements")		
+		GINIE.Parse("ACHIEVEMENTS",SaveGame.Data["ACHIEVEMENTS.INI"])
+		Progress.AAA_LOADSAVEGAME = 12
+		Loading()
+
+		CSay("Ability")		
+		// TODO: Ability sheet
+		Progress.AAA_LOADSAVEGAME = 13
+		Loading()
+		
+		CSay("Mutilate if applicable")
+		Progress.AAA_LOADSAVEGAME = 14
+	//catch e
+	// Lua.error("Loading game not yet implemented. Working on it!")
+	if SaveGame.HasData("KILL ME")
+		CSay("Mutilate the savegame, yeah!")
+		SaveGame.Mutilate()
+	end
+	Progress.Kill("AAA_LOADSAVEGAME")
+	return true
+	
 End
 
 

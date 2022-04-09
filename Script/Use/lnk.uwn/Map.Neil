@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/lnk.uwn/Map.Neil
-// Version: 22.04.05
+// Version: 22.04.07
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -161,6 +161,7 @@ Module
 		End		
 	End
 	
+	
 	Void Load(string Map)
 		LoadMap(Map)
 	End
@@ -169,11 +170,17 @@ Module
 		Return ISGET.BOOL("FLOW_FIELD",sPrintF("FlowField.Map.CurLayer.HasTag(\"%s\")",Tag))
 	End
 	
-	Void GoToMap(string aMap,string aLayer,string SpawnPoint)
+	Void GoToMap(string aMap,string aLayer,string SpawnPoint,noclose,noopen)
+		if !noclose
+			CDLoading()
+		End
 		LoadMap(aMap)
 		Schedule("LAYER:"..aLayer)
 		Schedule("SPAWN:"..SpawnPoint)
 		Ach.Auto()
+		if !noopen
+			Lnk.Schedule(":OPENDOOR:")
+		end
 	End
 	
 	Void GoToMapPos(string aMap,string aLayer,Int X, Int Y)
@@ -300,7 +307,7 @@ Module
 		Kill(Tag,perma==true)
 		Layer = O
 	End
-	
+		
 	Void HideObj(string Tag)
 		ObjSet(Tag,"Visible",false)
 	End

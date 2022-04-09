@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Layers.neil
-// Version: 22.03.29
+// Version: 22.04.07
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -45,8 +45,14 @@ Module
 		Return FlowField.Map.CurrentLayer
 	End
 	
+	String Data(String Tag,AL)
+		return LayerData.Value(AL || Layer,Tag)
+	End
+	
 	Void CBLoadMap(string MapBundle)
+		CSay("Loading layer data")
 		LayerData = GINIE.Load("Kthura/"..MapBundle.."/Layers","LAYERS")
+		//print(LayerData.UnParse)
 	End
 
 End

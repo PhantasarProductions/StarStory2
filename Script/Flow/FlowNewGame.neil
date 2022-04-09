@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowNewGame.neil
-// Version: 22.03.31
+// Version: 22.04.07
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -64,8 +64,11 @@ Class NGS
 				RPGParty[i]=ch
 			End
 			CDLoading()
+			GINIE.Create("PERMAKILL")
+			GINIE.Create("INVENTORY")
 			Lua.Neil.Globals.Flow.Load("FIELD","Script/Flow/FlowField.neil")
-			Lnk.Map.GoToMap("Hawk","BRIDGE","Start")
+			Lnk.Map.GoToMap("Hawk","BRIDGE","Start",true,true)
+			Lnk.Schedule.Add(":OPENDOOR:")
 			//Lua.error("No script yet when all stages have been done!")
 			Lua.Neil.Globals.Flow.Current="FLOW_FIELD"
 		End

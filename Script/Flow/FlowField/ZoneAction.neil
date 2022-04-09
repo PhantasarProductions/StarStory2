@@ -1,0 +1,257 @@
+// License Information:
+// src/Tricky Script/Script/Flow/FlowField/ZoneAction.neil
+// Version: 22.04.07
+// Copyright (C) 2021, 2022 Jeroen Petrus Broks
+// 
+// ===========================
+// This file is part of a project related to the Phantasar Chronicles or another
+// series or saga which is property of Jeroen P. Broks.
+// This means that it may contain references to a story-line plus characters
+// which are property of Jeroen Broks. These references may only be distributed
+// along with an unmodified version of the game.
+// 
+// As soon as you remove or replace ALL references to the storyline or character
+// references, or any termology specifically set up for the Phantasar universe,
+// or any other univers a story of Jeroen P. Broks is set up for,
+// the restrictions of this file are removed and will automatically become
+// zLib licensed (see below).
+// 
+// Please note that doing so counts as a modification and must be marked as such
+// in accordance to the zLib license.
+// ===========================
+// zLib license terms:
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// End License Information
+
+bool KettingInitDone
+
+class _ZoneAction
+
+	static table List
+	static readonly delegate assert = Lua.assert
+	static readonly delegate error = Lua.error
+	static readonly delegate tonumber = Lua.tonumber
+	static readonly delegate ZAXPand = Expand
+
+
+	static void RoomChange(int inc,string exitpoint)
+		string cLay
+		var nLay
+		cLay = FlowField.Map.Layer
+		assert(prefixed(cLay,"#"),"Next/Prev only works for rooms prefixed with a #")
+		assert(#cLay==4,"Invalid Next/Prev length!")
+		nLay = tonumber(right(cLay,3))
+		assert(nLay,"Numberic parsing error for Next/Prev ("..cLay..")")
+		//FlowField.Map.Kthura.Layer = sprintf("#%03d",nLay + inc)
+		for i=1,4
+			if FlowField.Map.KthuraMap.HasTag("PLAYER"..i)
+				Lnk.Map.Kill("PLAYER"..i,false)
+			end
+		end
+		FlowField.Map.Layer = sprintf("#%03d",nLay + inc)
+		Lnk.Map.SpawnPlayer(exitpoint)
+	end
+	
+	static var AltNext
+	
+	static void LoadAltNext(string anf)
+		error("AltNext not yet present!")
+		// Temporary crashout. I can get this back when i need this!
+	end
+	
+	static void NextRoom()
+		RoomChange( 1,"Start")
+	end
+	
+	static void PrevRoom()
+		RoomChange(-1,"Einde")
+	end
+	
+	Static Void ShowSecret()
+		FlowField.Map.CurLayer.ShowByLabel("Secret")
+	End
+	
+	Static Void HideSecret(string L="")
+		Var Lay
+		If L==""
+			Lay = FlowField.Map.CurLayer
+		ElseIf L=="*"
+			For IL in each(FlowField.Map.KthuraMap.Layers)
+				HideSecret(IL)				
+			End
+			Return
+		Else
+			Lay = FlowField.Map.KthuraMap.Layer(L)
+		ENd
+		Lay.HideByLabel("Secret")
+	End
+
+	
+	static void Reset()
+		self.AltNext = nil;
+		self.List = self.List or {}
+		self.List.Enter = self.List.Enter or new TLinkedList()
+		self.List.Leave = self.List.Leave or new TLinkedList()
+		self.List.Cycle = self.List.Cycle or new TLinkedList()
+		for k,v in pairs(self.List) 
+			v.Clear()
+		end
+		//_ZoneAction.HideSecret("*")
+		var vd
+		vd = new _ZoneAction("Enter","Next",_ZoneAction.NextRoom)
+		vd = new _ZoneAction("Enter","Prev",_ZoneAction.PrevRoom)
+		vd = new _ZoneAction("Enter","Secret",_ZoneAction.ShowSecret)
+		vd = new _ZoneAction("Leave","Secret",_ZoneAction.HideSecret)
+	
+	end
+	
+	Static Void CBLoadMap()
+		self.Reset()
+		self.Auto()
+	End
+	
+	static void RejectReject()
+		for RR,RL in self.List.Enter.Each
+			if prefixed(RR.ActZone:upper(),"REJECT")
+				CSayF("Removed %s in ZA Reject Zone",RR.ActZone)
+				RL.UnLink()
+			end
+		end
+	end
+	
+	static void Create(string Event,string Zone,AAct,param)
+		var vd
+		vd = new _ZoneAction(Event,Zone,AAct,param)
+	end
+	
+	string ActMap
+	string ActEvent
+	string ActZone
+	table ActParams
+	var Act
+	
+	get string ActType
+		return type(self.Act)
+	end
+	
+	bool WasInZone = false
+	bool WordtInZone = false
+	
+	static table CheckDels
+	
+	static void InitCheckDels()
+		if self.CheckDels.Enter 
+			return
+		end
+		self.CheckDels.Enter = { ["Was"] = false, ["Wordt"] = true  }
+		self.CheckDels.Leave = { ["Was"] = true,  ["Wordt"] = false }
+		self.CheckDels.Cycle = { ["Was"] = true,  ["Wordt"] = true  }
+	end
+	
+	Static Get String PLeader
+		return FlowField.FollowTheLeader.LeaderMapTag
+	End
+	
+	static bool CheckAll()
+		if !FlowField.Map.CurLayer.HasTag(pLeader)
+			return false
+		end
+		bool ret = false
+		for Event,ZoneList in pairs(self.List)
+			for Zone,lnk in ZoneList.Each
+				if Zone.ActMap!=FlowField.Map.LoadedMap && Zone.ActMap!=""
+					CSayF("Map mismatch in zone action! '%s'!='%s'    (%s:%s:%s) --> Stopping chain!",Zone.ActMap,FlowField.Map.LoadedMap,Event,Zone.ActZone,tostring(Zone.Act))
+					return false
+					//lnk.UnLink()
+				else
+					//Zone.WordtInZone = FlowField.Map.Kthura.Actor.Player.IsInZone(Zone.ActZone)
+					Zone.WordtInZone = FlowField.Map.Player.IsInZone(Zone.ActZone)
+					if Zone.WordtInZone == self.CheckDels[Event].Wordt and Zone.WasInZone == self.CheckDels[Event].Was
+						switch Zone.ActType
+							case "function" "delegate"
+								Zone.Act(ZAXPand(Zone.ActParams))
+								ret=true
+							case "string"
+								//MapScript[Zone.Act](ZAXPand(Zone.ActParams))
+								//Map.Script(Zone.Act,ZAXPand(Zone.ActParams))
+								FlowField.Script.Run(Zone.Act,ZAXPand(Zone.ActParams))
+								ret=true
+								default
+								error("No action setup yet for ActType: "..Zone.ActType)
+						end
+					end
+				end
+				Zone.WasInZone = Zone.WordtInZone
+			end
+		end
+		return ret
+	end
+	
+	Static Void Auto()
+		CSay("Gathering automated zone-action zones")
+		Table D
+		D = {}
+		For L in each(FlowField.Map.KthuraMap.Layers)
+			Var Lay = FlowField.Map.KthuraMap.Layer(L)			
+			For T in each(LAY.TagListArray)
+				if prefixed(T,"ZA_") || prefixed(T,"ZAE_")
+					D[T] = D[T] || new _ZoneAction("Enter",T,T)
+				elseif prefixed(T,"ZAL_") 
+					D[T] = D[T] || new _ZoneAction("Leave",T,T.."_Leave")
+				elseif prefixed(T,"ZALE_") || prefixed(T,"ZAEL_")
+					D["L_"..T] = D["L_"..T] || new _ZoneAction("Leave",T,T.."_Leave")
+					D["E_"..T] = D["E_"..T] || new _ZoneAction("Leave",T,T)
+				elseif prefixed(T,"TO_") || Prefixed(T,"GOTO_")
+					var P = split(T,"_")
+					assert(P[2],"ZoneAction automated layer relocation without layer data: "..T)
+					D[T] = D[T] || new _ZoneAction("Enter",Lnk.Map.GoTo,P[2],P[3] || "Start")
+				elseif prefixed(T,"TOMAP_") || prefixed(T,"GOTOMAP_") || prefixed(T,"MAP_")
+					var P = split(T,"_")
+					assert(P[2],"ZoneAction automated map + layer relocation without map data: "..T)
+					assert(P[3],"ZoneAction automated map + layer relocation without layer data: "..T)
+					D[T] = D[T] || new _ZoneAction("Enter",Lnk.Map.GoToMap,P[2],P[3],P[4] || "Start")				
+				end
+			End
+		End
+	End
+		
+	
+	CONSTRUCTOR(string Event,string Zone,AAct,param)
+		self.InitCheckDels()
+		self.ActMap = FlowField.Map.LoadedMap
+		self.ActEvent = Event
+		self.ActZone = Zone
+		self.Act = AAct
+	
+		self.ActParams = { param }
+		self.List[Event].AddLast(self)
+		CSayF("%s:%s event created in zone %s",FlowField.Map.LoadedMap.."*"..Self.ActMap,Event,Zone)
+	end
+
+	Static Void ShowList()
+		for ke,l in spairs(self.List)
+			for ev in l.each
+				CSayF("%s %s: %s",ke,ev.ActZone,Lua.tostring(ev.Act))
+			End
+		End
+	End
+	
+end
+
+init
+	_ZoneAction.Reset()
+end
+
+Return _ZoneAction

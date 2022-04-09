@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/ZZZ_Debug.neil
-// Version: 22.04.05
+// Version: 22.04.07
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -37,3 +37,15 @@
 Global Void CONSOLE_Save(a)
 	FlowField.GoToSave()
 End
+
+Global Void CONSOLE_MyPos()
+	CSayF("Player Position: (%04d,%04d)",FlowField.Map.OPlayer.X,FlowField.Map.OPlayer.Y)
+	CSayF("Scroll Position: (%04d,%04d)",FlowField.Map.ScrollX,  FlowField.Map.ScrollY)
+	CSayF("Autoscroll:      %s",Lua.tostring(gv.gbool.AllowAutoScroll))
+	CSayF("Leader:          %s",FlowField.FollowTheLeader.LeaderMapTag)
+	CSayF("Min-Scroll:      (%04d,%04d)",FlowField.Map.MinScrollX,FlowField.Map.MinScrollY)
+	CSayF("Max-Scroll:      (%04d,%04d)",FlowField.Map.MaxScrollX,FlowField.Map.MaxScrollY)
+	CSayF("Cen-Scroll:      (%04d,%04d)",FlowField.Map.CenScrollX,FlowField.Map.CenScrollY)
+End
+
+Global Delegate CONSOLE_ZA = _ZoneAction.ShowList

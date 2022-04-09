@@ -1,5 +1,5 @@
 // License Information:
-// src/Tricky Script/Script/Flow/FlowField.Neil
+// src/Tricky Script/Script/Use/lnk.uwn/Schedule.neil
 // Version: 22.04.07
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
@@ -34,78 +34,43 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+module
 
-#use "Script/Use/Anyway"
-
-Table _real = {}
-
-QuickMeta FlowField
-	Index
-		plua k = Key:upper()
-		If !_real[k]
-			Lua.error("No field named: "..Key)
-		End
-		return _real[k]		
-	End
-	NewIndex
-		Lua.error("Sorry! All fields of FlowField are ReadOnly!")
-	End
-End
-
-ReadOnly Global Var FieldFlow = FlowField
-
-Init
-	Table Bundle = JCR6.GetDir("Script/Flow/FlowField")
-	int Aantal = #Bundle
-	Progress.Create("LOADFIELD",Aantal,255,200,145)
-	For idx,File in iPairs(Bundle)
-		Progress.LOADFIELD=idx
-		Loading()
-		Table Gespleten = Split(File,"/")
-		String Gestript = Gespleten[#Gespleten]:upper()
-		Gestript = Replace(Gestript,".NEIL","")
-		If Prefixed(File,"#") || Suffixed(File,"#")
-			CSayF("Skipping section %d/%d: %s => %s",idx,Aantal,File,Gestript)
-		Else
-			CSayF(" Loading section %d/%d: %s => %s",idx,Aantal,File,Gestript)
-			_real[Gestript] = NeilUse(Replace(File:upper(),".NEIL",""),"FLOWFIELD."..Gestript)
-		End
-	End	
-	Progress.Kill("LOADFIELD")
-End
-
-Global Void BoxText_Back()
-	FlowField.DrawScreen()
-End
-
-
-Void Walk()
-	If Events.MouseHitLeft() 
-		If __Mouse.my<Screen.H-100 && (FlowField.Renc.AWalkClick)
-			FlowField.Map.WalkClick(Kthura.mx,Kthura.my)
+	void MCall(string func,a,b,c,d,e,f,g,h)
+		string pr
+		for i,p in ipairs {a,b,c,d,e,f,g,h}
+			if i>1 
+				pr += ", "
+			end
+			switch lua.type(p)
+				case "string"
+					pr += "\""..p.."\""
+				case "number" "boolean"
+					pr += tostring(p)
+				default
+					lua.error("Illegal MCall type "..lua.type(p))
+			end
 		end
-	end	
-	FlowField.Map.Walking()
-End
+		if pr=="" 
+			pr = "nil"
+		end
+		State.Call("FLOW_FIELD",func,pr)
+	end
 
-Global Void PartyClick(int i,string ch)
-	Lnk.FieldMenu.Go(ch,"FIELD")
-End
-
-global Void PRGL()
-	FlowField.DrawScreen()
-	Lnk.Party.Boxes()
-End
-
-Global Void Apollo_Flow()
-	__Dev.ToConsole()
-	FlowField.DrawScreen()
-	//FlowField.FollowTheLeader.Run()
-	//FlowField.Renc.UpdateGauge()
-	Lnk.Party.Boxes()
-	FlowField.Schedule.DoScheduled()
-	FlowField.ZoneAction.CheckAll()
-	//Invoke(_real.SHIFT) // The Fairy Tale only.
-	Walk()
-	__Mouse.Draw()
-End
+	void WaitForMovingActors(string After = "")
+		MCall("FlowField.Schedule.WaitForMovingActors",After)
+	end
+	
+	void Add(string scriptfunction)
+		MCall("FlowField.Schedule.Schedule",scriptfunction)
+	end
+	
+	Void Flush()
+		MCall("FlowField.Schedule.Scheduled.Clear")
+	End
+	
+	Void Stop(string C="")
+		MCall("FlowField.Schedule.StopIt",C)
+	End
+	
+end

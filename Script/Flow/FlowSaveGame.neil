@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowSaveGame.neil
-// Version: 22.04.05
+// Version: 22.04.07
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -61,6 +61,10 @@ Table HasSave = {}
 Global Int Page = 1
 Global Table PageNames = {}
 
+Init
+	TFont.Text("The quick brown fox jumps over the lazy dog!",0,0)
+	SFont.Text("The quick brown fox jumps over the lazy dog!",0,0)
+End
 
 Void RenewPage()
 	For i=0,MaxPerPage-1
@@ -133,11 +137,14 @@ Global Void Apollo_Flow()
 					End
 				End
 				y+=50
-				If Trim(H.Chapter || "0")=="0"
-					sFont.Text("Prologue",X,Y)
-				Else
-					sFont.Text(SPrintF("Chapter: %s",H.Chapter),X,Y)
-				End
+				//If Trim(H.Chapter || "0")=="0"
+				//	sFont.Text("Prologue",X,Y)
+				//Else
+				//	sFont.Text(SPrintF("Chapter: %s",H.Chapter),X,Y)
+				//End
+				sFont.Text(SPrintF("Cycle: %s",H.Cycle),X,Y)
+				y+=25
+				sFont.Text(H.Lvl || "Error",X,Y)
 				Y+=25
 				sFont.Text(SPrintF("Saved: %s",H.Saved),X,Y)
 				y+=25
@@ -164,6 +171,7 @@ Global Void Apollo_Flow()
 						PerformLoadGame(SG_File)
 						Flow.Current="FIELD"
 						Situation="SAVE"
+						Lnk.Schedule.Add(":OPENDOOR:")
 					End
 				Default
 					Lua.error("Unknown sg situation: "..Situation)

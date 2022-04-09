@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Map.neil
-// Version: 22.04.05
+// Version: 22.04.07
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -44,7 +44,8 @@ Module
 	Int ScrollY
 	Int GoToX
 	Int GoToY
-	Bool AllowAutoScroll 
+	//Bool AllowAutoScroll 
+	Link AllowAutoScroll = gv.gbool.AllowAutoScroll
 	Var ArriveFunc = Nil
 	String ArriveParam 
 	Var ActorWind
@@ -63,6 +64,10 @@ Module
 	
 	Get Var CurrentLayer
 		Return CurLayer
+	End
+	
+	Get Var OPlayer
+		Return CurLayer.Obj(FlowField.FollowTheLeader.LeaderMapTag)
 	End
 	
 	Get Table ActorWindDefault
@@ -91,18 +96,99 @@ Module
 		// Placeholder
 	End
 	
+	Get Int MinScrollX
+		return Lua.tonumber(FlowField.Layers.Data("Scroll_MinX")) || 0
+	End
+	Get Int MinScrollY
+		return Lua.tonumber(FlowField.Layers.Data("Scroll_MinY")) || 0
+	End
+	Get Int MaxScrollX
+		return Lua.tonumber(FlowField.Layers.Data("Scroll_MaxX")) || 0
+	End
+	Get Int MaxScrollY
+		return Lua.tonumber(FlowField.Layers.Data("Scroll_MaxY")) || 0
+	End
+	Get Int CenScrollX
+		return Lua.tonumber(FlowField.Layers.Data("Scroll_CenX")) || 0
+	End
+	Get Int CenScrollY
+		return Lua.tonumber(FlowField.Layers.Data("Scroll_CenY")) || 0
+	End	
+	
+	Void AutoScroll()
+		If (!gv.gbool.AllowAutoScroll) || (!CurLayer.HasTag(FlowField.FollowTheLeader.LeaderMapTag)) 
+			Return
+		End
+		ScrollX = OPlayer.X - (Screen.W div 2)
+		ScrollY = OPlayer.Y - (Screen.H div 2)		
+		if MaxScrollX==0 || MaxScrollY==0
+			Return
+		end
+		ScrollX = math.min(MaxScrollX+Screen.W,math.max(ScrollX,MinScrollX))
+		ScrollY = math.min(MaxScrollY+Screen.H,math.max(ScrollY,MinScrollY))
+		//If ScrollX<MinScrollX
+		if (MaxScrollX-MinScrollX<Screen.W)
+			ScrollX = CenScrollX-(Screen.W div 2)
+		End
+		//If ScrollY<MinScrollY
+		if (MaxScrollY-MinScrollY<Screen.H)
+			ScrollY = CenScrollY-(Screen.H div 2)
+		End
+	End
+	
+	Get Var Player
+		Return CurrentLayer.Obj(FlowField.FollowTheleader.LeaderMapTag)
+	End
+	
+	Void ObjSet(TID,String Key,Value)
+		CurrentLayer.Obj(TID)[Key]=Value
+	End
+	
 	Void Walking()
+	End
+	
+	void SG()
+		//SaveGame.Data["PermaKills.NEIL"] = FieldFlow.Kill.Serialize
+		string r = "// Mapstuff\nInit\n"		
+		r += "\tFlowField.Map.ScrollX = "..tostring(FlowField.Map.ScrollX).."\n"
+		r += "\tFlowField.Map.ScrollY = "..tostring(FlowField.Map.ScrollY).."\n"
+		r += "\tFlowField.Map.AllowAutoScroll = "..tostring(FlowField.Map.AllowAutoScroll).."\n"
+		r += "\tFlowField.Map.Layer = \""..FlowField.Map.Layer.."\"\n"
+		//r += "\tFlowField.Map.CurLayer.Spawn(\"PLAYER\",0,0)\n"
+		//r += "\tFlowField.Map.Player.X = ".tostring(FlowField.Map.Player.X).."\n"
+		//r += "\tFlowField.Map.Player.Y = ".tostring(FlowField.Map.Player.Y).."\n"
+		//r += "\tFlowField.Map.Player.Wind = \"".FlowField.Map.Player.Wind.."\"\n"
+		For i=1,4
+			If CurLayer.HasTag("PLAYER"..i)
+				Var P = CurLayer.Obj("PLAYER"..i)
+				r += sprintf("\tFlowField.Map.CurLayer.Spawn(\"PLAYER%d\",0,0)\n",i)
+				r += sprintf("\tFlowField.Map.CurLayer.Obj(\"PLAYER%d\").X = %d\n",i,P.X)
+				r += sprintf("\tFlowField.Map.CurLayer.Obj(\"PLAYER%d\").Y = %d\n",i,P.Y)
+				r += sprintf("\tFlowField.Map.CurLayer.Obj(\"PLAYER%d\").Wind = \"%s\"\n",i,P.Wind)
+			End
+		End
+		r += "end\n"
+		SaveGameData["Map.neil"] = r
+	End
+	
+	Void LG()
+		CSay("Loading Kthura Map: "..LoadedMap)
+		FlowField.LoadMap(LoadedMap)
+		Loading()
+		CSay("Parsing player positions from savegame") 
+		NeilDoString(SaveGame.Data["MAP.NEIL"],"SG:Map.Neil")
 	End
 	
 	Void CBLoadMap(string MapBundle)
 		ActorWind = ActorWindDefault
-		AllowAutoScroll = true
+		//AllowAutoScroll = true
 		LoadedMap = MapBundle:upper()
 		CSayF("= Loading Kthura Map: %s",MapBundle)
 		KthuraMap = Kthura.Load("Kthura/"..MapBundle)
 		KthuraMap.Remap()
 		Layer = KthuraMap.Layers[1]
 		gv.gStr.MapTitle = KthuraMap.Meta.Title
+		gv.gbool.AllowAutoScroll = True
 	End
 
 End
