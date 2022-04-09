@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/lnk.uwn/Party.neil
-// Version: 22.04.06
+// Version: 22.04.09
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -40,7 +40,8 @@ Module
 		State.Call("SUB_PARTY","SubParty.CreateCharacter",sprintf("\"%s\",%d",ch,level))
 	End
 	
-	Void Boxes()
+	Void Boxes(string character="",nohover)		
+		State.Call("SUB_PARTY","SubParty.Boxes",sprintf("\"%s\",%s",character,nohover==true))
 	End
 	
 	Void Portrait(string ch,Int x,Int Y)
@@ -60,6 +61,10 @@ Module
 			End
 		End
 		Return Ret
+	End
+	
+	Void Hello()
+		CSay("Party linkup hello")
 	End
 
 	Constructor
