@@ -23,4 +23,5 @@ Chunk ZA_Wendicka
 	call CSay,"Party Pop!"
 	call iPop,Start,South
 	call Hide,PLAYER2
+	call print,Debug1,Debug2,Debug3
 	:AfterPrologue
