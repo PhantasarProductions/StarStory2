@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/lnk.uwn/Ach.neil
-// Version: 22.03.31
+// Version: 22.04.09
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -38,6 +38,10 @@ Module
 
 	Void Auto()
 		// TO DO: Code!
+	End
+	
+	Void Show()
+		// TO DO: Code!	
 	End
 	
 End
