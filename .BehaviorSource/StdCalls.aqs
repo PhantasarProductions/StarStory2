@@ -12,3 +12,4 @@ CSChunk LHide,Lnk.Map.HideByLabel
 CsCHunk LShow,Lnk.Map.ShowByLabel
 CSChunk Pop,FlowField.FollowTheLeader.PartyPop
 CSChunk iPop,FlowField.FollowTheLeader.iPop
+cschunk Print,Print
