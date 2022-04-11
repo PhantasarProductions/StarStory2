@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Subs/SubParty.neil
-// Version: 22.04.09
+// Version: 22.04.11
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -55,14 +55,12 @@ Group SubParty
 	
 	void GrabLevel(string tag,int level)
 		string n = tag
-		if tag == "UniWendicka"
-			n = "Wendicka"
-		end
-		string dat = JCR6.LoadString(sprintf("Data/LvData/%s/%d",n,math.floor((level-1)/500)))
+		//string dat = JCR6.LoadString(sprintf("Data/LvData/%s/%d",n,math.floor((level-1)/500)))
+		string dat = JCR6.LoadString(sprintf("Data/Characters/%s/LvData/%d",n,math.floor((level-1)/500)))		
 		table tdat = Split(dat,"\n")
 		int lvl = -100
 		for line in each(tdat)
-			if line!="" 
+			if Trim(line)!="" 
 				table ins = split(line," ")
 				switch ins[1]
 					case "REM"
@@ -99,7 +97,11 @@ Group SubParty
 				RPGChar.Create(Ch)
 				RPGChar[ch].Data.Used="False"
 				RPGChar[Ch].Stat.Level = 1
-				CSayF("Unused character %s created",ch)
+				RPGChar[Ch].Name = Replace(ch,"Z_","")
+				If ch=="Z_Admiral"
+					RPGChar[ch].Name = "Ashley"
+				End
+				CSayF("Unused character %s created",ch)				
 				Return
 			Default
 				RPGChar.Create(Ch)
@@ -107,8 +109,30 @@ Group SubParty
 				RPGChar[Ch].Points.AP.MaxCopy = "END_AP"
 				RPGChar[Ch].Points.EXP.Maximum = Any.Caps.ExpNeeded
 				RPGChar[ch].Data.Used="True"
+				For R in Each{"Status","Elements"}
+					For RS in Each(Any.Resistance[R])
+						string st="Z"..left(R,1).."R_"..RS
+						RPGChar[Ch].Stat["BASE_"..st] = 0
+						RPGChar[Ch].Stat["BUFF_"..st] = 0
+						RPGChar[Ch].Stat["PERM_"..st] = 0
+						RPGChar[Ch].Stat["EQUI_"..st] = 0					
+						RPGChar[Ch].StatScript["END_"..st] = "SUM:"..Ch..".BASE_"..st..".BUFF_"..st..".PERM_"..st.."."
+						If R=="Status" && RS!="None"
+							RPGChar[Ch].Stat["BASE_"..st] = Math.random(__skill,25*__skill)
+						End
+					End
+				End
+				RPGChar[Ch].Stat["BASE_Luck"] = 0
+				RPGChar[Ch].Stat["BUFF_Luck"] = 0
+				RPGChar[Ch].Stat["PERM_Luck"] = 0
+				RPGChar[Ch].Stat["EQUI_Luck"] = 0					
+				RPGChar[Ch].StatScript["END_Luck"] = "SUM:"..Ch..".BASE_Luck"..".BUFF_Luck"..".PERM_Luck".."."
+				Lnk.Party.LuckRoll(Ch)
 				GrabLevel(ch,level)
-				CSayF("Character %s created at level %d",ch)
+				If Ch!="Asley" 
+					RPGChar[Ch].Points.AP.Have = RPGChar[Ch].Points.AP.Maximum
+				End
+				CSayF("Character %s created at level %d",ch,level)
 		End
 	End
 	
@@ -149,7 +173,7 @@ Group SubParty
 					//Graphics.SetScale(math.min(LvScale[Ch] / 500,1))
 					//ImgLevelUp.Draw(Boxes[i].X+(Boxes[i].W div 2),Boxes[i].Y-5)
 				End
-				If RPGChar[Ch].Stat.Level<Any.Cap.LevelCap && RPGChar[Ch].Stat.Experience<=0
+				If RPGChar[Ch].Stat.Level<Any.Caps.LevelCap && RPGChar[Ch].Stat.Experience<=0
 					//ImgLevelUp.HotBottomCenter()
 					//AudLevelUp.Play()
 					//LvScale[Ch]=1
@@ -175,7 +199,7 @@ Group SubParty
 					//CSayF("Alpha: %03d / Tricks: %05d",alf,FPS.Ticks)
 					Graphics.SetAlpha(alf)
 				end
-			lnk.Party.Portrait(ch,B.X,Screen.H-40)
+			lnk.Party.Portrait(ch,B.X+40,Screen.H-40)
 			Graphics.SetAlpha(255)
 			if !prefixed(ch,"Z_")
 				// Bars			
@@ -200,22 +224,45 @@ Group SubParty
 				If RPGChar[ch].Points.AP.Maximum>0
 					Var AP = RPGChar[ch].Points.AP
 					Number Breuk = AP.Have / AP.Maximum
-					Int APG = math.floor(180*Breuk)			
-					Int ABB = 255
+					//Int APG = math.floor(180*Breuk)			
+					//Int ABB = 255
 					Int ABR = Math.floor(barwidth*Breuk)
 					// print(APR,APG,0)
+					string N="???"
 					Graphics.Color(50,50,50)
-					Graphics.Rect(barx,B.Y+50,barwidth,10)
-					Graphics.Color(0,APG,ABB)
+					Graphics.Rect(barx,B.Y+50,barwidth,10)					
+					//Graphics.Color(0,APG,ABB)
+					Switch Ch
+						case "Klahre" 
+							Lua.error("Klahre AP!")
+						case "Yorno" "Doctor" 
+							Graphics.Color(255,255,0)
+							N="NRGY"
+						case "Ashley"
+							Graphics.Color(255,0,0)
+							N="RAGE"
+						Default
+							Graphics.color(0,0,255)
+					End
 					Graphics.Rect(barx,B.Y+50,ABR,10)
-					Fnt.DarkText("AP",barx,B.Y+60,1,1)
+					Fnt.DarkText(N,barx,B.Y+60,1,1)
 					Fnt.DarkText(AP.Have,barx+barwidth,B.Y+60,1,1)
 					If gv.gbool.Cheat_Merlin
 						AP.Have++
 					End
 				End
 				// Experience
-				// To Do
+				If RPGChar[ch].Stat.Level<Any.Caps.LevelCap
+					Var XP = RPGChar[ch].Points.EXP
+					Number Breuk = XP.Have / XP.Maximum
+					Int ABR = Math.floor(barwidth*Breuk)
+					Graphics.Color(50,50,50)
+					Graphics.Rect(barx,B.Y+75,barwidth,10)
+					Graphics.Color(255,255,255)
+					Graphics.Rect(barx,B.Y+75,ABR,10)
+				End
+				Fnt.DarkText("Lv",barx,B.Y+85,1,1)
+				Fnt.DarkText(RPGChar[ch].Stat.Level,barx+barwidth,B.Y+85,1,1)
 			End
 		End
 		If Mouse.ML && Hover>0 && (!nohover)
