@@ -18,10 +18,22 @@ Chunk Load
 Chunk ZA_Wendicka
 	call CSay,Game Start Event
 	call LHide,Bridge
+;Check up if this is the start of the game, or the coming together for the New Game+
 	Done Done_Wendicka_Prologue
 	JmpTrue AfterPrologue
+; Pop!
 	call CSay,"Party Pop!"
 	call iPop,Start,South
 	call Hide,PLAYER2
 	call print,Debug1,Debug2,Debug3
+; Ashley and Wendicka walk to each other
+	call xWalkTo,PLAYER1,WT_Z_Wendicka
+	call xWalkTo,PLAYER3,WT_Z_Admiral
+; Start Scenario
+	call MapText,START1
+	call Show,PLAYER2
+; Sue comes in
+	call xWalkTo,PLAYER2,WT_Z_Sue
+	call MapText,START2
+;Start the actual game!
 	:AfterPrologue
