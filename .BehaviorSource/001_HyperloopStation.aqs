@@ -1,0 +1,7 @@
+; Behavior Apollo Quick Script for 'E:/Projects/Applications/Apollo/Games/Star Story 2/src/Tricky Story/Kthura/001_HyperloopStation'
+; Created 4/11/2022 11:03:31 AM
+
+Include Basis.aqs
+
+Chunk Load
+	call CSay,"Welcome to 001_HyperloopStation"
