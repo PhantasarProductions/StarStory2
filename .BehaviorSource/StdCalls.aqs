@@ -16,3 +16,4 @@ cschunk Print,Print
 CSChunk WalkTo,Lnk.Map.PWalkTo
 CSChunk XWalkTo,Lnk.Map.XWalkTo
 CSChunk Crash,Lua.error
+cschunk party,lnk.party.party
