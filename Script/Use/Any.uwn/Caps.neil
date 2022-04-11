@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Any.uwn/Caps.neil
-// Version: 22.03.24
+// Version: 22.04.11
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -92,6 +92,10 @@ Module
 			Default
 				Lua.error("Unknown skill number ("..__skill..") to get the level cap")
 		End
+	End
+	
+	Get Int LevelCap
+		Return MaxLevel
 	End
 	
 	Get Int LevelMargin
