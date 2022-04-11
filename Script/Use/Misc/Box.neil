@@ -62,6 +62,7 @@ Module Class
 	End
 	
 	Void Draw()
+		Graphics.Color(255,255,255)
 		// Area
 		CC.Stretch(x+16,y+16,w-32,h-32)
 		// Sides
