@@ -3,6 +3,9 @@
 
 Include Basis.aqs
 
+cschunk crch,lnk.party.createcharacter
+
+
 
 Chunk Load
 	call CSay,"Welcome to The Hawk"
@@ -21,6 +24,8 @@ Chunk ZA_Wendicka
 ;Check up if this is the start of the game, or the coming together for the New Game+
 	Done Done_Wendicka_Prologue
 	JmpTrue AfterPrologue
+; Jump to end (debug only!)
+	;	jmp skipstart
 ; Pop!
 	call CSay,"Party Pop!"
 	call iPop,Start,South
@@ -36,4 +41,10 @@ Chunk ZA_Wendicka
 	call xWalkTo,PLAYER2,WT_Z_Sue
 	call MapText,START2
 ;Start the actual game!
+	:skipstart
+	call crch,Klahre
+	call crch,Yorno
+	call party,Klahre,Yorno
+	call GoToMap,"001_HyperloopStation","GATE27","Start_Klahre"
+	exit
 	:AfterPrologue
