@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/ZoneAction.neil
-// Version: 22.04.07
+// Version: 22.04.11
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -175,6 +175,9 @@ class _ZoneAction
 					CSayF("Map mismatch in zone action! '%s'!='%s'    (%s:%s:%s) --> Stopping chain!",Zone.ActMap,FlowField.Map.LoadedMap,Event,Zone.ActZone,tostring(Zone.Act))
 					return false
 					//lnk.UnLink()
+				elseif !FlowField.Map.Player
+					CSay("Apparently no player spawned yet, so let's skip the Zone Action (for now)")
+					return false
 				else
 					//Zone.WordtInZone = FlowField.Map.Kthura.Actor.Player.IsInZone(Zone.ActZone)
 					Zone.WordtInZone = FlowField.Map.Player.IsInZone(Zone.ActZone)

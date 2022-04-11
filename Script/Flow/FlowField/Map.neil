@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Map.neil
-// Version: 22.04.09
+// Version: 22.04.11
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -137,6 +137,9 @@ Module
 	End
 	
 	Get Var Player
+		if !CurrentLayer.HasTag(FlowField.FollowTheleader.LeaderMapTag)
+			Return nil
+		End
 		Return CurrentLayer.Obj(FlowField.FollowTheleader.LeaderMapTag)
 	End
 	
