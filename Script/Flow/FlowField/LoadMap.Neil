@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/LoadMap.Neil
-// Version: 22.04.07
+// Version: 22.04.09
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -71,7 +71,7 @@ Void LoadMapMusic(string LM)
 End
 
 Void LoadMapText(string LM)
-	if !JCR6.EntryExists("Languages/"..__lang.."/Scenario/maps/"..LM)
+	if !JCR6.EntryExists("Scenario/"..__lang.."/Maps/"..LM)
 		CSay("No mapfile for: "..LM)
 		return
 	End
@@ -93,7 +93,7 @@ Init
 	//LoadActions += "Clickable"
 	//LoadActions += "Treasure"
 	//LoadActions += "Renc"
-	//LoadActions += LoadMapText
+	LoadActions += LoadMapText
 	//LoadActions += Remap
 	// MapScript always second last
 	//LoadActions += LoadMapScript
