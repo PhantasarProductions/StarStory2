@@ -1,0 +1,10 @@
+Module
+	// None = Status changes that will always have to hit
+	// Bio = Poison + Disease
+	// Will = Confusion + Sleep
+	// Stamina = Paralysis + Death
+	
+	ReadOnly Var Status = {"None","Bio","Will","Stamina"}
+	ReadOnly Var Elements = {"Flame","Wind","Water","Earth","Frost","Thunder","Light","Darkness"}
+	
+End	
