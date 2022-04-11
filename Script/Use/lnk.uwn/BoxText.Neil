@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/lnk.uwn/BoxText.Neil
-// Version: 22.03.27
+// Version: 22.04.09
 // Copyright (C) 2020, 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -36,12 +36,12 @@
 // End License Information
 
 #MKL_Lic     "Star Story 2 - The Virus Strikes Back - BoxText.Neil" "Phantasar zLib License"
-#MKL_Version "Star Story 2 - The Virus Strikes Back - BoxText.Neil" "22.03.27"
+#MKL_Version "Star Story 2 - The Virus Strikes Back - BoxText.Neil" "22.04.09"
 
 
-void BTLoad()
-	State.LoadNew("BOXTEXT","Script/Subs/SubBoxText.Neil")
-	
+//void BTLoad()
+Init
+	State.LoadNew("BOXTEXT","Script/Subs/SubBoxText.Neil")	
 end
 
 global void MapText(string ATag,string RF="FLOW_FIELD",int ANum=1)
@@ -62,7 +62,7 @@ module
 	end
 	
 	void Load(string Tag,string File)
-		BTLoad()
+		//BTLoad()
 		//State.Call("BOXTEXT","Scenario.Load",sprintf("\"%s\",\"%s\"",File,tag))
 		State.Call("BOXTEXT","TFT_LoadScen",sprintf("\"%s\",\"%s\", false",Trim(File),Trim(Tag)))
 	end
