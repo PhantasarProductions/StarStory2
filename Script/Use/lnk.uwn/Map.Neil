@@ -55,9 +55,14 @@ Group Player
 		Lua.Neil.Globals.Map.StopWalking()
 	End
 	
-	Void WalkTo(a,b,c)
-		Lua.Neil.Globals.Map.MCall("FlowField.Map.CurLayer.Obj('PLAYER').WalkTo",a,b,c)
+	Get String LeaderMapTag
+		Return ISGet.Str("FLOW_FIELD","FlowField.FollowTheLeader.LeaderMapTag")
 	End
+	
+	Void WalkTo(a,b,c)
+		Lua.Neil.Globals.Map.MCall("FlowField.Map.CurLayer.Obj('"..LeaderMapTag.."').WalkTo",a,b,c)
+	End
+	
 End
 
 // For the "Follow the leader" effect
@@ -467,6 +472,14 @@ Module
 	
 	Table LayTags(string Layer)
 		return Split(ISGet.String("FLOW_FIELD",sprintf("FlowField.Map.KthuraMap.Layer(\"%s\").TagList",Layer)),",")
+	End
+	
+	Void XWalkTo(string Tag,a,b,c)
+		MCall("FlowField.Map.CurLayer.Obj('"..Tag.."').WalkTo",a,b,c)
+	End
+	
+	Void PWalkTo(a,b,c)
+		Player.walkTo(a,b,c)
 	End
 	
 	CONSTRUCTOR
