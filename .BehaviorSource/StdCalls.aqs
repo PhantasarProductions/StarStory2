@@ -13,3 +13,6 @@ CsCHunk LShow,Lnk.Map.ShowByLabel
 CSChunk Pop,FlowField.FollowTheLeader.PartyPop
 CSChunk iPop,FlowField.FollowTheLeader.iPop
 cschunk Print,Print
+CSChunk WalkTo,Lnk.Map.PWalkTo
+CSChunk XWalkTo,Lnk.Map.XWalkTo
+CSChunk Crash,Lua.error
