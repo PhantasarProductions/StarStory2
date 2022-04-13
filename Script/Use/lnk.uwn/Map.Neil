@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/lnk.uwn/Map.Neil
-// Version: 22.04.09
+// Version: 22.04.12
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -481,6 +481,25 @@ Module
 	Void PWalkTo(a,b,c)
 		Player.walkTo(a,b,c)
 	End
+	
+	Void Open(string Col)
+		MCall("FlowField.Door.Open",Col)
+	End
+	
+	Void Close(string Col)
+		MCall("FlowField.Door.Close",Col)
+	End
+	
+	Void Cycles(int Cyc)
+		For i=1,Cyc
+			Graphics.Cls()
+			MCall("FlowField.DrawScreen","nil")
+			Graphics.Flip()
+			FPS.WaitMinTicks()
+			Events.Poll()
+		End
+	End
+
 	
 	CONSTRUCTOR
 		table m
