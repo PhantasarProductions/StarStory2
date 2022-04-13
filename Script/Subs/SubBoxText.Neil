@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Subs/SubBoxText.Neil
-// Version: 22.04.11
+// Version: 22.04.12
 // Copyright (C) 2020, 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -178,10 +178,15 @@ class TextBox
 		Portret(PicDir,PicSpc)
 		
 		//Color(255,180,0)
-		__Ember
+		//__Ember
+		Graphics.Color(0,180,255)
 		//DarkText.Font(Font,self.Header,__BT_BoxText_MinX,self.boxy+10)
 		#if __BT_BoxTextDarkText
-			LFont.DarkText(Header,__BT_BoxText_MinX,boxy+10)
+			If Header=="Klahre" 
+				LFont.DarkText("Klahr|'e",__BT_BoxText_MinX,boxy+10)
+			Else
+				LFont.DarkText(Header,__BT_BoxText_MinX,boxy+10)
+			End
 		#else
 			LFont.Text(Header,__BT_BoxText_MinX,boxy+10)
 		#fi
@@ -388,6 +393,7 @@ group FlowBoxText
 		CSay(tostring(Textbox.audioplaying))
 		CSay("Let's do it!")
 		Run()
+		Events.Flush()
 	end
 	
 end
