@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Map.neil
-// Version: 22.04.11
+// Version: 22.04.13
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -49,7 +49,11 @@ Module
 	Var ArriveFunc = Nil
 	String ArriveParam 
 	Var ActorWind
-
+	
+	Get Var Clickable
+		Return FlowField.Clickable
+	End
+	
 	Get String LoadedMap
 		Return gv.gstr.LoadedMap
 	End
@@ -150,6 +154,14 @@ Module
 	Void Walking()
 	End
 	
+	Get Int MapLevel
+		Int R = Lua.tonumber(KthuraMap.Meta.MapLevel) || 0
+		If Any.Caps.Cycle<2
+			Return R
+		End
+		Return math.min(100000,math.ceil( (R/Any.Caps.MaxLevel) * 250 ) )
+	End
+	
 	void SG()
 		//SaveGame.Data["PermaKills.NEIL"] = FieldFlow.Kill.Serialize
 		string r = "// Mapstuff\nInit\n"		
@@ -181,6 +193,30 @@ Module
 		CSay("Parsing player positions from savegame") 
 		NeilDoString(SaveGame.Data["MAP.NEIL"],"SG:Map.Neil")
 	End
+	
+	Void WalkClick(Int mX, Int mY)		
+		int x = mx + ScrollX
+		int y = my + ScrollY
+		CSayF("Request to walk to (%4d,%4d); Mouse(%4d,%4d); Scroll(%4d,%4d)",x,y,mx,my,ScrollX,ScrollY)
+		if !CurLayer.HasTag(FlowField.FollowTheLeader.LeaderMapTag)
+			CSay("But there is no player available now, so the request will be ignored!")
+			return
+		end				
+		if !Clickable.All(x,y)
+			CurLayer.Obj(FlowField.FollowTheLeader.LeaderMapTag).WalkTo(x,y)
+			ArriveFunc = nil
+			ArriveParam = ""
+		End	
+	End
+	
+	Void StopWalking()
+		if !CurLayer.HasTag(FlowField.FollowTheLeader.LeaderMapTag)
+			Return
+		End		
+		CurLayer.Obj(FlowField.FollowTheLeader.LeaderMapTag).StopWalking()
+		ArriveFunc = nil
+		ArriveParam = ""
+	End	
 	
 	Void CBLoadMap(string MapBundle)
 		ActorWind = ActorWindDefault
