@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/FollowTheLeader.neil
-// Version: 22.04.09
+// Version: 22.04.13
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -44,7 +44,7 @@ Module
 	End
 	
 	Set Int Leader
-		gv.gInt.Leader = math.min(4,math.min(1,Value))
+		gv.gInt.Leader = math.min(4,math.max(1,Value))
 	End
 	
 	Get String LeaderTag
@@ -116,16 +116,26 @@ Module
 		If c==1
 			Return
 		End
-		Int i = (Leader % c)+1
+		Int Leider=Leader
 		Repeat
-			Int v = i-1
-			If v==0
-				v=c
+			Int Volger=(Leider%c)+1
+			Var OL = FlowField.Map.CurrentLayer.Obj(sprintf("PLAYER%d",Leider))
+			Var OV = FlowField.Map.CurrentLayer.Obj(sprintf("PLAYER%d",Volger))
+			If (!Ov.Walking)
+				Switch OL.Wind:upper()
+					case "NORTH" 
+						OV.WalkTo(OL.X,OL.Y+30)
+					case "SOUTH"
+						OV.WalkTo(OL.X,OL.Y-32)
+					case "WEST" 
+						OV.WalkTo(OL.X+30,OL.Y)
+					case "EAST"
+						OV.WalkTo(OL.X-30,OL.Y)
+					Default
+				End
 			End
-			i = (i%c)+1
-			
-			// TODO: Actual following
-		Until i==Leader
+			Leider = (Leider%c)+1
+		Until Leider==Volger || Leider==Leader
 	End
 	
 End
