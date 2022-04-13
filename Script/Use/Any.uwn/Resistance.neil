@@ -34,6 +34,9 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
+// Resistance was a work name as originally only the status and elemental resistances were to be defined here.
+// Figured it would be handier to put a few more things in this crap.
 Module
 	// None = Status changes that will always have to hit
 	// Bio = Poison + Disease
@@ -53,5 +56,6 @@ Module
 				Lua.error(sprintf("Lnk.Resistances.Luck(<%s>): Either a string or an integer number expected",Lua.type(L)))
 		end
 	End
-	
+	ReadOnly Var Stats = {"Power","Defense","Will","Resistance","Accuracy","Evasion","Speed"}
+
 End
