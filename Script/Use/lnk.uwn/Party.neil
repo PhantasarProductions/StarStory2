@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/lnk.uwn/Party.neil
-// Version: 22.04.11
+// Version: 22.04.13
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -92,6 +92,19 @@ Module
 		For i,ch in Pairs{ch1,ch2,ch3,ch4}
 			RPGParty[i]=ch
 		End
+	End
+	
+	Void MiniPush()
+		State.Call("SUB_PARTY","SubParty.MiniPush","nil")
+	End
+	
+	Void MiniWrt(string msg,int r=255,int g=255, int b=255)
+		State.Call("SUB_PARTY","SubParty.MiniWrt",sprintf("\"%s\",%d,%d,%d",msg,r,g,b))
+	end
+	
+	Void MiniMsg(string msg,int r=255,int g=255, int b=255)
+		MiniWrt(msg,r,g,b)
+		MiniPush()		
 	End
 
 	Constructor

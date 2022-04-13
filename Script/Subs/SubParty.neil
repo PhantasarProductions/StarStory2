@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Subs/SubParty.neil
-// Version: 22.04.11
+// Version: 22.04.13
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -41,7 +41,20 @@
 
 #macro __BoxPosY Screen.H - 138
 
+Class TMiniMsg
+	Int X
+	String Msg
+	int R
+	int G
+	int B
+End
+
+
+
 Group SubParty
+	
+	Table MiniLines
+	Var MiniCur
 
 	Get Var Mouse 
 		Return Any.Mouse
@@ -141,6 +154,7 @@ Group SubParty
 		static var Fnt = ImageFont.Obtain("MINITEXT")
 		__Black
 		Graphics.Rect(0,Screen.H-50,Screen.W,50)
+		Self.MiniShow()
 		__White
 		lnk.Ach.Show()
 		Static Table Boxes = { new Box(0,__BoxPosY,20,100,false),new Box(0,__BoxPosY,20,100,false),new Box(0,__BoxPosY,20,100,false),new Box(0,__BoxPosY,20,100,false)}
@@ -268,9 +282,49 @@ Group SubParty
 		If Mouse.ML && Hover>0 && (!nohover)
 			State.Call(Flow.Current,"PartyClick",sprintf("%d,\"%s\"",Hover,RPGParty[Hover]))
 		End
+		If Mouse.MR && Hover>0 && (!nohover)
+			State.Call(Flow.Current,"PartyRightClick",sprintf("%d,\"%s\"",Hover,RPGParty[Hover]))
+		End
+	End
+	
+	Void MiniWrt(string m,int r, int g, int b)
+		static var Fnt = ImageFont.Obtain("MINITEXT")
+		MiniCur = MiniCur || {}
+		int x=0
+		for mlin in Each(MiniCur)
+			x+=Fnt.TextWidth(Mlin.Msg)
+		End
+		Var Lin = new TMiniMsg()
+		Lin.X=X
+		Lin.R=R
+		Lin.G=G
+		Lin.B=B
+		Lin.Msg=M
+		MiniCur+=Lin
+		CSayF("MINIWRT>%d>#%02x%02x%02x>%s",X,R,G,B,M)
+	End
+	
+	Void MiniPush()
+		MiniLines[1]=MiniLines[2]
+		MiniLines[2]=MiniLines[3]
+		MiniLines[3]=MiniCur
+		MiniCur=nil
+	End
+	
+	Void MiniShow()
+		Static Var Fnt = ImageFont.Obtain("MINITEXT")
+		Static Int SY = Screen.H-37
+		For i,l In Pairs(MiniLines)
+			Int Y=SY+((i-1)*12)
+			For B in Each(l)
+				Graphics.Color(b.r,b.g,b.b)
+				Fnt.Text(b.msg,b.x,y)
+			End
+		End
 	End
 
 	Constructor
 		Stats = {}
+		MiniLines = {}
 	End
 End
