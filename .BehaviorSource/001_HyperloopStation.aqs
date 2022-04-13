@@ -41,3 +41,20 @@ Include Basis.aqs
 
 Chunk Load
 	call CSay,"Welcome to 001_HyperloopStation"
+	
+Chunk ZA_GameStart
+	done Done_GameStart_HyperLoop
+	jmpfalse gs
+	exit
+	:gs
+	call iPop,Start
+	call Open,HYPERLOOP
+	call xWalkTo,PLAYER2,Meet_Yorno
+	call Cycles,70
+	call xWalkTo,PLAYER1,Meet_Klahre
+	call Cycles,30
+	call Close,HYPERLOOP
+	call MapText,START
+	;call MiniMsg,"Welcome to Star Story II" 
+	;call MiniMsg,"You can move Klahre around by clicking where you want her to go"
+	;Call MiniMsg,"Yorno will automatically follow her"
