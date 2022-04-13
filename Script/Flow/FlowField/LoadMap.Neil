@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/LoadMap.Neil
-// Version: 22.04.12
+// Version: 22.04.13
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -96,6 +96,7 @@ Init
 	//LoadActions += "Renc"
 	LoadActions += LoadMapText
 	//LoadActions += Remap
+	LoadActions += "Welcome"
 	// MapScript always second last
 	//LoadActions += LoadMapScript
 	LoadActions += "Script" 
