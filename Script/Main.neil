@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Main.neil
-// Version: 22.04.09
+// Version: 22.04.13
 // Copyright (C) 2020, 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -89,6 +89,9 @@ Init
 	LAsset.C("Fonts/Techover.50.jfbf","BIGTEXT",wh_font,true)
 	LAsset.C("Fonts/Mini.jfbf","MINITEXT",wh_font,true)
 	LAsset.C("GFX/Cursor/Default.png","MOUSE",wh_Image)
+	For k in Each{"Status","Items","Abilities","Achievements"}
+		LAsset.C(sprintf("GFX/MenuIcons/%s.png",k),sprintf("ICO_%s",k:upper()),wh_Image)
+	End
 
 	for elem in each {"Dark", "Earth", "Fire", "Frost", "Light", "Lightning", "Water", "Wind"}
 		LAsset.C("GFX/Elements/"..elem..".png","ELEM_"..(elem:upper()),wh_image)
@@ -129,6 +132,9 @@ Init
 				cout("image ",LA.File," to ",LA.Tag)
 				var I =  Image.Load(LA.File,LA.Tag)
 				Loading = Loading or I
+				if prefixed(LA.Tag,"ICO_")
+					I.HotCenter()
+				End
 			case wh_Font
 				cout("font ",LA.File," to ",LA.Tag)
 				ImageFont.Load(LA.File,LA.Tag).Fixed = LA.data==true
