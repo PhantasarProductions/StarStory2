@@ -1,5 +1,5 @@
 // License Information:
-// src/Tricky Script/Script/Flow/FlowField/DrawScreen.neil
+// src/Tricky Script/Script/Flow/FlowField/Welcome.neil
 // Version: 22.04.13
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
@@ -34,12 +34,38 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
-void _DS()
-	FlowField.Door.UpdateAll()
-	FlowField.Map.AutoScroll()
-	FlowField.Map.AutoTex()
-	FlowField.Map.KthuraMap.Draw(FieldFlow.Map.Layer,FieldFlow.Map.ScrollX,FieldFlow.Map.ScrollY)
-	FlowField.Welcome.Draw()
+Module
+	Const Int MaxTime=255
+	Var Img
+	Int CntDn=0
+	Int Alpha=255
+	
+	Void Draw()
+		If (!Img) || (CntDn<=0 && Alpha<=0)
+			Return
+		End
+		if CntDn==MaxTime && Alpha<255
+			Alpha++
+		Elseif CntDn<=0
+			Alpha--
+		Else
+			CntDn--
+		End
+		//CSayF("Welcome banner draw> CountDown: %03d;  Alpha: %03d",CntDn,Alpha)
+		Graphics.Color(255,255,255)
+		Graphics.Alpha(Alpha)
+		Img.Draw(Screen.W div 2, Screen.H div 2)
+		Graphics.Alpha(255)
+	End
+	
+	Void CBLoadMap(string MB)
+		String Pic = sprintf("Kthura/%s/Welcome.png",MB)
+		If JCR6.EntryExists(Pic) && (!Done["WELCOME_"..MB])
+			Img = Image.Load(Pic,"WELCOME")
+			Img.HotCenter()			
+			CntDn=MaxTime
+			Alpha=0
+		End
+	End
+	
 End
-
-Return _DS
