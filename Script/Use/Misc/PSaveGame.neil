@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Misc/PSaveGame.neil
-// Version: 22.04.07
+// Version: 22.04.13
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -37,6 +37,9 @@
 
 
 void MakeHeader()
+	if gv.gStr.MapTitle==""
+		gv.gStr.MapTitle="???"
+	end
 	string r = "Map:"..gv.gStr.MapTitle.."\n"
 	r += "Difficulty:"..({"Easy","Casual","Hard"})[gv.vInt.skill].."\n"
 	r += "Saved:"..gv.vInt.Saved.."\n"
