@@ -53,3 +53,6 @@ CSChunk WalkTo,Lnk.Map.PWalkTo
 CSChunk XWalkTo,Lnk.Map.XWalkTo
 CSChunk Crash,Lua.error
 cschunk party,lnk.party.party
+cschunk Open,lnk.Map.Open
+cschunk Close,lnk.Map.Close
+cschunk Cycles,lnk.Map.Cycles
