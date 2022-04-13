@@ -1,0 +1,39 @@
+Module
+	Void Flow(uBox,string FMChar,string FMSituation)
+		Static Var Fnt = ImageFont.Obtain("BOXTEXT")
+		Static Var Banner = {}
+		Static Var APN = { ["Yorno"]="Energy",["Doctor"]="Energy",["Ashley"]="Rage" }
+		Var Ch=RPGChar[FMChar]
+		__White
+		Banner[FMChar] = Banner[FMChar] || Image.Load(sprintf("GFX/CharLogo/%s.png",FMChar),"CHARBANNER_"..FMChar)
+		Banner[FMChar].HotCenter()
+		Banner[FMChar].Draw(ubox.x+(ubox.w div 2),ubox.y+100)
+		if (prefixed(FMChar,"Z_"))
+			Return
+		End
+		__White
+		Fnt.Text("HP",ubox.x+5,200)
+		__SkyBlue
+		Fnt.Text(sprintf("%d of %d",Ch.Points.HP.Have,Ch.Points.HP.Maximum),(ubox.x+ubox.w)-5,200,1)
+		if Ch.Points.AP.Maximum>0
+			__White			
+			Fnt.Text(APN[FMChar] || "AP",ubox.x+5,230)
+			__SkyBlue
+			Fnt.Text(sprintf("%d of %d",Ch.Points.AP.Have,Ch.Points.AP.Maximum),(ubox.x+ubox.w)-5,230,1)
+		End
+		
+		
+		
+		For i,s in pairs(Any.Resistance.Stats)
+			int y=270+(i*30)
+			__White
+			Fnt.Text(s,ubox.x+5,y)
+			__SkyBlue
+			Fnt.Text(Ch.Stat["END_"..s],(ubox.x+ubox.w)-5,y,1)
+		End
+		__White
+		Fnt.Text("Luck",ubox.x+5,270+((#Any.Resistance.Stats+1)*30))
+		__SkyBlue
+		Fnt.Text(Any.Resistance.Luck(FMChar),(ubox.x+ubox.w)-5,270+((#Any.Resistance.Stats+1)*30),1)
+	End
+End
