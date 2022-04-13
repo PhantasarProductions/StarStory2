@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.Neil
-// Version: 22.04.07
+// Version: 22.04.13
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -97,15 +97,31 @@ global Void PRGL()
 	Lnk.Party.Boxes()
 End
 
+Void MapLevelCheck()
+	If FlowField.Map.MapLevel>0 && (!Done[sprintf("BEEN_%s_%s",gv.gstr.LoadedMap,FlowField.Map.Layer)])
+		For i=1,lnk.Party.Count
+			Var Ch=RPGChar[RPGParty[i]]
+			Ch.Points.EXP.Have += math.floor( (FlowField.Map.MapLevel/Ch.Stat.Level) * 100)
+		End
+	End
+End
+
+Global Void PartyRightClick(int ch,string tag)
+	FlowField.FollowTheLeader.Leader=ch
+	lnk.Party.MiniMSG(RPGChar[RPGParty[ch]].Name.." is now in the lead",255,180,0)
+	CSay(RPGChar[RPGParty[ch]].Name.." is now in the lead")
+End
+
 Global Void Apollo_Flow()
 	__Dev.ToConsole()
 	FlowField.DrawScreen()
-	//FlowField.FollowTheLeader.Run()
+	FlowField.FollowTheLeader.Run()
 	//FlowField.Renc.UpdateGauge()
 	Lnk.Party.Boxes()
 	FlowField.Schedule.DoScheduled()
 	FlowField.ZoneAction.CheckAll()
 	//Invoke(_real.SHIFT) // The Fairy Tale only.
 	Walk()
+	MapLevelCheck()
 	__Mouse.Draw()
 End
