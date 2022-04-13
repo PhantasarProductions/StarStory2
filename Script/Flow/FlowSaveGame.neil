@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowSaveGame.neil
-// Version: 22.04.09
+// Version: 22.04.13
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -226,7 +226,7 @@ Init
 	End
 	//For F in Each { "Jake", "Marrilona", "Dandor", "Hando Stillor",   "Harry", "Sandra", "Fandalora", "Sasha Funda",  "Chief Werrington", "Cherry", "Feenalaria", "Nostramantu" }
 	For F in Each{"Klahre","Yorno","Doctor","Ashley"}
-		Faces += Image.Load("GFX/BoxText/Portret/"..F.."/General.png")
+		Faces += Image.Load("GFX/BoxText/Portret/"..F.."/General.png","SG_FACES_"..F)
 	End
 	plua s = SaveGame.LoadIndieString("Pages.neil")
 	NeilDoString(s || "Init\nEnd\n")
