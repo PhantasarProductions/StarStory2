@@ -1,0 +1,139 @@
+// License Information:
+// src/Tricky Script/Script/Flow/FlowField/Door.neil
+// Version: 22.04.12
+// Copyright (C) 2022 Jeroen Petrus Broks
+// 
+// ===========================
+// This file is part of a project related to the Phantasar Chronicles or another
+// series or saga which is property of Jeroen P. Broks.
+// This means that it may contain references to a story-line plus characters
+// which are property of Jeroen Broks. These references may only be distributed
+// along with an unmodified version of the game.
+// 
+// As soon as you remove or replace ALL references to the storyline or character
+// references, or any termology specifically set up for the Phantasar universe,
+// or any other univers a story of Jeroen P. Broks is set up for,
+// the restrictions of this file are removed and will automatically become
+// zLib licensed (see below).
+// 
+// Please note that doing so counts as a modification and must be marked as such
+// in accordance to the zLib license.
+// ===========================
+// zLib license terms:
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// End License Information
+Module Class
+
+	Static Table Doors
+	Static Var Data
+	
+	ReadOnly String FullTag
+	ReadOnly Int MoveX
+	ReadOnly Int MoveY
+	ReadOnly Int Frames
+	ReadOnly String DoOpen
+	ReadOnly Int BaseX
+	ReadOnly Int BaseY
+	ReadOnly Var O
+	Bool IsOpen
+	Int Frame=0
+	
+	Constructor(string Lay, string Obj)
+		O = FlowField.Map.KthuraMap.Layer(Lay).Obj(Obj)
+		FullTag = sprintf("Object %s::%s",Lay,Obj)
+		MoveX = Lua.tonumber(Data.Value(FullTag,"MoveX")) || 0
+		MoveY = Lua.tonumber(Data.Value(FullTag,"MoveY")) || 0
+		Frames = Lua.tonumber(Data.Value(FullTag,"Frames")) || 0
+		DoOpen = Data.Value(FullTag,"OPEN")
+		IsOpen = DoOpen:upper()=="OPEN"
+		If IsOpen
+			Frame=Frames
+		End
+		BaseX = O.X
+		BaseY = O.Y
+	End
+	
+	Get Int X
+		Return BaseX + (Frame*MoveX)
+	End
+	
+	Get Int Y
+		Return BaseY + (Frame*MoveY)
+	End
+	
+	Void Update(DoNotMove)
+		If !DoNotMove
+			If IsOpen
+				Frame = math.min(Frames,Frame+1)
+			Else
+				Frame = math.max(0,Frame-1)
+			End
+		End
+		O.X = X
+		O.Y = Y
+	End
+	
+	Static Void UpdateAll(DoNotMove)
+		For Obj in Each(Doors[FlowField.Map.Layer].All)
+			Obj.Update()
+		End
+	End
+	
+	Static Void SetOpen(String Col,Bool IsNowOpen)
+		String C = sprintf("SetOpen(%s,%s): ",Col,Lua.tostring(IsNowOpen))
+		Lua.assert(Doors[FlowField.Map.Layer],C.."No doors registered in layer: "..FlowField.Map.Layer)
+		Lua.assert(Doors[FlowField.Map.Layer][Col],sprintf("Layer %s does not have collection %s",FlowField.Map.Layer,Col))
+		For Obj in Each(Doors[FlowField.Map.Layer][Col])
+			// TODO: Sound on change
+			Obj.IsOpen = IsNowOpen
+		End
+	End
+	
+	Static Void Open(String Col)
+		SetOpen(Col,True)
+	End
+	
+	Static Void Close(String Col)
+		SetOpen(Col,False)
+	End
+	
+	Static Void CBLoadMap(string MapBundle)
+		Doors = {}
+		If !JCR6.EntryExists("Kthura/"..MapBundle.."/Doors")
+			CSay("No doors data in this map, so skippin that!")
+			Return
+		End
+		Data = GINIE.Load("Kthura/"..MapBundle.."/Doors","DOORS")
+		For Lay in Data.ListEach("Main","Layers")
+			CSayF("Doors> Layer: %s",Lay)
+			Var L = FlowField.Map.KthuraMap.Layer(Lay)
+			For Col in Data.ListEach("Collections",Lay)
+				CSayF("Doors> Collection: %s",Col)
+				For Obj in Data.ListEach(sprintf("Objects %s",Lay),Col)
+					CSayF("Doors> Object: %s (%s)",Obj,Lua.type(Obj))
+					If L.HasTag(Obj)
+						Var ND = Self(Lay,Obj)
+						Doors[Lay] = Doors[Lay] || {}
+						Doors[Lay].All = Doors[Lay].All || {}
+						Doors[Lay][Col] = Doors[Lay][Col] || {}
+						Doors[Lay][Col] += ND
+						Doors[Lay].All += ND
+						CSayF("Door %s in layer %s, added to collection %s",Obj,Lay,Col)
+					End
+				End
+			End
+		End
+	End
+End
