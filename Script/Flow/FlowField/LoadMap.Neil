@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/LoadMap.Neil
-// Version: 22.04.13
+// Version: 22.04.14
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -86,7 +86,7 @@ End
 
 Init
 	LoadActions += "Map"
-	//LoadActions += "Kill"
+	LoadActions += "Kill"
 	LoadActions += "Layers"
 	LoadActions += "Door"
 	LoadActions += "ZoneAction"
