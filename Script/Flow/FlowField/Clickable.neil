@@ -49,7 +49,8 @@ Module Class
 		for CLK in Register[FieldFlow.Map.Layer].Each
 			if Clk.Clicked(x, y)
 				//Map.WalkTo(CLK.walkx,CLK.Walky)
-				FieldFlow.Map.CurLayer.Obj("PLAYER").WalkTo(CLK.walkx,CLK.Walky)
+				//FieldFlow.Map.CurLayer.Obj("PLAYER").WalkTo(CLK.walkx,CLK.Walky)
+				FieldFlow.Map.CurLayer.Obj(FieldFlow.FollowTheLeader.LeaderMapTag).WalkTo(CLK.walkx,CLK.Walky)
 				FieldFlow.Map.ArriveFunc=CLK.ArriveEvent 
 				FieldFlow.Map.ArriveParam=Clk.ArriveParam
 				FieldFlow.Map.GoToX=Clk.WalkX
