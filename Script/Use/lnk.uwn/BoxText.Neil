@@ -52,7 +52,7 @@ end
 global void CharMapText(string ATag,string RF="FLOW_FIELD",int ANum=1)
 	static string AScen="MAPTEXT"
 	State.Call("BOXTEXT","FlowBoxText.Serial",sprintf("\"%s\", \"%s\", \"%s\", %d",AScen.."_"..Lnk.Map.Leader,ATag,RF,ANum or 1))
-
+End
 
 global void MapTextLeader(string ATag,string RF="FLOW_FIELD",int ANum=1)
 	MapText(sprintf("%s.%s",ATag,Lua.Neil.Globals.Map.Leader),RF,ANum)
