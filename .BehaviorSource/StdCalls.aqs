@@ -1,6 +1,6 @@
 ; License Information:
 ; src/Tricky Script/.BehaviorSource/StdCalls.aqs
-; Version: 22.04.12
+; Version: 22.04.14
 ; Copyright (C) 2022 Jeroen Petrus Broks
 ; 
 ; ===========================
@@ -56,3 +56,6 @@ cschunk party,lnk.party.party
 cschunk Open,lnk.Map.Open
 cschunk Close,lnk.Map.Close
 cschunk Cycles,lnk.Map.Cycles
+cschunk MiniMsg,lnk.Party.MiniMsg
+csChunk LeaderMapText,lnk.BoxText.MapTextLeader
+csChunk MapTextLeader,lnk.BoxText.MapTextLeader
