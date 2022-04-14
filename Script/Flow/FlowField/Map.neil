@@ -34,6 +34,9 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
+#use "libs/xmath" 
+
 Module
 
 	Var KthuraMap
@@ -151,8 +154,34 @@ Module
 		CurrentLayer.Obj(TID)[Key]=Value
 	End
 	
-	Void Walking()
-	End
+	Bool Walking()
+		If !KthuraMap
+			CSay("WARNING! KthuraMap is nil!")
+			Return False
+		End
+		If !CurLayer.HasTag(FlowField.FollowTheLeader.LeaderMapTag)
+			CSayF("No player!")
+			Return False
+		End		
+		Bool ret = CurLayer.Obj(FlowField.FollowTheLeader.LeaderMapTag).Walking
+		//CSayF("Walking Check:!%s/%s => %s",Lua.tostring(ret),lua.tostring(ArriveFunc),lua.tostring((!ret) && ArriveFunc))
+		if (!ret) && ArriveFunc
+			number Afstand = xMath.Pythagoras(Player.X,Player.Y, GoToX, GoToY)
+			CSayF("Distance is %04.3f",Afstand)
+			If Afstand < 60
+				Switch Lua.type(ArriveFUNC)
+					Case "function"
+						ArriveFUNC(ArriveParam)
+					Case "string"
+						Lnk.Map.Script(ArriveFunc,ArriveParam)						
+					Default
+						Lua.error("Walk arrive error!")
+				End
+				ArriveFunc = nil
+			End
+		end
+		return ret
+	end
 	
 	Get Int MapLevel
 		Int R = Lua.tonumber(KthuraMap.Meta.MapLevel) || 0
