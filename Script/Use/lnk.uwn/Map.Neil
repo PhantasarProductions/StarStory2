@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/lnk.uwn/Map.Neil
-// Version: 22.04.12
+// Version: 22.04.14
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -57,6 +57,10 @@ Group Player
 	
 	Get String LeaderMapTag
 		Return ISGet.Str("FLOW_FIELD","FlowField.FollowTheLeader.LeaderMapTag")
+	End
+	
+	Get String LeaderTag
+		Return ISGet.Str("FLOW_FIELD","FlowField.FollowTheLeader.LeaderTag")
 	End
 	
 	Void WalkTo(a,b,c)
