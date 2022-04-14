@@ -205,8 +205,13 @@ Module
 				Self.Kill("PLAYER"..i,False)
 			End
 		End
-		MCall("FlowField.Map.SetLayer",aLayer)
-		Self.Spawn("PLAYER1",SpawnPoint)
+		//MCall("FlowField.Map.SetLayer",aLayer)
+		ISSET("string","FLOW_FIELD","FlowField.Map.Layer",aLayer)
+		for c=1,4
+			if RPGParty[c]!=""
+				Self.Spawn("PLAYER"..c,SpawnPoint)
+			end
+		end
 		Ach.Auto()
 	End
 	
