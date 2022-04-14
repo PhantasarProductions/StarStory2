@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Any.uwn/Resistance.neil
-// Version: 22.04.11
+// Version: 22.04.14
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -46,6 +46,7 @@ Module
 	ReadOnly Var Status = {"None","Bio","Will","Stamina"}
 	ReadOnly Var Elements = {"None","Flame","Wind","Water","Earth","Frost","Thunder","Light","Darkness"}
 	ReadOnly Var _Luck = {[0]="Worst",[1]="Bad",[2]="Normal",[3]="Good", [4]="Best"}
+	ReadOnly Var _EResName = {[0]="Fatal",[1]="Very weak",[2]="Weak",[3]="--",[4]="Resistant",[5]="Immune",[6]="Aborb"}
 	String Luck(L)
 		switch(Lua.type(L))
 			case "string"
@@ -57,5 +58,35 @@ Module
 		end
 	End
 	ReadOnly Var Stats = {"Power","Defense","Will","Resistance","Accuracy","Evasion","Speed"}
-
+	
+	Int I_ERes(Int v)
+		Return math.max(0,math.min(#_EResName,v))
+	End
+	
+	String ERes(a,b)
+		if Lua.type(a)=="number"
+			Return _EResName[I_ERes(a)]
+		elseif Lua.type(a)=="string" && Lua.type(b)=="string"
+			Return ERes(RPGChar[a].Stat["END_ZER_"..b])
+		else
+			Lua.error("Ieelgal ERes function call")
+			Return "ERROR"
+		end
+	End
+	
+	Void EResCol(a,b)
+		if Lua.type(a)=="number"
+			if a==3
+				__White
+			Else
+				Int G = math.floor( (I_ERes(a)/6)*255)
+				Graphics.Color(255-G,G,0)
+			End	
+		elseif Lua.type(a)=="string" && Lua.type(b)=="string"
+			EResCol(RPGChar[a].Stat["END_ZER_"..b])
+		else
+			Lua.error("Ieelgal EResCall function call")
+			Return
+		end
+	End
 End
