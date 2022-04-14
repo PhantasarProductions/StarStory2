@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 22.04.13
+; version: 22.04.14
 ; End License Information
 ; Behavior Apollo Quick Script for 'E:/Projects/Applications/Apollo/Games/Star Story 2/src/Tricky Story/Kthura/001_HyperloopStation'
 ; Created 4/11/2022 11:03:31 AM
@@ -58,3 +58,6 @@ Chunk ZA_GameStart
 	call MiniMsg,"Welcome to Star Story II" 
 	call MiniMsg,"You can move Klahre around by clicking where you want her to go"
 	Call MiniMsg,"Yorno will automatically follow her"
+	
+Chunk ZA_Business
+	call MapText,NOBUSINESS
