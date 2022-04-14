@@ -55,7 +55,7 @@ global void CharMapText(string ATag,string RF="FLOW_FIELD",int ANum=1)
 End
 
 global void MapTextLeader(string ATag,string RF="FLOW_FIELD",int ANum=1)
-	MapText(sprintf("%s.%s",ATag,Lua.Neil.Globals.Map.Leader),RF,ANum)
+	MapText(sprintf("%s_%s",ATag,Lua.Neil.Globals.FlowField.FollowTheLeader.LeaderTag),RF,ANum)
 end
 
 module	 
