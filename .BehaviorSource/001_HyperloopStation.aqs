@@ -61,3 +61,12 @@ Chunk ZA_GameStart
 	
 Chunk ZA_Business
 	call MapText,NOBUSINESS
+	
+Chunk ZA_TutorPeople
+	Done Done_TutorInteractNPC_Hyperloop
+	jmpfalse gs
+	exit
+	:gs
+	call MiniMsg,"You can interact with people by clicking on them."
+	call MiniMsg,"If Klahre is able to reach them she'll interact with them." 
+	call MiniMsg,"Some inanimate objects can also be used this way." 
