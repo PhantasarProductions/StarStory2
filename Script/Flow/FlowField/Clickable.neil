@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Clickable.neil
-// Version: 22.04.13
+// Version: 22.04.14
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -36,6 +36,8 @@
 // End License Information
 
 #use "libs/linkedlist"
+
+
 
 Module Class
 	Static Table Register 
@@ -101,8 +103,12 @@ Module Class
 					Var fuck = Spot(Lay,T)
 					Create(L,T,fuck.X,fuck.Y,lnk.Boxtext.Map,T)
 					CSayF("= NPC_MT: %s",T)
+				ElseIf prefixed(T,"NPC_MTL_")
+					Var fuck = Spot(Lay,T)
+					Create(L,T,fuck.X,fuck.Y,lnk.Boxtext.MapLeader,T)
+					CSayF("= NPC_MTL: %s",T)
 				//Elseif T=="NPC_BlueSeal"
-				//	Var fuck = Spot(Lay,T)
+				//	Var fuck = Spot(Lay,T)				
 				//	Create(L,T,fuck.X,fuck.Y,FieldFlow.BlueSeal.Open)
 				ElseIf prefixed(T,"NPC_")
 					Var fuck = Spot(Lay,T)
@@ -155,7 +161,7 @@ Module Class
 	
 	
 	Const Bool Debug = False 
-	ReadOnly Bool Clicked(Int X, Int Y)
+	Bool Clicked(Int X, Int Y)
 		If Debug
 			CSayF("Checking clickable object %s(%04d,%04d)",Tag,X,Y)
 		End
