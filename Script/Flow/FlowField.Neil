@@ -110,6 +110,7 @@ Global Void PartyRightClick(int ch,string tag)
 	FlowField.FollowTheLeader.Leader=ch
 	lnk.Party.MiniMSG(RPGChar[RPGParty[ch]].Name.." is now in the lead",255,180,0)
 	CSay(RPGChar[RPGParty[ch]].Name.." is now in the lead")
+	FlowField.Map.ArriveFunc = Nil
 End
 
 Global Void Apollo_Flow()
