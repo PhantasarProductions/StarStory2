@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/FollowTheLeader.neil
-// Version: 22.04.13
+// Version: 22.04.14
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -80,6 +80,9 @@ Module
 		If n==1
 			Return
 		End
+		If !FlowField.Map.CurrentLayer.HasTag("PLAYER1")
+			Return
+		End
 		If (!FlowField.Map.CurrentLayer.HasTag("PLAYER"..n)) && RPGParty[n] && RPGParty[n]!=""
 			CSayF("Need follower on spot #%d > %s",n,RPGParty[n])
 			FlowField.Map.CurrentLayer.Spawn("PLAYER"..n,"PLAYER1")
@@ -112,6 +115,9 @@ Module
 	End
 	
 	Void Run()
+		If !FlowField.Map.CurrentLayer.HasTag("PLAYER1")
+			Return
+		End
 		Int c = Lnk.Party.Count
 		If c==1
 			Return
