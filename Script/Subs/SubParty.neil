@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Subs/SubParty.neil
-// Version: 22.04.13
+// Version: 22.04.14
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -125,7 +125,7 @@ Group SubParty
 				For R in Each{"Status","Elements"}
 					For RS in Each(Any.Resistance[R])
 						string st="Z"..left(R,1).."R_"..RS
-						RPGChar[Ch].Stat["BASE_"..st] = 0
+						RPGChar[Ch].Stat["BASE_"..st] = 3
 						RPGChar[Ch].Stat["BUFF_"..st] = 0
 						RPGChar[Ch].Stat["PERM_"..st] = 0
 						RPGChar[Ch].Stat["EQUI_"..st] = 0					
@@ -141,6 +141,9 @@ Group SubParty
 				RPGChar[Ch].Stat["EQUI_Luck"] = 0					
 				RPGChar[Ch].StatScript["END_Luck"] = "SUM:"..Ch..".BASE_Luck"..".BUFF_Luck"..".PERM_Luck".."."
 				Lnk.Party.LuckRoll(Ch)
+				For i=1,90 div __skill
+					RPGChar[ch].Data[sprintf("Jewel_%02d",i)]=""
+				End
 				GrabLevel(ch,level)
 				If Ch!="Asley" 
 					RPGChar[Ch].Points.AP.Have = RPGChar[Ch].Points.AP.Maximum
