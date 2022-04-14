@@ -91,7 +91,7 @@ Init
 	LoadActions += "Door"
 	LoadActions += "ZoneAction"
 	//LoadActions += "Compass"
-	//LoadActions += "Clickable"
+	LoadActions += "Clickable"
 	//LoadActions += "Treasure"
 	//LoadActions += "Renc"
 	LoadActions += LoadMapText
