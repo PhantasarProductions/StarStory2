@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Door.neil
-// Version: 22.04.12
+// Version: 22.04.14
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -86,8 +86,10 @@ Module Class
 	End
 	
 	Static Void UpdateAll(DoNotMove)
-		For Obj in Each(Doors[FlowField.Map.Layer].All)
-			Obj.Update()
+		IF Doors[FlowField.Map.Layer]
+			For Obj in Each(Doors[FlowField.Map.Layer].All)
+				Obj.Update()
+			End
 		End
 	End
 	
