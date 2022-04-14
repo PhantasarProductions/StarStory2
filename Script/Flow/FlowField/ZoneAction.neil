@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/ZoneAction.neil
-// Version: 22.04.11
+// Version: 22.04.14
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -36,6 +36,8 @@
 // End License Information
 
 bool KettingInitDone
+
+
 
 class _ZoneAction
 
@@ -216,15 +218,15 @@ class _ZoneAction
 				elseif prefixed(T,"ZALE_") || prefixed(T,"ZAEL_")
 					D["L_"..T] = D["L_"..T] || new _ZoneAction("Leave",T,T.."_Leave")
 					D["E_"..T] = D["E_"..T] || new _ZoneAction("Leave",T,T)
-				elseif prefixed(T,"TO_") || Prefixed(T,"GOTO_")
+				elseif prefixed(T,"TO_") || Prefixed(T,"GOTO_") || prefixed(T,"GO_")
 					var P = split(T,"_")
 					assert(P[2],"ZoneAction automated layer relocation without layer data: "..T)
-					D[T] = D[T] || new _ZoneAction("Enter",Lnk.Map.GoTo,P[2],P[3] || "Start")
-				elseif prefixed(T,"TOMAP_") || prefixed(T,"GOTOMAP_") || prefixed(T,"MAP_")
+					D[T] = D[T] || new _ZoneAction("Enter",T,Lnk.Map.GoToLayer,{P[2],P[3] || "Start"})
+				elseif prefixed(T,"TOMAP_") || prefixed(T,"GOTOMAP_") || prefixed(T,"MAP_") || prefixed(T,"GOMAP_") 
 					var P = split(T,"_")
 					assert(P[2],"ZoneAction automated map + layer relocation without map data: "..T)
 					assert(P[3],"ZoneAction automated map + layer relocation without layer data: "..T)
-					D[T] = D[T] || new _ZoneAction("Enter",Lnk.Map.GoToMap,P[2],P[3],P[4] || "Start")				
+					D[T] = D[T] || new _ZoneAction("Enter",T,Lnk.Map.GoToMap,P[2],{P[3],P[4] || "Start"})				
 				end
 			End
 		End
@@ -237,8 +239,11 @@ class _ZoneAction
 		self.ActEvent = Event
 		self.ActZone = Zone
 		self.Act = AAct
-	
-		self.ActParams = { param }
+		If Lua.type(param)=="table"
+			self.ActParams=param
+		Else
+			self.ActParams = { param }
+		End
 		self.List[Event].AddLast(self)
 		CSayF("%s:%s event created in zone %s",FlowField.Map.LoadedMap.."*"..Self.ActMap,Event,Zone)
 	end
