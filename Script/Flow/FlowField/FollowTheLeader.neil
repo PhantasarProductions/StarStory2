@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/FollowTheLeader.neil
-// Version: 22.04.14
+// Version: 22.04.15
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -76,19 +76,21 @@ Module
 		return R
 	end
 	
-	Void SpawnNew(int n)
+	Bool SpawnNew(int n)
 		If n==1
-			Return
+			Return False
 		End
 		If !FlowField.Map.CurrentLayer.HasTag("PLAYER1")
-			Return
+			Return False
 		End
 		If (!FlowField.Map.CurrentLayer.HasTag("PLAYER"..n)) && RPGParty[n] && RPGParty[n]!=""
 			CSayF("Need follower on spot #%d > %s",n,RPGParty[n])
 			FlowField.Map.CurrentLayer.Spawn("PLAYER"..n,"PLAYER1")
 			Var o = FlowField.Map.CurrentLayer.Obj(PlayTag[n])
 			o.Texture = sPrintF("GFX/Actors/%s.South.jpbf",RPGParty[n])
+			//Return True
 		End
+		Return True
 	End
 	
 	Void Pop(string spot,string wind,bool instant)
@@ -125,6 +127,9 @@ Module
 		Int Leider=Leader
 		Repeat
 			Int Volger=(Leider%c)+1
+			if !SpawnNew(Volger)
+				Return
+			End
 			Var OL = FlowField.Map.CurrentLayer.Obj(sprintf("PLAYER%d",Leider))
 			Var OV = FlowField.Map.CurrentLayer.Obj(sprintf("PLAYER%d",Volger))
 			If (!Ov.Walking)
