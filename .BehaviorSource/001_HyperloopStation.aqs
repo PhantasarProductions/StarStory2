@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 22.04.14
+; version: 22.04.15
 ; End License Information
 ; Behavior Apollo Quick Script for 'E:/Projects/Applications/Apollo/Games/Star Story 2/src/Tricky Story/Kthura/001_HyperloopStation'
 ; Created 4/11/2022 11:03:31 AM
@@ -69,4 +69,8 @@ Chunk ZA_TutorPeople
 	:gs
 	call MiniMsg,"You can interact with people by clicking on them."
 	call MiniMsg,"If Klahre is able to reach them she'll interact with them." 
-	call MiniMsg,"Some inanimate objects can also be used this way." 
+	call MiniMsg,"Some inanimate objects can also be used this way."
+	
+Chunk ZA_Slums
+	call MiniMsg,"Leaving"
+	call GoToMap,"002_Slums","#001","Start"
