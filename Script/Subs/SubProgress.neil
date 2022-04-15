@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Subs/SubProgress.neil
-// Version: 22.04.07
+// Version: 22.04.15
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -125,10 +125,10 @@ Class ProgressBar
 	Static Void CloseDoor(string fl)
 		static Var AU = Audio.Obtain("LOADCLOSE")
 		AU.Play()
-		if DoorState!=__Closing
-			DoorOldTime = os.time()
+		//if DoorState!=__Closing
+		//	DoorOldTime = os.time()
 			DoorY2=0-Screen.H
-		End
+		//End
 		DoorState = __Closing
 		Repeat
 			Graphics.Cls()
@@ -144,10 +144,10 @@ Class ProgressBar
 	Static Void OpenDoor(string fl)
 		Static Var AU = Audio.Obtain("LOADOPEN")
 		AU.Play()
-		if DoorState!=__Opening
-			DoorOldTime = os.time()
+		//if DoorState!=__Opening
+		//	DoorOldTime = os.time()
 			DoorY2=0
-		End
+		//End
 		DoorState = __Opening		
 		Repeat
 			Graphics.Cls()
