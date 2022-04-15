@@ -1,0 +1,167 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/Data/General/JukeBox.neil
+// (c) Jeroen Broks, 2022, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 22.04.15
+// End License Information
+
+#use "Libs/LinkedList"
+
+Class TMusic
+	String Entry
+	String Title
+	String Artist
+	String WebSite
+	String License
+	Static Var Lst = New LinkedList()
+End
+
+Init
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/Combat/Renc/Forever Lying to Myself.ogg"
+		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
+		N.Title   = "Forever Lying to Myself"
+		N.Artist  = "Nihilore"
+		N.WebSite = "http://www.nihilore.com/"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/Combat/Boss/Katabasis.ogg"
+		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
+		N.Title   = "Katabasis"
+		N.Artist  = "Nihilore"
+		N.WebSite = "http://www.nihilore.com/"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/Combat/Renc/Snake Trance.ogg"
+		N.License = "https://soundimage.org/attribution-info/"
+		N.Title   = "Snake Trance"
+		N.Artist  = "Eric Matyas"
+		N.WebSite = "http://soundimage.org"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/Dungeon/Creative Destruction.ogg"
+		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
+		N.Title   = "Creative Destruction"
+		N.Artist  = "Nihilore"
+		N.WebSite = "http://www.nihilore.com/"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/Dungeon/Dark Techno City.ogg"
+		N.License = "https://soundimage.org/attribution-info/"
+		N.Title   = "Dark Techno City"
+		N.Artist  = "Eric Matyas"
+		N.WebSite = "http://soundimage.org"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/Dungeon/Disaster.ogg"
+		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
+		N.Title   = "Disaster"
+		N.Artist  = "Nihilore"
+		N.WebSite = "http://www.nihilore.com/"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/Dungeon/In The Belly Of The Whale.ogg"
+		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
+		N.Title   = "In The Belly Of The Whale"
+		N.Artist  = "Nihilore"
+		N.WebSite = "http://www.nihilore.com/"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/Dungeon/Journey to ascend.ogg"
+		N.License = " Journey To Ascend by Kevin MacLeod Link: https://incompetech.filmmusic.io/song/8951-journey-to-ascend License: https://filmmusic.io/standard-license"
+		N.Title   = "Journey to ascend"
+		N.Artist  = "Kevin McLeod"
+		N.WebSite = "http://incompetech.com"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/Hub/City Of Tomorrow.ogg"
+		N.License = "https://soundimage.org/attribution-info/"
+		N.Title   = "City Of Tomorrow"
+		N.Artist  = "Eric Matyas"
+		N.WebSite = "http://soundimage.org"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/Hub/Dance of the Satellites.ogg"
+		N.License = "https://soundimage.org/attribution-info/"
+		N.Title   = "Dance of the Satellites"
+		N.Artist  = "Eric Matyas"
+		N.WebSite = "http://soundimage.org"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/Hub/Rising.ogg"
+		N.License = "Creative Commons - By Attribution  (Incompetech.com)"
+		N.Title   = "Rising"
+		N.Artist  = "Kevin McLeod"
+		N.WebSite = "http://incompetech.com"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/O4A/Once-Around-the-Solar-System.ogg"
+		N.License = "Please check the website www.soundimage.org for the exact terms. Don't extract this file prior to checking those terms!"
+		N.Title   = "Once Around The Solar System"
+		N.Artist  = "Eric Matyas"
+		N.WebSite = "http://soundimage.org"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/Combat/Renc/Ancrapraxis.ogg"
+		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
+		N.Title   = "Ancrapraxis"
+		N.Artist  = "Nihilore"
+		N.WebSite = "http://www.nihilore.com/"
+		TMusic.Lst.AddLast(N)
+	End
+End
