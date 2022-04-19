@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 22.04.15
+; version: 22.04.20
 ; End License Information
 include basis.aqs
 
@@ -49,3 +49,14 @@ chunk ZA_Welcome
 Chunk ZA_Hyperloop
 	call MiniMsg,"Leaving"
 	call GoToMap,"001_HyperloopStation","HALL","Start"
+	exit
+	
+Chunk ZA_TutorTreasure
+	call CSay,"Treasure Tutorial Check!"
+	done DONE_SLUMS_TUTORIAL_TREASURE
+	jmptrue einde
+	call MiniMsg,"Mind the floor!",0,180,255
+	call MiniMsg,"The cute brown bags can contain treasure. Just click them to see what they are",0,180,255
+	call MiniMsg,"And to have them added to your inventory",0,180,255
+	:einde
+	exit
