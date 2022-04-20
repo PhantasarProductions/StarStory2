@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Treasure.neil
-// Version: 22.04.13
+// Version: 22.04.20
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -36,12 +36,70 @@
 // End License Information
 Module
 
+	Var TreasureData
+	Var Treasures
+	
+	Int V(string s)
+		Return Lua.tonumber(s) || 0
+	End
+	
+	Int V2(string item,string key)
+		string ittag = sprintf("ITEM:%s",item)
+		string kytag = sprintf("%s%d",key,__skill)
+		string sval  = TreasureData.Value(ittag ,kytag)
+		int ret = V(sval)
+		CSayF("= Value check: Data['%s','%s']=(int)%d/(string)%s",ittag,kytag,ret,sval)
+		Return ret 
+	End
+	
+	Void Load(string MapBundle)
+		TreasureData = GINIE.Load("Kthura/"..MapBundle.."/Treasures","LAYERS")
+		Treasures = {}
+		For tr in TreasureData.ListEach("Main","List")
+			Int Rate = V2(tr,"Rate")
+			Int MinCycle = V2(tr,"MinCycle")
+			CSayF("Item '%s', Rate: %d, Minimal cycle: %d!",tr,rate,mincycle)
+			If Rate>0 && MinCycle<=Any.Caps.Cycle
+				For cnt=1,Rate
+					Treasures += tr
+				End
+			End
+		End
+		Lua.assert(#Treasures>0,"No treasures")
+	End
+
 	Void RandomTreasure(string tag)
-	// Placeholder
+		// Placeholder
+		CSayF("Request to pick up random treasure '%s' received!",tag)
 	End
 	
 	Void Chest(string tag)
 	// Placeholder
+	End
+	
+	void CreateRandomTreasure(string T,string Layer)
+		Static Int Cnt = 0
+		If math.random(1,(__skill+1)^2)!=1
+			CSayF("Random treasure '%s' in layer '%s' rejected",T,Layer)
+			Return
+		End
+		Var Lay = FlowField.Map.KthuraMap.Layer(Layer)
+		String Tag
+		Repeat
+			Tag = sprintf("PAKSCHAT_%0X",cnt)
+			Cnt++
+			Cnt=math.max(0,Cnt) // Should not be needed as more than 2 billion treasures is what it takes to make this needed, which leads me to the question if you haven't been playing for too long.			
+		LoopWhile Lay.HasTag(Tag)
+		Var P = Lay.Obj(T)
+		Var O = Lay.NewObj("Obstacle",Tag)
+		O.X = P.X
+		O.Y = P.Y
+		O.Visible = True
+		O.Alpha=255
+		O.Texture = "GFX/Treasure/Bag.png"
+		O.Data.Treasure = Treasures[math.random(1,#Treasures)]
+		FlowField.Clickable.Create(Layer,Tag,O.X,O.Y,RandomTreasure,Tag)
+		CSayF("Random treasure '%s' in layer '%s' created: %s (%04d,%04d)",T,Layer,O.Data.Treasure,O.X,O.Y)
 	End
 
 End

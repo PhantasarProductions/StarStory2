@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Clickable.neil
-// Version: 22.04.14
+// Version: 22.04.20
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -91,7 +91,8 @@ Module Class
 		Return Ret
 	End
 	
-	Static Void CBLoadMap()
+	Static Void CBLoadMap(string MapBundle)
+		Bool TreasuresLoaded = False
 		CSay("Generate register of clickables")
 		Clear()
 		FlowField.Map.KthuraMap.ReMap()
@@ -125,15 +126,23 @@ Module Class
 					Var fuck = Spot(Lay,T)
 					Create(L,T,fuck.X,fuck.Y,FieldFlow.Recovery,T) //,sprintf("\"%s\"",T))
 					CSayF("= Recovery Spot: %s",T)
-				ElseIf Prefixed(T,"RNDITEM_")
-					If Math.Random(1,__skill^2)==1 
-						Var S = Spot(Lay,T)
-						Create(L,T,S.X,S.Y,FieldFlow.Treasure.RandomItem,T)
-						CSayF("= Random Item: %s",T)
-					Else
-						Lay.Kill(T)
-						CSayF("= Removed random item: %s",T)
+				ElseIf Prefixed(T,"RANDOMTREASURE_")
+					If !TreasuresLoaded
+						FlowField.Treasure.Load(MapBundle)
+						TreasuresLoaded=true
 					End
+					FlowField.Treasure.CreateRandomTreasure(T,L)
+				// Random trasure TFT style. SS2 does this by its own methods
+				//ElseIf Prefixed(T,"RNDITEM_")
+				//	If Math.Random(1,__skill^2)==1 
+				//		Var S = Spot(Lay,T)
+				//		Create(L,T,S.X,S.Y,FieldFlow.Treasure.RandomItem,T)
+				//		CSayF("= Random Item: %s",T)
+				//	Else
+				//		Lay.Kill(T)
+				//		CSayF("= Removed random item: %s",T)
+				//	End
+				
 				//ElseIf Prefixed(T,"PTE_")
 				//	Var fuck = Spot(Lay,T)
 				//	Create(L,T,fuck.X,fuck.Y,FlowField.TravelEmblem,T)
@@ -182,8 +191,5 @@ Module Class
 		ArriveEvent = _ae
 		ArriveParam = _ap		
 	End
-	
-	
-	
 	
 End
