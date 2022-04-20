@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowNewGame.neil
-// Version: 22.04.07
+// Version: 22.04.20
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -132,7 +132,7 @@ Class NGSkill Extends NGS
 			Para(Desc,150)
 			Para("A few parameters on how this mode affects the difficulty")
 			ParaF("Inventory slots: %d",Any.Caps.InvSlots)
-			ParaF("Number of (same) items per inventory slot: %d",Any.Caps.InvSlots)
+			ParaF("Number of (same) items per inventory slot: %d",Any.Caps.InvItemsPerSlot)
 			ParaF("Level cap (first cycle): %d",Any.Caps.MaxLevel)
 			ParaF("Experience needed compared to hard mode: %03.2f%%",(Any.Caps.ExpNeeded / MEX) * 100)
 			If __Skill>1
