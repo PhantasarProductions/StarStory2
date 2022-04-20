@@ -1,0 +1,56 @@
+// Item Action Ability
+
+Var GData = GINIE.Obtain("INVENTORY")
+Table IAA_Data
+
+Class True_IAA
+End
+
+QuickMeta ItemSlot
+	index
+		Lua.assert(Lua.type(key)=="number","Item slot index must be a number!")
+		Lua.assert(key>=1 && key<=Any.Caps.InvItemSlots,sprintf("Item slot #%d is out of bounds",key))
+		string slottag = sprintf("SLOT%03d",key)
+		string itm = GData.Value(slottag,"Item")
+		int num = Lua.tonumber(GData.Value(slottag,"Numb")) || 0
+		return itm,num
+	end
+	
+	newindex
+		Lua.assert(Lua.type(key)=="number","Item slot index must be a number!")
+		Lua.assert(key>=1 && key<=Any.Caps.InvItemSlots,sprintf("Item slot #%d is out of bounds",key))
+		string slottag = sprintf("SLOT%03d",key)
+		switch Lua.type(value)
+			case "string"
+				GData.Value(slottag,"Item",value)
+			case "number"
+				GData.Value(slottag,"Numb",sprint("%d",math.floor(math.min(0,math.max(Any.InvItemsPerSlot,value)))))
+			case "table"
+				ItemSlot[key] = value[1]
+				ItemSlot[key] = value[2]
+			default
+				Lua.error("ItemSlot cannot handle types of type "..Lua.type(value))
+		end
+	end
+	
+
+QuickMeta _module_IAA
+	index
+		Switch Key:upper()
+			Case "SLOT" "INVENTORYSLOT" "ITEMSLOT"
+				Return ItemSlot
+			Default
+				// Get item
+		End
+	end
+End
+
+
+
+
+Init
+	IAA_Data = {}
+End
+
+
+Return _module_IAA
