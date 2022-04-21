@@ -37,6 +37,8 @@
 // Item Action Ability
 
 Var GData = GINIE.Obtain("INVENTORY")
+Table IAA_Class = GINIE.LoadNew("Data/MyData_ClassFile_IAA.Ini")
+
 Table IAA_Data
 
 Class True_IAA
@@ -69,14 +71,48 @@ QuickMeta ItemSlot
 		end
 	end
 	
+Bool Give(String Item,Int N=1)
+	Lua.error("ITEM GIVE routine not yet scripted!")
+End
+
+	
+Var GetIAA(String F)
+	string Rec="REC:"..F
+	Var Data = GINIE.LoadNew("Data/IAA/"..F..".INI","ITEM:"..f)
+	Var GIndex(s,String Key)
+		Key = Key:upper()
+		Switch(Key)
+			Case "GIVE"
+				Return Give(F)
+			Default
+				Switch IAA_Class.Value("CLASS",Key):upper()
+					case "STRING"
+						return IAA_Data.Value(Rec,Key)
+					Case "INT" "NUMBER"
+						return Lua.tonumber(IAA_DATA.Value("REC:"..F)) || 0
+					case "BOOLEAN"
+						return IAA_Data.Value(Rec,Key):upper()=="TRUE"
+					case ""
+						Lua.error("IAA record does not have field: "..key)
+					Default
+						Lua.error("IAA: I do not know how to handle MyData field: "..key..". Type unknown: ".. IAA_Class.Value("CLASS",Key))
+				End
+		End
+	End
+End
 
 QuickMeta _module_IAA
 	index
-		Switch Key:upper()
+		Key = Key:upper()
+		Switch Key
 			Case "SLOT" "INVENTORYSLOT" "ITEMSLOT"
 				Return ItemSlot
+			Case "GIVE"
+				Return Give
 			Default
 				// Get item
+				IAA_Data[Key] = IAA_Data[Key] || GetIAA(Key)
+				Return IAA_Data[Key]
 		End
 	end
 End
@@ -86,6 +122,13 @@ End
 
 Init
 	IAA_Data = {}
+	If GData.Value("ALGEMEEN","SETUP")!="SET"
+		ItemSlot[1]="ITM_ADHBANDAGE"
+		ItemSlot[1]=12 div __skill
+		ItemSlot[2]="ITM_BANDAGE"
+		ItemSlot[2]=6 div __skill
+		GData.Value("ALGEMEEN","SETUP","SET")
+	End
 End
 
 
