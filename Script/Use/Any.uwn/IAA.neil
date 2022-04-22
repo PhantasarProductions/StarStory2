@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Any.uwn/IAA.neil
-// Version: 22.04.20
+// Version: 22.04.22
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -37,7 +37,7 @@
 // Item Action Ability
 
 Var GData = GINIE.Obtain("INVENTORY")
-Table IAA_Class = GINIE.LoadNew("Data/MyData_ClassFile_IAA.Ini")
+Var IAA_Class = GINIE.LoadNew("Data/IAA/MyData_ClassFile_IAA.Ini","IAA_CLASS")
 
 Table IAA_Data
 
@@ -51,7 +51,8 @@ QuickMeta ItemSlot
 		string slottag = sprintf("SLOT%03d",key)
 		string itm = GData.Value(slottag,"Item")
 		int num = Lua.tonumber(GData.Value(slottag,"Numb")) || 0
-		return itm,num
+		//return itm,num
+		return Itm
 	end
 	
 	newindex
@@ -62,7 +63,7 @@ QuickMeta ItemSlot
 			case "string"
 				GData.Value(slottag,"Item",value)
 			case "number"
-				GData.Value(slottag,"Numb",sprint("%d",math.floor(math.min(0,math.max(Any.InvItemsPerSlot,value)))))
+				GData.Value(slottag,"Numb",sprintf("%d",math.floor(math.max(0,math.min(Any.Caps.InvItemsPerSlot,value)))))
 			case "table"
 				ItemSlot[key] = value[1]
 				ItemSlot[key] = value[2]
@@ -70,35 +71,76 @@ QuickMeta ItemSlot
 				Lua.error("ItemSlot cannot handle types of type "..Lua.type(value))
 		end
 	end
+End	
 	
-Bool Give(String Item,Int N=1)
-	Lua.error("ITEM GIVE routine not yet scripted!")
+
+QuickMeta ItemNum
+	index
+		Lua.assert(Lua.type(key)=="number","Item slot index must be a number!")
+		Lua.assert(key>=1 && key<=Any.Caps.InvItemSlots,sprintf("Item slot #%d is out of bounds",key))
+		string slottag = sprintf("SLOT%03d",key)
+		//string itm = GData.Value(slottag,"Item")
+		int num = Lua.tonumber(GData.Value(slottag,"Numb")) || 0
+		return num
+	end
+	newindex
+		Lua.assert(Lua.type(key)=="number","Item slot index must be a number!")
+		Lua.assert(key>=1 && key<=Any.Caps.InvItemSlots,sprintf("Item slot #%d is out of bounds",key))
+		Lua.assert(Lua.type(value)=="number","Itemnum requires a numberic value!")
+		string slottag = sprintf("SLOT%03d",key)
+		GData.Value(slottag,"Numb",sprintf("%d",math.floor(math.max(0,math.min(Any.Caps.InvItemsPerSlot,value)))))
+	end
 End
 
+Bool Give(String Item,Int N=1)
+	Item=Item:upper()
+	int i=0
+	Repeat
+		i++
+		if ItemSlot[i]==Item && ItemNum[i]+N<=Any.Caps.InvItemsPerSlot
+			ItemNum[i]++
+			Return True
+		End
+	LoopWhile i<Any.Caps.InvSlots
+	i=0
+	Repeat
+		i++
+		if ItemNum[i]==0
+			ItemSlot[i]=Item
+			ItemSlot[i]=N
+			Return True
+		End
+	LoopWhile i<Any.Caps.InvSlots
+	Return False	
+	//Lua.error("ITEM GIVE routine not yet scripted!")
+End
 	
 Var GetIAA(String F)
 	string Rec="REC:"..F
-	Var Data = GINIE.LoadNew("Data/IAA/"..F..".INI","ITEM:"..f)
+	Var Data = GINIE.LoadNew("Data/IAA/"..F..".INI",Rec)
 	Var GIndex(s,String Key)
 		Key = Key:upper()
 		Switch(Key)
 			Case "GIVE"
 				Return Give(F)
+			Case "NUM"
+				Return ItemNum
 			Default
 				Switch IAA_Class.Value("CLASS",Key):upper()
-					case "STRING"
-						return IAA_Data.Value(Rec,Key)
+					Case "STRING"
+						return Data.Value(Rec,Key)
 					Case "INT" "NUMBER"
-						return Lua.tonumber(IAA_DATA.Value("REC:"..F)) || 0
-					case "BOOLEAN"
-						return IAA_Data.Value(Rec,Key):upper()=="TRUE"
-					case ""
+						return Lua.tonumber(DATA.Value("REC:"..F)) || 0
+					Case "BOOLEAN"
+						return Data.Value(Rec,Key):upper()=="TRUE"
+					Case ""
 						Lua.error("IAA record does not have field: "..key)
 					Default
 						Lua.error("IAA: I do not know how to handle MyData field: "..key..". Type unknown: ".. IAA_Class.Value("CLASS",Key))
 				End
 		End
 	End
+	return Lua.setmetatable({},{["__index"]=GIndex})
 End
 
 QuickMeta _module_IAA
@@ -107,6 +149,8 @@ QuickMeta _module_IAA
 		Switch Key
 			Case "SLOT" "INVENTORYSLOT" "ITEMSLOT"
 				Return ItemSlot
+			Case "SLOTNUM"
+				Return ItemNum			
 			Case "GIVE"
 				Return Give
 			Default
@@ -123,6 +167,7 @@ End
 Init
 	IAA_Data = {}
 	If GData.Value("ALGEMEEN","SETUP")!="SET"
+		CSay "First time the items system is used, so let's set the first values" 
 		ItemSlot[1]="ITM_ADHBANDAGE"
 		ItemSlot[1]=12 div __skill
 		ItemSlot[2]="ITM_BANDAGE"
