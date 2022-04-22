@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Items.neil
-// Version: 22.04.14
+// Version: 22.04.22
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -34,7 +34,47 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
 Module
-	Void Flow(uBox,string FMChar,string FMSituation)
+
+	ReadOnly Var Fnt = ImageFont.Obtain("BOXTEXT")
+	
+	Bool Allow_FIELD(string ItemTag)
+		// TODO: True usage in field
+		Return true
 	End
+
+	Void Flow(uBox,string FMChar,string FMSituation)
+		Static Int ScrollY = 0
+		Static Int LinesOnScreen = (ubox.h div 30)-2
+		Static Int ScrollYMax = Any.Caps.InvSlots - LinesOnScreen
+		Static Var IAA = Any.IAA
+		For i=1,Any.Caps.InvSlots
+			Int Y   = (30*(i-ScrollY))+ubox.y
+			Int BsX = 5
+			Int X   = BsX + ubox.x
+			Int EX  = (ubox.x+ubox.w)-BsX
+			String ITg = IAA.Slot[i]
+			Int    INm = IAA.SlotNum[i]
+			//ITg,INm = IAA.Slot[i]
+			If i>ScrollY && i<=ScrollYMax
+				If INm==0
+					Graphics.Color(75,75,75)
+					Fnt.Text("----",X,Y)
+				Else
+					If Self["Allow_"..FMSituation](ITg)
+						__White
+					Else
+						Graphics.Color(123,123,123)
+					End
+					Fnt.Text(IAA[ITg].Title,X,Y)
+					If INm>1
+						__SkyBlue
+						Fnt.Text(Lua.tostring(INm),EX,Y,1)
+					End
+				End
+			End
+		End
+	End
+	
 End
