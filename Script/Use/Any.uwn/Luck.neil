@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Any.uwn/Luck.neil
-// Version: 22.04.20
+// Version: 22.04.22
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -36,7 +36,7 @@
 // End License Information
 Module
 
-	ReadOnly Var ToUse = { [false]=math.min, [true]=math.max) 
+	ReadOnly Var ToUse = { [false]=math.min, [true]=math.max} 
 
 	Int Luck(string ch)
 		return math.min(4,math.max(0,RPGChar[ch].Stat.END_Luck))
