@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Renc.neil
-// Version: 22.03.31
+// Version: 22.04.22
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -34,15 +34,141 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
-Module
+Module Class
+	Static Var Stuff
+	Static Var FoeList
+	
+#region Actual Class
+	ReadOnly String EnemyTag
+	ReadOnly Int MinLevel
+	ReadOnly Int MaxLevel
 
-	Get Bool AWalkClick
+	Constructor(string Foe)
+		EnemyTag = Foe
+		MinLevel = math.max(1,Self.Val(Foe,"MINLEVEL"))
+		MaxLevel = math.max(MinLevel,Self.Val(Foe,"MAXLEVEL"))
+		CSayF("Added %s (Level %d-%d)",Foe,MinLevel,MaxLevel)
+	End
+#endregion
+	
+
+#region Static	
+
+	Static Var Layers
+
+	Static Bool OwnLevels(string F)
+		Return Stuff.Value("FOE:"..F,"UseOwnlevel"):upper()=="TRUE"
+	End
+
+	Static Int MinCycle(string F)
+		return Lua.tonumber(Stuff.Value("FOE:"..F,"MINCYCLE"..__skill)) || 0
+	End
+	
+	Static Int Val(String F,string K,FoeOnly)
+		If FoeOnly
+			return Lua.tonumber(Stuff.Value("FOE:"..F,K..__skill)) || 0
+		End
+		Switch K:upper()
+			CASE "MINLEVEL"
+				If OwnLevels(F)
+					Return Val(F,K,true)
+				Else
+					Return Lua.tonumber(FlowField.Map.KthuraMap.MetaData.Foe_MinLevel1) || 1
+				End
+			CASE "MAXLEVEL"
+				If OwnLevels(F)
+					Return Val(F,K,true)
+				Else
+					Return Lua.tonumber(FlowField.Map.KthuraMap.MetaData.Foe_MaxLevel1) || 2
+				End				
+			Default
+				return Lua.tonumber(Stuff.Value("FOE:"..F,K..__skill)) || 0
+		End
+	End
+	
+	Static Get Bool NoEncounters
+		Return #FoeList==0
+	End
+	
+	Static Void CBLoadMap(String MapBundle)
+		CSay("= Configuring encounters!")
+		FoeList = {}
+		Stuff = GINIE.Load(sprintf("Kthura/%s/Foes",MapBundle),"MAPFOES")
+		For F in Stuff.ListEach("MAIN","LIST")
+			If Any.Caps.Cycle>=MinCycle(F)
+				Var NF = Self(F)
+				For i=1,Val(F,"RATE")					
+					FoeList += NF
+					CSayF("= R: %d/%d",i,Val(F,"RATE"))
+				End
+			End
+		End
+		Layers={}
+		For L in each(FlowField.Map.KthuraMap.Layers)
+			Layers[L]={}
+			Var Lay = Layers[L]
+			Lay.NOENCSTRING = FlowField.Layers.Data("NOENCOUNTERS",L):upper()
+			Lay.NOENCOUNTERS = Lay.NOENCSTRING =="TRUE" || NoEncounters
+			Lay.MAX = 5
+			Lay.ENC = 5
+			Lay.CDMAX = 12000 div __skill
+			Lay.CD    = Lay.CDMAX
+			If NoEncounters
+				Lay.ENC=0
+			End
+			CSayF("Set up encounters layer %s: Has(%s) Number: %d; CD: %d",L,Lua.tostring(!Lay.NOENCOUNTERS),LAY.ENC,LAY.CD)
+			CSayF("LayerData.NOENCOUNTERS = %s=>%s; NoEncounters = %s; FoeList Entries: %d",Lay.NOENCSTRING,Lay.NOENCSTRING=="TRUE", NoEncounters,#FoeList)
+		End			
+	End
+
+	Static Get Bool AWalkClick
 		// Placeholder
 		Return True
 	End
 	
-	Void UpdateGauge()
-		// Placeholder
+
+	Static Void UpdateGauge()
+		Static Var Back = Image.LoadNew("GFX/Combat/RencMeter/Meter.png","RENC_METER")
+		Static Var Needle = Image.LoadNew("GFX/Combat/RencMeter/NEEDLE.png","RENC_METERNEEDLE")
+		Static Int GaugeW=Back.W+10
+		String L = FlowField.Map.Layer
+		Static Int GaugeX=Screen.W
+		Static Int GaugeY=(Screen.H - 138)-Back.Height
+		Static Int OX
+		Static Int OY
+		Static String OL
+		Static Var Fnt = ImageFont.Obtain("MINITEXT")
+		Int PX = FlowField.Map.OPlayer.X
+		Int PY = FlowField.Map.OPlayer.Y
+		If (OL == FlowField.FollowTheLeader.LeaderMapTag) && (PX!=OX || OY!=OY)
+			Layers[L].CD = math.max(0,Layers[L].CD-Any.Luck.Roll(FlowField.FollowTheleader.LeaderTag,1,50,False))
+		End
+		OL = FlowField.FollowTheLeader.LeaderMapTag
+		OX = PX
+		OY = PY
+		If Layers[L].NOENCOUNTERS
+			GaugeX = math.min(GaugeX+1,Screen.W+10)
+		Else
+			__Yellow
+			Fnt.DarkText(sprintf("%d",Layers[L].ENC),Screen.W,GAUGEY,1,1)
+			GaugeX = math.max(GaugeX-1,Screen.W-GaugeW)
+		End
+		__White
+		Back.Draw(GaugeX,GaugeY)
+		__Yellow
+		Image.Rotate = 90 - math.floor( (Layers[L].CD/Layers[L].CDMAX) * 170 )
+		Needle.XDraw(GaugeX+33,GaugeY+33)
+		Image.Rotate = 0		
 	End
-	
+#endregion	
+End
+
+Global Void CONSOLE_Renc()
+	Var R = FlowField.Renc
+	Var Lay = R.Layers[FlowField.Map.Layer]
+	CSayF("Layer: %s",FlowField.Map.Layer)
+	//CSayF("Gauge: (%d,%d)", R.GaugeX,R.GaugeY)
+	CSayF("NoEnc: %s",Lay.NOENCOUNTERS)
+	CSayF("NmEnc: %d",Lay.ENC)
+	CSayF("CDEnc: %d",Lay.CD)	
 End
