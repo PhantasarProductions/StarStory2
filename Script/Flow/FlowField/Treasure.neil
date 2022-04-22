@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Treasure.neil
-// Version: 22.04.20
+// Version: 22.04.22
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -53,7 +53,7 @@ Module
 	End
 	
 	Void Load(string MapBundle)
-		TreasureData = GINIE.Load("Kthura/"..MapBundle.."/Treasures","LAYERS")
+		TreasureData = GINIE.Load("Kthura/"..MapBundle.."/Treasures","TREASURES")
 		Treasures = {}
 		For tr in TreasureData.ListEach("Main","List")
 			Int Rate = V2(tr,"Rate")
@@ -71,6 +71,13 @@ Module
 	Void RandomTreasure(string tag)
 		// Placeholder
 		CSayF("Request to pick up random treasure '%s' received!",tag)
+		String iTag = FlowField.Map.CurLayer.Obj(Tag).Data.Treasure
+		If Any.IAA.Give(iTag)
+			Lnk.Party.MiniMsg(sprintf("%s obtained",Any.IAA[iTag].Title),0,180,255)
+			Lnk.Map.Kill(Tag)
+		Else
+			Lnk.Party.MiniMsg(sprintf("Failed to pick up %s!",Any.IAA[iTag].Title),255,0,0)
+		End	
 	End
 	
 	Void Chest(string tag)
