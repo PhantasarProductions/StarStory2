@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Renc.neil
-// Version: 22.04.22
+// Version: 22.04.23
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -34,6 +34,9 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
+#use "libs/xmath"
+
 Module Class
 	Static Var Stuff
 	Static Var FoeList
@@ -126,10 +129,17 @@ Module Class
 		Return True
 	End
 	
+	Static Void StartRenc()
+		String L = FlowField.Map.Layer
+		Layers[L].CD=Layers[L].CDMAX
+		LAYERS[L].ENC--
+	End
 
 	Static Void UpdateGauge()
-		Static Var Back = Image.LoadNew("GFX/Combat/RencMeter/Meter.png","RENC_METER")
+		Static Var Back   = Image.LoadNew("GFX/Combat/RencMeter/Meter.png","RENC_METER")
 		Static Var Needle = Image.LoadNew("GFX/Combat/RencMeter/NEEDLE.png","RENC_METERNEEDLE")
+		Static Var GAlarm = Image.LoadNew("GFX/Combat/RencMeter/Alarm.png","RENC_ALARM")
+		Static Var AAlarm = Audio.Obtain("COMBALARM")
 		Static Int GaugeW=Back.W+10
 		String L = FlowField.Map.Layer
 		Static Int GaugeX=Screen.W
@@ -140,25 +150,47 @@ Module Class
 		Static Var Fnt = ImageFont.Obtain("MINITEXT")
 		Int PX = FlowField.Map.OPlayer.X
 		Int PY = FlowField.Map.OPlayer.Y
-		If (OL == FlowField.FollowTheLeader.LeaderMapTag) && (PX!=OX || OY!=OY)
+		If (OL == FlowField.FollowTheLeader.LeaderMapTag) && (PX!=OX || OY!=OY) && Layers[L].ENC>0
 			Layers[L].CD = math.max(0,Layers[L].CD-Any.Luck.Roll(FlowField.FollowTheleader.LeaderTag,1,50,False))
 		End
 		OL = FlowField.FollowTheLeader.LeaderMapTag
 		OX = PX
 		OY = PY
-		If Layers[L].NOENCOUNTERS
-			GaugeX = math.min(GaugeX+1,Screen.W+10)
-		Else
-			__Yellow
-			Fnt.DarkText(sprintf("%d",Layers[L].ENC),Screen.W,GAUGEY,1,1)
-			GaugeX = math.max(GaugeX-1,Screen.W-GaugeW)
-		End
 		__White
 		Back.Draw(GaugeX,GaugeY)
 		__Yellow
 		Image.Rotate = 90 - math.floor( (Layers[L].CD/Layers[L].CDMAX) * 170 )
 		Needle.XDraw(GaugeX+33,GaugeY+33)
-		Image.Rotate = 0		
+		Image.Rotate = 0
+		
+		If Layers[L].NOENCOUNTERS
+			GaugeX = math.min(GaugeX+1,Screen.W+10)
+		Else
+			__Yellow
+			Fnt.DarkText(sprintf("%d",Layers[L].ENC),Screen.W,GAUGEY,1,0)
+			GaugeX = math.max(GaugeX-1,Screen.W-GaugeW)
+			If Layers[L].CD<1500 && LAYERS[L].ENC>0 && math.random(0,Layers[L].CD)==0
+				GAlarm.HotCenter()
+				AAlarm.Play()
+				For i=0,360,5
+					Graphics.Cls()
+					FlowField.DrawScreen()
+					__White
+					Back.Draw(GaugeX,GaugeY)
+					__Yellow
+					Image.Rotate = 90 - math.floor( (Layers[L].CD/Layers[L].CDMAX) * 170 )
+					Needle.XDraw(GaugeX+33,GaugeY+33)
+					Int Alpha = math.floor( math.abs( xmath.sin(i)*255 ) )
+					Graphics.Alpha(Alpha)
+					GAlarm.Draw(GaugeX+33,GaugeY+33)
+					Graphics.Alpha(255)
+					Graphics.Flip()
+					Events.Poll()
+					FPS.WaitMinTicks()
+				End
+				StartRenc()
+			End
+		End
 	End
 #endregion	
 End
