@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Any.uwn/IAA.neil
-// Version: 22.04.22
+// Version: 22.04.23
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -147,6 +147,11 @@ QuickMeta _module_IAA
 	index
 		Key = Key:upper()
 		Switch Key
+			Case "HELLO"
+				// This can be used by a few routines to enforce this
+				// Module to load. This one in particular can 
+				// Slow things down.
+				Return NIKS
 			Case "SLOT" "INVENTORYSLOT" "ITEMSLOT"
 				Return ItemSlot
 			Case "SLOTNUM"
