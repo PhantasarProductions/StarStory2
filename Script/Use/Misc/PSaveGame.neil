@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Misc/PSaveGame.neil
-// Version: 22.04.13
+// Version: 22.04.26
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -43,6 +43,7 @@ void MakeHeader()
 	string r = "Map:"..gv.gStr.MapTitle.."\n"
 	r += "Difficulty:"..({"Easy","Casual","Hard"})[gv.vInt.skill].."\n"
 	r += "Saved:"..gv.vInt.Saved.."\n"
+	r += "PureTime:"..gv.gint.time	
 	//r += "LevelCap:"..gv.vInt.LevelCap.."\n"
 	//r += "Chapter:"..__Chapter.."\n"
 	r+=sprintf("Cycle:%d\n",Any.Caps.Cycle)
@@ -63,7 +64,8 @@ end
 
 Global Void PerformSaveGame(string f)
 	GV.vInt.Saved++
-	CSayF("Saving: %s",f)
+	CSayF("Saving: %s",f)	
+	State.Call("FLOW_FIELD","FlowField.Time.Update","nil")
 	SaveGame.Clear()
 	SaveGame.Assign(f)
 	SaveGame.Data["*PARTY"] = "YES"
@@ -76,6 +78,7 @@ Global Void PerformSaveGame(string f)
 	end
 	MakeHeader()
 	SaveGame.Save()	
+	lnk.Party.MiniMsg("The game has been saved")
 	//Lua.error("Saving not yet implemented")
 End
 
@@ -159,6 +162,7 @@ Global Void PerformLoadgame(string f)
 		SaveGame.Mutilate()
 	end
 	Progress.Kill("AAA_LOADSAVEGAME")
+	Lnk.Party.MiniMsg("Welcome back!")
 	return true
 	
 End
