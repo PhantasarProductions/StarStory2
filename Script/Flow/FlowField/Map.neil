@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Map.neil
-// Version: 22.04.14
+// Version: 22.04.24
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -74,6 +74,7 @@ Module
 	End
 	
 	Get Var OPlayer
+		Lua.assert(CurLayer.HasTag(FlowField.FollowTheLeader.LeaderMapTag),"Required object for player "..FlowField.FollowTheLeader.LeaderMapTag.." is not existent!")
 		Return CurLayer.Obj(FlowField.FollowTheLeader.LeaderMapTag)
 	End
 	
