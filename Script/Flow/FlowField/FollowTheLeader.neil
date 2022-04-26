@@ -117,7 +117,7 @@ Module
 	End
 	
 	Void Run()
-		If !FlowField.Map.CurrentLayer.HasTag("PLAYER1")
+		If !FlowField.Map.CurrentLayer.HasTag("PLAYER1")			
 			Return
 		End
 		Int c = Lnk.Party.Count
@@ -127,7 +127,7 @@ Module
 		Int Leider=Leader
 		Repeat
 			Int Volger=(Leider%c)+1
-			if !SpawnNew(Volger)
+			if !(SpawnNew(Leader) && SpawnNew(Volger))
 				//Lnk.Party.MiniMsg(sprintf("Debug> Volger %d is er niet, of kon niet gespawnd worden!",Volger),255,0,0)
 				Return
 			End
