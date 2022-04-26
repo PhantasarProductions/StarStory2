@@ -1,0 +1,272 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/Flow/FlowCombat/CLASS_Fighter.neil
+// (c) Jeroen Broks, 2022, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 22.04.25
+// End License Information
+Class Fighter
+
+#region Tags and stuff
+
+	String CharTag
+	String Team
+	
+	Table StatusChanges
+	
+	Get String Tag
+		Return CharTag
+	End
+	
+	Set String Tag
+		CharTag = Value
+	End
+	
+	Static Table ByTag = {}
+	Static Table ByTeam = {}
+	
+	Static Table GetTags(string Team="*")
+		Table Ret = {}
+		For Tag,Dat in sPairs(ByTag)
+			If Team=="*" || Team==Dat.Team
+				Ret += Tag
+			End
+		End
+		Return Ret
+	End
+	
+	Static Void ClearAll()
+		ByTag = {}
+		ByTeam = {["Hero"] = {}, ["Foe"]={} }
+	End
+	
+	Static Void ClearGroup(string _Gr)
+		ByTag = {}
+		For T,G in pairs(ByTeam)
+			If T!=_GR
+				For TG,DT in pairs(G)
+					ByTag[TG]=DT
+				End
+			End
+		End
+		ByTeam[_Gr]={}
+	End	
+	
+	Get Int Level
+		Return Self.Char.Stat.Level
+	End
+
+#endregion
+	
+
+#region Positions
+
+	
+	// Seems odd, but this makes extra functions possible when expanding.
+	Int _X
+	Int _Y
+	Int _W
+	Int _H
+	
+	Get Int W
+		Return _W
+	End
+	
+	Get Int H
+		Return _H
+	End
+	
+	
+	Get Int X
+		Return _X
+	End
+	
+	Get Int Y
+		Return _Y
+	End
+
+	Final Var TrueCoords()
+		Return Screen.AltRectData("COMBAT",X,Y,W,H)
+	End
+	
+	
+	Get Int TX
+		Int RX
+		Int RY
+		Int RW
+		Int RH
+		RX,RY,RW,RH = TrueCoords()
+		Return RX
+	End
+		
+	Get Int TY
+		Int RX
+		Int RY
+		Int RW
+		Int RH
+		RX,RY,RW,RH = TrueCoords()
+		Return RY
+	End
+	
+	Get Int TW
+		Int RX
+		Int RY
+		Int RW
+		Int RH
+		RX,RY,RW,RH = TrueCoords()
+		Return RW
+	End
+	
+	Get Int TH
+		Int RX
+		Int RY
+		Int RW
+		Int RH
+		RX,RY,RW,RH = TrueCoords()
+		Return RH
+	End
+
+	Set Int TX
+		Int RX
+		Int RY
+		RX,RY = Screen.TrueCoords("COMBAT",Value,0)
+		X = RX
+	End
+	Set Int TY
+		Int RX
+		Int RY
+		RX,RY = Screen.TrueCoords("COMBAT",0,Value)
+		Y = RY
+	End
+#endregion
+
+#region Draw and Pose
+	
+	Abstract Void Draw()
+	Abstract Bool Pose(Action)
+	
+#endregion
+
+#region Quick Links
+	Get Var Char
+		Return RPGChar[CharTag]
+	End
+	
+	Get Var Stat
+		Return Char.Stat
+	End
+	
+	Get Var Points
+		Return Char.Points
+	End
+	
+	Get Var Data
+		Return Char.Data
+	End
+	
+	Get Int HP
+		Return Points.HP.Have
+	End
+	
+	Get Int HPMax
+		Return Points.HP.Maximum
+	End
+	
+	Var EndStats
+	
+	Get String Name
+		Return Char.Name
+	End
+	
+	Abstract Int EleRes(string elem)
+#endregion
+
+#region Targetable
+	Get Bool TargettableByHero
+		Return HP>0 || Team=="Hero"
+	End
+	
+	Get Bool TargettableByFoe
+		Return HP>0
+	End
+#endregion
+
+#region Start Up
+
+// First upper rest lower
+	Static String FURL(string s)
+		Switch s:upper()
+			Case "HP" "AP" "EXP" 
+				return s:upper()
+			Default
+				Return (Left(s,1):upper())..(Right(s,#s-1):lower())
+		End
+	End
+
+	Void SetUp(string _Tag,string _Team)
+		CharTag  = _Tag
+		Team = _Team
+		ByTag[Tag] = Self
+		ByTeam[Team][Tag] = Self
+		StatusChanges = {}
+		
+		Int _stat_index(s,string Key)
+			return Char.Stat["END_"..FURL(Key)]
+		End
+		EndStats = Lua.setmetatable({},{["__index"]=_stat_index})
+		CSayF("Created fighter '%s' for team: %s",_Tag,_Team)
+	End
+#endregion
+
+	Static Void DrawAll(Bool AllowTarget)
+		For FTag,FDat in Pairs(ByTag)
+			If FDat.DrawThis
+				__White
+				For k,d in FDat.EachStatusChange()
+					If FDat.HP<=0
+						FDat.StatusChanges[k]=nil
+						Break
+					ElseIf d
+						Invoke(d.Draw,FDat)
+					Else
+						Printf("\007WARNING! DrawAll: nil for data received on status: %s\n",k)
+					End
+				End
+				FDat.Draw()
+			End
+		End
+	End
+
+End
+
+
+Return Fighter
