@@ -180,16 +180,19 @@ Module
 	End
 	
 	Void GoToMap(string aMap,string aLayer,string SpawnPoint,noclose,noopen)
+		printf("\027[33mGoToMap\027[37m(\027[32m\"%s\"\027[37m,\027[32m\"%s\"027[37m,\027[32m\"%s\"\027[37m,\027[36m%s027[37m,\027[36m%s\027[37m)\027[0m\n",amap,alayer,spawnpoint,noclose,noopen)
 		if !noclose
 			CDLoading()
 		End
 		LoadMap(aMap)
 		Schedule("LAYER:"..aLayer)
 		Schedule("SPAWN:"..SpawnPoint)
-		Ach.Auto()
 		if !noopen
-			Lnk.Schedule(":OPENDOOR:")
+			Schedule(":OPENDOOR:")
+		else
+			CSay("No open request! So instant display and no open door first!")
 		end
+		Ach.Auto()
 	End
 	
 	Void GoToMapPos(string aMap,string aLayer,Int X, Int Y)
