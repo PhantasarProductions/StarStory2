@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Renc.neil
-// Version: 22.04.23
+// Version: 22.04.25
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -73,17 +73,21 @@ Module Class
 		End
 		Switch K:upper()
 			CASE "MINLEVEL"
+				Int R
 				If OwnLevels(F)
-					Return Val(F,K,true)
+					R = Val(F,K,true)
 				Else
-					Return Lua.tonumber(FlowField.Map.KthuraMap.MetaData.Foe_MinLevel1) || 1
-				End
-			CASE "MAXLEVEL"
-				If OwnLevels(F)
-					Return Val(F,K,true)
-				Else
-					Return Lua.tonumber(FlowField.Map.KthuraMap.MetaData.Foe_MaxLevel1) || 2
+					R = Lua.tonumber(FlowField.Map.KthuraMap.MetaData.Foe_MinLevel1) || 1
 				End				
+				Return Any.Caps.LevelRecalc(R)
+			CASE "MAXLEVEL"
+				Int R
+				If OwnLevels(F)
+					R = Val(F,K,true)
+				Else
+					Int R = Lua.tonumber(FlowField.Map.KthuraMap.MetaData.Foe_MaxLevel1) || 2
+				End		
+				Return Any.Caps.LevelRecalc(R)
 			Default
 				return Lua.tonumber(Stuff.Value("FOE:"..F,K..__skill)) || 0
 		End
@@ -131,8 +135,48 @@ Module Class
 	
 	Static Void StartRenc()
 		String L = FlowField.Map.Layer
+		String Tune = Flowfield.Map.kthuraMap.metadata.AltCombatTune
+
+		Static Var Tab
+		Static Var Max
+		Static Int OPartyCnt = 0
+		
+		Lnk.Map.StopWalking()
+		Lnk.party.MiniMsg("You're being attacked! Prepare for the battle!",255,0,0)
+		
+		If OPartyCnt!=Lnk.Party.Count
+			max=nil
+		End
+		OPartyCnt = Lnk.Party.Count
+		max = max || ({{1,2,3,4},{2,3,6,9},{3,6,9,9}})[__skill][lnk.party.count]
+		tab = tab || ({{1,1,1,2,2,3,1,1,2,3,4},{3,3,3,1,3,3,2,2,3,3,4,4,3,6,3,3,1,1,9},{3,3,3,6,6,9}})[__skill]
+		int num = tab[math.random(1,#tab)]
+		num = math.min(num,max)
+
+		
+		If Tune=="" 
+			Tune = "Music/Combat/Renc/"
+		End
+		
 		Layers[L].CD=Layers[L].CDMAX
 		LAYERS[L].ENC--
+		
+		string arena = FieldFlow.Map.KthuraMap.Meta.Arena
+		//if not suffixed(arena,".png") then arena = arena..".png" end
+		num = math.min(num,max)
+		
+		Lnk.Combat.PrepareCombat()
+		Lnk.Combat.Arena = FlowField.Map.KthuraMap.MetaData.Arena
+		Lnk.Combat.Music = Tune
+		
+		For i=1,num
+			Var F = FoeList[math.random(1,#FoeList)]
+			Lnk.Combat.NewEnemy(F.EnemyTag,math.random(F.MinLevel,F.MaxLevel))
+		End
+		
+		//Lua.error("Random encounters not yet available")
+		Lnk.Combat.Start()
+		
 	End
 
 	Static Void UpdateGauge()
@@ -148,10 +192,16 @@ Module Class
 		Static Int OY
 		Static String OL
 		Static Var Fnt = ImageFont.Obtain("MINITEXT")
+		if !FlowField.Map.CurLayer.HasTag(FlowField.FollowTheLeader.LeaderMapTag)
+			CSay("Player not found! I cannot workout RENC. Exiting RENC!")
+			Return
+		End
 		Int PX = FlowField.Map.OPlayer.X
 		Int PY = FlowField.Map.OPlayer.Y
+		Bool Moved = False
 		If (OL == FlowField.FollowTheLeader.LeaderMapTag) && (PX!=OX || OY!=OY) && Layers[L].ENC>0
 			Layers[L].CD = math.max(0,Layers[L].CD-Any.Luck.Roll(FlowField.FollowTheleader.LeaderTag,1,50,False))
+			Moved = True
 		End
 		OL = FlowField.FollowTheLeader.LeaderMapTag
 		OX = PX
@@ -169,7 +219,7 @@ Module Class
 			__Yellow
 			Fnt.DarkText(sprintf("%d",Layers[L].ENC),Screen.W,GAUGEY,1,0)
 			GaugeX = math.max(GaugeX-1,Screen.W-GaugeW)
-			If Layers[L].CD<1500 && LAYERS[L].ENC>0 && math.random(0,Layers[L].CD)==0
+			If Moved && Layers[L].CD<1500 && LAYERS[L].ENC>0 && math.random(0,Layers[L].CD)==0
 				GAlarm.HotCenter()
 				AAlarm.Play()
 				For i=0,360,5
