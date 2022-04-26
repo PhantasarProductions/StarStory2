@@ -36,5 +36,5 @@
 // End License Information
 Init	
 	Any.IAA.Hello()
-	CSay("IAA linkups loaded")
+	CSay("IAA linkups loaded for: "..Lnk.Map.LoadedMap)
 End
