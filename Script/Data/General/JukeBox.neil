@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.04.15
+// version: 22.04.26
 // End License Information
 
 #use "Libs/LinkedList"
@@ -72,6 +72,15 @@ Init
 		N.Title   = "Snake Trance"
 		N.Artist  = "Eric Matyas"
 		N.WebSite = "http://soundimage.org"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/Combat/Victory/Victory.ogg"
+		N.License = "Free for personal and commercial use -- https://pixabay.com/nl/service/license/"
+		N.Title   = "Home Logo"
+		N.Artist  = "Muzaproduction"
+		N.WebSite = "NONE"
 		TMusic.Lst.AddLast(N)
 	End
 	Do
