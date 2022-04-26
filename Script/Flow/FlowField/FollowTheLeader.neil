@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/FollowTheLeader.neil
-// Version: 22.04.15
+// Version: 22.04.26
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -78,7 +78,7 @@ Module
 	
 	Bool SpawnNew(int n)
 		If n==1
-			Return False
+			Return FlowField.Map.CurrentLayer.HasTag("PLAYER1")
 		End
 		If !FlowField.Map.CurrentLayer.HasTag("PLAYER1")
 			Return False
@@ -128,8 +128,10 @@ Module
 		Repeat
 			Int Volger=(Leider%c)+1
 			if !SpawnNew(Volger)
+				//Lnk.Party.MiniMsg(sprintf("Debug> Volger %d is er niet, of kon niet gespawnd worden!",Volger),255,0,0)
 				Return
 			End
+			//Lnk.Party.MiniMsg(sprintf("Debug> #%d volgt %d!",Volger,Leider)) // Debug only!
 			Var OL = FlowField.Map.CurrentLayer.Obj(sprintf("PLAYER%d",Leider))
 			Var OV = FlowField.Map.CurrentLayer.Obj(sprintf("PLAYER%d",Volger))
 			If (!Ov.Walking)
