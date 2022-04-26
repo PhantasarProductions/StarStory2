@@ -1,0 +1,175 @@
+// License Information:
+// src/Tricky Script/Script/Flow/FlowCombat/Foe.neil
+// Version: 22.04.25
+// Copyright (C) 2022 Jeroen Petrus Broks
+// 
+// ===========================
+// This file is part of a project related to the Phantasar Chronicles or another
+// series or saga which is property of Jeroen P. Broks.
+// This means that it may contain references to a story-line plus characters
+// which are property of Jeroen Broks. These references may only be distributed
+// along with an unmodified version of the game.
+// 
+// As soon as you remove or replace ALL references to the storyline or character
+// references, or any termology specifically set up for the Phantasar universe,
+// or any other univers a story of Jeroen P. Broks is set up for,
+// the restrictions of this file are removed and will automatically become
+// zLib licensed (see below).
+// 
+// Please note that doing so counts as a modification and must be marked as such
+// in accordance to the zLib license.
+// ===========================
+// zLib license terms:
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// End License Information
+#use "libs/xmath"
+
+Class Foe Extends Fighter
+
+	Var RawData
+	Bool Boss
+	String File
+	String CardTag
+	String Letter
+	
+	Var ImgNor
+	Var ImgNeg
+	Var Imgs
+	Bool Neg
+	
+	Bool Humanoid
+	
+	Get Int W
+		if Humanoid
+			Return Self._W*2
+		Else
+			Return Self._W
+		End
+	End
+	
+	Get Int H
+		if Humanoid
+			Return Self._H*2
+		Else
+			Return Self._H
+		End
+	End
+	
+	Int EleRes(string elem)
+		Int Ret = RawData.Value("RESISTELEMENT",elem) || 3
+		Ret = math.min(6,Ret)
+		Ret = math.max(0,Ret)
+		Return Ret
+	End
+	
+	Void Draw()
+		Imgs[Neg].ASStretch("COMBAT",Self.X-(W div 2),self.Y-H,W,H)
+	End
+	
+	Bool Pose(Action)
+		// To do: Actual code
+		Return False
+	End
+	
+	Static Void Compile(int idx, string f, int level, int x, int Y)
+		Var NF = new Foe()
+		NF.File = F
+		CSayF("Compiling foe %s on spot %d",f,idx)
+		NF.RawData = GINIE.Load("Data/Combat/Foes/"..f,"FOE:"..idx)
+		NF.Letter = Chr( ((idx-1) % 26) + 65 )
+		NF.Boss = NF.RawData.Value("META","BOSS")=="TRUE"
+		NF.Tag = sprintf("FOE%03d",idx)
+		If NF.Boss
+			NF.CardTag = "FOE_"..NF.Letter
+		Else
+			NF.CardTag = "BOSS_"..NF.Letter
+		End
+		RPGChar.Create(NF.Tag)
+		NF.Char.Stat.Level=Level
+		Var NFS = RPGChar[NF.Tag].Stats
+		Int MinLvl = Lua.tonumber(NF.RawData.Value("STATS.MIN","Level")) || 1
+		Int MaxLvl = Lua.tonumber(NF.RawData.Value("STATS.MAX","Level")) || 2
+		Int RNG    = math.abs(MaxLvl-MinLvl)
+		
+		// Statistics
+		For s in Each(Any.Resistance.Stats)
+			String ckey=s
+			Int MinS = Lua.tonumber(NF.RawData.Value("STATS.MIN",s)) || 1
+			Int MaxS = Lua.tonumber(NF.RawData.Value("STATS.MAX",s)) || 2
+			int sint = math.abs(MaxS-MinS)
+			var C = NF.Char
+			//int rng = math.abs(lvmax - lvmin)
+			number sinc = sint / rng
+			//--CSay("Compiling stat: "..ckey)
+			if NF.Level<MinLvl
+				Int ldif = minlvl - NF.Level
+				int tstat = xmath.round(Mins-(sinc*ldif))
+				if tstat<5
+					tstat = 5
+				end
+				NFS["BASE_"..ckey] = tstat //RPGStats.DefStat(Foe.Tag,"BASE_"..ckey,tstat)
+				CSay("Setting BASE_"..ckey.." (neg) => "..C.Stat["BASE_"..ckey])
+			else
+				Int ldif = NF.Level - minlvl
+				int val = xmath.round(mins+(sinc*ldif))
+				////RPGStats.DefStat(Foe.Tag,"BASE_"..ckey,round(cvalue[1]+(sinc*ldif)))
+				if val!=math.floor(val)
+					CSay("WARNING! Non-integer value: "..val)
+					val=math.floor(val)
+					if val!=val
+						CSay("Value even appears to be a NAN. Converting to zero!")
+						val = 0
+					end
+				end
+				NFS["BASE_"..ckey]=val
+				CSay("Setting BASE_"..ckey.." (pos) => "..C.Stat["BASE_"..ckey])
+			end
+			string formscript = "SUM:"..NF.Tag
+			for i1,v1 in ipairs{ "BASE_", "POWERUP_", "BUFF_", "END_"}
+				//RPGChar.DefStat(Foe.Tag,v1..ckey,0)
+				//--CSay("Added Stat: "..v1..ckey)
+				if v1!="BASE_"
+					NFS[v1..ckey] = 0
+				end
+				if v1!="END_"
+					formscript += "."..v1..ckey
+				end
+			end
+			//RPGChar.ScriptStat(Foe.Tag,"END_"..ckey,"Script/CharStats/General.lua","CALC_"..ckey)
+			RPGChar[NF.Tag].StatScript["END_"..ckey] = formscript
+			CSayF("Scripting stat %s for %s with script '%s' (%d=>%d)",ckey,nf.tag,formscript,C.Stat["BASE_"..ckey],C.Stat["END_"..ckey])
+		End
+		
+		// Luck
+		NFS["BASE_Luck"] = math.random(0,__skill+1)
+		NFS["POWERUP_Luck"] = 0
+		NFS["BUFF_LUCK"] = 0		
+		RPGChar[NF.Tag].StatScript["END_Luck"] = "SUM:"..NF.Tag..".BASE_Luck.POWERUP_Luck.BUFF_Luck"
+		
+		// Name
+		RPGChar[NF.Tag].Name = NF.RawData.Value("META","NAME")
+		
+		// Images
+		NF.ImgNor = Image.Load(NF.RawData.Value("META","NORMSPRITE"),"IMG_FOE_NOR_"..idx)
+		NF.ImgNeg = Image.Load(NF.RawData.Value("META","NEGASPRITE"),"IMG_FOE_NEG_"..idx)
+		NF.Imgs   = { [false]=NF.ImgNor,[true]=NF.ImgNeg }
+		
+		// Width & Height
+		NF._W = NF.ImgNor.Width
+		NF._H = NF.ImgNor.Height
+		NF.Humanoid = NF.RawData.Value("META","HUMANOID"):upper()=="TRUE"
+	End
+
+End
