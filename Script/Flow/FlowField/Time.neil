@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Time.neil
-// Version: 22.04.26
+// Version: 22.04.28
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -44,6 +44,9 @@ Module
 	
 	Get Int OldTime
 		return gv.gint.time
+	End
+	Set Int OldTime
+		gv.gint.Time = Value
 	End
 	
 	Get Int PlayTime
