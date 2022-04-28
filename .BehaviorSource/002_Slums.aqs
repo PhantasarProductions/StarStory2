@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 22.04.20
+; version: 22.04.28
 ; End License Information
 include basis.aqs
 
@@ -47,7 +47,7 @@ chunk ZA_Welcome
 	exit
 
 Chunk ZA_Hyperloop
-	call MiniMsg,"Leaving"
+	call MiniMsg,"Leaving the slums"
 	call GoToMap,"001_HyperloopStation","HALL","Start"
 	exit
 	
