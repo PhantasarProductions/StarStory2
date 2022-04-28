@@ -1,0 +1,141 @@
+// License Information:
+// src/Tricky Script/Script/Flow/FlowCombat/Hero.neil
+// Version: 22.04.28
+// Copyright (C) 2022 Jeroen Petrus Broks
+// 
+// ===========================
+// This file is part of a project related to the Phantasar Chronicles or another
+// series or saga which is property of Jeroen P. Broks.
+// This means that it may contain references to a story-line plus characters
+// which are property of Jeroen Broks. These references may only be distributed
+// along with an unmodified version of the game.
+// 
+// As soon as you remove or replace ALL references to the storyline or character
+// references, or any termology specifically set up for the Phantasar universe,
+// or any other univers a story of Jeroen P. Broks is set up for,
+// the restrictions of this file are removed and will automatically become
+// zLib licensed (see below).
+// 
+// Please note that doing so counts as a modification and must be marked as such
+// in accordance to the zLib license.
+// ===========================
+// zLib license terms:
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// End License Information
+Class Hero Extends Fighter
+
+	Int _MTX
+	Int _MTY
+	Int _ACX
+	Int _ACY
+	Int Frame=0
+	
+	Const Int MoveX = 5
+	Const Int MoveY = 1
+
+	String UsePose = "IDLE"
+	Var ImgTable
+	
+	Get Bool AllowMoveOnAttack
+		Return Self.Tag=="Ashley"
+	End
+
+	Static Int PNum(string CharTag)
+		for i=1,4
+			if RPGParty[i]==CharTag
+				Return i
+			End
+		end
+		Lua.error("Hero not in party!")
+	End
+	
+	get String UsePoseFile
+		string png  = sprintf("GFX/Combat/Hero/%s.%s.png",Self.Tag,UsePose)
+		string jpbf = sprintf("GFX/Combat/Hero/%s.%s.png",Self.Tag,UsePose)
+		if JCR6.DirExists(jpbf)
+			Return jpbf
+		elseif JCR6.EntryExists(png)
+			Return png
+		end
+		Lua.error(sprintf("I could find neither '%s' nor '%s' in the JCR6 resource!",jpbf,png))
+	end
+			
+	
+	Get Var Img
+		ImgTable[UsePose] = ImgTable[UsePose] || Image.LoadNew(UsePoseFile,sprintf("COMBAT_%s_%s",Self.Tag,UsePose))
+		Return ImgTable[UsePose]
+	End
+	
+	Get Int X
+		if AllowMoveOnAttack 
+			if _ACX>_MTX
+				_ACX=math.max(_MTX,_ACX-MoveX)
+			elseif _ACX<_MTX
+				_ACX=math.min(_MTX,_ACX+MoveX)
+			end
+		End
+		Return _ACX
+	End
+
+	Get Int Y
+		if AllowMoveOnAttack 
+			if _ACY>_MTY
+				_ACY=math.max(_MTY,_ACY-MoveY)
+			elseif _ACY<_MTY
+				_ACY=math.min(_MTY,_ACY+MoveY)
+			end
+		End
+		Return _ACY
+	End
+	
+	Get Int W
+		Return Self._W*2
+	End
+	
+	Get Int H
+		Return Self._H*2
+	End
+	
+	Void Draw()
+		//ImgTable[UsePose]
+		Img.ASStretch("COMBAT",X-(W div 2),Y-H,W,H,Frame)
+	End
+	
+	Bool Pose(Action)
+		// To do: Actual code
+		Return False
+	End
+
+
+	
+	Static Void Compile(String _TAG)
+		Int HW = Screen.W Div 2
+		Int HH = Screen.H Div 2
+		Int DW = HW Div (Lnk.Party.Count+1)
+		Int DH = HH Div (Lnk.Party.Count+2)
+		Var NH = new Hero()
+		NH.CharTag=_Tag
+		Fighter.ByTag[NH.CharTag] = NH
+		Fighter.ByTeam.Hero[NH.CharTag] = NH
+		NH._X = HW + (DW*PNum(_TAG))
+		NH._Y = HH + (DH*PNum(_TAG))
+		NH.ImgTable = {}
+		NH._ACX=NH._X
+		NH._ACY=NH._Y
+		NH._MTX=NH._X
+		NH._MTY=NH._Y
+	End
+
+End
