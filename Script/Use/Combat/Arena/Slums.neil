@@ -1,0 +1,106 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/Use/Combat/Arena/Slums.neil
+// (c) Jeroen Broks, 2022, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 22.04.30
+// End License Information
+Var Tex
+Int JunkNum
+
+Void ATex(string k,string v)
+	Tex = Tex || {}
+	Tex[k:upper()] = v
+	CSay("Arena slums> Registered texture "..v.." at tag: "..k)
+End
+
+Var LoadTex(string Tag)
+	Tag = Tag:upper()
+	Return Image.LoadNew(Tex[Tag],"ARENA_SLUMS_"..Tag)
+End
+
+Init
+	ATex("METAL","GFX/TextureS/Metal/metal027.png")
+	ATex("FLOOR","GFX/TextureS/MetalFloor/Metal Floor.png")
+	For i,a in ipairs(JCR6.GetDir("GFX/TEXTURES/JUNK/"))
+		ATex("JUNK_"..i,a)
+		JunkNum = math.max(i,JunkNum)
+	End
+	CSayF("Slums arena loaded!")
+End
+
+
+Module
+
+	Get Int HH 
+		Return Screen.Height div 2
+	End
+
+	Var Junk
+	Var TexMetal
+	Var TexJunk
+	Var TexFloor 
+	
+	Void Load()
+		TexMetal = LoadTex("METAL")
+		TexFloor = LoadTex("FLOOR")
+		TexJunk = {}
+		for i=1,JunkNum
+			TexJunk[i]=LoadTex("JUNK_"..i)
+			TexJunk[i].HotBottomCenter()
+		End
+	End
+	
+	Void UnLoad()
+		TexMetal = nil
+		TexFloor = nil
+		TexJunk  = nil
+		Image.KillByPrefix("ARENA_SLUMS_")
+	End
+	
+	Void NewBattle()
+		Int N = math.random(20,100)
+		Junk = {}
+		For i=1,N
+			Junk += {["Tex"]=TexJunk[math.random(1,#TexJunk)], ["X"]=math.random(0,screen.w),["Y"]=math.random(HH,HH+100)}			
+		End
+	End
+	
+	Void Draw()
+		TexMetal.Tile(0, 0,Screen.W,HH)
+		TexFloor.Tile(0,HH,Screen.W,HH)
+		For J in Each(Junk)
+			J.Tex.Draw(J.X,J.Y)
+		End
+	End
+	
+End
