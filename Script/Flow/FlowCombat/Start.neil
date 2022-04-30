@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Start.neil
-// Version: 22.04.25
+// Version: 22.04.30
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -39,7 +39,7 @@ Module
 	String Music
 	String Arena
 	Table Enemies
-	
+		
 	Void NewEnemy(String Foe,Int Level,Int X,Int Y)
 		Int Enem = #Enemies+1
 		Int PX = math.ceil(Enem/3)
@@ -63,16 +63,36 @@ Module
 		Enemies = {}
 	End
 	
+	Void StartMusic()
+		If prefixed(Music,"*")
+			Switch Music:upper()
+				case  "*NOCHANGE" "*NOCHANGE*"
+					Return
+				default
+					Lua.error("Unknown special music instruction: "..Music)
+			End
+		End
+		if Suffixed(Music,"/")
+			Var M = JCR6.GetDir(Music)
+			Lua.Neil.Globals.Music.Play(M[math.random(1,#M)])
+		else
+			Lua.Neil.Globals.Music.Play(Music)
+		end
+	End
+	
 	Void Start()
 		Fighter.ClearAll()
 		// Compile Heroes
 		For i=1,Lnk.Party.Count
-		//	Hero.Compile(i,RPGChar[i])
+			Hero.Compile(RPGChar[i])
 		End
 		
 		For i,f in ipairs(Enemies)
 			Foe.Compile(i,f.Foe,f.Level,f.X,f.Y)
 		End
+		
+		FlowCombat.Arena.Load(Arena)
+		StartMusic()
 	End
 
 End
