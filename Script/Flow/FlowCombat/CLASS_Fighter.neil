@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.04.25
+// version: 22.04.30
 // End License Information
 Class Fighter
 
@@ -49,6 +49,10 @@ Class Fighter
 	
 	Set String Tag
 		CharTag = Value
+	End
+	
+	Get Bool DrawThis
+		Return True
 	End
 	
 	Static Table ByTag = {}
@@ -176,6 +180,17 @@ Class Fighter
 	
 #endregion
 
+#region StatusChanges	
+	Final Var EachStatusChange()
+		StatusChanges = StatusChanges || {}
+		Var Ret()			
+			// PLACEHOLDER!
+			return nil,nil
+		End
+		Return Ret
+	End
+#endregion
+
 #region Quick Links
 	Get Var Char
 		Return RPGChar[CharTag]
@@ -247,6 +262,7 @@ Class Fighter
 	End
 #endregion
 
+
 	Static Void DrawAll(Bool AllowTarget)
 		For FTag,FDat in Pairs(ByTag)
 			If FDat.DrawThis
@@ -261,6 +277,7 @@ Class Fighter
 						Printf("\007WARNING! DrawAll: nil for data received on status: %s\n",k)
 					End
 				End
+				// CSayF("DEBUG> %s: Draw(%d,%d)  %dx%d",FTag,FDat.x,FDat.y,FDat.W,FDat.H) // DEBUG ONLY!!!
 				FDat.Draw()
 			End
 		End
