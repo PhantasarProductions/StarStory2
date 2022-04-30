@@ -92,6 +92,8 @@ Module
 		End
 		
 		FlowCombat.Arena.Load(Arena)
+		FlowCombat.Cards.SetupInitialCards(true)
+		FlowCombat.Cards.StartEffectCards()		
 		StartMusic()
 	End
 

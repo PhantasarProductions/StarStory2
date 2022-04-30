@@ -165,6 +165,7 @@ Class Hero Extends Fighter
 		NH._ACY=NH._Y
 		NH._MTX=NH._X
 		NH._MTY=NH._Y
+		NH.SetUp(NH.CharTag,"Hero")
 	End
 
 End

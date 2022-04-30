@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Main.neil
-// Version: 22.04.23
+// Version: 22.04.30
 // Copyright (C) 2020, 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -107,6 +107,7 @@ Init
 	LAsset.C("Audio/Loading/Open.wav","LOADOPEN",wh_Audio)
 	LAsset.C("Audio/Loading/Close.wav","LOADCLOSE",wh_Audio)
 	LAsset.C("Audio/Combat/Alarm.wav","COMBALARM",wh_Audio)
+	LAsset.C("Audio/Combat/Pop.wav","CARDSLIDE",wh_Audio)
 	//LAsset.C("Audio/Crystal ARM.ogg","CRYSTAL_ARM",wh_Audio)
 	
 

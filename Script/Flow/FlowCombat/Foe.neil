@@ -178,6 +178,8 @@ Class Foe Extends Fighter
 		// Positions
 		NF._X = X
 		NF._Y = Y
+		
+		NF.SetUp(NF.CharTag,"Foe")
 	End
 
 End

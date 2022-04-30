@@ -36,6 +36,7 @@
 // End License Information
 Void _DS()
 	FlowCombat.Arena.Draw()
+	FlowCombat.Cards.DrawCards()
 	Fighter.DrawAll()
 End
 
