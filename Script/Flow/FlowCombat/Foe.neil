@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Foe.neil
-// Version: 22.04.25
+// Version: 22.04.30
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -75,7 +75,8 @@ Class Foe Extends Fighter
 	End
 	
 	Void Draw()
-		Imgs[Neg].ASStretch("COMBAT",Self.X-(W div 2),self.Y-H,W,H)
+		Lua.assert(Imgs[Neg],sprintf("No data in image data %s",Neg))
+		Imgs[Neg].AltStretch("COMBAT",Self.X-(W div 2),self.Y-H,W,H)
 	End
 	
 	Bool Pose(Action)
@@ -84,13 +85,15 @@ Class Foe Extends Fighter
 	End
 	
 	Static Void Compile(int idx, string f, int level, int x, int Y)
-		Var NF = new Foe()
+		Var NF = new Foe()		
 		NF.File = F
 		CSayF("Compiling foe %s on spot %d",f,idx)
 		NF.RawData = GINIE.Load("Data/Combat/Foes/"..f,"FOE:"..idx)
 		NF.Letter = Chr( ((idx-1) % 26) + 65 )
 		NF.Boss = NF.RawData.Value("META","BOSS")=="TRUE"
 		NF.Tag = sprintf("FOE%03d",idx)
+		Fighter.ByTag[NF.Tag] = NF
+		Fighter.ByTeam.Foe[NF.Tag] = NF
 		If NF.Boss
 			NF.CardTag = "FOE_"..NF.Letter
 		Else
@@ -165,11 +168,16 @@ Class Foe Extends Fighter
 		NF.ImgNor = Image.Load(NF.RawData.Value("META","NORMSPRITE"),"IMG_FOE_NOR_"..idx)
 		NF.ImgNeg = Image.Load(NF.RawData.Value("META","NEGASPRITE"),"IMG_FOE_NEG_"..idx)
 		NF.Imgs   = { [false]=NF.ImgNor,[true]=NF.ImgNeg }
+		NF.Neg    = False
 		
 		// Width & Height
 		NF._W = NF.ImgNor.Width
 		NF._H = NF.ImgNor.Height
 		NF.Humanoid = NF.RawData.Value("META","HUMANOID"):upper()=="TRUE"
+		
+		// Positions
+		NF._X = X
+		NF._Y = Y
 	End
 
 End
