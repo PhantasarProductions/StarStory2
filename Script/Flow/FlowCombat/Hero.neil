@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Hero.neil
-// Version: 22.04.28
+// Version: 22.04.30
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -42,6 +42,32 @@ Class Hero Extends Fighter
 	Int _ACY
 	Int Frame=0
 	
+	Get Bool Damned
+		// TODO: Make this react to the undead status
+		Return False
+	End
+	
+	Int EleRes(string ele)
+		switch ele:upper()
+			case "HEALING"
+				if Damned
+					Return 1
+				Else
+					Return 7
+				End
+			case "DARKHEALING"
+				if Damned
+					Return 7
+				Else
+					Return 0
+				End
+			Default
+				Return RPGChar[self.CharTag].Stat["END_"..ele]
+		end
+	End
+		
+
+	
 	Const Int MoveX = 5
 	Const Int MoveY = 1
 
@@ -58,12 +84,12 @@ Class Hero Extends Fighter
 				Return i
 			End
 		end
-		Lua.error("Hero not in party!")
+		Lua.error("Hero "..CharTag.." not in party!")
 	End
 	
 	get String UsePoseFile
-		string png  = sprintf("GFX/Combat/Hero/%s.%s.png",Self.Tag,UsePose)
-		string jpbf = sprintf("GFX/Combat/Hero/%s.%s.png",Self.Tag,UsePose)
+		string png  = sprintf("GFX/Combat/Heroes/%s.%s.png",Self.Tag,UsePose)
+		string jpbf = sprintf("GFX/Combat/Heroes/%s.%s.jpbf",Self.Tag,UsePose)
 		if JCR6.DirExists(jpbf)
 			Return jpbf
 		elseif JCR6.EntryExists(png)
@@ -110,7 +136,7 @@ Class Hero Extends Fighter
 	
 	Void Draw()
 		//ImgTable[UsePose]
-		Img.ASStretch("COMBAT",X-(W div 2),Y-H,W,H,Frame)
+		Img.AltStretch("COMBAT",X-(W div 2),Y-H,W,H,Frame)
 	End
 	
 	Bool Pose(Action)
@@ -121,6 +147,7 @@ Class Hero Extends Fighter
 
 	
 	Static Void Compile(String _TAG)
+		CSayF("Compiling hero %s",_TAG)
 		Int HW = Screen.W Div 2
 		Int HH = Screen.H Div 2
 		Int DW = HW Div (Lnk.Party.Count+1)
@@ -131,6 +158,8 @@ Class Hero Extends Fighter
 		Fighter.ByTeam.Hero[NH.CharTag] = NH
 		NH._X = HW + (DW*PNum(_TAG))
 		NH._Y = HH + (DH*PNum(_TAG))
+		NH._W = 32
+		NH._H = 64
 		NH.ImgTable = {}
 		NH._ACX=NH._X
 		NH._ACY=NH._Y
