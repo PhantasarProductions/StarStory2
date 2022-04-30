@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/lnk.uwn/Combat.neil
-// Version: 22.04.26
+// Version: 22.04.29
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -70,7 +70,7 @@ Module
 	
 	Void Start()
 		State.Call("FLOW_COMBAT","FlowCombat.Start.Start","nil")
-		Flow.Current="FLOW_COMBAT"
+		Flow.Current="FLOW_COMBAT"		
 		ODLoading("FLOW_COMBAT")
 	End
 
