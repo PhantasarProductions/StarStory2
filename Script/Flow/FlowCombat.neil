@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.neil
-// Version: 22.04.24
+// Version: 22.04.30
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -94,7 +94,7 @@ Init
 End
 
 Global Void BoxText_Back()
-	FlowCombat.DrawScreen.Run()
+	FlowCombat.DrawScreen()
 End	
 
 Global Void PartyClick()
@@ -103,7 +103,7 @@ End
 Global Void Apollo_Flow()
 	__White
 	Dev.ToConsole()
-	FlowCombat.DrawScreen.Run()
+	FlowCombat.DrawScreen()
 	FlowCombat.AAA_Stage.Current.Update()
 	If !Lua.Neil.Globals.Stage.Current.DontCheckForVictory
 		if !FlowCombat.Wiped.Check()
