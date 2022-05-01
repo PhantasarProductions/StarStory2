@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Hero.neil
-// Version: 22.04.30
+// Version: 22.05.01
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -66,7 +66,7 @@ Class Hero Extends Fighter
 		end
 	End
 		
-
+	
 	
 	Const Int MoveX = 5
 	Const Int MoveY = 1
@@ -164,7 +164,11 @@ Class Hero Extends Fighter
 		NH._ACX=NH._X
 		NH._ACY=NH._Y
 		NH._MTX=NH._X
-		NH._MTY=NH._Y
+		NH._MTY=NH._Y		
+		RPGChar[_Tag].Points.Ammo.Maximum=math.max(RPGChar[_Tag].Points.Ammo.Maximum,12 div __skill)
+		If __skill!=3 || (!Done["INITBATTLESKILL3_".._TAG])
+			RPGChar[_Tag].Points.Ammo.Have = RPGChar[_Tag].Points.Ammo.Maximum
+		End
 		NH.SetUp(NH.CharTag,"Hero")
 	End
 
