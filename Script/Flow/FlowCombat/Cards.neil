@@ -47,7 +47,7 @@ Module Class
 	Const Int CH = 64
 	Const Int CardDistance = 50
 	Static Get Int MxX 
-		Return Screen.W - 25
+		Return Screen.W - 35
 	End
 	
 	Static Var Lijst
