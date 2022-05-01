@@ -1,0 +1,158 @@
+// License Information:
+// src/Tricky Script/Script/Flow/FlowCombat/PlayerInput.neil
+// Version: 22.05.01
+// Copyright (C) 2022 Jeroen Petrus Broks
+// 
+// ===========================
+// This file is part of a project related to the Phantasar Chronicles or another
+// series or saga which is property of Jeroen P. Broks.
+// This means that it may contain references to a story-line plus characters
+// which are property of Jeroen Broks. These references may only be distributed
+// along with an unmodified version of the game.
+// 
+// As soon as you remove or replace ALL references to the storyline or character
+// references, or any termology specifically set up for the Phantasar universe,
+// or any other univers a story of Jeroen P. Broks is set up for,
+// the restrictions of this file are removed and will automatically become
+// zLib licensed (see below).
+// 
+// Please note that doing so counts as a modification and must be marked as such
+// in accordance to the zLib license.
+// ===========================
+// zLib license terms:
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// End License Information
+
+#use "Script/Use/Misc/Box"
+
+Bool Always()
+	Return True
+End
+
+// Player Input Menu Item
+Class PIMI
+	Static ReadOnly Var ChPIMI = UWN("Script/Use/Combat/PIMI.uwn")
+
+	ReadOnly String Caption
+	ReadOnly Delegate Allow
+	ReadOnly Delegate WhatToDo
+	ReadOnly Bool ShowAmmo
+	
+	Constructor(String _capt,_WtD,_Allow,_ShowAmmo)
+		Caption = _capt
+		WhatToDo = _WtD
+		Allow = _Allow || Always
+		ShowAmmo = _ShowAmmo==true
+	End
+End	
+
+Class PIM
+	Static Var ChMenus
+	Const Int PorWid = 120
+	Const Int Siz=30
+	Static ReadOnly Var Fnt = ImageFont.Obtain("BOXTEXT")	
+	ReadOnly String Tag
+	ReadOnly Var Items
+	ReadOnly Var Box
+	ReadOnly Int X
+	ReadOnly Int Y
+	ReadOnly Int W
+	ReadOnly Int H
+	ReadOnly Var PIMB
+	
+	Get Int MaxWidth
+		Int Ret = 0
+		For I in Items.Each
+			Ret = math.max(Ret,Fnt.TextWidth(I.Caption))
+		End
+		Return Ret
+	End
+	
+	Constructor(string _Tag)
+		CSayF("Constructing Player Input Menu for %s",_Tag)
+		Tag = _Tag
+		Items = PIMI.ChPIMI[Tag]
+		W = 120 + MaxWidth + 15
+		H = math.max(Siz*(Items.Count+1),PorWid)
+		X = (Screen.W div 2) - (W div 2)
+		Y = (Screen.H div 3) - (H div 2)
+		// Safety measure to prevent going through the boundaries.
+		X = math.max(0,X)
+		Y = math.max(0,Y)
+		// Player Input Menu Box
+		PIMB = Lua.Neil.Globals.Box(X,Y,W,H)
+	End
+	
+	Static Var GetMenu(String CharTag)
+		ChMenus = ChMenus || {}
+		ChMenus[CharTag] = ChMenus[CharTag] || new PIM(CharTag)
+		Return ChMenus[CharTag]
+	End
+End
+
+Class __PlayerInput Extends Stage
+	Static Var ThisStage 
+	Var NTAUD
+	
+	// Current Player Input Menu
+	Var CPIM
+	
+	Void Draw()
+		__White
+		CPIM.PIMB.Draw()
+		Lnk.Party.Portrait(CPIM.Tag,CPIM.X+(CPIM.PorWid div 2),CPIM.Y+(CPIM.H-20))
+		Int X = CPIM.X+CPIM.PorWid
+		Int Y = CPIM.Y+(CPIM.Siz div 2)
+		Var Hover = nil
+		For It in CPIM.Items.Each
+			If !It.Allow(CPIM.Tag)
+				Graphics.Color(100,100,100)
+			ElseIf Any.Mouse.MX>X && Any.Mouse.MX<CPIM.X+CPIM.W && Any.Mouse.MY>Y && Any.Mouse.MY<Y+PIM.Siz
+				Hover = It
+				__SkyBlue
+			Else
+				__White
+			End
+			PIM.Fnt.Text(It.Caption,X,Y)
+			Y += PIM.Siz
+		End
+		Any.Mouse.Draw()
+		If Hover && Hover.ShowAmmo
+			__Yellow
+			PIM.Fnt.DarkText(sprintf("Ammo: %d/%d",RPGChar[CPIM.Tag].Points.Ammo.Have,RPGChar[CPIM.Tag].Points.Ammo.Maximum),Any.Mouse.MX+15,Any.Mouse.MY+15)
+		End
+	End
+	
+	Void Update()
+	End
+
+	
+	Void ComeToMe(FightTag)
+		CSayF("It's now %s's turn. Setting up combat menu",FightTag)
+		Lnk.Party.MiniMsg(sprintf("It's now %d's turn",RPGChar[FightTag].Name))
+		Stage.Current=Self
+		CPIM = PIM.GetMenu(FightTag)
+		NTAUD = NTAUD || {}
+		NTAUD[FightTag] = NTAUD[FightTag] || Audio.LoadNew("Audio/Combat/Turn/"..FightTag..".ogg","NEWTURN_"..FightTag)
+		NTAUD[FightTag].Play()
+	End
+End
+
+Init
+	__PlayerInput.ThisStage = new __PlayerInput()
+	Stage.Register("PLAYERINPUT",__PlayerInput.ThisStage)
+End
+
+Return __PlayerInput.ThisStage
