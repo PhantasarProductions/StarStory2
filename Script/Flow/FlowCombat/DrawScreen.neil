@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/DrawScreen.neil
-// Version: 22.04.30
+// Version: 22.05.01
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -36,8 +36,9 @@
 // End License Information
 Void _DS()
 	FlowCombat.Arena.Draw()
-	FlowCombat.Cards.DrawCards()
+	FlowCombat.Cards.DrawCards()	
 	Fighter.DrawAll()
+	FlowCombat.AAA_Stage.Current.Draw()
 End
 
 Global Void PRGL()
