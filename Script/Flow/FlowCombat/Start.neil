@@ -45,7 +45,7 @@ Module
 		Int PX = math.ceil(Enem/3)
 		Int PY = (#Enemies % 3)
 		If X<0
-			X = (((_ASW div 3) div 3) * PX) - ((_ASW div 9)*PY)  
+			X = (((_ASW div 3) div 3) * PX) - ((_ASW div 24)*PY)  
 		End
 		If Y<0
 			Int H = (_ASH div 2)
