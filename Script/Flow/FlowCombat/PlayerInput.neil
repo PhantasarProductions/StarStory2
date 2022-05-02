@@ -129,9 +129,14 @@ Class __PlayerInput Extends Stage
 			Y += PIM.Siz
 		End
 		Any.Mouse.Draw()
-		If Hover && Hover.ShowAmmo
-			__Yellow
-			PIM.Fnt.DarkText(sprintf("Ammo: %d/%d",RPGChar[CPIM.Tag].Points.Ammo.Have,RPGChar[CPIM.Tag].Points.Ammo.Maximum),Any.Mouse.MX+15,Any.Mouse.MY+15)
+		If Hover
+			If Hover.ShowAmmo
+				__Yellow
+				PIM.Fnt.DarkText(sprintf("Ammo: %d/%d",RPGChar[CPIM.Tag].Points.Ammo.Have,RPGChar[CPIM.Tag].Points.Ammo.Maximum),Any.Mouse.MX+15,Any.Mouse.MY+15)
+			end
+			If Any.Mouse.ML
+				Hover.WhatToDo(CPIM.Tag)
+			End
 		End
 	End
 	
@@ -141,7 +146,7 @@ Class __PlayerInput Extends Stage
 	
 	Void ComeToMe(FightTag)
 		CSayF("It's now %s's turn. Setting up combat menu",FightTag)
-		Lnk.Party.MiniMsg(sprintf("It's now %d's turn",RPGChar[FightTag].Name))
+		Lnk.Party.MiniMsg(sprintf("It's now %s's turn",RPGChar[FightTag].Name))
 		Stage.Current=Self
 		CPIM = PIM.GetMenu(FightTag)
 		NTAUD = NTAUD || {}
