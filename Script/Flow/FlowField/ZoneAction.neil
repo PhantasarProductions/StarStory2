@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/ZoneAction.neil
-// Version: 22.04.14
+// Version: 22.05.02
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -58,7 +58,7 @@ class _ZoneAction
 		assert(nLay,"Numberic parsing error for Next/Prev ("..cLay..")")
 		//FlowField.Map.Kthura.Layer = sprintf("#%03d",nLay + inc)
 		for i=1,4
-			if FlowField.Map.KthuraMap.HasTag("PLAYER"..i)
+			if FlowField.Map.CurLayer.HasTag("PLAYER"..i)
 				Lnk.Map.Kill("PLAYER"..i,false)
 			end
 		end
