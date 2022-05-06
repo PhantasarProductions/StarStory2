@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Hero.neil
-// Version: 22.05.01
+// Version: 22.05.05
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -36,11 +36,18 @@
 // End License Information
 Class Hero Extends Fighter
 
+	Const Bool Gone = False
+	
 	Int _MTX
 	Int _MTY
 	Int _ACX
 	Int _ACY
-	Int Frame=0
+	
+	Get Int Frame
+		Return math.min(Self._PoseFrame,Self.Img.Frames-1)
+	End
+	
+	
 	
 	Get Bool Damned
 		// TODO: Make this react to the undead status
@@ -139,9 +146,17 @@ Class Hero Extends Fighter
 		Img.AltStretch("COMBAT",X-(W div 2),Y-H,W,H,Frame)
 	End
 	
+	Int _PoseFrame=0
 	Bool Pose(Action)
 		// To do: Actual code
-		Return False
+		UsePose = Action.Act.Stance
+		Static String OldPose = "&&&&&&"
+		If UsePose!=OldPose
+			_PoseFrame=0;			
+		End
+		OldPose=UsePose
+		_PoseFrame = math.min(_PoseFrame+1,Img.Frames-1)
+		Return _PoseFrame>=Img.Frames-1
 	End
 
 

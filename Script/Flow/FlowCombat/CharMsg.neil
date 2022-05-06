@@ -1,6 +1,6 @@
 // License Information:
-// src/Tricky Script/Script/Use/Combat/PIMI.uwn/ZItems.neil
-// Version: 22.05.05
+// src/Tricky Script/Script/Flow/FlowCombat/CharMsg.neil
+// Version: 22.05.04
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -34,8 +34,7 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
-void _Z(string ch,Var Card)
-	Lua.error("Items not yet implemented")
-End
+global void charmsg(string tartag,string Msg, Int R=255, Int G=255, Int B=255)
+end
 
-Return _Z
+return charmsg

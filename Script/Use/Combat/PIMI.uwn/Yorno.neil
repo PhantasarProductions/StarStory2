@@ -32,17 +32,17 @@
 // 
 // **********************************************
 // 
-// version: 22.05.01
+// version: 22.05.05
 // End License Information
 Var Ret = new TLinkedList()
 
-Void Gadget(string CH)
+Void Gadget(string CH,Var Card)
 	Lua.error("Gadgets not yet supported")
 End
 
 Init
 	For Kl in PIMI.ChPIMI.Klahre.Each
-		If Kl.Caption="ARMS"
+		If Kl.Caption=="ARMS"
 			Ret.AddLast(new PIMI("Gadget",Gadget))
 		Else
 			Ret.AddLast(Kl)

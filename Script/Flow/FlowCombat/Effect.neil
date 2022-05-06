@@ -1,6 +1,6 @@
 // License Information:
-// src/Tricky Script/Script/Use/Combat/PIMI.uwn/ZItems.neil
-// Version: 22.05.05
+// src/Tricky Script/Script/Flow/FlowCombat/Effect.neil
+// Version: 22.05.06
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -34,8 +34,52 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
-void _Z(string ch,Var Card)
-	Lua.error("Items not yet implemented")
+
+Group Effect
+	Var Act
+	Get Var iAct
+		Return Act.Act
+	End
+	Get Var Executor
+		Return Act.Executor
+	End
+	Get Var Luck
+		return Any.Luck
+	End
+	Int XRoll(int a,b,c)
+		Return Luck.Roll(Executor.Tag,a, b,c)
+	End
+	String TarTag
+	Get Var Target
+		Return Fighter.ByTag[TarTag]
+	End
+	Int TRoll(int a,b,c)
+		Return Luck.Roll(TarTag,a, b,c)
+	End
+	
+	Get Bool Hit
+		If !iAct.Check_Accuracy
+			Return True
+		End
+		If iAct.ARM && Executor.Tag=="Klahre"
+			Lua.error("ARMS hit check not yet implemented")			
+		End
+		Int Acc = XRoll(Executor.EndStats.Accuracy div 2,math.ceil(Executor.EndStats.Accuracy * 1.25))
+		Int Eva = XRoll(  Target.EndStats.Evasion  div 4,math.ceil(  Target.EndStats.Evasion  * 1.15))
+		CSayF("Accuracy check Acc:%d; Eva:%d  Result: %s",Acc,Eva,Acc>Eva)
+		Return Acc>Eva
+	End
+	
+	Bool Run(_Act,string _TarTag)
+		Act      = _Act
+		TarTag   = _TarTag
+		Bool Ret = False
+		If Hit
+			Ret = True
+		End
+		Return Ret
+	End
 End
 
-Return _Z
+
+return Effect

@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Foe.neil
-// Version: 22.04.30
+// Version: 22.05.05
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -48,6 +48,7 @@ Class Foe Extends Fighter
 	Var ImgNeg
 	Var Imgs
 	Bool Neg
+	Bool Gone
 	
 	Bool Humanoid
 	
@@ -84,6 +85,15 @@ Class Foe Extends Fighter
 		Return False
 	End
 	
+	Get Bool ShowHPBar
+		return (__skill!=3 && gv.gbool["ANALYSED_"..File]) || __skill==1
+	End
+	
+	Get String TargetName
+		Return sprintf("Lv %06d. %s. %s",RPGChar[self.CharTag].Stats.Level,Letter,RPGChar[Self.CharTag].Name)
+	End
+
+	
 	Static Void Compile(int idx, string f, int level, int x, int Y)
 		Var NF = new Foe()		
 		NF.File = F
@@ -102,15 +112,15 @@ Class Foe Extends Fighter
 		RPGChar.Create(NF.Tag)
 		NF.Char.Stat.Level=Level
 		Var NFS = RPGChar[NF.Tag].Stats
-		Int MinLvl = Lua.tonumber(NF.RawData.Value("STATS.MIN","Level")) || 1
-		Int MaxLvl = Lua.tonumber(NF.RawData.Value("STATS.MAX","Level")) || 2
+		Int MinLvl = Lua.tonumber(NF.RawData.Value("STAT.MIN","Level")) || 1
+		Int MaxLvl = Lua.tonumber(NF.RawData.Value("STAT.MAX","Level")) || 2
 		Int RNG    = math.abs(MaxLvl-MinLvl)
 		
 		// Statistics
 		For s in Each(Any.Resistance.Stats)
 			String ckey=s
-			Int MinS = Lua.tonumber(NF.RawData.Value("STATS.MIN",s)) || 1
-			Int MaxS = Lua.tonumber(NF.RawData.Value("STATS.MAX",s)) || 2
+			Int MinS = Lua.tonumber(NF.RawData.Value("STAT.MIN",s)) || 1
+			Int MaxS = Lua.tonumber(NF.RawData.Value("STAT.MAX",s)) || 2
 			int sint = math.abs(MaxS-MinS)
 			var C = NF.Char
 			//int rng = math.abs(lvmax - lvmin)
@@ -160,6 +170,11 @@ Class Foe Extends Fighter
 		NFS["POWERUP_Luck"] = 0
 		NFS["BUFF_LUCK"] = 0		
 		RPGChar[NF.Tag].StatScript["END_Luck"] = "SUM:"..NF.Tag..".BASE_Luck.POWERUP_Luck.BUFF_Luck"
+		
+		// HP
+		Var SHP = RPGChar[NF.Tag].Points.HP
+		SHP.MaxCopy = "END_HP"
+		SHP.Have = SHP.Maximum
 		
 		// Name
 		RPGChar[NF.Tag].Name = NF.RawData.Value("META","NAME")

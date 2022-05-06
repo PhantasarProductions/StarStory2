@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/PlayerInput.neil
-// Version: 22.05.01
+// Version: 22.05.05
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -135,7 +135,7 @@ Class __PlayerInput Extends Stage
 				PIM.Fnt.DarkText(sprintf("Ammo: %d/%d",RPGChar[CPIM.Tag].Points.Ammo.Have,RPGChar[CPIM.Tag].Points.Ammo.Maximum),Any.Mouse.MX+15,Any.Mouse.MY+15)
 			end
 			If Any.Mouse.ML
-				Hover.WhatToDo(CPIM.Tag)
+				Hover.WhatToDo(CPIM.Tag,FlowCombat.Cards.Lijst[1])
 			End
 		End
 	End

@@ -32,27 +32,29 @@
 // 
 // **********************************************
 // 
-// version: 22.05.01
+// version: 22.05.05
 // End License Information
 Var Ret = new LinkedList()
 
-Bool HasAmmo(string ch)
+Bool HasAmmo(string ch,Var Card)
 	Return RPGChar[ch].Points.Ammo.Have>0
 End
 
-Bool HasNoAmmo(string ch)
-	Return !HasAmmo(ch)
+Bool HasNoAmmo(string ch,Var Card)
+	Return RPGChar[Ch].Points.Ammo.Have<RPGChar[Ch].Points.Ammo.Maximum
 End
 
-Void Shoot(string ch)
-	Lua.error("Shooting not yet implemented")
+Void Shoot(string ch,Var Card)
+	Var act = new Action("ACT_SHOOT",Ch,{},{["UseAmmo"]=true})
+	PITAR.ComeToMe(act,Card)
+	//Lua.error("Shooting not yet implemented")
 End
 
-Void Reload(string ch)
+Void Reload(string ch,Var Card)
 	Lua.error("Reload not yet implemented")
 End
 
-Void ARMS(string ch)
+Void ARMS(string ch,Var Card)
 	Lua.error("ARMS not yet implemented")
 End
 

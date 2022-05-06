@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Any.uwn/Resistance.neil
-// Version: 22.04.14
+// Version: 22.05.03
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -57,7 +57,7 @@ Module
 				Lua.error(sprintf("Lnk.Resistances.Luck(<%s>): Either a string or an integer number expected",Lua.type(L)))
 		end
 	End
-	ReadOnly Var Stats = {"Power","Defense","Will","Resistance","Accuracy","Evasion","Speed"}
+	ReadOnly Var Stats = {"Power","Defense","Will","Resistance","Accuracy","Evasion","Speed","HP"}
 	
 	Int I_ERes(Int v)
 		Return math.max(0,math.min(#_EResName,v))

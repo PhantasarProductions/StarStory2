@@ -32,19 +32,19 @@
 // 
 // **********************************************
 // 
-// version: 22.05.01
+// version: 22.05.05
 // End License Information
 Var Ret = new LinkedList()
 
-Void Tri()
+Void Tri(String CH,Var Card)
 	Lua.error("Tricorder not yet supported")
 End
 
-Void HGadget()
+Void HGadget(String Ch,Var Card)
 	Lua.error("Rage not yet supported")
 End
 
-Void ItemExt()
+Void ItemExt(String Ch,Var Card)
 	Lua.error("Item extender not yet supported")
 End
 

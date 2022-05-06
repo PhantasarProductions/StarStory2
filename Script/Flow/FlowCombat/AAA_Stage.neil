@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/AAA_Stage.neil
-// Version: 22.05.01
+// Version: 22.05.03
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -47,6 +47,10 @@ Class Stage
 	Get String FlashChar
 		Return ""
 	End
+	string RegName
+	Get Bool TargetMode
+		Return RegName:upper()=="PLAYERINPUTTARGET"
+	End
 	Static Set Var Current
 		if Lua.type(Value)=="string"
 			_Current = Map[Value:upper()]
@@ -54,6 +58,7 @@ Class Stage
 			CSayF("Combat stage is now set to %s",Value)
 		Else			
 			_Current = Value || Map.IDLE
+			CSayF("Combat stage is now set to %s (by direct settting)",_Current.RegName)
 		End
 		
 	End	
@@ -61,6 +66,7 @@ Class Stage
 	Static Void Register(string Name,St)
 		Map[name:upper()]=st
 		CSayF("Combat Stage %s contains %s",Name,lua.tostring(st))
+		st.RegName=name
 	End
 	
 	Void Draw()

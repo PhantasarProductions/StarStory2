@@ -32,9 +32,9 @@
 // 
 // **********************************************
 // 
-// version: 22.05.01
+// version: 22.05.05
 // End License Information
-void _Z(string ch)
+void _Z(string ch,Var Card)
 	Lua.error("Guarding not yet implemented")
 End
 

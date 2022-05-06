@@ -32,8 +32,11 @@
 // 
 // **********************************************
 // 
-// version: 22.04.30
+// version: 22.05.03
 // End License Information
+
+#use "Libs/Fittext"
+
 Class Fighter
 
 #region Tags and stuff
@@ -233,6 +236,33 @@ Class Fighter
 	Get Bool TargettableByFoe
 		Return HP>0
 	End
+	
+	Void TOverview()
+		Static var f = ImageFont.Obtain("MINITEXT")		
+		int y=20
+		for k,v in spairs(FlowCombat.PlayerInputTarget.Targeted)
+			f.DarkText(sprintf("%20s => %5s (Can be targeted: %5s)",k,v,ByTag[k].TargettableByHero),3,y)
+			y+=20
+		end
+	End
+	
+	Get Bool IsTargeted
+		//ImageFont.Obtain("MINITEXT").Text(sprintf("Stage.Current: %s; PlayerInputTarget: %s; Targeted: %s",Stage.Current,FlowCombat.PlayerInputTarget,FlowCombat.PlayerInputTarget.Targeted),3,3) // Debug only!
+		ImageFont.Obtain("MINITEXT").Text(sprintf("Stage: %s; CanTarget: %s; Has List: %s",Stage.Current.RegName,Stage.Current.TargetMode,FlowCombat.PlayerInputTarget.Targeted!=nil),2,5)
+		if (!Stage.Current.TargetMode) || (!FlowCombat.PlayerInputTarget.Targeted)
+			Return False
+		End
+		TOverview() // Debug only
+		Return FlowCombat.PlayerInputTarget.Targeted[CharTag]
+	End
+	
+	Get Bool ShowHPBar
+		Return True
+	End
+	
+	Get String TargetName
+		Return sprintf("Lv %06d. %s",RPGChar[CharTag].Stats.Level,RPGChar[CharTag].Name)
+	End
 #endregion
 
 #region Start Up
@@ -264,6 +294,7 @@ Class Fighter
 
 
 	Static Void DrawAll(Bool AllowTarget)
+		Static Var Fnt = ImageFont.Obtain("MINITEXT")
 		For FTag,FDat in Pairs(ByTag)
 			If FDat.DrawThis
 				__White
@@ -279,6 +310,25 @@ Class Fighter
 				End
 				// CSayF("DEBUG> %s: Draw(%d,%d)  %dx%d",FTag,FDat.x,FDat.y,FDat.W,FDat.H) // DEBUG ONLY!!!
 				FDat.Draw()
+			End
+		End
+		For FTag,FDat in Pairs(ByTag)			
+			If FDat.DrawThis && FDat.IsTargeted
+				__White
+				Int NY = Fdat.Y-(Fdat.W div 4)
+				Int BY = NY+20
+				//FitText.Dark(fnt,fdat.TargetName,Fdat.X,NY)
+				fnt.DarkText(fdat.TargetName,Fdat.X,NY)
+				if Fdat.ShowHPBar
+					Int W = fnt.TextWidth(fdat.TargetName)
+					Graphics.Color(80,80,80)
+					Graphics.Rect(Fdat.X,BY,W,10)
+					Number Breuk = Fdat.HP/Fdat.HPMax
+					Int G=math.ceil(Breuk*255)
+					Int B=math.ceil(Breuk*W)
+					Graphics.Color(255-G,G,0)
+					Graphics.Rect(fdat.X,BY,B,10)
+				End
 			End
 		End
 	End

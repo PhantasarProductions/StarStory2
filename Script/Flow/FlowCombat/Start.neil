@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Start.neil
-// Version: 22.04.30
+// Version: 22.05.04
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -85,6 +85,7 @@ Module
 		// Compile Heroes
 		For i=1,Lnk.Party.Count
 			Hero.Compile(RPGChar[i])
+			EXPRate[RPGChar[i]]=EXPBaseRate
 		End
 		
 		For i,f in ipairs(Enemies)

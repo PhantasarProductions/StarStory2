@@ -32,15 +32,15 @@
 // 
 // **********************************************
 // 
-// version: 22.05.01
+// version: 22.05.05
 // End License Information
 Var Ret = new LinkedList()
 
-Void Attack()
+Void Attack(String Ch,Var Card)
 	Lua.error("Attack not yet supported")
 End
 
-Void Rage()
+Void Rage(String Ch,Var Card)
 	Lua.error("Rage not yet supported")
 End
 

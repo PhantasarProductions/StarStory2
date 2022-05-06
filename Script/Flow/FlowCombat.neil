@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.neil
-// Version: 22.05.01
+// Version: 22.05.04
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -48,8 +48,8 @@ global readonly var MiniMessage = Lnk.Party.MiniMsg
 global readonly var Dev = Any.Dev
 
 Table _real = {}
-//global Const Int EXPBaseRate = ({3.5,1,0.75})[__skill]
-//Global Table EXPRate = {}
+global Const Number EXPBaseRate = ({1.25,1,0.75})[__skill]
+Global Table EXPRate = {}
 
 Global String VicQ = "PERFECT"
 Global String LastAction = ""

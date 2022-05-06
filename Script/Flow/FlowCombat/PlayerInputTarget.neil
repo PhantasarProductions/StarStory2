@@ -1,0 +1,140 @@
+// License Information:
+// src/Tricky Script/Script/Flow/FlowCombat/PlayerInputTarget.neil
+// Version: 22.05.05
+// Copyright (C) 2022 Jeroen Petrus Broks
+// 
+// ===========================
+// This file is part of a project related to the Phantasar Chronicles or another
+// series or saga which is property of Jeroen P. Broks.
+// This means that it may contain references to a story-line plus characters
+// which are property of Jeroen Broks. These references may only be distributed
+// along with an unmodified version of the game.
+// 
+// As soon as you remove or replace ALL references to the storyline or character
+// references, or any termology specifically set up for the Phantasar universe,
+// or any other univers a story of Jeroen P. Broks is set up for,
+// the restrictions of this file are removed and will automatically become
+// zLib licensed (see below).
+// 
+// Please note that doing so counts as a modification and must be marked as such
+// in accordance to the zLib license.
+// ===========================
+// zLib license terms:
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// End License Information
+
+Class _PITar Extends Stage
+
+	Var Act
+	Var Card
+	Get Var IAct
+		Return Act.Act
+	End
+	
+	Get String ExeTag
+		Return Act.ExeTag
+	End
+	
+	Get String TargetType
+		Return IAct.Target
+	End
+	
+	Table Targeted
+	
+	Get Int MX
+		Return Any.Mouse.MX
+	End
+	
+	Get Int MY
+		Return Any.Mouse.MY
+	End
+	
+	Void Update()
+		Static Var MBTeam = { ["1F"]="Foe",["AF"]="Foe",["1A"]="Hero",["AA"]="Hero",["OS"]="Hero" } 
+		For t,f in pairs(Fighter.ByTag)
+			Switch TargetType
+				Case "EV"
+					Targeted[t]=true
+				Case "1F" "1A"
+					Targeted[t]=MY<f.Y && MY>f.Y-f.H && MX>f.X-(f.W div 2) && MX<f.X+(f.W div 2)
+					if IAct.Discriminate
+						Targeted[t] = Targeted[t] && MBTeam[TargetType]==f.Team
+					End
+				Case "AA" "AF" 
+					String Team
+					If MX<Screen.W div 2
+						Team="Foe"
+					Else
+						Team="Hero"
+					End
+					if (!IAct.Discriminate) || f.Team==MBTeam[TargetType]
+						Targeted[t] = f.Team==Team
+					Else
+						Targeted[t] = False
+					End
+				Case "OS"
+					Targeted[t] = t==ExeTag
+				Case "SP" 
+					Targeted[t] = t==IACT.SpecificTarget
+				Default
+					Lua.error("Unknown Target Type: "..TargetType)
+			End
+			Targeted[t]=Targeted[t] && f.TargettableByHero
+		End
+		If Any.Mouse.ML
+			Bool A=false
+			for _1,_2 in pairs(Targeted)
+				A = true
+			End
+			If A
+				int i=0
+				for k,v in Pairs(Targeted)
+					if v
+						i++
+						Act.Targets_Tag[i] = k
+						Act.Targets_Tag[i+1] = nil
+					end
+				end			
+				print(Serialize("Targets_Tag",Act.Targets_Tag))
+				FlowCombat.Execution.ComeToMe(Act,Card)
+			End
+		End
+	End
+	
+	Void Draw()
+		Any.Mouse.Draw()
+	End
+	
+	Get Bool TargetMode
+		Return True
+	End
+
+
+	Void ComeToMe(_Act,_Card)
+		Act = _Act
+		Card = _Card
+		Targeted = {}
+		Stage.Current=Self
+		Events.Flush()
+	End
+End
+
+Global Var PITar = new _PITar()
+
+Init
+	Stage.Register("PLAYERINPUTTARGET",PITar)
+End
+
+Return PITar

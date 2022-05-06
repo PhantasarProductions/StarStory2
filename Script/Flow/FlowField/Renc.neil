@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Renc.neil
-// Version: 22.04.25
+// Version: 22.05.06
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -48,9 +48,11 @@ Module Class
 
 	Constructor(string Foe)
 		EnemyTag = Foe
-		MinLevel = math.max(1,Self.Val(Foe,"MINLEVEL"))
-		MaxLevel = math.max(MinLevel,Self.Val(Foe,"MAXLEVEL"))
-		CSayF("Added %s (Level %d-%d)",Foe,MinLevel,MaxLevel)
+		Int Mini = Self.Val(Foe,"MINLEVEL")
+		Int Maxi = self.Val(Foe,"MAXLEVEL")
+		MinLevel = math.max(1,       Mini)
+		MaxLevel = math.max(MinLevel,Maxi)
+		CSayF("Added %s (Level %d-%d) (from: %d-%d)",Foe,MinLevel,MaxLevel,Mini,Maxi)
 	End
 #endregion
 	
@@ -60,7 +62,7 @@ Module Class
 	Static Var Layers
 
 	Static Bool OwnLevels(string F)
-		Return Stuff.Value("FOE:"..F,"UseOwnlevel"):upper()=="TRUE"
+		Return Stuff.Value("FOE:"..F,"UseOwnlevels"):upper()=="TRUE"
 	End
 
 	Static Int MinCycle(string F)
@@ -69,15 +71,18 @@ Module Class
 	
 	Static Int Val(String F,string K,FoeOnly)
 		If FoeOnly
+			CSayF("= FOEONLY: %s, %s",F,K)
 			return Lua.tonumber(Stuff.Value("FOE:"..F,K..__skill)) || 0
 		End
+		CSayF("Value(%s,%s)",F,K)
 		Switch K:upper()
 			CASE "MINLEVEL"
 				Int R
-				If OwnLevels(F)
+				If OwnLevels(F)					
 					R = Val(F,K,true)
 				Else
-					R = Lua.tonumber(FlowField.Map.KthuraMap.MetaData.Foe_MinLevel1) || 1
+					R = Lua.tonumber(FlowField.Map.KthuraMap.MetaData["Foe_MinLevel"..__skill]) || 1
+					CSayF("=> From meta: %d",R)
 				End				
 				Return Any.Caps.LevelRecalc(R)
 			CASE "MAXLEVEL"
@@ -85,9 +90,13 @@ Module Class
 				If OwnLevels(F)
 					R = Val(F,K,true)
 				Else
-					Int R = Lua.tonumber(FlowField.Map.KthuraMap.MetaData.Foe_MaxLevel1) || 2
+					R = Lua.tonumber(FlowField.Map.KthuraMap.MetaData["Foe_MaxLevel"..__skill]) || 2
+					CSayF("=> From meta: %d>%d",R,Any.Caps.LevelRecalc(R))
 				End		
-				Return Any.Caps.LevelRecalc(R)
+				//Return Any.Caps.LevelRecalc(R)
+				int RC = Any.Caps.LevelRecalc(R)
+				CSayF("=> Returning %d (%d)",RC,R)
+				Return RC
 			Default
 				return Lua.tonumber(Stuff.Value("FOE:"..F,K..__skill)) || 0
 		End
@@ -171,7 +180,9 @@ Module Class
 		
 		For i=1,num
 			Var F = FoeList[math.random(1,#FoeList)]
-			Lnk.Combat.NewEnemy(F.EnemyTag,math.random(F.MinLevel,F.MaxLevel))
+			Int lvl = math.random(F.MinLevel,F.MaxLevel)
+			CSayF("About to add enemy '%s' at level %d (range %d-%d)",F.EnemyTag,lvl,F.MinLevel,F.MaxLevel)
+			Lnk.Combat.NewEnemy(F.EnemyTag,lvl)
 		End
 		
 		//Lua.error("Random encounters not yet available")
