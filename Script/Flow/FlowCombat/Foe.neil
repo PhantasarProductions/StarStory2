@@ -83,9 +83,9 @@ Class Foe Extends Fighter
 			CSayF("%s has been killed!",Self.CharTag)
 			// Experience
 			For i=1,Lnk.Party.Count
-				If __skill==1 || (RPGChar[RPGParty[i]].Points.HP.Have>0 && RPGChar[RPGParty[i]].Stats.Level<Char.Stats.Level+Caps.LevelMargin)
-					Int E = math.floor( ( (Self.Char.Stats.Level/RPGChar[RPGParty[i]].Stats.Level) * 500) * (ExpRate[ RPGParty[i] ] || 1))
-					RPGChar[RPGParty[i]].Points.EXP += E
+				If __skill==1 || (RPGChar[RPGParty[i]].Points.HP.Have>0 && RPGChar[RPGParty[i]].Stats.Level<Self.Char.Stats.Level+Any.Caps.LevelMargin)
+					Int E = math.floor( ( (Self.Char.Stats.Level/RPGChar[RPGParty[i]].Stats.Level) * 250) * (ExpRate[ RPGParty[i] ] || 1))
+					RPGChar[RPGParty[i]].Points.EXP.Have += E
 					CSayF("%d>%s has gained %d experience points",i,RPGParty[i],E)
 				End
 			End
