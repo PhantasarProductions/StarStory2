@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Foe.neil
-// Version: 22.05.05
+// Version: 22.05.08
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -69,15 +69,41 @@ Class Foe Extends Fighter
 	End
 	
 	Int EleRes(string elem)
-		Int Ret = RawData.Value("RESISTELEMENT",elem) || 3
+		Int Ret = Lua.tonumber(RawData.Value("RESISTELEMENT",elem)) || 3
 		Ret = math.min(6,Ret)
 		Ret = math.max(0,Ret)
 		Return Ret
 	End
 	
+	Int KillH
+	
+	Void KillDraw()
+		Int H2 = H-KillH
+		If KillH==0
+			// Experience
+			For i=1,Party.Count
+				If __skill==1 || (RPGChar[RPGParty[i]].Points.HP.Have>0 && RPGChar[RPGParty[i]].Stats.Level<Char.Stats.Level+Caps.LevelMargin)
+					RPGChar[RPGParty[i]].Points.EXP += math.floor( ( (Char.Stats.Level/RPGChar[RPGParty[i]].Stats.Level) * 500) * (ExpRate[ RPGParty[i] ] || 1))
+				End
+			End
+			// Item or money drops
+			// TODO!
+		End	
+		Imgs[Neg].AltStretch("COMBAT",Self.X-(W div 2),self.Y-H2,W,H2)
+		KillH++
+		Gone = Gone || KillH>=H
+	End
+	
 	Void Draw()
+		If Gone
+			Return
+		End
 		Lua.assert(Imgs[Neg],sprintf("No data in image data %s",Neg))
-		Imgs[Neg].AltStretch("COMBAT",Self.X-(W div 2),self.Y-H,W,H)
+		If self.HP<=0
+			KillDraw()
+		Else
+			Imgs[Neg].AltStretch("COMBAT",Self.X-(W div 2),self.Y-H,W,H)
+		End
 	End
 	
 	Bool Pose(Action)
