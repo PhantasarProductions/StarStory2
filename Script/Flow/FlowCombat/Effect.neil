@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Effect.neil
-// Version: 22.05.06
+// Version: 22.05.07
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -36,25 +36,100 @@
 // End License Information
 
 Group Effect
+
 	Var Act
+	
 	Get Var iAct
 		Return Act.Act
 	End
+	
 	Get Var Executor
 		Return Act.Executor
 	End
+	
 	Get Var Luck
 		return Any.Luck
 	End
+	
 	Int XRoll(int a,b,c)
 		Return Luck.Roll(Executor.Tag,a, b,c)
 	End
+	
 	String TarTag
 	Get Var Target
 		Return Fighter.ByTag[TarTag]
 	End
+	
 	Int TRoll(int a,b,c)
 		Return Luck.Roll(TarTag,a, b,c)
+	End
+	
+	String ShowDmg(int dmg)
+		If dmg<25000
+			return sprintf("%d",dmg)
+		ElseIf dmg<25000000
+			return sprintf("%dK",dmg div 1000)
+		Else
+			return sprintf("%dM",dmg div 1000000)
+		End
+	End
+	
+	Void Hurt(Tar,int dmg,string elem="None")
+		If Lua.type(Tar)=="string"
+			Hurt(Fighter.ByTag[Tar],dmg,elem)
+			Return
+		End
+		if elem==""
+			elem="None"
+		end
+		Int TrueDmg
+		//Int Res = math.max(0,math.min(Tar.Char.Stats["END_ZER_"..Elem],6))
+		Int Res = Tar.EleRes(Elem)
+		CSayF("Target %s gets %d damage from element: %s",Tar.CharTag,dmg,elem)
+		Switch Res
+			case 0
+				// FATAL
+				charmsg(Tar.CharTag,"Death!",255,0,0)
+				TrueDmg = Tar.HPMax
+			case 1
+				// Very Weak
+				TrueDmg = math.ceil(math.max(4,Dmg*4.1)) // The .1 is to make sure the damage is not always dividable by 4.
+				charmsg(Tar.CharTag,ShowDmg(TrueDmg),255,0,0)
+			case 2
+				// Weak
+				TrueDmg = math.ceil(math.max(2,Dmg*2.1)) // The .1 is to make sure the damage is not always dividable by 2.
+				charmsg(Tar.CharTag,ShowDmg(TrueDmg),255,100,100)
+			case 3
+				// Neutral
+				TrueDmg = Dmg
+				charmsg(Tar.CharTag,ShowDmg(TrueDmg),255,255,255)
+			case 4
+				// Resistent
+				TrueDmg = math.ceil(math.max(1,Dmg div 2))
+				charmsg(Tar.CharTag,ShowDmg(TrueDmg),255,255,0)
+			case 5
+				TrueDmg = 0
+				charmsg(Tar.CharTag,"No Effect",255,255,0)
+			case 6
+				charmsg(Tar.CharTag,ShowDmg(Dmg),0,255,0)
+				TrueDmg = -Dmg
+			Default
+				// Nothing should make it possible this happens, but just in case!
+				Lua.error("Unknown elemental resistance number: "..Res)
+		End
+		Tar.Char.Points.HP.Have -= TrueDmg
+		CSayF("%s takes %d damage and has %d HP left!",Tar.CharTag,TrueDmg,Tar.Char.Points.HP.Have)
+		If Tar.CharTag=="Ashley"
+			Tar.Char.Points.AP.Have += math.ceil( (TrueDmg/Tar.Char.Points.HP.Maximum) * (25 / __skill))
+			if Tar.Char.Points.HP.Have==0
+				Tar.Char.Points.AP.Have = 0
+			End
+			CSayF("Ashley's rage after being attacked has been set to %d",Tar.Char.Points.AP.Have)
+		ElseIf Tar.Team=="Hero" && RPGParty.Has("Ashley") && Fighter.ByTag.Ashley && Fighter.ByTag.Ashley.HP>0
+			Var Ash = Fighter.ByTag.Ashley
+			Ash.Char.Points.AP.Have += math.ceil( (TrueDmg/Ash.Char.Points.HP.Maximum) * (6 / __skill))
+			CSayF("Ashley's rage after one of her allies has been attacked has been set to %d",Tar.Char.Points.AP.Have)
+		End
 	End
 	
 	Get Bool Hit
@@ -70,12 +145,39 @@ Group Effect
 		Return Acc>Eva
 	End
 	
+	Get Bool Attack
+		If iAct.Attack<=0
+			Return False
+		End
+		Switch iAct.Attack_Type
+			Case "Absolute" 
+				Hurt(Target,iAct.Attack,iAct.Attack_Element)
+			Case "PercentHP"
+				Hurt(Target,math.ceil( (iAct.Attack/100) * Target.HP),iAct.Attack_Element)
+			Case "PercentStat"
+				Hurt(Target,math.ceil( (iAct.Attack/100) * Target.Stats[iAct.Attack_OffenseStat]),iAct.Attack_Element)
+			Case "BattleStat"
+				Int Atk1 = math.floor(Executor.EndStats[iAct.Attack_OffenseStat]*1.5)
+				Int Atk2 = math.floor(Executor.EndStats[iAct.Attack_OffenseStat]*2.5)
+				Int Def1 = math.floor(  Target.EndStats[iAct.Attack_DefenseStat]*0.75)
+				Int Def2 = math.floor(  Target.EndStats[iAct.Attack_DefenseStat]*1.25)
+				Int Atk = XRoll(Atk1,Atk2)
+				Int Def = XRoll(Def1,Def1)
+				Int Dmg = math.max(1,Atk-Def)
+				Hurt(Target,Dmg,iAct.Attack_Element)
+			Default
+				Lua.error("Unknown attack type: "..iAct.Attack_Type)
+		End
+		Return True
+	End
+		
+	
 	Bool Run(_Act,string _TarTag)
 		Act      = _Act
 		TarTag   = _TarTag
 		Bool Ret = False
-		If Hit
-			Ret = True
+		If Hit			
+			Ret = Attack || Ret
 		End
 		Return Ret
 	End
