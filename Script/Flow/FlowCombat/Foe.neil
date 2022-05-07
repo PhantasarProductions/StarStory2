@@ -75,21 +75,26 @@ Class Foe Extends Fighter
 		Return Ret
 	End
 	
-	Int KillH
+	Int KillH = 0
 	
 	Void KillDraw()
 		Int H2 = H-KillH
 		If KillH==0
+			CSayF("%s has been killed!",Self.CharTag)
 			// Experience
-			For i=1,Party.Count
+			For i=1,Lnk.Party.Count
 				If __skill==1 || (RPGChar[RPGParty[i]].Points.HP.Have>0 && RPGChar[RPGParty[i]].Stats.Level<Char.Stats.Level+Caps.LevelMargin)
-					RPGChar[RPGParty[i]].Points.EXP += math.floor( ( (Char.Stats.Level/RPGChar[RPGParty[i]].Stats.Level) * 500) * (ExpRate[ RPGParty[i] ] || 1))
+					Int E = math.floor( ( (Self.Char.Stats.Level/RPGChar[RPGParty[i]].Stats.Level) * 500) * (ExpRate[ RPGParty[i] ] || 1))
+					RPGChar[RPGParty[i]].Points.EXP += E
+					CSayF("%d>%s has gained %d experience points",i,RPGParty[i],E)
 				End
 			End
 			// Item or money drops
 			// TODO!
+			CSay("=> Item drops not yet implemented!")
 		End	
-		Imgs[Neg].AltStretch("COMBAT",Self.X-(W div 2),self.Y-H2,W,H2)
+		CSayF("=> Killed foe disappearing: %d/%d=>%d",H,KillH,H2) 
+		ImgNor.AltStretch("COMBAT",Self.X-(W div 2),self.Y-H2,W,H2)
 		KillH++
 		Gone = Gone || KillH>=H
 	End
