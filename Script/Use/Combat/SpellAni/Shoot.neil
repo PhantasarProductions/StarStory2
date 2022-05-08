@@ -1,0 +1,87 @@
+#use "libs/linkedlist"
+
+Module Class
+	Static ReadOnly Var Img = Image.LoadNew("GFX/Combat/SpellAni/Laser.png","SPELLANI_LASER")
+	Static ReadOnly Var Aud = Audio.LoadNew("Audio/Combat/SpellAni/photon.ogg","SPELLANI_LASER")
+	Static ReadOnly Var Lst = new LinkedList()
+	Static ReadOnly Delegate Update = NIKS
+	
+	Static Void Start(Act,string Param)
+		Lst.Clear()
+		For i,T in ipairs(Act.Targets_Tag)
+			var beam = new Self(Act.Targets[i],Act.Executor)
+			if !beam.afgekeurd
+				Lst.AddLast(beam)
+			end
+		End
+		Aud.Play()
+	End
+	
+	Const Int MSpd=24
+	
+	ReadOnly Int R
+	ReadOnly Int G
+	ReadOnly Int B
+	
+	ReadOnly Int SX
+	ReadOnly Int SY
+	ReadOnly Int EX
+	ReadOnly Int EY
+		
+	ReadOnly Number MX
+	ReadOnly Number MY
+
+	Number NX
+	Number NY
+
+	Get Int X
+		Return math.floor(NX)
+	End
+	
+	Get Int Y
+		Return math.floor(NY)
+	End
+	
+	Get Bool Afgekeurd
+		Return SX==EX && SY==EY
+	End
+	
+	Constructor(Tar,Exe)
+		SX = Exe.X
+		SY = Exe.Y - (Exe.H div 2)
+		EX = Tar.X
+		EY = Tar.Y - (Tar.H div 2)
+		NX = SX
+		NY = SY
+		MX = (EX-SX) / MSPD
+		MY = (EY-SY) / MSPD
+		Int CD=1000
+		Repeat
+			R = math.random(0,255)
+			G = math.random(0,255)
+			B = math.random(0,255)
+			CD--
+		Until (CD<0) || (R+G+B>=300 && R+G+B<750)
+		CSayF("Generated beam (%d,%d) -> (%d,%d) Spd(%f,%f)",SX,SY,EX,EY,MX,MY)
+	End
+	
+	Void DrawBeam()
+		Graphics.Color(R,G,B)
+		Img.Draw(X,Y)
+		NX+=MX
+		NY+=MY
+	End
+	
+	Static Void Draw()
+		For Beam,BLnk in Lst.Each
+			Beam.DrawBeam()
+			If Beam.X<0 || Beam.Y<0 || Beam.X>Screen.W || Beam.Y>Screen.H
+				BLnk.UnLink()
+			End
+		End
+	End
+	
+	Static Get Bool Ended
+		Return Lst.Count<=0
+	End
+End
