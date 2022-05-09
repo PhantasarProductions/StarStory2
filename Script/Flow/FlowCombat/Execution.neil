@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Execution.neil
-// Version: 22.05.06
+// Version: 22.05.09
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -146,7 +146,8 @@ Class Stage_Execution Extends Stage
 			//	Ch = "Jake"
 			//End
 			if Act.Executor.Team=="Foe"
-				Ch = Act.Executor.Raw.VOCALTAG
+				//Ch = Act.Executor.Raw.VOCALTAG
+				Ch = Act.Executor.RawData.value("META","VOCALTAG")
 			End
 			String Voc = sPrintF("Vocals/Combat/%s/%s/Action/%s.ogg",Act.Executor.Team,Ch,Act.Act.Voice)
 			If JCR6.HasEntry(Voc)
