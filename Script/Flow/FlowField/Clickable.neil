@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Clickable.neil
-// Version: 22.04.20
+// Version: 22.05.08
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -91,6 +91,12 @@ Module Class
 		Return Ret
 	End
 	
+	Static Void BlueTrans(string Tag)
+		State.LoadNew("FLOW_BLUETRANS","Script/Flow/FlowBlueTransporter.neil")
+		State.Call("FLOW_BLUETRANS","LoadTrans",sprintf("\"%s\"",Tag))
+		Flow.Current="BLUETRANS"
+	End
+	
 	Static Void CBLoadMap(string MapBundle)
 		Bool TreasuresLoaded = False
 		CSay("Generate register of clickables")
@@ -126,6 +132,9 @@ Module Class
 					Var fuck = Spot(Lay,T)
 					Create(L,T,fuck.X,fuck.Y,FieldFlow.Recovery,T) //,sprintf("\"%s\"",T))
 					CSayF("= Recovery Spot: %s",T)
+				ElseIf Prefixed(T,"TRANS_GENERAL_")
+					Var fuck = Spot(Lay,T,true)
+					Create(L,T,fuck.X,fuck.Y,BlueTrans,T)
 				ElseIf Prefixed(T,"RANDOMTREASURE_")
 					If !TreasuresLoaded
 						FlowField.Treasure.Load(MapBundle)
