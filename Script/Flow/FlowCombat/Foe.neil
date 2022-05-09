@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Foe.neil
-// Version: 22.05.08
+// Version: 22.05.09
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -51,6 +51,10 @@ Class Foe Extends Fighter
 	Bool Gone
 	
 	Bool Humanoid
+	
+	Var AI
+	Var ActionsRaw
+	Var Actions
 	
 	Get Int W
 		if Humanoid
@@ -225,6 +229,18 @@ Class Foe Extends Fighter
 		NF._X = X
 		NF._Y = Y
 		
+		// AI
+		NF.AI = NeilUse("Script/Use/Combat/AI/"..NF.RawData.Value("AI","SCRIPT"))
+		NF.ActionsRaw = NF.RawData.ListCopy("AI","ACTIONS")
+		NF.Actions = {}
+		For A in Each(NF.ActionsRaw)
+			String AT = "ACTION:"..A
+			If (Lua.tonumber(NF.RawData.Value(AT,"MINLEVEL"..__skill)) || 1) >= level
+				For i=1,(Lua.tonumber(NF.RawData.Value(AT,"RATE"..__skill)) || 1)
+					NF.Actions += A
+				End
+			End
+		End
 		NF.SetUp(NF.CharTag,"Foe")
 	End
 
