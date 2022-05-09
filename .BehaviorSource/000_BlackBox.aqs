@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 22.04.12
+; version: 22.05.08
 ; End License Information
 ; Behavior Apollo Quick Script for 'E:/Projects/Applications/Apollo/Games/Star Story 2/src/Tricky Story/Kthura/000_BlackBox'
 ; Created 4/11/2022 11:03:28 AM
@@ -41,3 +41,4 @@ Include Basis.aqs
 
 Chunk Load
 	call CSay,"Welcome to 000_BlackBox"
+	done BeenInBlackBox
