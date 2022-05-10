@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.05.03
+// version: 22.05.10
 // End License Information
 
 #use "Libs/Fittext"
@@ -248,11 +248,11 @@ Class Fighter
 	
 	Get Bool IsTargeted
 		//ImageFont.Obtain("MINITEXT").Text(sprintf("Stage.Current: %s; PlayerInputTarget: %s; Targeted: %s",Stage.Current,FlowCombat.PlayerInputTarget,FlowCombat.PlayerInputTarget.Targeted),3,3) // Debug only!
-		ImageFont.Obtain("MINITEXT").Text(sprintf("Stage: %s; CanTarget: %s; Has List: %s",Stage.Current.RegName,Stage.Current.TargetMode,FlowCombat.PlayerInputTarget.Targeted!=nil),2,5)
+		//ImageFont.Obtain("MINITEXT").Text(sprintf("Stage: %s; CanTarget: %s; Has List: %s",Stage.Current.RegName,Stage.Current.TargetMode,FlowCombat.PlayerInputTarget.Targeted!=nil),2,5)
 		if (!Stage.Current.TargetMode) || (!FlowCombat.PlayerInputTarget.Targeted)
 			Return False
 		End
-		TOverview() // Debug only
+		//TOverview() // Debug only
 		Return FlowCombat.PlayerInputTarget.Targeted[CharTag]
 	End
 	
