@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Hero.neil
-// Version: 22.05.05
+// Version: 22.05.10
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -68,6 +68,8 @@ Class Hero Extends Fighter
 				Else
 					Return 0
 				End
+			Case "NONE"
+				Return 3
 			Default
 				Return RPGChar[self.CharTag].Stat["END_"..ele]
 		end
