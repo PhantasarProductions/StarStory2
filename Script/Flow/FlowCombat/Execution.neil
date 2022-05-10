@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Execution.neil
-// Version: 22.05.09
+// Version: 22.05.10
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -111,13 +111,15 @@ Class Stage_Execution Extends Stage
 		//DoShowBox = Stage.Current == Self
 	End
 	
-	Void Draw()		
+	Void Draw()
+		Self.ShowBox()
 		Self["Draw_"..ExStage]()
 	End
 	
 	Static Void ShowBox()
 		If DoShowBox
 			__White
+			//Lua.error("SHOW BOX FORCED ERROR! DEBUG ONLY!") // Only for debug purposes!
 			Graphics.Alpha(255)			
 			ABox.Draw()
 			AFnt.DarkText(Act.Act.Title,Screen.W div 2,AYPS + (ASiz div 2),2,2)
