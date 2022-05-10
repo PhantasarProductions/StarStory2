@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Subs/SubParty.neil
-// Version: 22.04.14
+// Version: 22.05.10
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -190,7 +190,7 @@ Group SubParty
 					//Graphics.SetScale(math.min(LvScale[Ch] / 500,1))
 					//ImgLevelUp.Draw(Boxes[i].X+(Boxes[i].W div 2),Boxes[i].Y-5)
 				End
-				If RPGChar[Ch].Stat.Level<Any.Caps.LevelCap && RPGChar[Ch].Stat.Experience<=0
+				//If RPGChar[Ch].Stat.Level<Any.Caps.LevelCap && RPGChar[Ch].Stat.Experience<=0
 					//ImgLevelUp.HotBottomCenter()
 					//AudLevelUp.Play()
 					//LvScale[Ch]=1
@@ -199,7 +199,19 @@ Group SubParty
 					//RPGChar[ch].Stat.Experience += EXP.ByLevel(RPGChar[Ch].Stat.Level)
 					//RPGChar[ch].Points.HP.Have     = RPGChar[ch].Points.HP.Maximum
 					//RPGChar[ch].Points.VIT.Have    = RPGChar[ch].Points.VIT.Maximum
-				End
+				//End
+				If RPGChar[Ch].Stat.Level>=Any.Caps.LevelCap
+					RPGChar[Ch].Points.EXP.Have=0
+				ElseIf RPGChar[Ch].Points.EXP.Have>=RPGChar[Ch].Points.EXP.Maximum
+					Static Var lvlup = Audio.LoadNew("Audio/Party/LevelUp.ogg","LEVELUP")
+					lvlup.Play()
+					RPGChar[Ch].Points.EXP.Have = 0
+					RPGChar[Ch].Stat.Level++
+					Grablevel(Ch,RPGChar[Ch].Stat.Level)
+					Self.MiniWrt(RPGChar[Ch].Name,255,180,0)
+					Self.MiniWrt(" has gained a level",180,0,255)
+					Self.MiniPush()
+				End				
 			End
 			If Mouse.MX>Boxes[i].X && Mouse.MY>Boxes[i].Y && Mouse.MX<Boxes[i].X+Boxes[i].W && Mouse.MY<Boxes[i].Y+Boxes[i].H && (!nohover)
 				Hover=i
