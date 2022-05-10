@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Misc/PSaveGame.neil
-// Version: 22.04.26
+// Version: 22.05.10
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -43,7 +43,7 @@ void MakeHeader()
 	string r = "Map:"..gv.gStr.MapTitle.."\n"
 	r += "Difficulty:"..({"Easy","Casual","Hard"})[gv.vInt.skill].."\n"
 	r += "Saved:"..gv.vInt.Saved.."\n"
-	r += "PureTime:"..gv.gint.time	
+	r += "PureTime:"..gv.gint.time.."\n"	
 	//r += "LevelCap:"..gv.vInt.LevelCap.."\n"
 	//r += "Chapter:"..__Chapter.."\n"
 	r+=sprintf("Cycle:%d\n",Any.Caps.Cycle)
