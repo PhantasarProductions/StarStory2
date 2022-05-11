@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 22.05.03
+; version: 22.05.11
 ; End License Information
 include basis.aqs
 
@@ -67,5 +67,16 @@ Chunk ZA_TutTransport
 	jmptrue einde
 	call MapText,"TUT_TRANS"
 	call MiniMsg,"Use the transporter pad to save your game",0,180,255
+	:einde
+	exit
+	
+Chunk ZA_Sein
+	call CSay,"Sein tutorial check"
+	done DONE_SLUMS_TUTORIAL_SEIN
+	jmptrue einde
+	call MapText,"TUT_SEIN"
+	call MiniMsg,"Apparently you do not yet fit the requirements",0,180,255
+	call MiniMsg,"to open the secrets doors in this room. Perhaps",0,180,255
+	call MiniMsg,"you should come back later for this.",0,180,255
 	:einde
 	exit
