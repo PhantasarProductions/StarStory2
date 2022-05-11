@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Victory.neil
-// Version: 22.05.10
+// Version: 22.05.11
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -147,6 +147,7 @@ Class Stage_Victory extends Stage
 					End
 				End
 			End
+			Lnk.Map.Schedule(":OPENDOOR:")
 			Repeat
 				Events.Poll()
 				FPS.WaitMinTicks()
@@ -154,7 +155,6 @@ Class Stage_Victory extends Stage
 			If !Prefixed(FlowCombat.Start.Music:upper(),"*NOCHANGE")
 				Music.Pop()
 			End
-			Lnk.Map.Schedule(":OPENDOOR:")
 			Return
 		End
 		plua vit
