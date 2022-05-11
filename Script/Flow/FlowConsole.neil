@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowConsole.neil
-// Version: 22.05.03
+// Version: 22.05.11
 // Copyright (C) 2020, 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -289,6 +289,12 @@ VOID ToggleGod()
 	CSayF("God mode: %s",Lua.tostring(gv.GBool["CHEAT.GOD"]))
 end
 
+Void ToggleSein()
+	gv.gbool.SeinAlwaysOpen = !gv.gbool.SeinAlwaysOpen
+	CSayF("Sein-always-green mode: %s",gv.gbool.SeinAlwaysOpen)
+	CSay("Please note this cheat won't take effect until the next map is being loaded!")
+End
+
 VOID ShowGV()
 	Plua Tab = GV.DumpTable
 	For i,l in ipairs(Tab)
@@ -367,6 +373,7 @@ deftable icommandtable
 			CLine.Write(sprintf("%s has %d/%d HP",Tag,RPGChar[Tag].Points.HP.Have,RPGChar[Tag].Points.HP.Maximum),r,g,b)
 		end
 	End
+	SEIN = ToggleSein
 end
 
 
