@@ -1,0 +1,172 @@
+// License Information:
+// src/Tricky Script/Script/Flow/FlowField/Sein.neil
+// Version: 22.05.11
+// Copyright (C) 2022 Jeroen Petrus Broks
+// 
+// ===========================
+// This file is part of a project related to the Phantasar Chronicles or another
+// series or saga which is property of Jeroen P. Broks.
+// This means that it may contain references to a story-line plus characters
+// which are property of Jeroen Broks. These references may only be distributed
+// along with an unmodified version of the game.
+// 
+// As soon as you remove or replace ALL references to the storyline or character
+// references, or any termology specifically set up for the Phantasar universe,
+// or any other univers a story of Jeroen P. Broks is set up for,
+// the restrictions of this file are removed and will automatically become
+// zLib licensed (see below).
+// 
+// Please note that doing so counts as a modification and must be marked as such
+// in accordance to the zLib license.
+// ===========================
+// zLib license terms:
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// End License Information
+Module
+	Var Data
+	Var SLayers
+	
+	string N1(string N)
+		Return Right(N,#N-1)
+	End
+
+	Void CBLoadMap(string mapbundle)
+		CSayF("Checking sein: %s",mapbundle)
+		Data = GINIE.Load("Kthura/"..mapbundle.."/Sein","MAPSEIN")
+		print(Data.UnparseMe) // Debug only
+		SLayers = Data.ListCopy("LAYERS","LAYERS")
+		for i=1,#Slayers
+			//SLayers[i]=Replace(SLayers[i],"[HASH]","#")
+			if Prefixed(SLayers[i],"[HASH]")
+				Slayers[i]="#"..Right(SLayers[i],#SLayers[i]-6)
+			End
+		End
+		CSayF("= There are %d(%d) layers with at least one sein",#SLayers,Data.Count("LAYERS","LAYERS"))
+		For Lay in Each(SLayers)
+			CSayF("= Layer '%s' is being checked as sein layer",Lay)
+			For Sein in Data.ListEach(Lay,"Seinen")
+				String Cat = sprintf("::%s::%s::%s::","SEIN",Lay,Sein)
+				CSayF("= Seinrec: %s",Cat)
+				Bool Success = True
+				Bool SowiesoRood = False
+				Int Rate = 0
+				Int RateNum = 0				
+				For Eis in Data.ListEach(Cat,"Requirements")
+					If Prefixed(Eis,"&")
+						SowiesoRood = SowiesoRood || (!gv.gbool[N1(eis)])
+						Success = False						
+					End
+					If !SowiesoRood
+						Var S = Split(Eis," ")
+						if (#S<3)
+							Lua.error("Invalid sein requirement! >> "..Eis)
+						End
+						int Chk = math.max(1,Lua.tonumber(S[3]) || 1)
+						Int Val = 0
+						Switch S[1]:upper()
+							Case "CYLE"
+								Val = Any.Caps.Cycle
+							Case "KLAHRE" 
+								Val = RPGChar.Klahre.Stat.Level
+							Case "YORNO" 
+								Val = RPGChar.Yorno.Stat.Level
+							Case "SALPRDRITA" "DOCTOR"
+								Val = RPGChar.Doctor.Stat.Level
+							Case "ASHLEY"
+								Val = RPGChar.Ashley.Stat.Level
+							Case "LOWLEVEL" "LOWESTLEVEL" "LOWLVL" "LOLEVEL" "LOLVL" 
+								int m = 2000000
+								Val = m
+								for i=1,Lnk.Party.Count
+									Val = math.min(RPGChar[RPGParty[i]].Stat.Level)
+								end
+								Lua.assert(Val<m,"Low level check failure")
+							Case "HILEVEL" "HIGHLEVEL" "HIGHESTLEVEL" "HILVL" 
+								Val = 0
+								for i=1,Lnk.Party.Count
+									Val = math.max(RPGChar[RPGParty[i]].Stat.Level)
+								end
+								Lua.assert(Val>0,"Low level check failure")
+							Case "MEDAL"
+								Val = Medals.Percent
+							Default
+								switch Left(S[1],1)
+									case "$"
+										If S[3]==gv.gstr[N1(S[1])]
+											Val=Chk
+										Else
+											SowiesoRood=True
+											Val=0
+										End
+										Lua.assert(S[2]=="=" || S[2]=="==","String can only be checked with == in sein requirement: "..Eis)
+									case "%"
+										Val = gv.gint[N1(S[1])]
+									default
+										Lua.error("I do not understand sein requirement check "..Eis)
+								End
+						End
+						Int TRate = math.ceil((math.min(Val,Chk)/Chk)*100)
+						Rate += TRate
+						RateNum++
+						Switch S[2]
+							case "=" "=="
+								Success = Success && (Val==Chk)
+							Case "!="
+								Success = Success && (Val!=Chk)
+							case ">" 
+								Success = Success && (Val>Chk)
+							case "<"
+								Success = Success && (Val<Chk)
+							case ">=" 
+								Success = Success && (Val>=Chk)
+							case "<="
+								Success = Success && (Val<=Chk)
+							default
+								Lua.error("Operator "..s[2].." not understood in sein requirement: "..eis)
+						End		
+					End
+				End				
+				// All demands checked? Then let's see how things are
+				var wSein = FlowField.Map.KthuraMap.Layer(Lay).Obj(Sein)
+				If (Success && (!Sowiesorood)) || gv.gbool.SeinAlwaysOpen
+					CSay("Sein check succesful")
+					wSein.Texture="GFX/Textures/Medals/Sein/Groen.png"
+					for bar in Data.ListEach(Cat,"Barriers")
+						CSayF("SEIN> Removing barrier: %s",bar)
+						FlowField.Map.KthuraMap.Layer(Lay).Kill(bar)
+					end
+					for lab in Data.ListEach(Cat,"Labels")
+						CSayF("SEIN> Showing label: %s",lab)
+						FlowField.Map.KthuraMap.Layer(Lay).ShowByLabel(lab)
+					End
+				Else
+					CSay("Sein check failed")
+					If SowiesoRood || (( (rate/(ratenum*100))*100)<85)
+						CSayF("Sein is RED")
+						wSein.Texture="GFX/Textures/Medals/Sein/Rood.png"
+					Else
+						CSayF("Sein is AMBER")
+						wSein.Texture="GFX/Textures/Medals/Sein/Geel.png"
+					End
+					For lab in Data.ListEach(Cat,"Labels")
+						CSayF("SEIN> Hiding label: %s in layer (%s)",lab,lay)
+						FlowField.Map.KthuraMap.Layer(Lay).HideByLabel(lab)
+					End
+				End
+			End
+		End
+	End
+
+End
