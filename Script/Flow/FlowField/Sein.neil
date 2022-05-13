@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Sein.neil
-// Version: 22.05.11
+// Version: 22.05.13
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -86,14 +86,14 @@ Module
 								Val = RPGChar.Doctor.Stat.Level
 							Case "ASHLEY"
 								Val = RPGChar.Ashley.Stat.Level
-							Case "LOWLEVEL" "LOWESTLEVEL" "LOWLVL" "LOLEVEL" "LOLVL" 
+							Case "LOWLEVEL" "LOWESTLEVEL" "LOWLVL" "LOLEVEL" "LOLVL" "MINLVL" "MINLV" "MINLEVEL"
 								int m = 2000000
 								Val = m
 								for i=1,Lnk.Party.Count
 									Val = math.min(RPGChar[RPGParty[i]].Stat.Level)
 								end
 								Lua.assert(Val<m,"Low level check failure")
-							Case "HILEVEL" "HIGHLEVEL" "HIGHESTLEVEL" "HILVL" 
+							Case "HILEVEL" "HIGHLEVEL" "HIGHESTLEVEL" "HILVL" "MAXLVL" "MAXLV" "MAXLEVEL"
 								Val = 0
 								for i=1,Lnk.Party.Count
 									Val = math.max(RPGChar[RPGParty[i]].Stat.Level)
