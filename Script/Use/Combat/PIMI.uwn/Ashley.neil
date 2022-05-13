@@ -32,12 +32,13 @@
 // 
 // **********************************************
 // 
-// version: 22.05.05
+// version: 22.05.14
 // End License Information
 Var Ret = new LinkedList()
 
 Void Attack(String Ch,Var Card)
-	Lua.error("Attack not yet supported")
+	Var act = new Action("ACT_ATTACKASHLEY",Ch,{})
+	PITAR.ComeToMe(act,Card)
 End
 
 Void Rage(String Ch,Var Card)
