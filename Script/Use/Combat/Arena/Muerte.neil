@@ -51,14 +51,13 @@ Module
 	Void UnLoad()
 		Wall = nil
 		Floor = nil
-		  = nil
 		Image.KillByPrefix("Arena_Muerte")
 	End
 		
 	Void Draw()
 		Static Int HH = Screen.H div 2
-		TexMetal.Tile(0, 0,Screen.W,HH)
-		TexFloor.Tile(0,HH,Screen.W,HH)
+		 Wall.Tile(0, 0,Screen.W,HH)
+		Floor.Tile(0,HH,Screen.W,HH)
 	End
 	
 End
