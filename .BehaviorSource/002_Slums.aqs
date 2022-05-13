@@ -100,8 +100,36 @@ Chunk ZA_Ashley
 	:ashleyjoined
 	done DONE_ASHLEY_LOCKPICKTUTORIAL
 	jmptrue einde
-	MapText "ASHLEY_HITTOGATE"
-	call MiniMsg,"Click Ashley's portrait with the right mouse button"
-	call MiniMsg,"to put her in the lead, so she can open the gate"
+	call MapText,"ASHLEY_HINTTOGATE"
+	call Tut_Leader
 	:einde
 	exit
+	
+Chunk Tut_Leader
+	call MiniMsg,"Click Ashley's portrait with the right mouse button"
+	call MiniMsg,"to put her in the lead, so she can open the gate"
+
+Chunk Muerte_Klahre
+	call CSay,"Klahre can't do this!"
+	call MapText,"MUERTE_KLAHRE"
+	Call Tut_Leader
+	
+Chunk Muerte_Yorno
+	call CSay,"Yorno can't do this!"
+	call MapText,"MUERTE_YORNO"
+	Call Tut_Leader
+	
+Chunk Muerte_Ashley
+	call MapText,"MUERTE_ASHLEY1"
+	call PermaKill,"NPC_AshleyGate"
+	call PermaKill,"Ashley_Barrier"
+	call MapText,"MUERTE_ASHLEY2"
+	
+Chunk ZA_Muerte
+	Done Complete_002_Slums
+	call MiniMsg,"Entering Muerte Alley"
+	call GoToMap,"004_MUERTE","#001","Start"
+	
+Chunk NPC_AshleyGate
+	call CSay,"Accessing Gate"
+	call SLead,"Muerte"
