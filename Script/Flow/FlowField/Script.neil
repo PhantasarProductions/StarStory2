@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Script.neil
-// Version: 22.04.07
+// Version: 22.05.13
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -46,7 +46,8 @@ Module
 	
 	Void RunAQS(string chunk,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z)
 		Lua.assert(HasAQS,"Call to AQS done, while no AQS is present")
-		Lua.assert(AQS.HasChunk("BEHAVIOR",Chunk),"Behavior AQS to non-existent chunk: "..Chunk)			
+		Lua.assert(AQS.HasChunk("BEHAVIOR",Chunk),"Behavior AQS to non-existent chunk: "..Chunk)
+		CSayF("Calling behavior chunk: %s",Chunk)
 		AQS.Call("BEHAVIOR",Chunk,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z)
 	End
 	
