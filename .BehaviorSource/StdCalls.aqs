@@ -1,6 +1,6 @@
 ; License Information:
 ; src/Tricky Script/.BehaviorSource/StdCalls.aqs
-; Version: 22.04.14
+; Version: 22.05.13
 ; Copyright (C) 2022 Jeroen Petrus Broks
 ; 
 ; ===========================
@@ -46,11 +46,13 @@ CSChunk Hide,Lnk.Map.HideObj
 CSChunk Show,Lnk.Map.ShowObj
 CSChunk LHide,Lnk.Map.HideByLabel
 CsCHunk LShow,Lnk.Map.ShowByLabel
-CSChunk Pop,FlowField.FollowTheLeader.PartyPop
+;CSChunk Pop,FlowField.FollowTheLeader.PartyPop
+CSChunk Pop,FlowField.FollowTheLeader.Pop
 CSChunk iPop,FlowField.FollowTheLeader.iPop
 cschunk Print,Print
 CSChunk WalkTo,Lnk.Map.PWalkTo
 CSChunk XWalkTo,Lnk.Map.XWalkTo
+CSChunk StopWalking,Lnk.Map.StopWalking
 CSChunk Crash,Lua.error
 cschunk party,lnk.party.party
 cschunk Open,lnk.Map.Open
