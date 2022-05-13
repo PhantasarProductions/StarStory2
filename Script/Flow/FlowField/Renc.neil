@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Renc.neil
-// Version: 22.05.10
+// Version: 22.05.14
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -81,7 +81,7 @@ Module Class
 				If OwnLevels(F)					
 					R = Val(F,K,true)
 				Else
-					R = Lua.tonumber(FlowField.Map.KthuraMap.MetaData["Foe_MinLevel"..__skill]) || 1
+					R = Lua.tonumber(FlowField.Map.KthuraMap.MetaData["Foe_Minlevel"..__skill]) || 1
 					CSayF("=> From meta: %d",R)
 				End				
 				Return Any.Caps.LevelRecalc(R)
@@ -90,7 +90,7 @@ Module Class
 				If OwnLevels(F)
 					R = Val(F,K,true)
 				Else
-					R = Lua.tonumber(FlowField.Map.KthuraMap.MetaData["Foe_MaxLevel"..__skill]) || 2
+					R = Lua.tonumber(FlowField.Map.KthuraMap.MetaData["Foe_Maxlevel"..__skill]) || 2
 					CSayF("=> From meta: %d>%d",R,Any.Caps.LevelRecalc(R))
 				End		
 				//Return Any.Caps.LevelRecalc(R)
