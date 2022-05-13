@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Door.neil
-// Version: 22.04.14
+// Version: 22.05.13
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -119,6 +119,9 @@ Module Class
 		End
 		Data = GINIE.Load("Kthura/"..MapBundle.."/Doors","DOORS")
 		For Lay in Data.ListEach("Main","Layers")
+			if prefixed(Lay,"L:")
+				Lay=right(lay,#Lay-2)
+			End
 			CSayF("Doors> Layer: %s",Lay)
 			Var L = FlowField.Map.KthuraMap.Layer(Lay)
 			For Col in Data.ListEach("Collections",Lay)
