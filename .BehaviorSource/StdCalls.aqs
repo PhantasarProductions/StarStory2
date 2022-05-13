@@ -34,10 +34,11 @@
 ; misrepresented as being the original software.
 ; 3. This notice may not be removed or altered from any source distribution.
 ; End License Information
+
 ;Essential Standard Calls
 CSCHUNK CSay,CSay
 CSCHUNK CSayF,CSayF
-CSCHUNK MapScript,Map.Script
+CSCHUNK MapScript,Lnk.Map.Script
 CSCHUNK BoxText,Lnk.BoxText.Serial
 CSCHUNK MapText,Lnk.BoxText.Map
 CSCHUNK GoToMap,Lnk.Map.GoToMap
@@ -61,3 +62,7 @@ cschunk Cycles,lnk.Map.Cycles
 cschunk MiniMsg,lnk.Party.MiniMsg
 csChunk LeaderMapText,lnk.BoxText.MapTextLeader
 csChunk MapTextLeader,lnk.BoxText.MapTextLeader
+csChunk SLead,FlowField.FollowTheLeader.LeaderScript
+csChunk PKill,lnk.Map.PKill
+csChunk PermaKill,lnk.Map.PKill
+csChunk PermanentKill,lnk.Map.PKill
