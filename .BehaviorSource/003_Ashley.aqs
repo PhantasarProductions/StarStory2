@@ -45,5 +45,6 @@ Chunk ZA_Ashley
 	Call MapText,ASHLEY002
 	call sm
 	call MapText,ASHLEY003
+	call MiniMsg,"Ashley joined the party",255,255,0
 	call GoToMap,"002_SLUMS","#006","Exit_Ashley"
 	exit
