@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/FollowTheLeader.neil
-// Version: 22.04.28
+// Version: 22.05.13
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -55,10 +55,16 @@ Module
 		For i=1,4
 			If RPGParty[i]==Value
 				Leader = i
-				Return
+				Return 
 			End
 		End
 		CSayF("Warning! LeaderTag '%s' appears to refer to somebody who is NOT a party member!")
+	End
+	
+	Void LeaderScript(String Prefix)
+		string s = Prefix.."_"..LeaderTag
+		CSayF("Calling Leaderscript: %s",s)
+		FlowField.Script.Run(s)
 	End
 	
 	Get String LeaderMapTag
@@ -125,8 +131,18 @@ Module
 			Return
 		End
 		Int Leider=Leader
-		Repeat
-			Int Volger=(Leider%c)+1
+		//for f = Leader,c+leader
+		//	Leider = (f%c)
+		//	if Leider==0
+		//		leider=1
+		//	end
+		Repeat			
+			//Int Volger=(Leider%c)+1
+			Int Volger
+			Volger = Leider +1
+			If Volger>c
+				Volger = 1
+			End
 			if !(SpawnNew(Leader) && SpawnNew(Volger))
 				//Lnk.Party.MiniMsg(sprintf("Debug> Volger %d is er niet, of kon niet gespawnd worden!",Volger),255,0,0)
 				Return
@@ -134,7 +150,7 @@ Module
 			//Lnk.Party.MiniMsg(sprintf("Debug> #%d volgt %d!",Volger,Leider)) // Debug only!
 			Var OL = FlowField.Map.CurrentLayer.Obj(sprintf("PLAYER%d",Leider))
 			Var OV = FlowField.Map.CurrentLayer.Obj(sprintf("PLAYER%d",Volger))
-			If (!Ov.Walking)
+			If (Volger!=Leader) && (!Ov.Walking)
 				Switch OL.Wind:upper()
 					case "NORTH" 
 						OV.WalkTo(OL.X,OL.Y+30)
@@ -147,8 +163,12 @@ Module
 					Default
 				End
 			End
-			Leider = (Leider%c)+1
-		Until Leider==Volger || Leider==Leader
+			//Leider = (Leider%c)+1
+			Leider = Volger
+			//print(c,Leader,Leider,Volger,"Check",Leider==Volger , Leider==Leader,Leider==Volger || Leider==Leader) // DEBUG ONLY
+		//Until Leider==Volger || Leider==Leader
+		Until Leider==Leader
+		//End
 	End
 	
 End
