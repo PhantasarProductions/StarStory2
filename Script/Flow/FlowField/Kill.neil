@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Kill.neil
-// Version: 22.04.14
+// Version: 22.05.13
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -39,7 +39,7 @@ Module
 	Var Kills = nil 
 	
 	Void SetPerma(String Tag)
-		Kills.Add(FlowField.Map.LoadedMap,FlowField.Map.Layer)
+		Kills.Add(FlowField.Map.LoadedMap,FlowField.Map.Layer,Tag)
 	End
 	
 	Void Kill(String Tag,bool Permanent)
