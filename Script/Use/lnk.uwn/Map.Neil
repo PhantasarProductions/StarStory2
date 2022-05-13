@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/lnk.uwn/Map.Neil
-// Version: 22.04.28
+// Version: 22.05.13
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -237,7 +237,9 @@ Module
 	End
 	
 	Void Script(String Func,Args="nil")
-		State.Call("MAPSCRIPT","MScript."..Func,"\""..Lua.tostring(Args).."\"")
+		
+		//State.Call("MAPSCRIPT","MScript."..Func,"\""..Lua.tostring(Args).."\"")
+		State.Call("FLOW_FIELD","FlowField.Script.Run","\""..Func.."\",\""..Lua.tostring(Args).."\"")
 	End
 	
 	Void SG()
