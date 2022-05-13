@@ -32,9 +32,11 @@
 ; 
 ; **********************************************
 ; 
-; version: 22.05.11
+; version: 22.05.13
 ; End License Information
+
 include basis.aqs
+cschunk crch,lnk.party.createcharacter
 
 chunk ZA_Welcome
 	done DONE_SLUMS_WELCOME
@@ -78,5 +80,28 @@ Chunk ZA_Sein
 	call MiniMsg,"Apparently you do not yet fit the requirements",0,180,255
 	call MiniMsg,"to open the secrets doors in this room. Perhaps",0,180,255
 	call MiniMsg,"you should come back later for this.",0,180,255
+	:einde
+	exit
+	
+	
+Chunk ZA_Ashley
+	done DONE_SLUMS_ASHLEY_EVENT_TRIGGERED
+	jmptrue ashleyjoined
+	call Pop,"STOP",East
+	call MapText,"ASH1"
+	call Pop,"ASHLEY","East"
+	call Open,ASHLEY
+	call MapText,"ASH2"
+	;call Crash,"Interior of Ashley's house not yet scripted!"
+	call crch,Ashley
+	call party,Klahre,Yorno,Ashley
+	call GoToMap,"003_Ashley","ASHLEY","Start"
+	jmp einde
+	:ashleyjoined
+	done DONE_ASHLEY_LOCKPICKTUTORIAL
+	jmptrue einde
+	MapText "ASHLEY_HITTOGATE"
+	call MiniMsg,"Click Ashley's portrait with the right mouse button"
+	call MiniMsg,"to put her in the lead, so she can open the gate"
 	:einde
 	exit
