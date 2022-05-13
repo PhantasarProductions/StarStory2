@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Treasure.neil
-// Version: 22.04.22
+// Version: 22.05.13
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -101,9 +101,10 @@ Module
 		Var O = Lay.NewObj("Obstacle",Tag)
 		O.X = P.X
 		O.Y = P.Y
-		O.Visible = True
+		O.Visible = P.Visible
 		O.Alpha=255
 		O.Texture = "GFX/Treasure/Bag.png"
+		O.Label = P.Label
 		O.Data.Treasure = Treasures[math.random(1,#Treasures)]
 		FlowField.Clickable.Create(Layer,Tag,O.X,O.Y,RandomTreasure,Tag)
 		CSayF("Random treasure '%s' in layer '%s' created: %s (%04d,%04d)",T,Layer,O.Data.Treasure,O.X,O.Y)
