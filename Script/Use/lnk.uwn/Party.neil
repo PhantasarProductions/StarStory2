@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/lnk.uwn/Party.neil
-// Version: 22.04.13
+// Version: 22.05.13
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -37,7 +37,16 @@
 
 Module
 	Void CreateCharacter(string ch,int Level=1)
-		State.Call("SUB_PARTY","SubParty.CreateCharacter",sprintf("\"%s\",%d",ch,level))
+		If Any.Caps.Cycle>1
+			Return
+		End
+		Switch Ch
+			Case "Ashley"
+				State.Call("SUB_PARTY","SubParty.CreateCharacter",sprintf("\"%s\",%d",ch,10 div __skill))
+				RPGChar.Ashley.Points.AP.Have=0
+			Default
+				State.Call("SUB_PARTY","SubParty.CreateCharacter",sprintf("\"%s\",%d",ch,level))
+		End
 	End
 	
 	Void Boxes(string character="",nohover)		
