@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Any.uwn/IAA.neil
-// Version: 22.05.06
+// Version: 22.05.14
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -36,13 +36,15 @@
 // End License Information
 // Item Action Ability
 
+Var Me
 Var GData = GINIE.Obtain("INVENTORY")
 Var IAA_Class = GINIE.LoadNew("Data/IAA/MyData_ClassFile_IAA.Ini","IAA_CLASS")
 
 Table IAA_Data
 
-Class True_IAA
-End
+//Class True_IAA
+//End
+
 
 QuickMeta ItemSlot
 	index
@@ -114,7 +116,89 @@ Bool Give(String Item,Int N=1)
 	Return False	
 	//Lua.error("ITEM GIVE routine not yet scripted!")
 End
-	
+
+string Explanation(string itg,int t=2)
+	Var It = Me[itg]
+	switch t
+		case 0
+			return sprintf("%s\n$s",Explanation(1),Explanation(2))
+		case 1
+			return IT.Desc
+		case 2
+			string ret = ""
+			if IT.Type=="Item"
+				String T = IT.Item_Type
+				If T==""
+					T = "Consumable"
+				End
+				ret = sprintf("Type: %s\n",T)
+			end
+			if IT.Type=="Ability" || IT.Item_Type=="Consumable" || IT.Item_Type==""
+				ret += sprintf("Target: %s\n",IT.Target)
+			End
+			if IT.Attack>0
+				string d
+				Switch IT.Attack_Type
+					case "Absolute"
+						d = sprintf("%d points",IT.Attack)
+					case "PercentHP"
+						d = sprintf("%d%% of max HP",IT.Attack)
+					case "PercentStat"
+						d = sprintf("%d%% of %s",IT.Attack,IT.Attack_OffenseStat)					
+					case "BattleStat"
+						d = sprintf("[diceroll %d%% of user's %s against target's %s]",IT.Attack,IT.Attack_OffenseStat,IT.Attack_DefenseStat)
+					default
+						d= "????"
+				end
+				Switch IT.Attack_Element
+					case "Healing"
+						ret += sprintf("Heals %s\n",d)
+					case "DarkHealing"
+						ret += sprintf("Heals %s (but can be fatal to non-dark creatures)\n",d)
+					case "None"
+						ret += sprintf("Deals %s damage\n",d)
+					default
+						ret += sprintf("Deals %s %s damage\n",d,IT.Attack_Element)
+				End
+			End
+			For s in each(Any.Resistance.StatusChanges)
+				Switch s
+					case "Death"
+						if IT.Cause_Death
+							ret += "May KO target instantly\n"
+						end
+					Default
+						if IT["Cause_"..s]
+							ret += sprintf("Causes %s\n",s)
+						end
+						if IT["Cure_"..s]
+							ret += sprintf("Cures %s\n",s)
+						end
+				End
+			End		
+			if IT.ADDCARD_Char_Number>0
+				ret += sprintf("Target gains %d action bubbles (interval %d)\n",IT.ADDCHAR_Char_Number,IT.ADDCHAR_Char_Interval)
+			end
+			if IT.ADDCARD_Action_Number>1
+				if IT.ADDCARD_Action_Act=="Self"
+					ret += sprintf("Will place %d bubbles to repeat itself (interval %d)\n",IT.ADDCARD_Action_Number,IT.ADDCARD_Action_Interval)
+				Else
+					ret += sprintf("Will place %d bubbles containing the action '%s' (interval %d)\n",IT.ADDCARD_Action_Number,Any.IAA[IT.AddCard_Action_Act],IT.ADDCARD_Action_Interval)
+				end
+			ElseIf IT.ADDCARD_Action_Number==1	
+				If IT.ADDCARD_Action_Act=="Self"
+					ret += sprintf("Will place an extra bubble to repeat itself (spot #%d)\n",IT.ADDCARD_Action_Interval)
+				Else
+					ret += sprintf("Will place a bubble containing the action '%s' (spot #%d)\n",IT.ADDCARD_Action_Number,Any.IAA[IT.AddCard_Action_Act],IT.ADDCARD_Action_Interval)
+				End
+			End
+			Return ret
+		Default
+			Lua.error(sprintf("I do not know how to explain with type %s!",t))
+	end
+end
+
+
 Var GetIAA(String F)
 	string Rec="REC:"..F
 	Var Data = GINIE.LoadNew("Data/IAA/"..F..".INI",Rec)
@@ -125,6 +209,10 @@ Var GetIAA(String F)
 				Return Give(F)
 			Case "NUM"
 				Return ItemNum
+			Case "EXPLAIN"
+				Return Explanation(F)
+			Case "EXPLAINTABLE"
+				return Split(Explanation(F),"\n")
 			Default
 				Switch IAA_Class.Value("CLASS",Key):upper()
 					Case "STRING"
@@ -142,6 +230,12 @@ Var GetIAA(String F)
 	End
 	return Lua.setmetatable({},{["__index"]=GIndex})
 End
+
+global const int IAAEX_full    = 0
+global const int IAAEX_desc    = 1
+global const int IAAEX_details = 2
+
+
 
 QuickMeta _module_IAA
 	index
@@ -179,7 +273,7 @@ Init
 		ItemSlot[2]=6 div __skill
 		GData.Value("ALGEMEEN","SETUP","SET")
 	End
+	Me = _module_IAA
 End
-
 
 Return _module_IAA
