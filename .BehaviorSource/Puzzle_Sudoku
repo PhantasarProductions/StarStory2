@@ -1,0 +1,4 @@
+Chunk Load
+	Call CSay,"Loading the Sudoku script"
+	Call NewState,"PUZ_Sudoku","Script/Puzzles/Sudoku.neil"
+	

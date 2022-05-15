@@ -32,11 +32,12 @@
 ; 
 ; **********************************************
 ; 
-; version: 22.05.15
+; version: 22.05.16
 ; End License Information
 
 
 Include Basis.aqs
+Include Puzzle_Sudoku.aqs
 
 Chunk ZA_Phantasar
 	call crash,"Phantasar areas not yet included!"
@@ -57,3 +58,10 @@ Chunk ZA_Green
 	
 Chunk ZA_Feo
 	call GoToMap,"901_Feo","LOBBY","Start"
+	
+Chunk ZA_StartSudoku
+	call Start_Sudoku,"Solved_Muerte_Sudoku","GFX/Textures/Puzzles/Sudoku/Muerte","Solved_Sudoku","_429",huhwhat
+	
+Chunk Solved_Sudoku
+	call Sudoku_SeinGeel,"SEIN_NBX_SUDOKU_SOLUTION"
+	call PKill,"Barrier_Next"
