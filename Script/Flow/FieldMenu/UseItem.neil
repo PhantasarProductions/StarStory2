@@ -1,0 +1,77 @@
+// License Information:
+// src/Tricky Script/Script/Flow/FieldMenu/UseItem.neil
+// Version: 22.05.14
+// Copyright (C) 2022 Jeroen Petrus Broks
+// 
+// ===========================
+// This file is part of a project related to the Phantasar Chronicles or another
+// series or saga which is property of Jeroen P. Broks.
+// This means that it may contain references to a story-line plus characters
+// which are property of Jeroen Broks. These references may only be distributed
+// along with an unmodified version of the game.
+// 
+// As soon as you remove or replace ALL references to the storyline or character
+// references, or any termology specifically set up for the Phantasar universe,
+// or any other univers a story of Jeroen P. Broks is set up for,
+// the restrictions of this file are removed and will automatically become
+// zLib licensed (see below).
+// 
+// Please note that doing so counts as a modification and must be marked as such
+// in accordance to the zLib license.
+// ===========================
+// zLib license terms:
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// End License Information
+void _UseItem(string ch,int Slot,string ittag)
+	static var buzz = Audio.Obtain("BUZZ")
+	var It=Any.IAA[ittag]
+	var Char = RPGChar[ch]
+	var HP = Char.Points.HP
+	switch It.Item_Type
+		Case "" "Consumable"
+			Bool Success = False
+			If it.Attack && it.Attack_Element=="Healing" && HP.Have<HP.Maximum				
+				Switch it.Attack_Type
+					Case "Absolute"
+						HP.Have += it.Attack
+						Success=true
+					Case "PercentHP"
+						HP.Have += math.ceil(HP.Maximum * (it.Attack/100))
+						Success=true
+					Case "PercentStat"
+						HP.Have += math.ceil(Char.Stat[it.Attack_OffenseStat] * (it.Attack/100))
+						Success=true
+					Case "BattleStat"
+						Buzz.Play()
+						lnk.Party.MiniMsg(sprintf("The healing powers of the item '%s' can only be called upon in combat",It.Title),255,0,0)
+						Success=true // Appears odd, but this prevents double error messages!
+					default
+				End
+			End		
+			If Success
+				Any.IAA.SlotNum[Slot]--
+			Else
+				Buzz.Play()
+				lnk.Party.MiniMsg(sprintf("Using the item '%s' had no effect at all",It.Title),255,0,0)
+			End
+		Case "Jewel"
+			Lua.error("Jewels not yet scripted")
+		Default
+			Buzz.Play()			
+			lnk.Party.MiniMsg(sprintf("The item '%s' cannot be used that way",It.Title),255,0,0)
+	End
+end
+
+Return _UseItem

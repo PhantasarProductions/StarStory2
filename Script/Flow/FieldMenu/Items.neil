@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Items.neil
-// Version: 22.04.22
+// Version: 22.05.14
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -35,9 +35,25 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
+#use "Libs/FitText"
+
 Module
 
+	Get Int MX
+		Return Any.Mouse.MX
+	End
+	
+	Get Int MY 
+		Return Any.Mouse.MY
+	End
+	
+	Get Bool ML
+		Return Any.Mouse.ML
+	End
+	
+
 	ReadOnly Var Fnt = ImageFont.Obtain("BOXTEXT")
+	ReadOnly Var DFt = ImageFont.Obtain("MINITEXT")
 	
 	Bool Allow_FIELD(string ItemTag)
 		// TODO: True usage in field
@@ -49,13 +65,26 @@ Module
 		Static Int LinesOnScreen = (ubox.h div 30)-2
 		Static Int ScrollYMax = Any.Caps.InvSlots - LinesOnScreen
 		Static Var IAA = Any.IAA
+		Int Hover=-1
+		Int X
+		Int EX
 		For i=1,Any.Caps.InvSlots
 			Int Y   = (30*(i-ScrollY))+ubox.y
 			Int BsX = 5
-			Int X   = BsX + ubox.x
-			Int EX  = (ubox.x+ubox.w)-BsX
 			String ITg = IAA.Slot[i]
 			Int    INm = IAA.SlotNum[i]
+			// DEBUG ONLY!
+			//if i==1
+			//	__white
+			//	DFt.DarkText(sprintf("INm:%d ITg:%s M(%d,%d); Itm(%d,%d)-(%d,%d)",INm,ITg,MX,MY,X,EX,Y,Y+30),2,2)
+			//end
+			If INm>0 && ITg!="" && MX>uBox.x && MX<ubox.x+ubox.w && MY>Y && MY<Y+30 && i>ScrollY && i<=ScrollYMax
+				Hover=i
+				BsX=10
+			End
+			X   = BsX + ubox.x
+			EX  = (ubox.x+ubox.w)-BsX
+
 			//ITg,INm = IAA.Slot[i]
 			If i>ScrollY && i<=ScrollYMax
 				If INm==0
@@ -65,14 +94,42 @@ Module
 					If Self["Allow_"..FMSituation](ITg)
 						__White
 					Else
-						Graphics.Color(123,123,123)
+						Graphics.Color(123,123,123)						
 					End
 					Fnt.Text(IAA[ITg].Title,X,Y)
 					If INm>1
 						__SkyBlue
-						Fnt.Text(Lua.tostring(INm),EX,Y,1)
+						Fnt.Text(Lua.tostring(INm),EX,Y,1)						
 					End
 				End
+			End
+		End
+		If Hover>=0
+			String ITg = IAA.Slot[Hover]
+			Lua.assert(ITg!="",sprintf("Hovering slot #%d gives no an empty string",Hover))
+			Var IT = IAA[Itg]
+			Int X=MX+10
+			Int Y=MY+15
+			var Ex = IT.ExplainTable
+			Int W=Fnt.TextWidth(IT.Title)
+			For i,e in ipairs(EX)
+				W=math.max(W,DFt.TextWidth(e))
+			End
+			W+=8
+			__Black
+			Graphics.Alpha(120)
+			Graphics.Rect(math.max(math.min(X-(W div 2),Screen.W-W),0),Y,W,50+(#EX*20))
+			Graphics.Alpha(255)
+			__SkyBlue
+			FitText.Dark(Fnt,IT.Title,X,Y,2)
+			__Ember
+			FitText.Dark(DFt,IT.Desc,X,(Y+30),2)
+			__White
+			For i,e in ipairs(EX)
+				FitText.Dark(DFt,e,X,(Y+30)+(i*20),2)
+			End
+			If ML
+				UseItem(FMChar,Hover,ITg)
 			End
 		End
 	End
