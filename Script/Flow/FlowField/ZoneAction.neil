@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/ZoneAction.neil
-// Version: 22.05.02
+// Version: 22.05.15
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -114,8 +114,8 @@ class _ZoneAction
 		var vd
 		vd = new _ZoneAction("Enter","Next",_ZoneAction.NextRoom)
 		vd = new _ZoneAction("Enter","Prev",_ZoneAction.PrevRoom)
-		vd = new _ZoneAction("Enter","Secret",_ZoneAction.ShowSecret)
-		vd = new _ZoneAction("Leave","Secret",_ZoneAction.HideSecret)
+		//vd = new _ZoneAction("Enter","Secret",_ZoneAction.ShowSecret)
+		//vd = new _ZoneAction("Leave","Secret",_ZoneAction.HideSecret)
 	
 	end
 	
@@ -204,6 +204,46 @@ class _ZoneAction
 		return ret
 	end
 	
+	Static Void EnterSecret(String T)
+		FlowField.Map.CurLayer.ShowByLabel(T)
+	End
+	
+	Static Void LeaveSecret(String T)
+		FlowField.Map.CurLayer.HideByLabel(T)
+	End
+	
+	Static Void NewSecret(String T,String Lay,Tab)
+		FlowField.Map.KthuraMap.Layer(Lay).HideByLabel(T)
+		if Tab && Tab[T.."_ENTERSECRET"] && Tab[T.."_LEAVESECRET"]
+			Return
+		End
+		Var E = new _ZoneAction("Enter",T,EnterSecret,T)
+		Var L = new _ZoneAction("Leave",T,LeaveSecret,T)		
+		If Tab
+			Tab[T.."_ENTERSECRET"] = E
+			Tab[T.."_LEAVESECRET"] = L
+		End
+	End
+	
+	Static Void AshleyScan(string Tag)
+		Static String ND = "There is something closeby. I wonder!"
+		Static Table T = {"There is a secret passage %s of here. I'm sure of it!","I see something suspicious to the %s. I wonder","I think we should check out the way %s",ND,ND,ND,"I think I just saw something interesting to the %s of here"}
+		Var P = Split(Tag,"_")
+		if math.random(1,10)>math.min(4,RPGChar.Ashley.Stat.END_Luck) || Done[sprintf("AshleyScan_%s_%s_%s",Lnk.Map.LoadedMap,Lnk.Map.Layer,Tag)]
+			CSayF("Request to make Ashley scan the area rejected")
+			Return
+		End
+		Lnk.Party.MiniWrt("Ashley: ",255,180,0)
+		If !P[2]
+			Lnk.Party.MiniMsg(ND,0,255,0)
+		Else
+			Lnk.Party.MiniMsg(sprintf(T[math.random(1,#T)],P[2]),0,255,0)
+		End
+		RPGChar.Ashley.Points.EXP.Have += 18 div __skill
+	End
+		
+		
+	
 	Static Void Auto()
 		CSay("Gathering automated zone-action zones")
 		Table D
@@ -226,7 +266,11 @@ class _ZoneAction
 					var P = split(T,"_")
 					assert(P[2],"ZoneAction automated map + layer relocation without map data: "..T)
 					assert(P[3],"ZoneAction automated map + layer relocation without layer data: "..T)
-					D[T] = D[T] || new _ZoneAction("Enter",T,Lnk.Map.GoToMap,P[2],{P[3],P[4] || "Start"})				
+					D[T] = D[T] || new _ZoneAction("Enter",T,Lnk.Map.GoToMap,P[2],{P[3],P[4] || "Start"})	
+				elseif prefixed(T,"SECRET")
+					NewSecret(T,L,D)
+				elseif prefixed(T,"ASHLEYSCAN")
+					D[T] = D[T] || new _ZoneAction("Enter",T,AshleyScan,T)
 				end
 			End
 		End
