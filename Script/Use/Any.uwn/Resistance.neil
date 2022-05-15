@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Any.uwn/Resistance.neil
-// Version: 22.05.03
+// Version: 22.05.14
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -43,6 +43,8 @@ Module
 	// Will = Confusion + Sleep
 	// Stamina = Paralysis + Death
 	
+	
+	ReadOnly Var StatusChanges = {"Poison","Disease","Fear","Silence","Sleep","Paralysis","Damned","Death"}
 	ReadOnly Var Status = {"None","Bio","Will","Stamina"}
 	ReadOnly Var Elements = {"None","Flame","Wind","Water","Earth","Frost","Thunder","Light","Darkness"}
 	ReadOnly Var _Luck = {[0]="Worst",[1]="Bad",[2]="Normal",[3]="Good", [4]="Best"}
