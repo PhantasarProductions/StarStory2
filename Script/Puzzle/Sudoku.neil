@@ -66,10 +66,10 @@ Group Sudoku
 		
 
 	Void Start(String _DoneCheck, String _TexSet, String _SolvedAct, String _CorrectAnswer)
+		DoneCheck     = _DoneCheck
 		If gv.gbool[_DoneCheck]
 			Return
 		End
-		DoneCheck     = _DoneCheck
 		TexSet        = _TexSet
 		SolvedAction  = _SolvedAct
 		CorrectAnswer = { Lua.tonumber(Mid(_CorrectAnswer,2,1)),Lua.tonumber(Mid(_CorrectAnswer,3,1)),Lua.tonumber(Mid(_CorrectAnswer,4,1)) }
