@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Execution.neil
-// Version: 22.05.10
+// Version: 22.05.14
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -246,6 +246,7 @@ Class Stage_Execution Extends Stage
 			LastAction = Act.Executor.Tag
 			// Pose to normal
 			Act.Executor.UsePose = "IDLE"
+			//Act.Executor._UseFrame = 0
 			// AP Up
 			//Act.Executor.AP += Act.Act.rew_GainAP
 			//If Act.Executor.Char.Data.Master=="Fandalora"
