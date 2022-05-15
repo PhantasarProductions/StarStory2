@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Sein.neil
-// Version: 22.05.13
+// Version: 22.05.16
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -66,9 +66,11 @@ Module
 				For Eis in Data.ListEach(Cat,"Requirements")
 					If Prefixed(Eis,"&")
 						SowiesoRood = SowiesoRood || (!gv.gbool[N1(eis)])
-						Success = False						
+						If SowiesoRood
+							Success = False
+						End
 					End
-					If !SowiesoRood
+					If (!SowiesoRood) && (!Prefixed(Eis,"&"))
 						Var S = Split(Eis," ")
 						if (#S<3)
 							Lua.error("Invalid sein requirement! >> "..Eis)
@@ -140,6 +142,7 @@ Module
 				End				
 				// All demands checked? Then let's see how things are
 				var wSein = FlowField.Map.KthuraMap.Layer(Lay).Obj(Sein)
+				CSayF("SeinCheck -- Success: %s;  Sowiesorood: %s",success,Sowiesorood)
 				If (Success && (!Sowiesorood)) || gv.gbool.SeinAlwaysOpen
 					CSay("Sein check succesful")
 					wSein.Texture="GFX/Textures/Medals/Sein/Groen.png"
