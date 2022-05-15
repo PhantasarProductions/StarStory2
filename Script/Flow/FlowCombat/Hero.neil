@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Hero.neil
-// Version: 22.05.10
+// Version: 22.05.14
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -43,7 +43,13 @@ Class Hero Extends Fighter
 	Int _ACX
 	Int _ACY
 	
-	Get Int Frame
+	String OldPose="???"
+	Get Int Frame		
+		if OldPose!=Self.UsePose
+			Self._PoseFrame=0
+			CSayF("%s> Frame reset due to pose change! %s => %s",Self.CharTag,OldPose,Self.UsePose)
+			OldPose=Self.UsePose
+		End
 		Return math.min(Self._PoseFrame,Self.Img.Frames-1)
 	End
 	
@@ -153,10 +159,12 @@ Class Hero Extends Fighter
 		// To do: Actual code
 		UsePose = Action.Act.Stance
 		Static String OldPose = "&&&&&&"
-		If UsePose!=OldPose
-			_PoseFrame=0;			
-		End
-		OldPose=UsePose
+		//CSayF("%s> %s/%s",Self.CharTag,UsePose,OldPose)
+		//If UsePose!=OldPose || UsePose:upper()=="IDLE"
+		//	_PoseFrame=0
+		//	OldPose=UsePose
+		//	Return False
+		//End		
 		_PoseFrame = math.min(_PoseFrame+1,Img.Frames-1)
 		Return _PoseFrame>=Img.Frames-1
 	End
