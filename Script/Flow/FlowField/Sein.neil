@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Sein.neil
-// Version: 22.05.16
+// Version: 22.05.17
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -148,7 +148,11 @@ Module
 					wSein.Texture="GFX/Textures/Medals/Sein/Groen.png"
 					for bar in Data.ListEach(Cat,"Barriers")
 						CSayF("SEIN> Removing barrier: %s",bar)
-						FlowField.Map.KthuraMap.Layer(Lay).Kill(bar)
+						if FlowField.Map.KthuraMap.Layer(Lay).HasTag(bar)
+							FlowField.Map.KthuraMap.Layer(Lay).Kill(bar)
+						Else
+						CSayF("Okay, I see, that barrier was already removed")
+						end
 					end
 					for lab in Data.ListEach(Cat,"Labels")
 						CSayF("SEIN> Showing label: %s",lab)
