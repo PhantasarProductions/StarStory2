@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Combat/PIMI.uwn/ZItems.neil
-// Version: 22.05.05
+// Version: 22.05.17
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -34,8 +34,64 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
-void _Z(string ch,Var Card)
-	Lua.error("Items not yet implemented")
+
+group it_uBox
+	const int X = 100
+	const int Y = 100
+	const int W = Screen.W - 200
+	const int H = Screen.H - 400
+end
+
+
+Class __PIMI_Items Extends Stage
+	Static var Card
+	Static var ch
+
+
+	static var SelItem 
+	
+	void Draw()
+		__Black
+		Graphics.Alpha(100)
+		Graphics.Rect(it_uBox.x,it_uBox.y,it_uBox.w,it_uBox.h)
+		Graphics.Alpha(255)
+		SelItem.Flow(it_uBox,ch,"Combat_UserMenu")
+		Any.Mouse.Draw()
+	end
+	
+	Void Update()
+	End
 End
+	
+global void UseItem(string ch,int Slot,string ittag)
+	static var buzz = Audio.Obtain("BUZZ")
+	Var Act
+	Var it = any.iaa[ittag]
+	Switch it.Item_Type 
+		Case "Usable"
+			act = new Action(ittag,Ch,{},{})
+		Case "Consumable"
+			act = new Action(ittag,Ch,{},{["ConsumeItem"]=Slot})
+		Default
+			Buzz.Play()
+			lnk.Party.MiniMsg("That item cannot be used in combat",255,0,0)
+			Return
+	End
+	PITAR.ComeToMe(act,__PIMI_Items.Card)
+end
+
+Var __md
+Init 
+	__md = new __Pimi_items()
+	Stage.Register("PLAYERINPUT",__md)
+	__md.SelItem = NeilUse("Script/Flow/FieldMenu/Items")
+end
+
+void _Z(string ch,Var _Card)
+	__Pimi_Items.Card = _Card
+	__PIMI_Items.Ch   = ch
+	Stage.Current=__md
+End
+
 
 Return _Z
