@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Foe.neil
-// Version: 22.05.10
+// Version: 22.05.17
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -90,12 +90,23 @@ Class Foe Extends Fighter
 				If __skill==1 || (RPGChar[RPGParty[i]].Points.HP.Have>0 && RPGChar[RPGParty[i]].Stats.Level<Self.Char.Stats.Level+Any.Caps.LevelMargin)
 					Int E = math.floor( ( (Self.Char.Stats.Level/RPGChar[RPGParty[i]].Stats.Level) * 250) * (ExpRate[ RPGParty[i] ] || 1))
 					RPGChar[RPGParty[i]].Points.EXP.Have += E
-					CSayF("%d>%s has gained %d experience points",i,RPGParty[i],E)
+					CSayF("%d>%s has gained %d experience points",i,RPGParty[i],E)					
+				End
+				if RPGParty[i]=="Ashley" && RPGChar.Ashley.Points.HP.Have>0
+					CSay("Ashley was there when a kill was made!")
+					gv.gInt.AshleyKills++
+					if gv.gInt.AshleyKills==1
+						CSayF("Ashley has now witnessed 1 kill")
+					Else
+						CSayF("Ashley has now witnessed %d kills",gv.gInt.AshleyKills)
+					End
 				End
 			End
 			// Item or money drops
 			// TODO!
 			CSay("=> Item drops not yet implemented!")
+			gv.gInt.Kills++
+			CSayF("Total kills: %d",gv.gInt.Kills)
 		End	
 		CSayF("=> Killed foe disappearing: %d/%d=>%d",H,KillH,H2) 
 		ImgNor.AltStretch("COMBAT",Self.X-(W div 2),self.Y-H2,W,H2)
