@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Items.neil
-// Version: 22.05.14
+// Version: 22.05.17
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -58,6 +58,11 @@ Module
 	Bool Allow_FIELD(string ItemTag)
 		// TODO: True usage in field
 		Return true
+	End
+	
+	Bool Allow_Combat_UserMenu(string ItemTag)
+		Var itm = Any.IAA[ItemTag]
+		return itm.Item_Type=="Usable" || itm.Item_Type=="Consumable"
 	End
 
 	Void Flow(uBox,string FMChar,string FMSituation)
