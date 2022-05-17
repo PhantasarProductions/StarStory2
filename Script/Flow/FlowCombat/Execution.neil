@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Execution.neil
-// Version: 22.05.14
+// Version: 22.05.17
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -93,8 +93,18 @@ Class Stage_Execution Extends Stage
 		End
 		#endif
 		#if StarStory2Inventory
-		If Act.ConsumeItem>0 && Act.Executor.Team=="Hero"
-			Lua.error("TODO: Removing item from inventory when it's being consumed!")
+		If Act.ConsumeItem>0 && Act.Executor.Team=="Hero"			
+			if Any.IAA.SlotNum[Act.ConsumeItem]<=0
+				Buzz.Play()
+				Lnk.Party.MiniMsg("Inventory slot #%d appears to be empty",255,0,0)
+			elseif Any.IAA.Slot[Act.ConsumeItem]:upper()!=Act.Act.Tag			
+				Buzz.Play()
+				Lnk.Party.MiniMsg("Inventory slot #%d appears to be set with a different item now",255,0,0)
+				// This should normally NOT be possible, but in the unlikely event it happens, a but has been prevented now.
+			else
+				Any.IAA.SlotNum[Act.ConsumeItem]--
+			End
+			//Lua.error("TODO: Removing item from inventory when it's being consumed!")
 		End
 		#fi
 		If Act.TarFilter()==0
