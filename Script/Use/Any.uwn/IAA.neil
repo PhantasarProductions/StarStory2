@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Any.uwn/IAA.neil
-// Version: 22.05.14
+// Version: 22.05.17
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -205,6 +205,8 @@ Var GetIAA(String F)
 	Var GIndex(s,String Key)
 		Key = Key:upper()
 		Switch(Key)
+			Case "TAG"
+				return F:upper()
 			Case "GIVE"
 				Return Give(F)
 			Case "NUM"
