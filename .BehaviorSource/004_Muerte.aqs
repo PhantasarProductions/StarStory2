@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 22.05.16
+; version: 22.05.18
 ; End License Information
 
 
@@ -65,3 +65,18 @@ Chunk ZA_StartSudoku
 Chunk Solved_Sudoku
 	call Sudoku_SeinGeel,"SEIN_NBX_SUDOKU_SOLUTION"
 	call PKill,"Barrier_Next"
+	
+Chunk ZA_QUICKSEWERS
+	chk &Been_In_Sewers
+	jmpfalse einde
+	call crash,"Quick way to sewers not yet set"
+	:einde
+	exit
+	
+Chunk ZA_TutorialBoss
+	Done MUERTE_TUTORIAL_BOSS
+	jmpfalse uitleg
+	exit
+	:uitleg
+	call LeaderText,"TUT_BOSS_INTRO"
+	Call MapText,"TUT_BOSS"
