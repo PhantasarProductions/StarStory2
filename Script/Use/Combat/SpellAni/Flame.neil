@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Combat/SpellAni/Flame.neil
-// Version: 22.05.17
+// Version: 22.05.19
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -53,7 +53,7 @@ module
 	// Init will be called EVERY time a move is being performed.
 	CONSTRUCTOR
 		self.Flame = Image.LoadNew("gfx/Combat/SpellAni/Flame.jpbf","SPELLANI_Flame")
-		self.MAudio = Audio.LoadNew("Audio/SpellAni/Fire.ogg","SPELLANI_Flame")
+		self.MAudio = Audio.LoadNew("Audio/Combat/SpellAni/Fire.ogg","SPELLANI_Flame")
 		self.Flame.HotBottomCenter()
 	end	
 
