@@ -44,6 +44,9 @@ Module
 			Case "Ashley"
 				State.Call("SUB_PARTY","SubParty.CreateCharacter",sprintf("\"%s\",%d",ch,10 div __skill))
 				RPGChar.Ashley.Points.AP.Have=0
+			Case "Doctor"
+				State.Call("SUB_PARTY","SubParty.CreateCharacter",sprintf("\"%s\",%d",ch,RPGChar.Klahre.Stats.Level + (3-__skill)))
+				RPGChar.Doctor.Points.AP.Have=RPGChar.Doctor.Points.AP.Maximum
 			Default
 				State.Call("SUB_PARTY","SubParty.CreateCharacter",sprintf("\"%s\",%d",ch,level))
 		End
