@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/ZoneAction.neil
-// Version: 22.05.15
+// Version: 22.05.19
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -271,6 +271,8 @@ class _ZoneAction
 					NewSecret(T,L,D)
 				elseif prefixed(T,"ASHLEYSCAN")
 					D[T] = D[T] || new _ZoneAction("Enter",T,AshleyScan,T)
+				elseif T:upper()=="BOSS_ACTIVATE"
+					D[T] = D[T] || new _ZoneAction("Enter",T,FlowField.Boss.Regular,T)
 				end
 			End
 		End
