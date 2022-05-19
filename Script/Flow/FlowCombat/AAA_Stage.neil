@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/AAA_Stage.neil
-// Version: 22.05.03
+// Version: 22.05.19
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -152,6 +152,10 @@ Class Stage_IDLE extends Stage
 		CardCheck()
 		If !Cards.Present(1)
 			Cards.DelFirst()
+			If FlowCombat.Class_Fighter.ByTag.Ashley && math.random(1,24 div __skill)==1
+				RPGChar.Ashley.Points.AP.Have--
+				RPGChar.Ashley.Points.HP.Have++
+			End			
 		elseif FirstCard.Joker
 			FirstCard:Joker()
 			Cards.DelFirst()

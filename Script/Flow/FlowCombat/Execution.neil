@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Execution.neil
-// Version: 22.05.17
+// Version: 22.05.19
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -76,6 +76,10 @@ Class Stage_Execution Extends Stage
 				AP.Have -= Act.Act.ABL_APCost
 			End
 		End		
+		
+		If Fighter.ByTag.Ashley && Act.Executor.Team=="Foe"
+			RPGChar.Ashley.Points.AP.Have += 6 div __skill
+		End
 		
 		// TFT
 		#if BasicInventory

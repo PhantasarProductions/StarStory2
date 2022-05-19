@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Effect.neil
-// Version: 22.05.07
+// Version: 22.05.19
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -86,7 +86,7 @@ Group Effect
 		//Int Res = math.max(0,math.min(Tar.Char.Stats["END_ZER_"..Elem],6))
 		Int Res = Tar.EleRes(Elem)
 		CSayF("Target %s gets %d damage from element: %s",Tar.CharTag,dmg,elem)
-		Switch Res
+		Switch math.min(6,math.max(0,Res))
 			case 0
 				// FATAL
 				charmsg(Tar.CharTag,"Death!",255,0,0)
@@ -120,14 +120,14 @@ Group Effect
 		Tar.Char.Points.HP.Have -= TrueDmg
 		CSayF("%s takes %d damage and has %d HP left!",Tar.CharTag,TrueDmg,Tar.Char.Points.HP.Have)
 		If Tar.CharTag=="Ashley"
-			Tar.Char.Points.AP.Have += math.ceil( (TrueDmg/Tar.Char.Points.HP.Maximum) * (25 / __skill))
+			Tar.Char.Points.AP.Have += math.ceil( (TrueDmg/Tar.Char.Points.HP.Maximum) * (50 / __skill)) + (24 div __skill)
 			if Tar.Char.Points.HP.Have==0
 				Tar.Char.Points.AP.Have = 0
 			End
 			CSayF("Ashley's rage after being attacked has been set to %d",Tar.Char.Points.AP.Have)
 		ElseIf Tar.Team=="Hero" && RPGParty.Has("Ashley") && Fighter.ByTag.Ashley && Fighter.ByTag.Ashley.HP>0
 			Var Ash = Fighter.ByTag.Ashley
-			Ash.Char.Points.AP.Have += math.ceil( (TrueDmg/Ash.Char.Points.HP.Maximum) * (6 / __skill))
+			Ash.Char.Points.AP.Have += math.ceil( (TrueDmg/Ash.Char.Points.HP.Maximum) * (12 / __skill))
 			CSayF("Ashley's rage after one of her allies has been attacked has been set to %d",Tar.Char.Points.AP.Have)
 		End
 	End
