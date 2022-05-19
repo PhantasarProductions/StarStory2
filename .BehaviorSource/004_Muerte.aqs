@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 22.05.18
+; version: 22.05.19
 ; End License Information
 
 
@@ -80,3 +80,13 @@ Chunk ZA_TutorialBoss
 	:uitleg
 	call LeaderText,"TUT_BOSS_INTRO"
 	Call MapText,"TUT_BOSS"
+	
+Chunk ZA_End
+	Done Complete_004_Muerte
+	jmpfalse dokter
+	call LeaderText,"NOWAY"
+	exit
+	:dokter
+	call MapText,"END"
+	call GoToMap,"005_DOKTORLAB","LOBBY","Start"
+	exit
