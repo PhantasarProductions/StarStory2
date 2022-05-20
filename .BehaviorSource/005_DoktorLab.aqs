@@ -32,11 +32,45 @@
 ; 
 ; **********************************************
 ; 
-; version: 22.05.19
+; version: 22.05.20
 ; End License Information
 
 
 Include Basis.aqs
 
+cschunk crch,lnk.party.createcharacter
+
 Chunk ZA_Event1
+	call ipop,"001","North"
+	call maptext,"001"
+	call crch,"Doctor",4
+	call party,Klahre,Yorno,Doctor,Ashley
+	call GoToMap,005_DoktorLab,LAB,Start
 	exit
+	
+Chunk ZA_Event2
+	call ipop,"002","North"
+	call maptext,"002"
+	call pop,"003","North"
+	call maptext,"003"
+	call pop,"004","South"
+	call music,"Music/Hub/Panic Stations.ogg"
+	call maptext,"004"
+	call lhide,"Licht"
+	call hide,"PLAYER1"
+	call hide,"PLAYER2"
+	call hide,"PLAYER3"
+	call hide,"PLAYER4"
+	call maptext,"005"
+	call qaudio,"Audio/SFX/Crash.ogg"
+	call maptext,"006"
+	call show,"PLAYER1"
+	call show,"PLAYER2"
+	call show,"PLAYER3"
+	call show,"PLAYER4"
+	call lshow,"Licht"
+	; Please note, the Angel, and the hole he came from share the Licht label, but were first invisible
+	; But the 'showbylabel' function does NOT care about that at all.
+	call ipop,"Angel"
+	call maptext,"007"
+	call gotomap,006_Sewers,"#001",Start
