@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Main.neil
-// Version: 22.04.30
+// Version: 22.05.19
 // Copyright (C) 2020, 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -88,6 +88,7 @@ Init
 	LAsset.C("Fonts/Techover.25.jfbf","NEWTEXT",wh_font,true)
 	LAsset.C("Fonts/Techover.50.jfbf","BIGTEXT",wh_font,true)
 	LAsset.C("Fonts/Mini.jfbf","MINITEXT",wh_font,true)
+	LAsset.C("Fonts/Lobster.jfbf","DOCTORTEXT",wh_font,true)
 	LAsset.C("GFX/Cursor/Default.png","MOUSE",wh_Image)
 	For k in Each{"Status","Items","Abilities","Achievements"}
 		LAsset.C(sprintf("GFX/MenuIcons/%s.png",k),sprintf("ICO_%s",k:upper()),wh_Image)
