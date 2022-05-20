@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Subs/SubBoxText.Neil
-// Version: 22.04.12
+// Version: 22.05.19
 // Copyright (C) 2020, 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -184,6 +184,10 @@ class TextBox
 		#if __BT_BoxTextDarkText
 			If Header=="Klahre" 
 				LFont.DarkText("Klahr|'e",__BT_BoxText_MinX,boxy+10)
+			ElseIf Header=="Doctor"
+				Var DoctorFont = ImageFont.Obtain("DOCTORTEXT")
+				LFont.DarkText("Dr. Sal'pr'drita",__BT_BoxText_MinX,boxy+10)
+				Self.Font = DoctorFont
 			Else
 				LFont.DarkText(Header,__BT_BoxText_MinX,boxy+10)
 			End
