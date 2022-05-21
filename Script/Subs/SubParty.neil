@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Subs/SubParty.neil
-// Version: 22.05.10
+// Version: 22.05.20
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -160,6 +160,7 @@ Group SubParty
 		Self.MiniShow()
 		__White
 		lnk.Ach.Show()
+		Static Table Order = { {1},{1,2},{1,2,3},{3,1,2,4}}
 		Static Table Boxes = { new Box(0,__BoxPosY,20,100,false),new Box(0,__BoxPosY,20,100,false),new Box(0,__BoxPosY,20,100,false),new Box(0,__BoxPosY,20,100,false)}
 		Int C  = lnk.Party.Count
 		Int M3 = 0
@@ -170,7 +171,8 @@ Group SubParty
 			M3 = Screen.W % 3
 		End
 		Lua.assert(C>0,"Empty party")
-		For i=1,C
+		//For i=1,C
+		For i in Each(Order[C])
 			String Ch = RPGParty[i]
 			Int W2 = W
 			if i==3
