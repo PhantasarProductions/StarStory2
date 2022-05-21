@@ -39,3 +39,14 @@ Include Basis.aqs
 
 Chunk Load
 	Done Been_In_Sewers
+	
+Chunk ZA_Welcome
+	Done Done_Sewers_Welcome
+	jmptrue einde
+	call maptext,"WELCOME"
+	:einde
+	exit
+	
+Chunk ZA_T001
+	call gotolayer,"#001",Start2
+	exit
