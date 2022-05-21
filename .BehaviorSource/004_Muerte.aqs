@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 22.05.19
+; version: 22.05.20
 ; End License Information
 
 
@@ -69,7 +69,8 @@ Chunk Solved_Sudoku
 Chunk ZA_QUICKSEWERS
 	chk &Been_In_Sewers
 	jmpfalse einde
-	call crash,"Quick way to sewers not yet set"
+	;call crash,"Quick way to sewers not yet set"
+	call gotomap,"006_Sewers","#000","Start"
 	:einde
 	exit
 	
