@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Effect.neil
-// Version: 22.05.19
+// Version: 22.05.22
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -116,6 +116,9 @@ Group Effect
 			Default
 				// Nothing should make it possible this happens, but just in case!
 				Lua.error("Unknown elemental resistance number: "..Res)
+		End
+		if TrueDmg>0 && Tar.Guarding
+			TrueDmg = math.ceil(TrueDmg * Tar.GuardModifier)
 		End
 		Tar.Char.Points.HP.Have -= TrueDmg
 		CSayF("%s takes %d damage and has %d HP left!",Tar.CharTag,TrueDmg,Tar.Char.Points.HP.Have)
