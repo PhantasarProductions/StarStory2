@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Hero.neil
-// Version: 22.05.19
+// Version: 22.05.22
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -37,6 +37,8 @@
 Class Hero Extends Fighter
 
 	Const Bool Gone = False
+	
+	Static ReadOnly Number GuardModifier = ({0,0.50,0.95})[__skill]
 	
 	Int _MTX
 	Int _MTY
