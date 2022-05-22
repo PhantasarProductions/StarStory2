@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Arena.neil
-// Version: 22.04.30
+// Version: 22.05.21
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -53,6 +53,7 @@ Module
 				Arena.Load()
 			End
 		End
+		Lua.assert(Arena,sprintf("Somehow the arena (%s) was NOT loaded!",LAF))
 		Arena.NewBattle()
 	End
 	
