@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/ZoneAction.neil
-// Version: 22.05.19
+// Version: 22.05.21
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -42,6 +42,7 @@ bool KettingInitDone
 class _ZoneAction
 
 	static table List
+	static table ListByLayer
 	static readonly delegate assert = Lua.assert
 	static readonly delegate error = Lua.error
 	static readonly delegate tonumber = Lua.tonumber
@@ -119,9 +120,30 @@ class _ZoneAction
 	
 	end
 	
+	Static Void SetupByLayer()
+		Static Var LK = {"Enter","Leave","Cycle"}
+		ListByLayer = {}
+		For L in each(FlowField.Map.KthuraMap.Layers)
+			ListByLayer[L] = {}
+			Var Lst = ListByLayer[L]
+			for LKI in Each(LK)
+				Lst[LKI] = new TLinkedList()
+				for ZAI in self.List[LKI].Each
+					Var Lay = FlowField.Map.KthuraMap.Layer(L)
+					if Lay.HasTag(ZAI.ActZone)
+						Lst[LKI].AddLast(ZAI)
+						CSayF("ZA_Layer> %s '%s' added for layer: %s",LKI,ZAI.ActZone,L) 
+					End
+				End
+			End
+		End
+	End
+			
+	
 	Static Void CBLoadMap()
 		self.Reset()
 		self.Auto()
+		self.SetupByLayer()
 	End
 	
 	static void RejectReject()
@@ -171,7 +193,11 @@ class _ZoneAction
 			return false
 		end
 		bool ret = false
-		for Event,ZoneList in pairs(self.List)
+		Var ToCheck = self.List
+		// If bylayonly
+			ToCheck = ListByLayer[FlowField.Map.Layer]
+		// End
+		for Event,ZoneList in pairs(ToCheck)
 			for Zone,lnk in ZoneList.Each
 				if Zone.ActMap!=FlowField.Map.LoadedMap && Zone.ActMap!=""
 					CSayF("Map mismatch in zone action! '%s'!='%s'    (%s:%s:%s) --> Stopping chain!",Zone.ActMap,FlowField.Map.LoadedMap,Event,Zone.ActZone,tostring(Zone.Act))
