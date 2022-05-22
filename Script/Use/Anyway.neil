@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Anyway.neil
-// Version: 22.04.22
+// Version: 22.05.21
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -66,6 +66,7 @@
 
 readonly global var Any = UWN("Script/Use/Any.uwn")
 readonly global var Lnk = UWN("Script/Use/Lnk.uwn")
+readonly global var Abl = UWN("Script/Use/Abilities.uwn")
 
 readonly var _LLoading = Lnk.Loading_h
 
