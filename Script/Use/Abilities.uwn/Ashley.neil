@@ -1,0 +1,200 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/Use/Abilities.uwn/Ashley.neil
+// (c) Jeroen Broks, 2022, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 22.05.22
+// End License Information
+
+#use "libs/linkedlist"
+
+// debug only!
+#define autoremove
+
+//1 yksi
+//2 kaksi
+//3 Kolme
+//4 Nelj?
+//5 Viisi
+//6 Kuusi
+//7 Seitsem?n
+//8 Kahdeksan
+//9 yhdeks?n
+//10 kymmenen
+
+
+Class __AshleyRage
+	#region Statics
+	ReadOnly Static Var Fnt = ImageFont.Obtain("BOXTEXT")
+	ReadOnly Static Var List  = new LinkedList()
+	ReadOnly Static Var Stuff = GINIE.CreateNew("ASHLEY_RAGE")
+
+	Static Void View(ubox)
+		int SX = ubox.x+10
+		int SY = ubox.y+10
+		int EX = (ubox.x+ubox.w)-20
+		int EY = (ubox.y+ubox.h)-20
+		int HX = 0
+		int Y = SY
+		For RI,RL in List.Each
+			#if autoremove
+				If Y>EY
+					RL.UnLink()
+					CSayF("Unlinked '%s'(%s). Beyond box bottom!",RI.Name,RI.Tag)
+				End
+			#fi
+			if RI.Unlocked
+				__White
+				String N = RI.Name
+				If #N>15
+					N = Left(N,15).."..."
+				End
+				Fnt.Dark(N,SX+HX,Y)
+				if RI.PU_HalfAP
+					Graphics.Color(180,255,0)
+				Else
+					Graphics.Color(0,180,255)
+				End
+				Fnt.Dark(""..RI.APCost,EX-HX,Y,1)
+				if RI.AllowPowerup>0
+					If RI.PowerUp<RI.AllowPowerup
+						Graphics.Color(180,0,255)
+					Else
+						Graphics.Color(255,180,0)
+					End
+					Fnt.Dark("*"..RI.PowerUp,EX-120,2,0)
+				End
+			else
+				Graphics.Color(120,120,120)
+				String Ndd = sprintf("Witness %05d more kills",RI.NeedMore)
+				if RI.NeedMore==0
+					Ndd = "Attack any enemy"
+				end
+				Fnt.Dark(Ndd,SX+HX,Y)
+			end
+			Y+=30
+		End
+	End
+	
+	Static Get Int AshleyKills
+		Return gv.gInt.AshleyKills
+	End
+	#EndRegion
+	
+	
+	#region Actual data
+	ReadOnly String Tag
+	ReadOnly Var Abl
+	ReadOnly Int NeedToUnlock
+	ReadOnly Int AllowPowerUp
+	
+	Get String Name
+		Return Abl.Title
+	End
+	
+	Get Bool Unlocked
+		Return AshleyKills>=NeedToUnlock && Stuff.Value(Tag,"Unlocked")=="TRUE" 
+	End
+	Set Bool Unlocked
+		if AshleyKills<NeedToUnlock
+			Return
+		End
+		Stuff.Value(Tag,"Unlocked",Lua.tostring(Value):upper())
+	End
+	
+	Get Int NeedMore
+		return math.max(0,NeedToUnlock-AshleyKills)
+	End
+	
+	Get Int Used
+		return Lua.tonumber(Stuff.Value(Tag,"Used")) || 0
+	End
+	Set Int Used
+		int OldPU = Self.PowerUp
+		Stuff.Value(Tag,"Used",sprintf("%d",Value))
+		If Used>Self.TrueAPCost*(0.5*__skill) && (!Self.PU_HalfAP)
+			Stuff.Value(Tag,"HalfAP","TRUE")
+			Lnk.Party.MiniWrt("Ashley ",255,180,0)
+			Lnk.Party.MiniMsg(sprintf("gained the powerup 'half rage cost' on ability '%s'",Name),0,180,255)
+		End
+		if OldPu<Self.PowerUp
+			Lnk.Party.MiniWrt("Ashley ",255,180,0)
+			Lnk.Party.MiniMsg(sprintf("gained the powerup 'extra power level %d' on ability '%s'",Self.PowerUp,Name),180,255,0)
+		End		
+	End
+	
+	Get Bool PU_HalfAP
+		return Stuff.Value(Tag,"HalfAP")=="TRUE"
+	End
+	Get Int TrueAPCost
+		Return ABL.APCost_Ashley
+	End
+	Get Int APCost
+		if PU_HalfAP
+			return TrueAPCost div 2
+		End
+		return TrueAPCost
+	End
+	Get Int PowerUp
+		Return math.max(0,math.min(AllowPowerup,Used div math.max(1,Abl.Attack)))
+	End
+		
+	
+	
+	Constructor(string AblTag,Int Need,Int APU=0)
+		Tag = AblTag
+		Abl = Any.IAA[Tag]
+		NeedToUnlock = Need
+		AllowPowerUp = APU
+		Used = 0
+		Stuff.Value(Tag,"Unlocked",Lua.tostring(Need==0):upper())
+		CSayF("%s has been added to Ashley's rage list",Name) 
+	End
+	
+	#endregion
+End
+
+
+Init
+//  for s=1,3 do local a=25; for i=1,10 do print(s,i,a*s) a = a + a end print("===") end
+	__AshleyRage.List.AddLast(new __AshleyRage("ABL_ASHLEY_PICKPOCKET",0))
+	__AshleyRage.List.AddLast(new __AshleyRage("ABL_ASHLEY_BERSERK",0))
+	__AshleyRage.List.AddLast(new __AshleyRage("ABL_ASHLEY_CHILL",0))
+	__AshleyRage.List.AddLast(new __AshleyRage("ABL_ASHLEY_READYCHARGE",1000*(10^__skill)))
+	int a = 25
+	for i=1,10 
+		__AshleyRage.List.AddLast(new __AshleyRage(sprintf("ABL_ASHLEY_STRIKE%X",i),a*__skill,i div __skill))
+		a += a
+	End
+End
+
+Return __AshleyRage
