@@ -1,0 +1,178 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/Use/Abilities.uwn/Klahre.neil
+// (c) Jeroen Broks, 2022, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 22.05.21
+// End License Information
+Class TARM
+	Static ReadOnly Var Stuff = GINIE.CreateNew("KLAHRE_ARMS")
+	Static Var _TrueList
+	Static Get Table List
+		_TrueList = _TrueList || Stuff.ListCopy("LISTS","ARMSGATHERED")
+		Return _TrueList
+	End
+	
+	readonly string Tag
+	readonly var ARM
+	
+	get var PAmmo
+		return RPGChar.Klahre.Points[sprintf("ZZ_ARM_AMMO_%s",Tag:upper())]
+	end
+	
+	get int AmmoMax
+		return PAmmo.Maximum
+	End
+	Set Int AmmoMax
+		PAmmo.Maximum = Value
+	End
+	get int Ammo
+		return PAmmo.Have
+	End
+	Set Int Ammo
+		PAmmo.Have = Value
+	End
+	
+	Get Int Hit
+		Return math.min(100,math.max(ARM.ARM_Init_Hit,Lua.tonumber(Stuff.Value(Tag,"Hit"))||1))
+	End
+	
+	Set Int Hit
+		Stuff.Value(Tag,"HIT",Lua.tostring(math.min(Value,100)))
+	End
+	
+	Get Int XPower
+		Return Lua.tonumber(Stuff.Value(Tag,"XPower")) || 0
+	End
+	Set Int XPower
+		Stuff.Value(Tag,"XPower",Lua.tostring(Value))
+	End
+	
+	Get Int XRepeat
+		Return Lua.tonumber(Stuff.Value(Tag,"XRepeat")) || 0
+	End
+	Set Int XRepeat
+		Stuff.Value(Tag,"XRepeat",Lua.tostring(Value))
+	End
+	
+	Get Int CostHit
+		Return math.max(ARM.ARM_Cost_Hit,Lua.tonumber(Stuff.Value(Tag,"Cost_Hit"))||1)
+	End
+	Set Int CostHit
+		Stuff.Value(Tag,"Cost_HIT",Lua.tostring(Value))
+	End
+	Get Int CostAmmoMax
+		Return math.max(ARM.ARM_Cost_Ammo,Lua.tonumber(Stuff.Value(Tag,"Cost_Ammo"))||1)
+	End
+	Set Int CostAmmoMax
+		Stuff.Value(Tag,"Cost_Ammo",Lua.tostring(Value))
+	End
+	Get Int CostXPower
+		Return math.max(ARM.ARM_Cost_XPower,Lua.tonumber(Stuff.Value(Tag,"Cost_XPower"))||1)
+	End
+	Set Int CostXPower
+		Stuff.Value(Tag,"Cost_XPower",Lua.tostring(Value))
+	End
+	Get Int CostXRepeat
+		Return math.max(ARM.ARM_Cost_XRepeat,Lua.tonumber(Stuff.Value(Tag,"Cost_XRepeat"))||1)
+	End
+	Set Int CostXRepeat
+		Stuff.Value(Tag,"Cost_XRepeat",Lua.tostring(Value))
+	End
+	
+	Constructor(string _Tag)
+		Tag = _Tag:upper()
+		ARM = any.iaa[Tag]		
+		AmmoMax = ARM.ARM_Init_Ammo 
+		Ammo = AmmoMax
+		Lua.assert(ARM,sprintf("Any.IAA['%s'] appears to have returned 'nil' for some odd reason.",Tag))
+	End
+End
+
+Module
+	ReadOnly Var Fnt = ImageFont.Obtain("BOXTEXT")
+	ReadOnly Var ARM
+	ReadOnly Var ARM_MAP
+
+	Get Var Stuff
+		Return TARM.Stuff
+	End
+	
+	Bool HasArm(string _ARM)
+		return Stuff.ListHas("LISTS","ARMSGATHERED",_ARM,true)
+	End
+	
+	Void Add(string _ARM)
+		_ARM = _ARM:upper()
+		if (!Prefixed(_ARM,"ARM_"))
+			_ARM="ARM_".._ARM
+		End
+		CSayF("Request to add ARM: %s",_ARM)
+		If HasARM(_ARM)
+			CSay("Rejected! ARM is already there!")
+			Return
+		End
+		Stuff.Add("LISTS","ARMSGATHERED",_ARM)
+		TARM._TrueList = nil
+		CSay("Added")
+	End
+
+	Void View(ubox,upgrading)
+		Int BX = ubox.x+5
+		Int BY = ubox.Y+5
+		Int EX = (ubox.x+ubox.w)-10
+		Int EY = (ubox.y+ubox.h)-10
+		Int MX = Any.Mouse.MX
+		Int MY = Any.Mouse.MY
+		Int HX = 0
+		For i,at in ipairs(TARM.List)
+			var a = ARM[at]
+			int IY = BY+(i*30)
+			__White
+			fnt.Dark(a.ARM.Title,BX+HX,IY)
+			__SkyBlue
+			fnt.Dark(sprintf("%2d/%2d",a.Ammo,a.AmmoMax),EX-HX,IY,1)
+		End
+	End
+	
+	Constructor
+		Add("Dart")
+		Add("HealingSpray")
+		ARM_MAP = {}
+		Var MIDX(S,string key)
+			key=key:upper()
+			ARM_MAP[key] = ARM_MAP[Key] || new TARM(key)
+			Return ARM_MAP[key]
+		End
+		ARM = Lua.setmetatable({},{["__index"] = MIDX})
+	End
+End
