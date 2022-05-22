@@ -32,10 +32,17 @@
 // 
 // **********************************************
 // 
-// version: 22.05.05
+// version: 22.05.22
 // End License Information
 void _Z(string ch,Var Card)
-	Lua.error("Guarding not yet implemented")
+	//Lua.error("Guarding not yet implemented")
+	Fighter.ByTag[ch].Guarding=true
+	If ch=="Ashley"
+		RPGChar.Ashley.Points.Rage.Have += 12 div __skill
+	End
+	charmsg(ch,"Guard!", 255, 180,0)
+	Stage.Current=nil
+	FlowCombat.Cards.DelFirst()
 End
 
 Return _Z
