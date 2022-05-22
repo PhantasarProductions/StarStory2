@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Foe.neil
-// Version: 22.05.17
+// Version: 22.05.22
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -38,11 +38,15 @@
 
 Class Foe Extends Fighter
 
+	Static ReadOnly Number GuardModifier = ({0.95,0.50,0})[__skill]
+
 	Var RawData
 	Bool Boss
 	String File
 	String CardTag
 	String Letter
+	Table Drops
+	Table Steal
 	
 	Var ImgNor
 	Var ImgNeg
@@ -103,8 +107,39 @@ Class Foe Extends Fighter
 				End
 			End
 			// Item or money drops
-			// TODO!
-			CSay("=> Item drops not yet implemented!")
+			int R=math.random(1,2+__Skill)
+			Switch R
+				Case 1
+					if math.random(0,lnk.party.level)<self.Level
+						// TODO: Phantasar -> Shilders
+						if false
+							if any.Aurina.RateShilders==1
+								CharMsg(Self.CharTag,"Dropped shilder",0,180,255)
+							Else
+								CharMsg(Self.CharTag,sprintf("Dropped %d shilders",Any.Aurina.RateShilders),0,180,255)								
+							End
+							Any.Aurina.HaveShilders += Any.Aurina.RateShilders
+						Else
+							if any.Aurina.Rate==1
+								CharMsg(Self.CharTag,"Dropped aurina",0,180,255)
+							Else
+								CharMsg(Self.CharTag,sprintf("Dropped %d aurinas",Any.Aurina.RateShilders),0,180,255)								
+							End
+							Any.Aurina.Have += Any.Aurina.Rate
+						End
+					end
+				case 2
+					if #Drops>0
+						string it = Drops[math.random(1,#Drops)]
+						var itd = Any.iaa[it]
+						if itd.Give
+							CharMsg(Self.CharTag,sprintf("Dropped %s",itd.title),0,180,255)
+						End
+					end
+				default
+					CSayF("Roll %d, is no go for drops",R)
+			End
+									
 			gv.gInt.Kills++
 			CSayF("Total kills: %d",gv.gInt.Kills)
 		End	
@@ -262,7 +297,29 @@ Class Foe Extends Fighter
 					CSayF("%s: Added action: %s",NF.Tag,A)  
 				End
 			End
-		End		
+		End
+		
+		// Drops & Steals
+		NF.Drops = {}
+		NF.Steal = {}
+		For it in Each(NF.RawData.ListCopy("ITEMS","LIST"))
+			String itt = "Item:"..it
+			Int DMinLvl = NF.RawData.NValue(itt,"DropMinLevel"..__skill)
+			int DRate   = NF.RawData.NValue(itt,"DropRate" ..   __skill)
+			Int SMinLvl = NF.RawData.NValue(itt,"StealMinLevel"..__skill)
+			int SRate   = NF.RawData.NValue(itt,"StealRate" ..   __skill)
+			if DMinLvl!=0 && DMinLvl<=Level
+				For i=1,DRate
+					NF.Drops +=it
+				End
+			End
+			if SMinLvl!=0 && SMinLvl<=Level
+				For i=1,SRate
+					NF.Steal +=it
+				End
+			End
+		End
+		
 		NF.SetUp(NF.CharTag,"Foe")
 	End
 
