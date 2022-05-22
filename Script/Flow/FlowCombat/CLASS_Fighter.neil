@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.05.10
+// version: 22.05.22
 // End License Information
 
 #use "Libs/Fittext"
@@ -43,6 +43,10 @@ Class Fighter
 
 	String CharTag
 	String Team
+	Bool Guarding = False
+	
+	
+	
 	
 	Table StatusChanges
 	
