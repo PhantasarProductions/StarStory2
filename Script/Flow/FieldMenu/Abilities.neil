@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Abilities.neil
-// Version: 22.04.14
+// Version: 22.05.21
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -36,5 +36,6 @@
 // End License Information
 Module
 	Void Flow(uBox,string FMChar,string FMSituation)
+		Abl[FMChar].View(ubox)	
 	End
 End
