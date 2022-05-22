@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/AAA_Stage.neil
-// Version: 22.05.19
+// Version: 22.05.22
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -119,6 +119,10 @@ Class Stage_IDLE extends Stage
 	Bool PreTurn(Card)
 		Bool SkipTurn
 		Var Char = Fighter.ByTag[Card.FightTag]
+		If Char.Guarding
+			CSayF("%s stops guarding",Card.FightTag)
+		End
+		Char.Guarding=false
 		For k,d in Char.EachStatusChange()
 			If d
 				CSayF("Character %s in preturn event check due to status %s",Char.Tag,k)
@@ -211,7 +215,7 @@ Class Stage_IDLE extends Stage
 						Return
 					End					
 				End
-				#fi
+				#fi				
 				Var Act = vFoe.AI.Decide(vFoe)
 				If !Act
 					CSayF("Foe %s failed to get a proper move!",vFoe.Tag)
