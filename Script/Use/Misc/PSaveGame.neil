@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Misc/PSaveGame.neil
-// Version: 22.05.10
+// Version: 22.05.21
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -72,6 +72,9 @@ Global Void PerformSaveGame(string f)
 	SaveGame.Data["Vars.ini"] = gv.GINIE
 	SaveGame.Data["Permakill.ini"] = GINIE.UnParse("PERMAKILL")
 	SaveGame.Data["Inventory.ini"] = GINIE.Unparse("INVENTORY")
+	For k in Each{"Klahre_ARMS","Yorno_Gadget","Doctor_Gadget","Doctor_XItem","Ashley_Rage"}
+		SaveGame.Data[sprintf("Abilities/%s.ini",k)] = GINIE.UnParse(k:upper())
+	End
 	Lnk.Map.SG()
 	if f=="QUIT"
 		SaveGame.Data["KILL ME"]="KILL ME"
@@ -86,7 +89,7 @@ Global Void PerformLoadgame(string f)
 	//Lua.error("Loading not yet implemented")
 	
 	static var tfnt
-	Int MProcess=14
+	Int MProcess=18
 	Progress.Create("AAA_LOADSAVEGAME",MProcess,180,255,0)
 	Loading()
 	Progress.AAA_LOADSAVEGAME = 1
@@ -150,7 +153,12 @@ Global Void PerformLoadgame(string f)
 
 		CSay("Ability")		
 		// TODO: Ability sheet
-		Progress.AAA_LOADSAVEGAME = 13
+		//Progress.AAA_LOADSAVEGAME = 13
+		For i,k in ipairs{"Klahre_ARMS","Yorno_Gadget","Doctor_Gadget","Doctor_XItem","Ashley_Rage"}
+			Progress.AAA_LOADSAVEGAME = 12+i
+			GINIE.Parse(k:upper(),SaveGame.Data[sprintf("Abilities/%s.ini",k)] )
+		End
+
 		Loading()
 		
 		CSay("Mutilate if applicable")
