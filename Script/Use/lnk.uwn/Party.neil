@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/lnk.uwn/Party.neil
-// Version: 22.05.19
+// Version: 22.05.22
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -117,6 +117,18 @@ Module
 	Void MiniMsg(string msg,int r=255,int g=255, int b=255)
 		MiniWrt(msg,r,g,b)
 		MiniPush()		
+	End
+	
+	Get Int Level
+		Int C=Count
+		Int T=0
+		If C==0
+			Return 0
+		End
+		For i=1,C
+			T+=RPGChar[RPGParty[i]].Stat.Level
+		End
+		Return T div C
 	End
 
 	Constructor
