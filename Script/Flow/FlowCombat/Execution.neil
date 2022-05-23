@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Execution.neil
-// Version: 22.05.19
+// Version: 22.05.23
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -116,7 +116,19 @@ Class Stage_Execution Extends Stage
 			Buzz.Play()
 			FlowCombat.Cards.DelShift()
 			Stage.Current = Nil
-			DoShowBox    = False
+			DoShowBox    = False			
+		End
+		// Ashley
+		//CSayF("Ashleylearn: %d",Act.AshleyLearn)
+		If Act.AshleyLearn>0
+			lnk.BoxText.Serial("COMBAT","ASHLEY_LEARN","FLOW_COMBAT")
+			lnk.Party.MiniWrt("Ashley ",255,180,0)
+			lnk.Party.MiniWrt("learned the ability '",180,0,255)
+			lnk.Party.MiniWrt(Act.Act.Title,255,255,0)
+			lnk.Party.MiniMsg("'.",180,0,255)
+			RPGChar.Ashley.Points.EXP.Have+=Act.AshleyLearn
+			Abl.Ashley.Stuff.Value(Act.Act.Tag,"Unlocked","TRUE")
+			CSayF("Ashley unlocks '%s' earning %d experience points!",Act.Act.Tag,Act.Ashleylearn)
 		End
 	End
 	

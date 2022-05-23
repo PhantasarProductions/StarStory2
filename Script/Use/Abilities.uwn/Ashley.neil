@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.05.22
+// version: 22.05.23
 // End License Information
 
 #use "libs/linkedlist"
@@ -50,6 +50,8 @@
 //8 Kahdeksan
 //9 yhdeks?n
 //10 kymmenen
+
+
 
 
 Class __AshleyRage
@@ -122,7 +124,7 @@ Class __AshleyRage
 	End
 	
 	Get Bool Unlocked
-		Return AshleyKills>=NeedToUnlock && Stuff.Value(Tag,"Unlocked")=="TRUE" 
+		Return AshleyKills>=NeedToUnlock && Stuff.Value(Tag,"Unlocked"):upper()=="TRUE" 
 	End
 	Set Bool Unlocked
 		if AshleyKills<NeedToUnlock

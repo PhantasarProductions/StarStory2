@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.neil
-// Version: 22.05.10
+// Version: 22.05.23
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -39,8 +39,11 @@
 //#use "Script/Use/Misc/MiniMessage"
 #use "libs/LinkedList"
 
-#macro _ASW 1200
-#macro _ASH 1000
+#macro ___ASW 1200
+#macro ___ASH 1000
+
+global Const int _ASW = ___ASW
+global Const int _ASH = ___ASH
 
 
 global readonly var Party = Lnk.Party

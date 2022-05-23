@@ -32,11 +32,19 @@
 // 
 // **********************************************
 // 
-// version: 22.05.14
+// version: 22.05.23
 // End License Information
 Var Ret = new LinkedList()
 
-Void Attack(String Ch,Var Card)
+Void Attack(String Ch,Var Card)	
+	For a in Abl.Ashley.List.Each
+		if a.NeedMore<=0 && (!a.Unlocked)
+			var act = new Action(a.Tag,"Ashley",{},{["AshleyLearn"]=a.NeedToUnlock})
+			CSayF("Ashley is about to learn '%s' (%d)",a.Tag,a.NeedToUnlock)
+			PITAR.ComeToMe(act,Card)
+			Return
+		end
+	End
 	Var act = new Action("ACT_ATTACKASHLEY",Ch,{})
 	PITAR.ComeToMe(act,Card)
 End
