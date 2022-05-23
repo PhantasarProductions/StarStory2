@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Effect.neil
-// Version: 22.05.22
+// Version: 22.05.23
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -34,6 +34,8 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
+Const Var FX = UWN("Script/Use/Combat/Effect.uwn")
 
 Group Effect
 
@@ -181,6 +183,9 @@ Group Effect
 		Bool Ret = False
 		If Hit			
 			Ret = Attack || Ret
+			If iAct.Effect_Script!=""
+				ret = FX[iAct.Effect_Script](_Act,_TarTag,iAct.Effect_Param) || Ret
+			End
 		End
 		Return Ret
 	End

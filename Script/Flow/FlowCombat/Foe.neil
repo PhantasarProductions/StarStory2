@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Foe.neil
-// Version: 22.05.22
+// Version: 22.05.23
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -184,6 +184,24 @@ Class Foe Extends Fighter
 		Return sprintf("Lv %06d. %s. %s",RPGChar[self.CharTag].Stats.Level,Letter,RPGChar[Self.CharTag].Name)
 	End
 
+	Get Bool Scanned
+		Return gv.gbool["ANALYSED_"..File]
+	End
+	
+	Set Bool Scanned
+		gv.gbool["ANALYSED_"..File] = Value
+	End
+	
+	Get String Description
+		String Ret = RawData.Value("Meta","Description")
+		for i=0,255
+			Ret = Replace(Ret,sprintf("<<<<%d>>>>",i),Chr(i))
+		End
+	End
+	
+	Get Table DescriptionLines
+		Return Split(Description,"\n")
+	End
 	
 	Static Void Compile(int idx, string f, int level, int x, int Y)
 		Var NF = new Foe()		
