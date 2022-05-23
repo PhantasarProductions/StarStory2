@@ -35,7 +35,7 @@
 // version: 22.05.23
 // End License Information
 Bool __R(_Act,string _TarTag,String EffectParam)	
-	RPGChar.Ashley.Points.AP.Have += Fighter.ByTag[_TarTag].Level
+	RPGChar.Ashley.Points.AP.Have += math.max(0,Fighter.ByTag[_TarTag].Level-RPGChar.Ashley.Stat.Level)
 	Return False
 End
 
