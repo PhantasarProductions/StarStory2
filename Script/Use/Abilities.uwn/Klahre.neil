@@ -182,6 +182,8 @@ Module
 	Get Bool ML
 		Return Any.Mouse.ML
 	End
+	
+	Delegate Action = NIKS
 
 	Void View(ubox,upgrading)
 		Int BX = ubox.x+5
@@ -234,6 +236,7 @@ Module
 			End
 			If ML
 				//UseItem(FMChar,Hover,ITg)
+				Action(Itg)
 			End
 		End
 	End
