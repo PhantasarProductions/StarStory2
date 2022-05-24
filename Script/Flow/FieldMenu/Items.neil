@@ -117,7 +117,7 @@ Module
 			Int Y=MY+15
 			var Ex = IT.ExplainTable
 			Int W=Fnt.TextWidth(IT.Title)
-			w = math.max(w,DFnt.TextWidth(IT.Desc))
+			w = math.max(w,DFt.TextWidth(IT.Desc))
 			For i,e in ipairs(EX)
 				W=math.max(W,DFt.TextWidth(e))
 			End
