@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Clickable.neil
-// Version: 22.05.15
+// Version: 22.05.24
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -175,6 +175,16 @@ Module Class
 						Var S = Spot(Lay,T)					
 						Create(L,T,S.X,S.Y,FieldFlow.Treasure.Chest,T)
 					//End
+				ElseIf Prefixed(T,"ARM_")
+					CSayF("= ARMS Chest: %s",T)
+					Var S = Spot(Lay,T)
+					Create(L,T,S.X,S.Y,Abl.Klahre.Obtain,T)	
+					If Abl.Klahre.HasARM(T)
+						CSayF("==> Already opened")
+						Lay.Obj(T).Texture="GFX/Treasure/ARMS_Chest_Open.png"
+					Else
+						CSayF("==> Still closed")
+					End
 				End
 			End
 		End

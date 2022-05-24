@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Misc/PSaveGame.neil
-// Version: 22.05.21
+// Version: 22.05.24
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -125,41 +125,43 @@ Global Void PerformLoadgame(string f)
 		GINIE.Parse("INVENTORY",SaveGame.Data["INVENTORY.INI"])
 		Progress.AAA_LOADSAVEGAME = 7
 		
+		CSay("Ability")		
+		// TODO: Ability sheet
+		//Progress.AAA_LOADSAVEGAME = 8
+		For i,k in ipairs{"Klahre_ARMS","Yorno_Gadget","Doctor_Gadget","Doctor_XItem","Ashley_Rage"}
+			Progress.AAA_LOADSAVEGAME = 7+i
+			Loading()
+			CSayF("Ability: %d: %s",i,k)
+			GINIE.Parse(k:upper(),SaveGame.Data[sprintf("Abilities/%s.ini",k)] )
+		End
+		
+		
 		
 		// Map
-		Progress.AAA_LOADSAVEGAME = 8
+		Progress.AAA_LOADSAVEGAME = 13
 		Loading()
 		CSay("Loading Field Flow")
 		Flow.Load("FIELD","Script/Flow/FlowField.neil")
 		CSay("Map stuff")
-		Progress.AAA_LOADSAVEGAME = 9
+		Progress.AAA_LOADSAVEGAME = 14
 		
 		CSay("Parsing Permakills")
 		Loading()
 		//State.Call("FLOW_FIELD","FlowField.Kill.LG","nil")
 		GINIE.Parse("PERMAKILL",SaveGame.Data["PERMAKILL.INI"])		
-		Progress.AAA_LOADSAVEGAME = 10		
+		Progress.AAA_LOADSAVEGAME = 15		
 		Loading()
 		
 		State.Call("FLOW_FIELD","FlowField.Map.LG","nil")	
-		Progress.AAA_LOADSAVEGAME = 11
+		Progress.AAA_LOADSAVEGAME = 16
 		Loading()
 		
 		
 		CSay("Achievements")		
 		GINIE.Parse("ACHIEVEMENTS",SaveGame.Data["ACHIEVEMENTS.INI"])
-		Progress.AAA_LOADSAVEGAME = 12
+		Progress.AAA_LOADSAVEGAME = 17
 		Loading()
 
-		CSay("Ability")		
-		// TODO: Ability sheet
-		//Progress.AAA_LOADSAVEGAME = 13
-		For i,k in ipairs{"Klahre_ARMS","Yorno_Gadget","Doctor_Gadget","Doctor_XItem","Ashley_Rage"}
-			Progress.AAA_LOADSAVEGAME = 12+i
-			GINIE.Parse(k:upper(),SaveGame.Data[sprintf("Abilities/%s.ini",k)] )
-		End
-
-		Loading()
 		
 		CSay("Mutilate if applicable")
 		Progress.AAA_LOADSAVEGAME = 14

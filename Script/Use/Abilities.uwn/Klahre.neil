@@ -32,8 +32,11 @@
 // 
 // **********************************************
 // 
-// version: 22.05.21
+// version: 22.05.24
 // End License Information
+
+#use "libs/fittext"
+
 Class TARM
 	Static ReadOnly Var Stuff = GINIE.CreateNew("KLAHRE_ARMS")
 	Static Var _TrueList
@@ -71,14 +74,17 @@ Class TARM
 	End
 	
 	Get Int XPower
-		Return Lua.tonumber(Stuff.Value(Tag,"XPower")) || 0
+		Int Ret = Lua.tonumber(Stuff.Value(Tag,"XPower")) || 0
+		//CSayF("XPOWER RETURNS %d",ret) // debug only
+		Return Ret
 	End
 	Set Int XPower
 		Stuff.Value(Tag,"XPower",Lua.tostring(Value))
 	End
 	
 	Get Int XRepeat
-		Return Lua.tonumber(Stuff.Value(Tag,"XRepeat")) || 0
+		Int Ret = Lua.tonumber(Stuff.Value(Tag,"XRepeat")) || 0
+		Return Ret
 	End
 	Set Int XRepeat
 		Stuff.Value(Tag,"XRepeat",Lua.tostring(Value))
@@ -120,6 +126,7 @@ End
 
 Module
 	ReadOnly Var Fnt = ImageFont.Obtain("BOXTEXT")
+	ReadOnly Var DFt = ImageFont.Obtain("MINITEXT")
 	ReadOnly Var ARM
 	ReadOnly Var ARM_MAP
 
@@ -145,6 +152,36 @@ Module
 		TARM._TrueList = nil
 		CSay("Added")
 	End
+	
+	Link GetARMEXP = gv.gint.KLAHRE_ARM_EXPERIENCE
+	
+	// Difference is that this function makes Klahre announce it to the player
+	// And reject the ARM if the leader is not Klahre
+	Void Obtain(string _ARM)
+		String Lead = Lua.Neil.Globals.FlowField.FollowTheLeader.LeaderTag
+		If HasARM(_ARM)
+			Lnk.BoxText.Serial("ARM","ALREADY_HAVE")
+		ElseIf Lead=="Klahre"
+			gv.gstr.ARMOBTAINED = any.IAA[_ARM].TITLE
+			Lnk.BoxText.Serial("ARM","YES")
+			Self.GetARMEXP += 25
+			RPGChar.Klahre.Points.EXP.Have += Self.GetARMEXP
+			Lua.Neil.Globals.FlowField.Map.CurLayer.Obj(_ARM).Texture="GFX/Treasure/ARMS_Chest_Open.png"
+			Add(_ARM)
+		Else
+			Lnk.BoxText.Serial("ARM","NO_"..Lead:upper())
+		End
+	End
+	
+	Get Int MX
+		Return Any.Mouse.MX
+	End
+	Get Int MY
+		Return Any.Mouse.MY
+	End
+	Get Bool ML
+		Return Any.Mouse.ML
+	End
 
 	Void View(ubox,upgrading)
 		Int BX = ubox.x+5
@@ -154,17 +191,55 @@ Module
 		Int MX = Any.Mouse.MX
 		Int MY = Any.Mouse.MY
 		Int HX = 0
+		Int Hover = 0
 		For i,at in ipairs(TARM.List)
 			var a = ARM[at]
 			int IY = BY+(i*30)
+			If MY>IY && MX>BX && MX<EX && MY<IY+30
+				Hover = i
+			End
 			__White
 			fnt.Dark(a.ARM.Title,BX+HX,IY)
 			__SkyBlue
 			fnt.Dark(sprintf("%2d/%2d",a.Ammo,a.AmmoMax),EX-HX,IY,1)
 		End
+		If Hover>0
+			Var AR = ARM[TARM.List[Hover]]			
+			String ITg = AR.Tag 
+			Var IT = any.iaa[ITg]
+			//Lua.assert(ITg!="",sprintf("Hovering slot #%d gives no an empty string",Hover))
+			Int X=MX+10
+			Int Y=MY+15
+			var Ex = IT.ExplainTable
+			String Updates = sprintf("Extra Power: %d; Repeat: %d; Hit: %03d%%",AR.XPower,AR.XRepeat,AR.Hit)
+			Int W=math.max(Fnt.TextWidth(IT.Title),DFt.TextWidth(Updates))			
+			w = math.max(Dft.TextWidth(IT.Desc),w)
+			For i,e in ipairs(EX)
+				W=math.max(W,DFt.TextWidth(e))
+			End			
+			W+=8
+			__Black
+			Graphics.Alpha(120)
+			Graphics.Rect(math.max(math.min(X-(W div 2),Screen.W-W),0),Y,W,50+(#EX*20))
+			Graphics.Alpha(255)
+			__SkyBlue
+			FitText.Dark(Fnt,IT.Title,X,Y,2)
+			__Ember
+			FitText.Dark(DFt,IT.Desc,X,(Y+30),2)
+			Graphics.Color(180,255,0)
+			FitText.Dark(Dft,Updates,X,(Y+60),2)
+			__White
+			For i,e in ipairs(EX)
+				FitText.Dark(DFt,e,X,(Y+60)+(i*20),2)
+			End
+			If ML
+				//UseItem(FMChar,Hover,ITg)
+			End
+		End
 	End
 	
 	Constructor
+		Lnk.BoxText.Load("ARM","ARM")
 		Add("Dart")
 		Add("HealingSpray")
 		ARM_MAP = {}
