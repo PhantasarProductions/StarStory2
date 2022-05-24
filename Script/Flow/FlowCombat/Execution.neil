@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Execution.neil
-// Version: 22.05.23
+// Version: 22.05.24
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -75,7 +75,17 @@ Class Stage_Execution Extends Stage
 			Else
 				AP.Have -= Act.Act.ABL_APCost
 			End
-		End		
+		End
+		
+		If Act.KlareARM
+			If RPGChar.Klahre.Points["ZZ_ARM_AMMO_"..Act.Act.Tag].Have==0
+				Buzz.Play()
+				Lnk.Party.MiniMsg(sPrintF("ARM '%s' is out of ammo",Act.Act.Title),255,0,0)
+				Stage.Current = Nil
+			Else
+				RPGChar.Klahre.Points["ZZ_ARM_AMMO_"..Act.Act.Tag].Have--
+			End
+		End
 		
 		If Fighter.ByTag.Ashley && Act.Executor.Team=="Foe"
 			RPGChar.Ashley.Points.AP.Have += 6 div __skill
@@ -192,6 +202,10 @@ Class Stage_Execution Extends Stage
 	Const Delegate Draw_Pose = NIKS
 	Void Update_Pose()
 		If Act.Executor.Pose(Act)
+			If prefixed(Act.Act.Tag,"ARM_")
+				Static Var Pang = Audio.LoadNew("Audio/Combat/ARM Shot.ogg","ARM_SHOT")
+				Pang.Play()
+			End
 			ExStage="SpellAni"
 		End
 	End

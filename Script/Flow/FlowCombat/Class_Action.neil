@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Class_Action.neil
-// Version: 22.05.23
+// Version: 22.05.24
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -73,6 +73,7 @@ Class Action
 	ReadOnly Bool CheckAfterAction = False
 	ReadOnly Bool DeductAP = False
 	ReadOnly Bool UseAmmo = False
+	ReadOnly Bool KlareARM = False
 	//ReadOnly Bool ConsumeItem = False
 	// Must contain the number of the item slot used
 	ReadOnly Int ConsumeItem =-1
