@@ -32,9 +32,47 @@
 // 
 // **********************************************
 // 
-// version: 22.05.05
+// version: 22.05.24
 // End License Information
 Var Ret = new LinkedList()
+
+
+group kit_uBox
+	const int X = 100
+	const int Y = 100
+	const int W = Screen.W - 200
+	const int H = Screen.H - 400
+end
+
+Class __PIMI_ARMS Extends Stage
+	Static var Card
+	Static var ch
+
+
+	static var SelItem 
+	
+	void Draw()
+		__Black
+		Graphics.Alpha(100)
+		Graphics.Rect(kit_uBox.x,kit_uBox.y,kit_uBox.w,kit_uBox.h)
+		Graphics.Alpha(255)
+		Abl.Klahre.View(kit_uBox,ch,"Combat_UserMenu")
+		Any.Mouse.Draw()
+	end
+	
+	Void Update()
+	End
+End
+var PIMI_ARMS = new __PIMI_ARMS()
+
+Void ARM_Action(string armtag)
+	var act = new Action(armTag,"Klahre",{},{["KlareARM"]=true})
+	PITAR.ComeToMe(act,FlowCombat.Cards.Lijst[1])
+End
+Init
+	abl.Klahre.Action=ARM_ACTION
+End
+
 
 Bool HasAmmo(string ch,Var Card)
 	Return RPGChar[ch].Points.Ammo.Have>0
@@ -55,7 +93,8 @@ Void Reload(string ch,Var Card)
 End
 
 Void ARMS(string ch,Var Card)
-	Lua.error("ARMS not yet implemented")
+	//Lua.error("ARMS not yet implemented")
+	Stage.Current = PIMI_ARMS
 End
 
 
