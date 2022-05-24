@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Items.neil
-// Version: 22.05.17
+// Version: 22.05.24
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -117,6 +117,7 @@ Module
 			Int Y=MY+15
 			var Ex = IT.ExplainTable
 			Int W=Fnt.TextWidth(IT.Title)
+			w = math.max(w,DFnt.TextWidth(IT.Desc))
 			For i,e in ipairs(EX)
 				W=math.max(W,DFt.TextWidth(e))
 			End
