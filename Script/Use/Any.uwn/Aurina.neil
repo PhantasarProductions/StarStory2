@@ -32,9 +32,13 @@
 // 
 // **********************************************
 // 
-// version: 22.05.22
+// version: 22.05.26
 // End License Information
 Module
+
+	Var Buzz = Audio.Obtain("BUZZ")
+
+	const int miljard = 1000000000
 
 	get Int Have 
 		return gv.gint.AurinaHave
@@ -56,7 +60,7 @@ Module
 	End
 	
 	Set Int Rate
-		gv.gint.AurinaRate = Value
+		gv.gint.AurinaRate = math.min(Value,self.MaxRate)
 	End
 	
 	
@@ -65,7 +69,7 @@ Module
 	End
 	
 	Set Int RateShilders
-		gv.gint.ShilderRate = Value
+		gv.gint.ShilderRate = math.min(Value,self.MaxRate)
 	End
 	
 	Get Int MaxRate
@@ -75,5 +79,49 @@ Module
 	Get Int MaxHave
 		return 1500000000 div __skill
 	End
+	
+	Get Int SpentNeed
+		return math.max(3,gv.gint.AurinaSpentNeed)
+	End
+	Set Int SpentNeed
+		gv.gint.AurinaSpentNeed = math.min(gv.gint.AurinaSpentNeed,miljard)
+	End
+	
+	Get Int Spent
+		Return gv.gint.AurinaSpent
+	End
+	
+	Set Int Spent
+		gv.gint.AurinaSpent = Value
+		while Spent>SpentNeed
+			gv.gint.AurinaSpent -= SpentNeed
+			Switch __skill
+				Case 1
+					SpentNeed = math.ceil(SpentNeed * 1.5)
+					Rate += math.random(1,5)
+				Case 2
+					SpentNeed += SpentNeed
+					Rate += math.random(1,3)
+				Case 3
+					SpentNeed = SpentNeed ^ 2
+					Rate ++
+				Default
+					Lua.error("Spent skill error: "..__skill)
+			End
+			CSayF("Aurina rate increased to: %d",Rate)
+		End		 
+	End
+	
+	Bool Pay(int bedrag)
+		If bedrag>Have
+			Buzz.Play()
+			Lnk.Party.MiniMsg(SprintF("You are %d aurinas short",Bedrag-Have))
+			Return False
+		End
+		Have -= bedrag
+		Spent += bedrag
+		Return True
+	End
+				
 	
 End
