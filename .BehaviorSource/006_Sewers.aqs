@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 22.05.20
+; version: 22.05.24
 ; End License Information
 
 Include Basis.aqs
@@ -49,4 +49,13 @@ Chunk ZA_Welcome
 	
 Chunk ZA_T001
 	call gotolayer,"#001",Start2
+	exit
+	
+Chunk ZA_Complete
+	Done Complete_006_Seweres
+	jmptrue einde
+	call StopWalking
+	call MapText,"COMPLETE"
+	call pLayKill,"#001","NPC_MT_ANGEL" 
+	:einde
 	exit
