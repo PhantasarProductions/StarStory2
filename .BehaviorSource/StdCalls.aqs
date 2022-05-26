@@ -1,6 +1,6 @@
 ; License Information:
 ; src/Tricky Script/.BehaviorSource/StdCalls.aqs
-; Version: 22.05.20
+; Version: 22.05.24
 ; Copyright (C) 2022 Jeroen Petrus Broks
 ; 
 ; ===========================
@@ -67,6 +67,8 @@ csChunk SLead,FlowField.FollowTheLeader.LeaderScript
 csChunk PKill,lnk.Map.PKill
 csChunk PermaKill,lnk.Map.PKill
 csChunk PermanentKill,lnk.Map.PKill
+csChunk LayKill,lnk.Map.LayKill
+csChunk pLayKill,lnk.Map.pLayKill
 csChunk NewState,State.LoadNew
 csChunk Music,Music.Play
 csChunk QAudio,Any.QuickAudio
