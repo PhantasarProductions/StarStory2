@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Combat/Effect.uwn/Tricorder.neil
-// Version: 22.05.23
+// Version: 22.05.24
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -81,7 +81,11 @@ bool ___TRICORDER(_Act,string _TarTag,String EffectParam)
 					case 4
 						Graphics.Color(255,180,0)
 						Fnt.Text("Resistance",ex,ey,1)
-					Case 6 7
+					Case 6
+						Graphics.Color(255,180,0)
+						Fnt.Text("Immune",ex,ey,1)
+					
+					Case 7
 						Graphics.Color(0,255,0)
 						Fnt.Text("Absorb",ex,ey,1)
 					Default
