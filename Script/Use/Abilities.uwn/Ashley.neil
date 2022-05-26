@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.05.23
+// version: 22.05.24
 // End License Information
 
 #use "libs/linkedlist"
@@ -124,7 +124,9 @@ Class __AshleyRage
 	End
 	
 	Get Bool Unlocked
-		Return AshleyKills>=NeedToUnlock && Stuff.Value(Tag,"Unlocked"):upper()=="TRUE" 
+		//Return AshleyKills>=NeedToUnlock &&
+		Print(Tag,"Unlocked",Stuff.Value(Tag,"Unlocked")) // DEBUG ONLY
+		Return Stuff.Value(Tag,"Unlocked"):upper()=="TRUE" 
 	End
 	Set Bool Unlocked
 		if AshleyKills<NeedToUnlock
@@ -178,7 +180,7 @@ Class __AshleyRage
 		NeedToUnlock = Need
 		AllowPowerUp = APU
 		Used = 0
-		Stuff.Value(Tag,"Unlocked",Lua.tostring(Need==0):upper())
+		Stuff.Value(Tag,"Unlocked",Lua.tostring(Need==0 || Unlocked):upper())
 		CSayF("%s has been added to Ashley's rage list",Name) 
 	End
 	
