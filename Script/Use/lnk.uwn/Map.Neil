@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/lnk.uwn/Map.Neil
-// Version: 22.05.13
+// Version: 22.05.26
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -330,6 +330,10 @@ Module
 		Kill(Tag,perma==true)
 		Layer = O
 	End
+	
+	Void PLayKill(String Lay,String Tag)
+		LayKill(Lay,Tag,true)
+	End
 		
 	Void HideObj(string Tag)
 		ObjSet(Tag,"Visible",false)
@@ -516,6 +520,10 @@ Module
 			FPS.WaitMinTicks()
 			Events.Poll()
 		End
+	End
+	
+	Get String Leader
+		return RPGParty[gv.gint.Leader]
 	End
 
 	
