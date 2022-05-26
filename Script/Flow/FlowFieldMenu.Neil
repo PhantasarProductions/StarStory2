@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowFieldMenu.Neil
-// Version: 22.05.14
+// Version: 22.05.26
 // Copyright (C) 2020, 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -79,10 +79,11 @@ init
 	//Situations.COMBAT_SWITCH = {{ ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="SWITCH" } ,       ["ICONFILE"] = "SWITCH" }}
 	//Situations.VAULT = {{ ["RIGHT"] = { ["ID"]="VAULT" }, ["LEFT"] = { ["ID"]="ITEMS" } ,        ["ICONFILE"] = "ITEMS" }}
 	Situations.SHOP  = {{ ["RIGHT"] = { ["ID"]="SHOP" }, ["LEFT"] = { ["ID"]="ITEMS" } ,        ["ICONFILE"] = "BUY" }}
-	Situations.WSHOP = {{ ["RIGHT"] = { ["ID"]="SHOP" }, ["LEFT"] = { ["ID"]="ITEMS" } ,        ["ICONFILE"] = "BUY" },{["ICONFILE"]="TRADE",["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="TRADE" }}}
-	//Situations.UPGRADE = {}
-	//Situations.UPGRADE += { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="UPGRADE" } ,        ["ICONFILE"] = "UPGRADEWEAPON" }
-	//Situations.UPGRADE += { ["LEFT"] = { ["ID"]="ABILITIES" }, ["RIGHT"] = { ["ID"]="UPGRADEARM" } ,        ["ICONFILE"] = "UPGRADEARM" }
+	//Situations.WSHOP = {{ ["RIGHT"] = { ["ID"]="SHOP" }, ["LEFT"] = { ["ID"]="ITEMS" } ,        ["ICONFILE"] = "BUY" },{["ICONFILE"]="TRADE",["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="TRADE" }}}
+	
+	Situations.UPGRADE = {}
+	Situations.UPGRADE += { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="UPGRADEWEAPON" } ,        ["ICONFILE"] = "WEAPON UPGRADE" }
+	Situations.UPGRADE += { ["LEFT"] = { ["ID"]="ABILITIES" }, ["RIGHT"] = { ["ID"]="UPGRADEARMGADGET" } ,        ["ICONFILE"] = "ARM_GADGET_UPGRADE" }
 	//Situations.PHANSHOP  = {{ ["RIGHT"] = { ["ID"]="PHANTASARMERCHANT" }, ["LEFT"] = { ["ID"]="ITEMS" } ,        ["ICONFILE"] = "ITEMS" }}
 end
 
