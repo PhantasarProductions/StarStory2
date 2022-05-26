@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Kill.neil
-// Version: 22.05.13
+// Version: 22.05.24
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -58,7 +58,11 @@ Module
 		Kills = Kills || GINIE.Obtain("PERMAKILL")
 		For L in each(FlowField.Map.KthuraMap.Layers)
 			For O in Kills.ListEach(MapBundle,L)
-				FieldFlow.Map.KthuraMap.Layer(L).Kill(O)
+				If FieldFlow.Map.KthuraMap.Layer(L).hasTag(O)
+					FieldFlow.Map.KthuraMap.Layer(L).Kill(O)
+				Else
+					CSayF("Hmm... %s not in list, so can't kill from PermaList",O)
+				End
 			End
 		End
 	End
