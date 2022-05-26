@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Clickable.neil
-// Version: 22.05.24
+// Version: 22.05.26
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -97,9 +97,15 @@ Module Class
 		Flow.Current="BLUETRANS"
 	End
 	
-	
-		
-		
+	Static Void ToBlack()
+		if gv.gbool.BeenInBlackBox
+			Lnk.Party.MiniWrt("Returning to",120,120,120)
+		Else
+			Lnk.Party.MiniWrt("Going to",120,120,120)
+		End
+		Lnk.Party.MiniMsg(" the Black Box",255,255,0)
+		Lnk.Map.GotoMap("000_BLACKBOX","BASE","Start")
+	End
 	
 	Static Void CBLoadMap(string MapBundle)
 		Bool TreasuresLoaded = False
@@ -143,6 +149,9 @@ Module Class
 					Var fuck = Spot(Lay,T,true)
 					Create(L,T,fuck.X,fuck.Y,FieldFlow.Recovery,nil)
 					//Lnk.Party.MiniMsg("You feel completely refreshed",0,255,0)
+				ElseIf Prefixed(T,"TRANS_RETURNONLY_")
+					Var fuck = Spot(Lay,T,true)
+					Create(L,T,fuck.X,fuck.Y,ToBlack,nil)
 				ElseIf Prefixed(T,"RANDOMTREASURE_")
 					If !TreasuresLoaded
 						FlowField.Treasure.Load(MapBundle)
