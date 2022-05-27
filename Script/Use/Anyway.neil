@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Anyway.neil
-// Version: 22.05.21
+// Version: 22.05.27
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -61,6 +61,7 @@
 #macro __black   Graphics.Color(  0,  0,  0)
 #macro __ember   Graphics.Color(255,180,  0)
 #macro __Yellow  Graphics.Color(255,255,  0)
+#macro __Red     Graphics.Color(255,  0,  0)
 
 #macro __lang    gv.gstring.lang
 
