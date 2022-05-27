@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowConsole.neil
-// Version: 22.05.11
+// Version: 22.05.27
 // Copyright (C) 2020, 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -372,6 +372,10 @@ deftable icommandtable
 			Int g = 180
 			CLine.Write(sprintf("%s has %d/%d HP",Tag,RPGChar[Tag].Points.HP.Have,RPGChar[Tag].Points.HP.Maximum),r,g,b)
 		end
+	End
+	SETCASH = void(table c)
+		Any.Aurina.Have = Lua.tonumber(c[1]) || Any.Aurina.Have
+		CSayF("Aurinas: %d",Any.Aurina.Have)
 	End
 	SEIN = ToggleSein
 end
