@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 22.05.26
+; version: 22.05.27
 ; End License Information
 ; Behavior Apollo Quick Script for 'E:/Projects/Applications/Apollo/Games/Star Story 2/src/Tricky Story/Kthura/000_BlackBox'
 ; Created 4/11/2022 11:03:28 AM
@@ -42,6 +42,7 @@ Include Basis.aqs
 sChunk _Update,BBX,BBX.Update
 sChunk NPC_Quino,BBX,BBX.Quino
 sChunk Helmut,BBX,BBX.Helmut
+CSChunk Recover,FlowField.Recovery
 
 Chunk Update
 	call _Update
@@ -49,6 +50,8 @@ Chunk Update
 Chunk Load
 	call CSay,"Welcome to The Black Box"
 	call NewState,BBX,"Kthura/000_BlackBox/BBX.neil"
+	call CSay,"Recover effect"
+	call Recover
 	
 Chunk ZA_Trans	
 	done BeenInBlackBox
