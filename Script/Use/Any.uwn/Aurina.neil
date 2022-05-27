@@ -32,11 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 22.05.26
+// version: 22.05.27
 // End License Information
 Module
 
 	Var Buzz = Audio.Obtain("BUZZ")
+	Var ChaChing = Audio.Obtain("CHACHING")
 
 	const int miljard = 1000000000
 
@@ -120,6 +121,7 @@ Module
 		End
 		Have -= bedrag
 		Spent += bedrag
+		ChaChing.Play()
 		Return True
 	End
 				
