@@ -32,9 +32,102 @@
 // 
 // **********************************************
 // 
-// version: 22.05.26
+// version: 22.05.27
 // End License Information
 Module
-	Void Flow(uBox,string FMChar,string FMSituation)
+
+	ReadOnly Var Fnt = ImageFont.Obtain("BOXTEXT")
+
+	Int Price(string ch,string stat)
+		Static Table BasePrice = {10,15,20}
+		int ret = gv.gint[sprintf("UpgradePrice.%s.%s",ch,stat)]
+		if ret == 0
+			return BasePrice[__skill]
+		end
+		return ret
+	End
+	
+	Void IncPrice(string ch,string stat)
+		String ptag = sprintf("UpgradePrice.%s.%s",ch,stat)
+		Int ret = gv.gint[ptag]
+		If ret == 0
+			Switch __skill
+				Case 1
+					gv.gint[ptag] = price(ch,stat) div 5
+				Case 2
+					gv.gint[ptag] = price(ch,stat) div 2
+				Case 3
+					gv.gint[ptag] = price(ch.Stat) * 1.5
+				Default
+			End
+		Else
+			gv.gint[ptag] += (gv.gint[ptag] div (4-__skill))
+			gv.gint[ptag] = math.min(1000000000,gv.gint[ptag])
+		End
+	End
+	
+	Get Int MaxUpdates
+		return (20-(__skill*5))*Any.Caps.Cycle
+	end
+	
+	Int Updates(string ch)
+		Return gv.gint["Update_Total."..ch]
+	End
+	
+	Void Flow(uBox,string FMChar,string FMSituation)		
+		Int bx = ubox.x + 10
+		Int tw = ubox.w - 20
+		Int ex = bx + tw
+		Int by = ubox.y + 10
+		Int th = ubox.h - 20
+		Int ey = by + th
+		if FMChar=="Doctor" 
+			Static Var NoDoc = Image.LoadNew("GFX/Alg/DoctorNoWeapon.png","UPGRADENODOC")
+			__White
+			NoDoc.Stretch(bx,by,tw,th)
+			Return
+		End
+		For i,st in pairs(any.resistances.stats)
+			__White
+			Fnt.Dark(sprintf("Updates %d/%d",Updates(FMChar),MaxUpdates),bx+(tw div 2),by,2)
+			string stag = sprintf("UpgradeCount.%s.%s",FMChar,st)
+			Int y  = 60+(i*30)+by
+			Int hx = 0
+			if any.mouse.mx>ubox.x && any.mouse.my>y && Any.mouse.my<y+30 && any.mouse.mx<ubox.x+ubox.w
+				hx = 10
+				If any.mouse.ml && Updates(FMChar)<MaxUpdates
+					If any.aurina.pay(Price(FMChar,st))
+						int roll = any.luck.roll(FMChar,1,7-__skill)
+						Lnk.Party.MiniWrt(RPGChar[FMChar].Name,255,180,0)
+						Lnk.Party.MiniWrt("'s ",255,0,255)
+						Lnk.Party.MiniWrt(st,0,255,255)
+						Lnk.Party.MiniWrt(" goes up by ",255,0,255)
+						Lnk.Party.MiniWrt(Lua.tostring(roll),180,255,0)
+						Lnk.Party.MiniMsg(" points!",255,0,255)
+						RPGChar[FMChar].Stat["PERM_"..st] += roll
+						gv.gint["Update_Total."..FMChar]++
+						IncPrice(FMChar,st)
+						gv.gint[stag] += roll
+					End
+				End
+			End
+			Int sx = bx + hx
+			Int ux = ubox.x + (ubox.w div 2)
+			int px = ex - hx
+			Int pr = Price(FMChar,st)
+			__White
+			Fnt.Dark(st,sx,y)
+			__Ember
+			Fnt.Dark(sprintf("+%d",gv.gint[stag]),ux,y,2)
+			If Updates(FMChar)<MaxUpdates
+				__SkyBlue
+				If pr>Any.Aurina.Have  
+					__Red
+				End
+				Fnt.Dark(sprintf("%d au",Price(FMChar,st)),px,y,1)
+			End			
+		End
+		__White
+		Fnt.Dark(sprintf("Aurinas: %d",any.aurina.have),bx,ey,0,1)
 	End
 End
