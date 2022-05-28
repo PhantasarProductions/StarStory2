@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowBlueTransporter.neil
-// Version: 22.05.08
+// Version: 22.05.28
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -110,6 +110,9 @@ Global Void LoadTrans(string T)
 	CurrentMap=Map.LoadedMap
 	CurrentLay=Map.Layer
 	CurrentTag=T
+	if !Done["ScottyUnlocked_"..CurrentMap]
+		CSay("Unlocked Scotty's map: ",CurrentMap)
+	End
 	If !Done[sprintf("TRANS_ACTIVATED_%s_%s_%s",CurrentMap,CurrentLay,CurrentTag)]
 		CSayF("Activated: %s",T)
 	End

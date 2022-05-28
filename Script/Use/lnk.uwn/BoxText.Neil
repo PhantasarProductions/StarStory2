@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/lnk.uwn/BoxText.Neil
-// Version: 22.04.14
+// Version: 22.05.28
 // Copyright (C) 2020, 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -36,7 +36,7 @@
 // End License Information
 
 #MKL_Lic     "Star Story 2 - The Virus Strikes Back - BoxText.Neil" "Phantasar zLib License"
-#MKL_Version "Star Story 2 - The Virus Strikes Back - BoxText.Neil" "22.04.14"
+#MKL_Version "Star Story 2 - The Virus Strikes Back - BoxText.Neil" "22.05.28"
 
 
 //void BTLoad()
@@ -55,7 +55,7 @@ global void CharMapText(string ATag,string RF="FLOW_FIELD",int ANum=1)
 End
 
 global void MapTextLeader(string ATag,string RF="FLOW_FIELD",int ANum=1)
-	MapText(sprintf("%s_%s",ATag,Lua.Neil.Globals.FlowField.FollowTheLeader.LeaderTag),RF,ANum)
+	MapText(sprintf("%s_%s",ATag,lnk.Map.Leader),RF,ANum)
 end
 
 module	 

@@ -1,0 +1,169 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/Flow/FlowScotty.neil
+// (c) Jeroen Broks, 2022, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 22.05.28
+// End License Information
+#use "Script/Use/Anyway"
+#use "Libs/LinkedList"
+
+ReadOnly Var Stuff = GINIE.LOAD("Data/General/Scotty.ini","SCOTTY")
+
+Class ScLocation
+	
+	ReadOnly Var Parent
+	ReadOnly String LTag
+	
+	Get String Tag
+		return sprintf("LOKATIE:%s",LTag)
+	End
+	
+	Get String Kthura 
+		Return Stuff.Value(Tag,"Kthura")
+	End
+	
+	Get String Layer
+		Return Stuff.Value(Tag,"Laag")
+	End
+	
+	Get String Name
+		Return Stuff.Value(Tag,"Naam")
+	End
+	
+	Get String Obj
+		Return Stuff.Value(Tag,"Object")
+	End
+	
+	Get Bool Unlocked
+		Return gv.gbool[sprintf("TRANS_ACTIVATED_%s_%s_%s",Kthura,Layer,Obj)] || Stuff.Value(Tag,"OpenVanafAanvang"):upper()=="YES"
+	End
+	
+	Constructor(_Parent,string _Tag)
+		LTag = _Tag
+		Parent = _Parent
+	End
+	
+End
+
+Class ScMap
+	ReadOnly Static Var Maps = new LinkedList()
+	ReadOnly Var Locs 
+	ReadOnly String Kthura
+	ReadOnly String Name
+	Get Bool Unlocked
+		Return ((Lua.tonumber(left(Kthura,3)) || 0)<=7) || gv.gbool["ScottyUnlocked_"..Kthura]
+	End
+	Constructor(string _m)		
+		Kthura=_m
+		Maps.AddLast(Self)
+		Locs = new LinkedList()
+		for L in Each(Stuff.ListCopy(sprintf("KAART:%s",_m),"Lokaties"))
+			Locs.AddLast(new ScLocation(self,L))
+		End
+		Name = Stuff.Value("Kaarten",_m)
+	End
+End
+
+Init
+	for m in Each(Stuff.ListCopy("Kaarten","Lijst"))
+		Var mm = new ScMap(m)
+		CSayF("Created rec %s (%s) with %d locations",m,mm.Name,mm.Locs.count)
+	End
+End
+
+Global Void Apollo_Flow()
+	Static Var Fnt = ImageFont.Obtain("BOXTEXT")
+	Static Int ScrollY = 0
+	Static Var Chosen = Nil
+	Static Var M = Any.Mouse	
+	Int Cnt=0-ScrollY	
+	__Dev.ToConsole()
+	__Ember
+	Fnt.Text("Where do you want to go?",Screen.W div 2,0,2)
+	For krt in ScMap.Maps.Each
+		If krt.Unlocked
+			Cnt++
+			Int Y=Cnt*30
+			Int X=5
+			If Y>0 && Y<Screen.H-120
+				If M.MY>Y && M.MY<Y+30 && M.MX<(Screen.W div 2)
+					X = 10
+					If M.ML
+						Chosen=krt
+					End
+				End
+				If Chosen==krt
+					__SkyBlue
+				Else
+					__White
+				End
+				Fnt.Text(krt.Name,X,Y)
+			End
+		End
+	End
+	If Chosen
+		Int CY = 0
+		For Loc in Chosen.Locs.Each
+			Int CX = Screen.W div 2	
+			CY+=30
+			//CSayF("???? (%d,%d)",CX,CY)
+			If Loc.Unlocked
+				__White
+				if M.MX>(Screen.W div 2) && M.MY>CY && M.MY<CY+30
+					CX+=5
+					if M.ML
+						__SkyBlue
+						CSayF("Lnk.Map.GoToMap(%s, %s, %s)",Loc.Kthura,Loc.Layer,Loc.Obj)
+						Lnk.Map.GoToMap(Loc.Kthura,Loc.Layer,Loc.Obj)
+						Flow.Current="FIELD"						
+					End
+				End
+				Fnt.Text(Loc.Name,CX,CY)
+				if (Loc.Name=="")
+					__Red
+					Fnt.Text(sprintf("ERROR> Tag %s - No name",Loc.Tag),CX,CY)
+				End
+			Else
+				Graphics.Color(127,127,127)
+				Fnt.Text("< Not yet unlocked >",CX,CY)
+			End
+		End
+	End
+	M.Draw()
+End
+
+Global Void PRGL()
+	Static Var Fnt = ImageFont.Obtain("BOXTEXT")
+	__Ember
+	Fnt.Text("Beaming out!",Screen.W div 2, Screen.H div 2,2,2)
+End

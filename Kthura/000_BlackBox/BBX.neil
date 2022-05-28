@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.05.26
+// version: 22.05.28
 // End License Information
 #use "Script/Use/AnyWay"
 
@@ -78,5 +78,20 @@ Group BBX
 		//Lnk.Party.MiniMsg("Helmut's upgrade shop not yet implemented",255,0,0)
 		Lnk.FieldMenu.Go(Lnk.Map.Leader,"UPGRADE")
 	End
+	
+	Void Scott()
+		If Self.TransPermission
+			lnk.boxtext.MapLeader("SCOTT")
+			Loading()
+			State.LoadNew("FLOW_SCOTTY","Script/Flow/FlowScotty.neil")
+			Flow.Current="SCOTTY"
+		Else
+			lnk.BoxText.Map("SCOTT_NO")
+		End
+	End
+
+	
+		
+	
 
 End

@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Sein.neil
-// Version: 22.05.17
+// Version: 22.05.28
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -101,7 +101,7 @@ Module
 									Val = math.max(RPGChar[RPGParty[i]].Stat.Level)
 								end
 								Lua.assert(Val>0,"Low level check failure")
-							Case "MEDAL"
+							Case "MEDAL" "MEDALS"
 								Val = Medals.Percent
 							Default
 								switch Left(S[1],1)

@@ -1,7 +1,7 @@
 ; License Information:
 ; **********************************************
 ; 
-; src/Tricky Script/.BehaviorSource/000_BlackBox.aqs
+; src/Tricky Script/.BehaviorSource/007_Mulan.aqs
 ; (c) Jeroen Broks, 2022, All Rights Reserved.
 ; 
 ; This file contains material that is related
@@ -34,42 +34,4 @@
 ; 
 ; version: 22.05.28
 ; End License Information
-; Behavior Apollo Quick Script for 'E:/Projects/Applications/Apollo/Games/Star Story 2/src/Tricky Story/Kthura/000_BlackBox'
-; Created 4/11/2022 11:03:28 AM
-
-Include Basis.aqs
-
-sChunk _Update,BBX,BBX.Update
-sChunk NPC_Quino,BBX,BBX.Quino
-sChunk Helmut,BBX,BBX.Helmut
-CSChunk Recover,FlowField.Recovery
-sChunk NPC_Scott,BBX,BBX.Scott
-
-Chunk Update
-	call _Update
-
-Chunk Load
-	call CSay,"Welcome to The Black Box"
-	call NewState,BBX,"Kthura/000_BlackBox/BBX.neil"
-	call CSay,"Recover effect"
-	call Recover
-	
-Chunk ZA_Trans	
-	done BeenInBlackBox
-	jmptrue situation2
-	call maptext,"SCOTT_1"
-	exit
-	:situation2
-	call CSay,"BB: Situation 2"
-	exit
-	
-	
-Chunk NPC_Helmut
-	Done BlackBox_Spoken_toHelmutBefore
-	jmptrue two
-	call maptext,"HELMUT_1ST"
-	jmp get_to_work
-	:two
-	call LeaderText,"HELMUT"
-	:get_to_work
-	call Helmut
+include basis.aqs
