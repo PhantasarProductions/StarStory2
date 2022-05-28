@@ -81,7 +81,34 @@ Module
 	End
 	
 	Void Chest(string tag)
-	// Placeholder
+		// TODO: Check Sein (if applicable)
+		String it = TreasureData.Value(Tag,"ITEM")
+		if prefixed(it,"CASH:")
+			Int Cash = Lua.tonumber(right(it,#it-5))||(5-__skill)
+			Any.Aurina.ChaChing.Play()
+			Lnk.Party.MiniWrt(sprintf("%d aurinas ",cash),0,180,255)
+			Lnk.Party.MiniMsg("obtained",255,255,0)
+			Any.Aurina.Have+=cash
+			Lnk.Map.Kill(Tag,true)
+			Return
+		elseif prefixed(it,"SHIL:")
+			Int Cash = Lua.tonumber(right(it,#it-5))||(5-__skill)
+			Any.Aurina.ChaChing.Play()
+			Lnk.Party.MiniWrt(sprintf("%d shilders ",cash),0,180,255)
+			Lnk.Party.MiniMsg("obtained",255,255,0)
+			Any.Aurina.HaveShilders+=cash
+			Lnk.Map.Kill(Tag,true)
+			Return
+		End
+		Var itm = any.iaa[it]
+		if (!Itm.Give)
+			Buzz.Play()
+			Lnk.Party.MiniMsg("You are carrying too many things",255,0,0)
+		Else
+			Lnk.Party.MiniWrt(Itm.Title,0,255,0)
+			Lnk.Party.MiniMsg(" obtained",255,255,0)
+			Lnk.Map.Kill(Tag,true)
+		End
 	End
 	
 	void CreateRandomTreasure(string T,string Layer)
