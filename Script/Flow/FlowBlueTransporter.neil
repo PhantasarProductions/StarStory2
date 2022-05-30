@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowBlueTransporter.neil
-// Version: 22.05.28
+// Version: 22.05.29
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -72,8 +72,16 @@ Bool GotHint()
 	Return Data.Value(CurrentLay,CurrentTag):upper()!="NONE" && Data.Value(CurrentLay,CurrentTag):upper()!="" 
 End
 
+Global Void PRGL()
+	Static Var Fnt = ImageFont.Obtain("BOXTEXT")
+	__Ember
+	Fnt.Text("Beaming in!",Screen.W div 2, Screen.H div 2,2,2)
+End
+
 Void GoToBlackBox()
-	Lua.error("Go to Black Box not yet supported")
+	//Lua.error("Go to Black Box not yet supported")
+	Flow.Current="FIELD"
+	Lnk.Map.GoToMap("000_BlackBox","BASE","Start")
 End
 
 Void Hint()
