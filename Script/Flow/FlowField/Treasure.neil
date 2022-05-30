@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Treasure.neil
-// Version: 22.05.13
+// Version: 22.05.28
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -102,7 +102,7 @@ Module
 		End
 		Var itm = any.iaa[it]
 		if (!Itm.Give)
-			Buzz.Play()
+			Any.Aurina.Buzz.Play()
 			Lnk.Party.MiniMsg("You are carrying too many things",255,0,0)
 		Else
 			Lnk.Party.MiniWrt(Itm.Title,0,255,0)
