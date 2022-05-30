@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 22.05.20
+; version: 22.05.29
 ; End License Information
 
 
@@ -67,7 +67,8 @@ Chunk Solved_Sudoku
 	call PKill,"Barrier_Next"
 	
 Chunk ZA_QUICKSEWERS
-	chk &Been_In_Sewers
+	call csay,"Quick way into sewers"
+	chk &Been_In_Sewers-
 	jmpfalse einde
 	;call crash,"Quick way to sewers not yet set"
 	call gotomap,"006_Sewers","#000","Start"
