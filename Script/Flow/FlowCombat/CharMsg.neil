@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/CharMsg.neil
-// Version: 22.05.07
+// Version: 22.05.29
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -100,7 +100,11 @@ Class TCM
 	
 	Static Void ListDraw(string tag)
 		For CM,L in Lijst[tag].Each
-			CM.Draw()
+			If (!CM.F)
+				L.UnLink()
+			Else
+				CM.Draw()
+			End
 			If CM.Time>MaxTime
 				L.UnLink()
 			End
