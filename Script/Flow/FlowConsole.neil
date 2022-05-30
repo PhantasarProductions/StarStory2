@@ -378,11 +378,14 @@ deftable icommandtable
 		CSayF("Aurinas: %d",Any.Aurina.Have)
 	End
 	SEIN = ToggleSein
+	MEDAL = void()
+		CSayF("Meda rate: %03d%%",Medals.Percent)
+	End
 end
 
 
 init
-	var a = new CLine("Star Story - Debug Console",255,180,0)
+	var a = new CLine("Star Story II - Debug Console",255,180,0)
 	a = new CLine("(c) Jeroen P. Broks",180,0,255)
 end
 
