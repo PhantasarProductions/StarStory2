@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Sein.neil
-// Version: 22.05.28
+// Version: 22.05.29
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -73,6 +73,7 @@ Module
 					If (!SowiesoRood) && (!Prefixed(Eis,"&"))
 						Var S = Split(Eis," ")
 						if (#S<3)
+							CSayF("Error in Sein (%s,%s)",Lay,Sein)
 							Lua.error("Invalid sein requirement! >> "..Eis)
 						End
 						int Chk = math.max(1,Lua.tonumber(S[3]) || 1)
