@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.04.26
+// version: 22.06.01
 // End License Information
 
 #use "Libs/LinkedList"
@@ -72,6 +72,15 @@ Init
 		N.Title   = "Snake Trance"
 		N.Artist  = "Eric Matyas"
 		N.WebSite = "http://soundimage.org"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/Combat/SBoss/Ferdy Funhouse.ogg"
+		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
+		N.Title   = "Dissent"
+		N.Artist  = "Nihilore"
+		N.WebSite = "http://www.nihilore.com/"
 		TMusic.Lst.AddLast(N)
 	End
 	Do
@@ -130,6 +139,24 @@ Init
 	End
 	Do
 		Var N = New TMusic()
+		N.Entry   = "Music/Dungeon/Sleepwalking.ogg"
+		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
+		N.Title   = "Sleepwalking"
+		N.Artist  = "Nihilore"
+		N.WebSite = "http://www.nihilore.com/"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/Dungeon/The Water and the Well.ogg"
+		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
+		N.Title   = "The Water and the Well"
+		N.Artist  = "Nihilore"
+		N.WebSite = "http://www.nihilore.com/"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
 		N.Entry   = "Music/Hub/City Of Tomorrow.ogg"
 		N.License = "https://soundimage.org/attribution-info/"
 		N.Title   = "City Of Tomorrow"
@@ -148,20 +175,11 @@ Init
 	End
 	Do
 		Var N = New TMusic()
-		N.Entry   = "Music/Hub/Rising.ogg"
-		N.License = "Creative Commons - By Attribution  (Incompetech.com)"
-		N.Title   = "Rising"
-		N.Artist  = "Kevin McLeod"
-		N.WebSite = "http://incompetech.com"
-		TMusic.Lst.AddLast(N)
-	End
-	Do
-		Var N = New TMusic()
-		N.Entry   = "Music/O4A/Once-Around-the-Solar-System.ogg"
-		N.License = "Please check the website www.soundimage.org for the exact terms. Don't extract this file prior to checking those terms!"
-		N.Title   = "Once Around The Solar System"
-		N.Artist  = "Eric Matyas"
-		N.WebSite = "http://soundimage.org"
+		N.Entry   = "Music/Hub/Healing.ogg"
+		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
+		N.Title   = "Healing"
+		N.Artist  = "Nihilore"
+		N.WebSite = "http://www.nihilore.com/"
 		TMusic.Lst.AddLast(N)
 	End
 	Do
@@ -171,6 +189,42 @@ Init
 		N.Title   = "Ancrapraxis"
 		N.Artist  = "Nihilore"
 		N.WebSite = "http://www.nihilore.com/"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/Hub/Panic Stations.ogg"
+		N.License = " May not be used without Widzy's permission"
+		N.Title   = "Panic Stations"
+		N.Artist  = "Widzy"
+		N.WebSite = "NONE"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/Hub/Rising.ogg"
+		N.License = "Creative Commons - By Attribution  (Incompetech.com)"
+		N.Title   = "Rising"
+		N.Artist  = "Kevin McLeod"
+		N.WebSite = "http://incompetech.com"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/Hub/Tri-Tachyon - Path to Jotunheim.ogg"
+		N.License = " CC-BY-NC license."
+		N.Title   = "Path to Jotunheim"
+		N.Artist  = " Tri-Tachyon"
+		N.WebSite = "NONE"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/O4A/Once-Around-the-Solar-System.ogg"
+		N.License = "Please check the website www.soundimage.org for the exact terms. Don't extract this file prior to checking those terms!"
+		N.Title   = "Once Around The Solar System"
+		N.Artist  = "Eric Matyas"
+		N.WebSite = "http://soundimage.org"
 		TMusic.Lst.AddLast(N)
 	End
 End

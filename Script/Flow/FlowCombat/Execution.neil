@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Execution.neil
-// Version: 22.05.24
+// Version: 22.06.01
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -66,14 +66,14 @@ Class Stage_Execution Extends Stage
 		DoShowBox    = True
 		If Act.DeductAP && Act.Executor.Team=="Hero"
 			Var AP = Act.Executor.Char.Points.AP			
-			If Act.Act.ABL_APCost>AP.Have
+			If Act.APCost>AP.Have
 				lnk.Party.MiniMsg(Act.Executor.Tag.." is out of Energy/Rage",255,0,0)
 				Buzz.Play()
 				FlowCombat.Cards.DelShift()
 				Stage.Current = Nil
 				DoShowBox    = False
 			Else
-				AP.Have -= Act.Act.ABL_APCost
+				AP.Have -= Act.APCost
 			End
 		End
 		
