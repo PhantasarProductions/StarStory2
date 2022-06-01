@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Class_Action.neil
-// Version: 22.05.24
+// Version: 22.06.01
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -72,6 +72,7 @@ Class Action
 	// These can be easily set through the _XVars
 	ReadOnly Bool CheckAfterAction = False
 	ReadOnly Bool DeductAP = False
+	ReadOnly Int  APCost = 0 
 	ReadOnly Bool UseAmmo = False
 	ReadOnly Bool KlareARM = False
 	//ReadOnly Bool ConsumeItem = False
