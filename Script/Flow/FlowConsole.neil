@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowConsole.neil
-// Version: 22.05.27
+// Version: 22.06.01
 // Copyright (C) 2020, 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -380,6 +380,16 @@ deftable icommandtable
 	SEIN = ToggleSein
 	MEDAL = void()
 		CSayF("Meda rate: %03d%%",Medals.Percent)
+	End
+	IKBENBOOS = void()
+		for i=1,4
+			if RPGChar[i]=="Ashley"
+				RPGChar.Ashley.Points.AP.Have = RPGChar.Ashley.Points.AP.Maximum
+				CSay("Ashley's rage has been maxed")
+				Return
+			end
+		end
+		CSay("Ashley is not party")
 	End
 end
 
