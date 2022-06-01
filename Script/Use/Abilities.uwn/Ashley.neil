@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.05.24
+// version: 22.06.01
 // End License Information
 
 #use "libs/linkedlist"
@@ -59,15 +59,16 @@ Class __AshleyRage
 	ReadOnly Static Var Fnt = ImageFont.Obtain("BOXTEXT")
 	ReadOnly Static Var List  = new LinkedList()
 	ReadOnly Static Var Stuff = GINIE.CreateNew("ASHLEY_RAGE")
+	Static Delegate Chosen = NIKS
 
 	Static Void View(ubox)
 		int SX = ubox.x+10
 		int SY = ubox.y+10
 		int EX = (ubox.x+ubox.w)-20
 		int EY = (ubox.y+ubox.h)-20
-		int HX = 0
-		int Y = SY
+		int Y = SY		
 		For RI,RL in List.Each
+			int HX = 0
 			#if autoremove
 				If Y>EY
 					RL.UnLink()
@@ -80,12 +81,18 @@ Class __AshleyRage
 				If #N>15
 					N = Left(N,15).."..."
 				End
+				if Any.Mouse.MX>SX && Any.Mouse.MX<EX && Any.Mouse.MY>Y && Any.Mouse.MY<Y+30
+					HX=10
+					if Any.Mouse.ML && RI.APCost<=RPGChar.Ashley.Points.AP.Have
+						Chosen(RI)
+					End
+				End
 				Fnt.Dark(N,SX+HX,Y)
 				if RI.PU_HalfAP
 					Graphics.Color(180,255,0)
 				Else
 					Graphics.Color(0,180,255)
-				End
+				End				
 				Fnt.Dark(""..RI.APCost,EX-HX,Y,1)
 				if RI.AllowPowerup>0
 					If RI.PowerUp<RI.AllowPowerup

@@ -32,12 +32,27 @@
 // 
 // **********************************************
 // 
-// version: 22.05.23
+// version: 22.06.01
 // End License Information
+
+
+//group kit_uBox
+//	const int X = 100
+//	const int Y = 100
+//	const int W = Screen.W - 200
+//	const int H = Screen.H - 400
+//end
+
+Init
+	Print(PIMI.ChPIMI.Klahre," <-- Just to make sure kit_ubox is also loaded")
+End
+
+
+Var Rage = Abl.Ashley
 Var Ret = new LinkedList()
 
 Void Attack(String Ch,Var Card)	
-	For a in Abl.Ashley.List.Each
+	For a in Rage.List.Each
 		if a.NeedMore<=0 && (!a.Unlocked)
 			var act = new Action(a.Tag,"Ashley",{},{["AshleyLearn"]=a.NeedToUnlock})
 			CSayF("Ashley is about to learn '%s' (%d)",a.Tag,a.NeedToUnlock)
@@ -49,13 +64,40 @@ Void Attack(String Ch,Var Card)
 	PITAR.ComeToMe(act,Card)
 End
 
-Void Rage(String Ch,Var Card)
-	Lua.error("Rage not yet supported")
+Class __PIMI_Rage Extends Stage
+	Static var Card
+	Static var ch
+
+
+	static var SelItem 
+	
+	void Draw()
+		__Black
+		Graphics.Alpha(100)
+		Graphics.Rect(kit_uBox.x,kit_uBox.y,kit_uBox.w,kit_uBox.h)
+		Graphics.Alpha(255)
+		Rage.View(kit_uBox,ch,"Combat_UserMenu")
+		Any.Mouse.Draw()
+	end
+	
+	Void Update()
+	End
+End
+var PIMI_Rage = new __PIMI_Rage()
+
+Void RageSelect(_Act)
+	var act = new Action(_Act.Tag,"Ashley",{},{["DeductAP"]=true,["APCost"]=_Act.APCost})
+	PITAR.ComeToMe(act,FlowCombat.Cards.Lijst[1])
+End
+
+Void Rage_Item(String Ch,Var Card)
+	Stage.Current = PIMI_Rage
 End
 
 Init
+	Rage.Chosen = RageSelect
 	Ret.AddLast(new PIMI("Attack",Attack))
-	Ret.AddLast(new PIMI("Rage",Rage))
+	Ret.AddLast(new PIMI("Rage",Rage_item))
 	Ret.AddLast(new PIMI("Items",PIMI.ChPIMI.ZItems))
 	Ret.AddLast(new PIMI("Guard",PIMI.ChPIMI.ZGuard))
 End
