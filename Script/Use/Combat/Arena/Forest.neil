@@ -1,0 +1,111 @@
+// License Information:
+// src/Tricky Script/Script/Use/Combat/Arena/Forest.neil
+// Version: 22.06.02
+// Copyright (C) 2022 Jeroen Petrus Broks
+// 
+// ===========================
+// This file is part of a project related to the Phantasar Chronicles or another
+// series or saga which is property of Jeroen P. Broks.
+// This means that it may contain references to a story-line plus characters
+// which are property of Jeroen Broks. These references may only be distributed
+// along with an unmodified version of the game.
+// 
+// As soon as you remove or replace ALL references to the storyline or character
+// references, or any termology specifically set up for the Phantasar universe,
+// or any other univers a story of Jeroen P. Broks is set up for,
+// the restrictions of this file are removed and will automatically become
+// zLib licensed (see below).
+// 
+// Please note that doing so counts as a modification and must be marked as such
+// in accordance to the zLib license.
+// ===========================
+// zLib license terms:
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// End License Information
+Var Tex
+Int JunkNum
+
+Void ATex(string k,string v)
+	Tex = Tex || {}
+	Tex[k:upper()] = v
+	CSay("Arena slums> Registered texture "..v.." at tag: "..k)
+End
+
+Var LoadTex(string Tag)
+	Tag = Tag:upper()
+	Return Image.LoadNew(Tex[Tag],"ARENA_FOREST_"..Tag)
+End
+
+Init
+	//ATex("METAL","GFX/TextureS/Metal/metal027.png")
+	ATex("FLOOR","GFX/Textures/Forest/Grass1.png")
+	//For i,a in ipairs(JCR6.GetDir("GFX/TEXTURES/JUNK/"))
+	//	ATex("JUNK_"..i,a)
+	//	JunkNum = math.max(i,JunkNum)
+	//End
+	ATex("TREE","GFX/Textures/Forest/Spar.png")
+	CSayF("Slums arena loaded!")
+End
+
+
+Module
+
+	Get Int HH 
+		Return Screen.Height div 2
+	End
+
+	Var Trees
+	Var TexMetal
+	Var TexTree
+	Var TexFloor 
+	
+	Void Load()
+		//TexMetal = LoadTex("METAL")
+		TexFloor = LoadTex("FLOOR")
+		//TexJunk = {}
+		Trees = {}
+		TexTree = LoadTex("TREE")
+		//for i=1,JunkNum
+		//	TexJunk[i]=LoadTex("TREE_"..i)
+		//	TexJunk[i].HotBottomCenter()
+		//End
+	End
+	
+	Void UnLoad()
+		TexMetal = nil
+		TexFloor = nil
+		//TexJunk  = nil
+		TexTree  = nil
+		Image.KillByPrefix("ARENA_TREES_")
+	End
+	
+	Void NewBattle()
+		//Int N = math.random(20,100)
+		Trees = {}
+		For i=-80,Screen.W,5
+			Trees += {["Tex"]="TREE", ["X"]=i, ["Y"]=math.random(HH-200,HH-100)}
+		End
+	End
+	
+	Void Draw()
+		//TexMetal.Tile(0, 0,Screen.W,HH)
+		TexFloor.Tile(0,HH,Screen.W,HH-90)
+		For J in Each(Trees)
+			//J.Tex.Draw(J.X,J.Y)
+			TexTree.Draw(J.X,J.Y)
+		End
+	End
+	
+End
