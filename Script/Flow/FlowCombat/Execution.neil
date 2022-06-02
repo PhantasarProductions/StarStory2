@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Execution.neil
-// Version: 22.06.01
+// Version: 22.06.02
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -88,7 +88,12 @@ Class Stage_Execution Extends Stage
 		End
 		
 		If Fighter.ByTag.Ashley && Act.Executor.Team=="Foe"
-			RPGChar.Ashley.Points.AP.Have += 6 div __skill
+			RPGChar.Ashley.Points.AP.Have += 6 div __skill			
+		End
+		
+		If Act.Ashley
+			Act.Ashley.Used++
+			CSayF("Ashley has used this ability %dx now",Act.Ashley.Used)
 		End
 		
 		// TFT

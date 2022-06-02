@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.06.01
+// version: 22.06.02
 // End License Information
 
 
@@ -86,7 +86,7 @@ End
 var PIMI_Rage = new __PIMI_Rage()
 
 Void RageSelect(_Act)
-	var act = new Action(_Act.Tag,"Ashley",{},{["DeductAP"]=true,["APCost"]=_Act.APCost})
+	var act = new Action(_Act.Tag,"Ashley",{},{["DeductAP"]=true,["APCost"]=_Act.APCost,["Ashley"]=_Act})
 	PITAR.ComeToMe(act,FlowCombat.Cards.Lijst[1])
 End
 
