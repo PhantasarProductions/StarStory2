@@ -44,6 +44,7 @@ sChunk NPC_Quino,BBX,BBX.Quino
 sChunk Helmut,BBX,BBX.Helmut
 CSChunk Recover,FlowField.Recovery
 sChunk NPC_Scott,BBX,BBX.Scott
+csChunk GoToSave,FlowField.GoToSave
 
 Chunk Update
 	call _Update
@@ -73,3 +74,8 @@ Chunk NPC_Helmut
 	call LeaderText,"HELMUT"
 	:get_to_work
 	call Helmut
+	
+Chunk NPC_Jeroen
+	call maptext,"JEROEN"
+	call GoToSave
+	
