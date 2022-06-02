@@ -1,6 +1,0 @@
-Module 
-	Bool Run(Act,string TarTag)
-		// Placeholder
-		Return False
-	End
-End
