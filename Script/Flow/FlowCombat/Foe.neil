@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Foe.neil
-// Version: 22.05.23
+// Version: 22.06.03
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -197,6 +197,7 @@ Class Foe Extends Fighter
 		for i=0,255
 			Ret = Replace(Ret,sprintf("<<<<%d>>>>",i),Chr(i))
 		End
+		Return Ret
 	End
 	
 	Get Table DescriptionLines
@@ -289,8 +290,30 @@ Class Foe Extends Fighter
 		RPGChar[NF.Tag].Name = NF.RawData.Value("META","NAME")
 		
 		// Images
-		NF.ImgNor = Image.Load(NF.RawData.Value("META","NORMSPRITE"),"IMG_FOE_NOR_"..idx)
-		NF.ImgNeg = Image.Load(NF.RawData.Value("META","NEGASPRITE"),"IMG_FOE_NEG_"..idx)
+		String NorF = NF.RawData.Value("META","NORMSPRITE")
+		String NegF = NF.RawData.Value("META","NEGASPRITE")
+		if Suffixed(NorF,"/")
+			Var Dr = JCR6.Dir(NorF)
+			Var GNr 
+			Var GNg
+			GNr = {}
+			GNg = {}
+			for DF in each(Dr)
+				string DFU = DF:upper()
+				if suffixed(DFU,".NEGATIVE.PNG")
+					GNg += DF
+				elseif suffixed(DFU,".PNG")
+					GNr += DF
+				End
+			End
+			Lua.assert(#GNR>0,"I could not work out foe picture folder "..NorF)
+			int kies = math.random(1,#GNr)
+			NorF = GNr[kies]
+			//NegF = GNg[kies]
+			NegF = Replace(Norf:upper(),".PNG",".NEGATIVE.PNG")
+		end
+		NF.ImgNor = Image.Load(NorF,"IMG_FOE_NOR_"..idx)
+		NF.ImgNeg = Image.Load(NegF,"IMG_FOE_NEG_"..idx)
 		NF.Imgs   = { [false]=NF.ImgNor,[true]=NF.ImgNeg }
 		NF.Neg    = False
 		
@@ -338,7 +361,15 @@ Class Foe Extends Fighter
 			End
 		End
 		
+		// Status Resistance
+		For s in Each{"Bio","Stamina","Will"}
+			NF.Stat["END_ZSR_"..s]=NF.RawData.NValue("ResistStatus",s)
+		End
+		
+		// This is to make it possible enemies start with certain statuses
+		Var InitialStatus = {}
 		NF.SetUp(NF.CharTag,"Foe")
+		NF.InitStatusChanges(InitialStatus)
 	End
 
 End
