@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.06.02
+// version: 22.06.03
 // End License Information
 
 #use "Libs/Fittext"
@@ -41,7 +41,7 @@ Class Fighter
 
 #region Tags and stuff
 
-	Var StChange = UWN("Script/Use/Combat/StatusChanges.uwn")
+	Static Var StChange = UWN("Script/Use/Combat/StatusChanges.uwn")
 
 	String CharTag
 	String Team
@@ -224,10 +224,21 @@ Class Fighter
 
 #region StatusChanges	
 	Final Var EachStatusChange()
-		StatusChanges = StatusChanges || {}
+		TrueStatusChanges = TrueStatusChanges || {}
+		Var Tabel 
+		Tabel = {}
+		For k,v in pairs(TrueStatusChanges)
+			If v
+				Tabel += k
+			end
+		End
+		Int i=0
 		Var Ret()			
-			// PLACEHOLDER!
-			return nil,nil
+			i++
+			if i>#Tabel
+				return nil,nil
+			end
+			return Tabel[i],StatusChanges[Tabel[i]]
 		End
 		Return Ret
 	End
