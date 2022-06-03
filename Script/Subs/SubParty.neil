@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Subs/SubParty.neil
-// Version: 22.05.20
+// Version: 22.06.03
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -250,6 +250,11 @@ Group SubParty
 					Graphics.Rect(barx,B.Y+25,HBR,10)
 					Fnt.DarkText("HP",barx,B.Y+35,1,1)
 					Fnt.DarkText(HP.Have,barx+barwidth,B.Y+35,1,1)
+					//CSayF("Whizzy: %s",gv.gbool["CHEAT.WHIZZY"])
+					If gv.gbool["CHEAT.WHIZZY"]
+						HP.Have++
+						//Lua.error("We werken lekker toch niet!")
+					End
 				End
 				// AP
 				If RPGChar[ch].Points.AP.Maximum>0
