@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Effect.neil
-// Version: 22.05.23
+// Version: 22.06.02
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -175,7 +175,29 @@ Group Effect
 		End
 		Return True
 	End
-		
+	
+	Get Bool Cause
+		Bool Ret = False
+		For St in Each(Any.Resistance.StatusChanges)
+			If iAct["Cause_"..St]
+				Int Res=Target.EndStats["ZSR_"..Fighter.StChange.Resistance]
+				Int Rol=Any.Luck.Roll(Target.CharTag,0,100)
+				If Target.Boss && (St=="Death" || St=="Destruction")
+					Res=100
+				End
+				CSayF("Roll for status: %s -> %03d (Resistance %03d%%",St,Rol,Res)
+				If Rol<Res
+					CSayF("-> Rejected!")				
+				Else
+					CSayF("-> Accepted!")
+					Target.StatusChanges[st]=True
+					charmsg(Target.CharTag,St,180,0,255)
+					Ret = True
+				End
+			End
+		End
+		Return Ret
+	End
 	
 	Bool Run(_Act,string _TarTag)
 		Act      = _Act
@@ -186,6 +208,7 @@ Group Effect
 			If iAct.Effect_Script!=""
 				ret = FX[iAct.Effect_Script](_Act,_TarTag,iAct.Effect_Param) || Ret
 			End
+			Ret = Cause || Ret
 		End
 		Return Ret
 	End
