@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.05.22
+// version: 22.06.02
 // End License Information
 
 #use "Libs/Fittext"
@@ -40,6 +40,8 @@
 Class Fighter
 
 #region Tags and stuff
+
+	Var StChange = UWN("Script/Use/Combat/StatusChanges.uwn")
 
 	String CharTag
 	String Team
@@ -49,6 +51,39 @@ Class Fighter
 	
 	
 	Table StatusChanges
+	Table TrueStatusChanges
+	
+	Void InitStatusChanges(Initial)
+		Static Var Func = {[true]="Cause", [false]="Cure"}
+		TrueStatusChanges = {}
+		If Initial
+			for S in Each(Initial)
+				TrueStatusChanges[S:upper()] = true
+			End
+		End
+		
+		void S(SF,string K,V)
+			Bool Value = V!=nil && v!=false
+			Bool Was   = TrueStatusChanges[K]!=nil && v!=false
+			K = K:upper()
+			TrueStatusChanges[K]=TrueStatusChanges[K] || True
+			If Value!=Was
+				StChange[K][Func[Value]](Self,K)
+			End
+		End
+		
+		Var G(SF,string k)
+			If TrueStatusChanges[K:upper()]
+				return StChange[K]
+			else
+				Return Nil
+			End
+		End
+		StatusChanges = Lua.setmetatable({},{["__index"]=G, ["__newindex"]=S})
+	End
+	
+	
+	
 	
 	Get String Tag
 		Return CharTag
