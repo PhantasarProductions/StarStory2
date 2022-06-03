@@ -1,0 +1,77 @@
+// License Information:
+// src/Tricky Script/Script/Use/Combat/StatusChanges.uwn/Paralysis.neil
+// Version: 22.06.03
+// Copyright (C) 2022 Jeroen Petrus Broks
+// 
+// ===========================
+// This file is part of a project related to the Phantasar Chronicles or another
+// series or saga which is property of Jeroen P. Broks.
+// This means that it may contain references to a story-line plus characters
+// which are property of Jeroen Broks. These references may only be distributed
+// along with an unmodified version of the game.
+// 
+// As soon as you remove or replace ALL references to the storyline or character
+// references, or any termology specifically set up for the Phantasar universe,
+// or any other univers a story of Jeroen P. Broks is set up for,
+// the restrictions of this file are removed and will automatically become
+// zLib licensed (see below).
+// 
+// Please note that doing so counts as a modification and must be marked as such
+// in accordance to the zLib license.
+// ===========================
+// zLib license terms:
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// End License Information
+Module
+	Const String Resistance = "Bio"
+	
+	Delegate MW = Lnk.Party.MiniWrt
+	Delegate MM = Lnk.Party.MiniMsg
+
+	Var ParaImg = Image.LoadNew("GFX/Combat/Status/Paralysis.png","COMBAT_STATUS_PARALYSIS")
+
+	Void Draw(Chr)
+		Static Var MdX = {[true]=10,[false]=0}
+		Static Bool Md
+		Int R
+		Int G
+		Int B
+		R,G,B = Graphics.GetColor()
+		__White
+		Md = !Md
+		ParaImg.Tile(Chr.X-(Chr.W div 2)-5-MdX[Md],Chr.Y-Chr.H,16,Chr.H)
+		ParaImg.Tile(Chr.X+(Chr.W div 2)+5+MdX[Md],Chr.Y-Chr.H,16,Chr.H)		
+		Graphics.Color(R,G,B)
+		
+	End
+	
+	Const Delegate Cause = NIKS
+	Const Delegate Cure = NIKS
+	
+	Bool SkipTurn(Chr)
+		If Luck.Roll(Chr.CharTag,1,LetGo,false)==1
+			Chr.StatusChanges.Paralysis=False
+			Lnk.Party.MiniMsg(sprintf("%s is no longe paralyzed",Chr.name))
+		End
+		Return True
+	End
+	
+	Const Var LetGo = {["Hero"]={4,10,50},["Foe"]={50,10,2}}
+	
+	
+		
+	Readonly Delegate PreTurn = NIKS
+	
+End
