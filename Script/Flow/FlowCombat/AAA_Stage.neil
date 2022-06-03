@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/AAA_Stage.neil
-// Version: 22.05.22
+// Version: 22.06.03
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -127,7 +127,8 @@ Class Stage_IDLE extends Stage
 			If d
 				CSayF("Character %s in preturn event check due to status %s",Char.Tag,k)
 				Invoke(d.PreTurn,Char,k)
-				SkipTurn = SkipTurn || d.SkipTurn
+				SkipTurn = d.SkipTurn(Char) || SkipTurn
+				// I must make sure the skipturn function is executed. 
 			Else
 				printf("\007WARNING! 'nil' value in status change reel (%s)",Lua.tostring(k))
 			End
