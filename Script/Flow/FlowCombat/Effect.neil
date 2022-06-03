@@ -184,7 +184,7 @@ Group Effect
 		Bool Ret = False
 		For St in Each(Any.Resistance.StatusChanges)
 			If iAct["Cause_"..St]
-				Int Res=Target.EndStats["ZSR_"..Fighter.StChange.Resistance]
+				Int Res=Target.EndStats["ZSR_"..Fighter.StChange[st].Resistance]
 				Int Rol=Any.Luck.Roll(Target.CharTag,0,100)
 				If Target.Boss && (St=="Death" || St=="Destruction")
 					Res=100
