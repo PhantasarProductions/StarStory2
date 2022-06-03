@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Hero.neil
-// Version: 22.05.22
+// Version: 22.06.02
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -197,6 +197,7 @@ Class Hero Extends Fighter
 			RPGChar[_Tag].Points.Ammo.Have = RPGChar[_Tag].Points.Ammo.Maximum
 		End
 		NH.SetUp(NH.CharTag,"Hero")
+		NH.InitStatusChanges()
 	End
 
 End
