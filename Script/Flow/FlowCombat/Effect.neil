@@ -123,6 +123,10 @@ Group Effect
 			TrueDmg = math.ceil(TrueDmg * Tar.GuardModifier)
 		End
 		Tar.Char.Points.HP.Have -= TrueDmg
+		if gv.vbool["CHEAT.JACK"] && Tar.Team=="Foe"
+			Tar.Char.Points.HP.Have = 0
+			CSay("Jack the Ripper did strike! Instant kill1")
+		End
 		CSayF("%s takes %d damage and has %d HP left!",Tar.CharTag,TrueDmg,Tar.Char.Points.HP.Have)
 		If Tar.CharTag=="Ashley"
 			Tar.Char.Points.AP.Have += math.ceil( (TrueDmg/Tar.Char.Points.HP.Maximum) * (50 / __skill)) + (24 div __skill)
