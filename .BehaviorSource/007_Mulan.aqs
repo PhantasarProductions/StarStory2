@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 22.05.29
+; version: 22.06.03
 ; End License Information
 
 include basis.aqs
@@ -42,4 +42,9 @@ Chunk ZA_Welcome
 	jmptrue einde
 	call maptext,"WELCOME" 
 	:einde
+	exit
+	
+Chunk ZA_ToCatwalk
+	call MiniMsg,"Entering Catwalks"
+	call GoToMap,"991_Catwalks","#000","Start"
 	exit
