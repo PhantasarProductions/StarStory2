@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowConsole.neil
-// Version: 22.06.01
+// Version: 22.06.03
 // Copyright (C) 2020, 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -347,8 +347,10 @@ deftable icommandtable
 		SNIM("DEBUG")
 	end
 	WHIZZY = void()
-		gv.gBool["CHEAT.REGEN"]=!gv.gBool["CHEAT.REGEN"]
-		CSayF("Whizzy mode: %s",Lua.tostring(gv.GBool["CHEAT.REGEN"]))
+		//gv.gBool["CHEAT.REGEN"]=!gv.gBool["CHEAT.REGEN"]
+		//CSayF("Whizzy mode: %s",Lua.tostring(gv.GBool["CHEAT.REGEN"]))
+		gv.gbool["CHEAT.WHIZZY"] = !gv.gbool["CHEAT.WHIZZY"]
+		CSayF("Whizzy: %s",Lua.tostring(gv.gbool["CHEAT.WHIZZY"]))
 	End
 	DUMBLEDORE = void()
 		gv.gBool["CHEAT.DUMBLEDORE"]=!gv.gBool["CHEAT.DUMBLEDORE"]
