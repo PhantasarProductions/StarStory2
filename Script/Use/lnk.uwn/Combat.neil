@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/lnk.uwn/Combat.neil
-// Version: 22.04.29
+// Version: 22.06.03
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -55,10 +55,12 @@ Module
 		State.Call("FLOW_COMBAT","FlowCombat.Start.NewEnemy",sprintf("\"%s\",%d,%d,%d",Foe,Level,X || -1,Y || -1))
 	End
 
-	Void PrepareCombat()
+	Void PrepareCombat(nomusicchange)
 		// Push Music
-		_Music.Push()
-		_Music.Stop()
+		if !nomusicchange
+			_Music.Push()
+			_Music.Stop()
+		end
 		
 		// Loading 
 		CDLoading()
