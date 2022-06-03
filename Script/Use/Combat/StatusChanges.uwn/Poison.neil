@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Combat/StatusChanges.uwn/Poison.neil
-// Version: 22.06.02
+// Version: 22.06.03
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -46,6 +46,8 @@ Module
 	
 	Const Delegate Cause = NIKS
 	Const Delegate Cure = NIKS
+	
+	Const Delegate SkipTurn = NIKS
 	
 	Void PreTurn(Chr)
 		int Dmg
