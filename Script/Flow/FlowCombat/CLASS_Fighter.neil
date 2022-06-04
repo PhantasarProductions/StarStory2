@@ -230,8 +230,8 @@ Class Fighter
 		Tabel = Tabel || {}
 		
 		For k,v in pairs(TrueStatusChanges)
-			i++
 			If v
+				i++
 				Tabel[i]=k
 			end
 		End
