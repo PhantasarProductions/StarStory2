@@ -177,7 +177,7 @@ string Explanation(string itg,int t=2)
 				End
 			End		
 			if IT.ADDCARD_Char_Number>0
-				ret += sprintf("Target gains %d action bubbles (interval %d)\n",IT.ADDCHAR_Char_Number,IT.ADDCHAR_Char_Interval)
+				ret += sprintf("Target gains %d action bubbles (interval %d)\n",IT.ADDCARD_Char_Number,IT.ADDCARD_Char_Interval)
 			end
 			if IT.ADDCARD_Action_Number>1
 				if IT.ADDCARD_Action_Act=="Self"
@@ -215,6 +215,8 @@ Var GetIAA(String F)
 				Return Explanation(F)
 			Case "EXPLAINTABLE"
 				return Split(Explanation(F),"\n")
+			Case "NAME"
+				return Data.Value(Rec,"Title")
 			Default
 				Switch IAA_Class.Value("CLASS",Key):upper()
 					Case "STRING"
