@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Items.neil
-// Version: 22.05.24
+// Version: 22.06.04
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -91,7 +91,8 @@ Module
 			EX  = (ubox.x+ubox.w)-BsX
 
 			//ITg,INm = IAA.Slot[i]
-			If i>ScrollY && i<=ScrollYMax
+			//If i>ScrollY && i<=ScrollYMax
+			if Y>=ubox.y && Y<=(ubox.y+ubox.w)-40
 				If INm==0
 					Graphics.Color(75,75,75)
 					Fnt.Text("----",X,Y)
