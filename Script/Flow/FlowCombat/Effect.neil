@@ -123,7 +123,7 @@ Group Effect
 			TrueDmg = math.ceil(TrueDmg * Tar.GuardModifier)
 		End
 		Tar.Char.Points.HP.Have -= TrueDmg
-		if gv.vbool["CHEAT.JACK"] && Tar.Team=="Foe"
+		if gv.vbool["CHEAT.JACK"] && Tar.Team=="Foe" && TrueDmg>0
 			Tar.Char.Points.HP.Have = 0
 			CSay("Jack the Ripper did strike! Instant kill1")
 		End
@@ -186,7 +186,7 @@ Group Effect
 			If iAct["Cause_"..St]
 				Int Res=Target.EndStats["ZSR_"..Fighter.StChange[st].Resistance]
 				Int Rol=Any.Luck.Roll(Target.CharTag,0,100)
-				If Target.Boss && (St=="Death" || St=="Destruction")
+				If Target.Team=="Foe" && Target.Boss && (St=="Death" || St=="Destruction")
 					Res=100
 				End
 				CSayF("Roll for status: %s -> %03d (Resistance %03d%%",St,Rol,Res)
