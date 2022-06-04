@@ -123,7 +123,7 @@ Class Foe Extends Fighter
 							if any.Aurina.Rate==1
 								CharMsg(Self.CharTag,"Dropped aurina",0,180,255)
 							Else
-								CharMsg(Self.CharTag,sprintf("Dropped %d aurinas",Any.Aurina.RateShilders),0,180,255)								
+								CharMsg(Self.CharTag,sprintf("Dropped %d aurinas",Any.Aurina.Rate),0,180,255)								
 							End
 							Any.Aurina.Have += Any.Aurina.Rate
 						End
