@@ -59,7 +59,14 @@ void _UseItem(string ch,int Slot,string ittag)
 						Success=true // Appears odd, but this prevents double error messages!
 					default
 				End
-			End		
+			End	
+			If It.X_Level
+				Char.Points.EXP.Have = Char.Points.EXP.Maximum
+				Success=true
+			ElseIf IT.X_Experience
+				Char.Points.EXP.Have += IT.X_Experience div (__skill+1)
+				Success=true
+			End
 			If Success
 				Any.IAA.SlotNum[Slot]--
 			Else
