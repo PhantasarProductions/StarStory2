@@ -39,7 +39,7 @@
 #use "libs/xmath"
 
 Module Class
-	Const String FloorFile = "GFX/TextureS/Floor/drock047.png"
+	Const String FloorFile = "GFX/TextureS/Floor/RoosterVloer.png"
 	
 	Const Var NewBattle = NIKS
 	
