@@ -225,14 +225,17 @@ Class Fighter
 #region StatusChanges	
 	Final Var EachStatusChange()
 		TrueStatusChanges = TrueStatusChanges || {}
-		Var Tabel 
-		Tabel = {}
+		Static Var Tabel 
+		Int i = 0
+		Tabel = Tabel || {}
 		For k,v in pairs(TrueStatusChanges)
+			i++
 			If v
-				Tabel += k
+				Tabel[i]=k
+				Tabel[i+1]=nil
 			end
 		End
-		Int i=0
+		i=0
 		Var Ret()			
 			i++
 			if i>#Tabel
