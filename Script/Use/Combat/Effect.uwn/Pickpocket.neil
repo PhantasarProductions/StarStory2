@@ -1,0 +1,83 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/Use/Combat/Effect.uwn/IncRageAtk.neil
+// (c) Jeroen Broks, 2022, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 22.05.23
+// End License Information
+
+QuickMeta AMPP
+
+	index
+		return math.max(RPGChar.Ashley.Stat.Level+(__skill^__skill),gv.gint["LvlAppleStealRate_"..key])
+	end
+
+	newindex
+		gv.gint["LvlAppleStealRate_"..key]=math.min(Value,1000000000)
+	End
+
+End
+
+Bool __PP(_Act,string _TarTag,String EffectParam)	
+	Var Tar = Fighter.ByTag[_TarTag]
+	Var Stolen = Nil
+	If math.random(1,__skill^__skill)==1
+		Int R = Any.Luck.Roll("Ashley",0,Tar.Level)
+		if R>AMPP[_TarTag]
+			Stolen = "ITM_LEVELAPPLE"
+		End	
+	End
+	If (!Stolen)
+		int n = 0
+		for i,_ in pairs(Tar.Steal)
+			n = math.max(i,n)
+		end
+		if n>0
+			Stolen = Tar.Steal[math.random(1,n)]
+		end	
+	End
+	if Stolen
+		If Any.Iaa[Stolen].Give
+			Lnk.Party.MiniWrt("Asley ",255,180,  0)
+			Lnk.Party.MiniWrt("stole ",255,  0,255)
+			Lnk.Party.MiniMsg(Any.IAA[Stolen].Name,0,180,255)
+		Else
+			Lnk.Party.MiniWrt("Asley ",255,180,  0)
+			Lnk.Party.MiniWrt("could not steal ",255,0,0)
+			Lnk.Party.MiniMsg(Any.IAA[Stolen].Name,0,180,255)
+			Lnk.Party.MiniWrt(" (Inventory full)",255,0,0)
+		End			
+	End
+	Return Stolen!=Nil
+End
+
+Return __PP
