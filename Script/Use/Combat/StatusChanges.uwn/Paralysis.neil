@@ -41,6 +41,8 @@ Module
 	Delegate MM = Lnk.Party.MiniMsg
 
 	Var ParaImg = Image.LoadNew("GFX/Combat/Status/Paralysis.png","COMBAT_STATUS_PARALYSIS")
+	Const Var LetGo = {["Hero"]={4,10,50},["Foe"]={50,10,2}}
+
 
 	Void Draw(Chr)
 		Static Var MdX = {[true]=10,[false]=0}
@@ -61,17 +63,17 @@ Module
 	Const Delegate Cure = NIKS
 	
 	Bool SkipTurn(Chr)
-		If Luck.Roll(Chr.CharTag,1,LetGo,false)==1
+		If Any.Luck.Roll(Chr.CharTag,1,LetGo,false)==1
 			Chr.StatusChanges.Paralysis=False
 			Lnk.Party.MiniMsg(sprintf("%s is no longe paralyzed",Chr.name))
 		End
 		Return True
 	End
 	
-	Const Var LetGo = {["Hero"]={4,10,50},["Foe"]={50,10,2}}
 	
 	
 		
-	Readonly Delegate PreTurn = NIKS
+	Const Delegate PreTurn = NIKS
+	Const Delegate AltAI = Nil
 	
 End
