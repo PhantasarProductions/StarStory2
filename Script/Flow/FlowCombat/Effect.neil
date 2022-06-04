@@ -203,12 +203,30 @@ Group Effect
 		Return Ret
 	End
 	
+	Get Bool XEXP
+		If Target.Team!="Hero"
+			Return False
+		End
+		Var X = Target.Char.Points.Exp 
+		if iAct.X_Level
+			X.Have = X.Maximum
+			return true
+		elseif iAct.X_Experience>0
+			X.have = iAct.X_Experience
+			Return True
+		Else
+			Return False
+		End
+	End
+		
+	
 	Bool Run(_Act,string _TarTag)
 		Act      = _Act
 		TarTag   = _TarTag
 		Bool Ret = False
 		If Hit			
 			Ret = Attack || Ret
+			Ret = XEXP || Ret
 			If iAct.Effect_Script!=""
 				ret = FX[iAct.Effect_Script](_Act,_TarTag,iAct.Effect_Param) || Ret
 			End
