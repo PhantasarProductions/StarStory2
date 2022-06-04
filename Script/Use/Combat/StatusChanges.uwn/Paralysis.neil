@@ -65,7 +65,7 @@ Module
 	Bool SkipTurn(Chr)
 		If Any.Luck.Roll(Chr.CharTag,1,LetGo,false)==1
 			Chr.StatusChanges.Paralysis=False
-			Lnk.Party.MiniMsg(sprintf("%s is no longe paralyzed",Chr.name))
+			Lnk.Party.MiniMsg(sprintf("%s is no longer paralyzed",Chr.name))
 		End
 		Return True
 	End
@@ -74,6 +74,6 @@ Module
 	
 		
 	Const Delegate PreTurn = NIKS
-	Const Delegate AltAI = Nil
+	Const Delegate AltAI = NIKS
 	
 End
