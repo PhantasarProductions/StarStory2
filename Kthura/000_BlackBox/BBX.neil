@@ -90,7 +90,9 @@ Group BBX
 		End
 	End
 
-	
+	Void Heijn()
+		Lnk.Party.MiniMsg("Heijn not yet implemented",255,0,0)
+	End
 		
 	
 

@@ -42,6 +42,7 @@ Include Basis.aqs
 sChunk _Update,BBX,BBX.Update
 sChunk NPC_Quino,BBX,BBX.Quino
 sChunk Helmut,BBX,BBX.Helmut
+sChunk Heijn,BBX,BBX.Heijn
 CSChunk Recover,FlowField.Recovery
 sChunk NPC_Scott,BBX,BBX.Scott
 csChunk GoToSave,FlowField.GoToSave
@@ -78,3 +79,7 @@ Chunk NPC_Helmut
 Chunk NPC_Jeroen
 	call maptext,"JEROEN"
 	call GoToSave
+	
+Chunk NPC_Heijn
+	Call maptext,"HEIJN"
+	Call Heijn
