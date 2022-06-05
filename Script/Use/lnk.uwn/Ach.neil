@@ -154,7 +154,7 @@ Module
 								R = R && (gv.gbool[k] && v:upper()=="TRUE")
 							case "*"
 								switch k
-									Case "KLARE"
+									Case "KLAHRE"
 										R = R && RPGChar.Klahre.Stat.Level >= vi
 									case "YORNO"
 										R = R && RPGChar.Yorno.Stat.Level >= vi
