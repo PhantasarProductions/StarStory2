@@ -73,8 +73,12 @@ Module
 		Int Hover=-1
 		Int X
 		Int EX
+		ScrollY -= Any.Mouse.Wheel
+		ScrollY = math.min(ScrollY,ScrollYMax)
+		ScrollY = math.max(0,ScrollY)
 		For i=1,Any.Caps.InvSlots
-			Int Y   = (30*(i-ScrollY))+ubox.y
+			Int sY   = (30*(i-ScrollY))
+			Int Y    = SY+ubox.y
 			Int BsX = 5
 			String ITg = IAA.Slot[i]
 			Int    INm = IAA.SlotNum[i]
@@ -92,7 +96,7 @@ Module
 
 			//ITg,INm = IAA.Slot[i]
 			//If i>ScrollY && i<=ScrollYMax
-			if Y>=ubox.y && Y<=(ubox.y+ubox.w)-40
+			if SY>=0 && SY<=ubox.h-40
 				If INm==0
 					Graphics.Color(75,75,75)
 					Fnt.Text("----",X,Y)

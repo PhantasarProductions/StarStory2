@@ -143,7 +143,7 @@ Class Foe Extends Fighter
 			gv.gInt.Kills++
 			CSayF("Total kills: %d",gv.gInt.Kills)
 		End	
-		CSayF("=> Killed foe disappearing: %d/%d=>%d",H,KillH,H2) 
+		//CSayF("=> Killed foe disappearing: %d/%d=>%d",H,KillH,H2) 
 		ImgNor.AltStretch("COMBAT",Self.X-(W div 2),self.Y-H2,W,H2)
 		KillH++
 		Gone = Gone || KillH>=H

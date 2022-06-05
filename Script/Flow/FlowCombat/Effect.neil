@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Effect.neil
-// Version: 22.06.04
+// Version: 22.06.05
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -146,7 +146,9 @@ Group Effect
 			Return True
 		End
 		If iAct.ARM && Executor.Tag=="Klahre"
-			Lua.error("ARMS hit check not yet implemented")			
+			//Lua.error("ARMS hit check not yet implemented")
+			Int R = XRoll(0,100,False)
+			Return R<=Abl.Klahre.Map[iAct.Tag]
 		End
 		Int Acc = XRoll(Executor.EndStats.Accuracy div 2,math.ceil(Executor.EndStats.Accuracy * 1.25))
 		Int Eva = XRoll(  Target.EndStats.Evasion  div 4,math.ceil(  Target.EndStats.Evasion  * 1.15))
@@ -207,12 +209,12 @@ Group Effect
 		If Target.Team!="Hero"
 			Return False
 		End
-		Var X = Target.Char.Points.Exp 
+		Var X = Target.Char.Points.EXP 
 		if iAct.X_Level
 			X.Have = X.Maximum
 			return true
 		elseif iAct.X_Experience>0
-			X.have = iAct.X_Experience
+			X.Have += iAct.X_Experience
 			Return True
 		Else
 			Return False

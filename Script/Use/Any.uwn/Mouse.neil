@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Any.uwn/Mouse.neil
-// Version: 22.03.24
+// Version: 22.06.04
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -50,6 +50,10 @@ Module
 	get int MY
 		return Events.MouseY()
 	end
+	
+	get int wheel
+		return Events.MouseWheelY()
+	End
 	
 	void Draw()
 		static var pointer = Image.Obtain("MOUSE")

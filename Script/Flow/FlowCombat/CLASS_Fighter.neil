@@ -242,6 +242,9 @@ Class Fighter
 			if i>#Tabel
 				return nil,nil
 			end
+			if !Tabel[i]
+				return nil,nil
+			end
 			return Tabel[i],StatusChanges[Tabel[i]]
 		End
 		Return Ret

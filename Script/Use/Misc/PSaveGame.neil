@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Misc/PSaveGame.neil
-// Version: 22.05.24
+// Version: 22.06.05
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -72,6 +72,8 @@ Global Void PerformSaveGame(string f)
 	SaveGame.Data["Vars.ini"] = gv.GINIE
 	SaveGame.Data["Permakill.ini"] = GINIE.UnParse("PERMAKILL")
 	SaveGame.Data["Inventory.ini"] = GINIE.Unparse("INVENTORY")
+	//SaveGame.Data["Achievements.ini"] = GINIE.UnParse("ACHIEVEMENTS")
+	//SaveGame.Data["Achievements.ini"] = Lnk.Ach.Source
 	For k in Each{"Klahre_ARMS","Yorno_Gadget","Doctor_Gadget","Doctor_XItem","Ashley_Rage"}
 		SaveGame.Data[sprintf("Abilities/%s.ini",k)] = GINIE.UnParse(k:upper())
 	End
@@ -158,13 +160,15 @@ Global Void PerformLoadgame(string f)
 		
 		
 		CSay("Achievements")		
-		GINIE.Parse("ACHIEVEMENTS",SaveGame.Data["ACHIEVEMENTS.INI"])
+		//GINIE.Parse("ACHIEVEMENTS",SaveGame.Data["ACHIEVEMENTS.INI"])
+		CSay("SKipped")
 		Progress.AAA_LOADSAVEGAME = 17
 		Loading()
 
 		
 		CSay("Mutilate if applicable")
-		Progress.AAA_LOADSAVEGAME = 14
+		Progress.AAA_LOADSAVEGAME = 18
+		Loading()
 	//catch e
 	// Lua.error("Loading game not yet implemented. Working on it!")
 	if SaveGame.HasData("KILL ME")

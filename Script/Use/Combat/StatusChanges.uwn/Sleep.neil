@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Combat/StatusChanges.uwn/Sleep.neil
-// Version: 22.06.04
+// Version: 22.06.05
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -47,13 +47,14 @@ Module
 
 	Void Draw(Chr)
 		Static Var MdX = {[true]=10,[false]=0}
-		Static Bool Md
+		Static Var Md
+		Md = Md || {}
 		Int R
 		Int G
 		Int B
 		R,G,B = Graphics.GetColor()
 		__White
-		Md = !Md
+		Md[Chr.CharTag] = !Md[Chr.CharTag]
 		if Md
 			ZF.Dark("Z",Chr.X,Chr.Y-Chr.H,2,1)
 		end
@@ -65,7 +66,7 @@ Module
 	
 	Bool SkipTurn(Chr)
 		If Any.Luck.Roll(Chr.CharTag,1,LetGo,false)==1
-			Chr.StatusChanges.Sleep=False
+			Chr.TrueStatusChanges.SLEEP=False
 			Lnk.Party.MiniMsg(sprintf("%s woke up",Chr.name))
 		End
 		Return True

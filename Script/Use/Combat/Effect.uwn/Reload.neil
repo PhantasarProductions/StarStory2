@@ -1,6 +1,6 @@
 // License Information:
-// src/Tricky Script/Script/Use/Combat/StatusChanges.uwn/Paralysis.neil
-// Version: 22.06.05
+// src/Tricky Script/Script/Use/Combat/Effect.uwn/Reload.neil
+// Version: 22.06.04
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -34,49 +34,10 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
-Module
-	Const String Resistance = "Bio"
-	
-	Delegate MW = Lnk.Party.MiniWrt
-	Delegate MM = Lnk.Party.MiniMsg
 
-	Var ParaImg = Image.LoadNew("GFX/Combat/Status/Paralysis.png","COMBAT_STATUS_PARALYSIS")
-	Const Var LetGo = {["Hero"]={4,10,50},["Foe"]={50,10,2}}
-
-
-	Void Draw(Chr)
-		Static Var MdX = {[true]=10,[false]=0}
-		Static Var Md
-		Md = Md || {}
-		Int R
-		Int G
-		Int B
-		R,G,B = Graphics.GetColor()
-		__White
-		Md[Chr.CharTag] = !Md[Chr.CharTag]
-		Bool Mdd=Mdd[Chr.CharTag]
-		ParaImg.Tile(Chr.X-(Chr.W div 2)-5-MdX[Mdd],Chr.Y-Chr.H,16,Chr.H)
-		ParaImg.Tile(Chr.X+(Chr.W div 2)+5+MdX[Mdd],Chr.Y-Chr.H,16,Chr.H)		
-		Graphics.Color(R,G,B)
-		
-	End
-	
-	Const Delegate Cause = NIKS
-	Const Delegate Cure = NIKS
-	
-	Bool SkipTurn(Chr)
-		If Any.Luck.Roll(Chr.CharTag,1,LetGo,false)==1
-			Chr.TrueStatusChanges.Paralysis=Nil
-			Chr.TrueStatusChanges.PARALYSIS=Nil
-			Lnk.Party.MiniMsg(sprintf("%s is no longer paralyzed",Chr.name))
-		End
-		Return True
-	End
-	
-	
-	
-		
-	Const Delegate PreTurn = NIKS
-	Const Delegate AltAI = NIKS
-	
+Bool __RL(_Act,string _TarTag,String EffectParam)	
+	_Act.Executor.Points.Ammo.Have = _Act.Executor.Points.Ammo.Maximum 
+	Return True
 End
+
+Return __RL

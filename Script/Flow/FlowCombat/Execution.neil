@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Execution.neil
-// Version: 22.06.02
+// Version: 22.06.04
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -74,6 +74,16 @@ Class Stage_Execution Extends Stage
 				DoShowBox    = False
 			Else
 				AP.Have -= Act.APCost
+			End
+		End
+		
+		if Act.UseAmmo
+			if RPGChar[Act.Executor.Tag].Points.Ammo.Have<=0
+				Buzz.Play()
+				Lnk.Party.MiniMsg(sPrintF("Out of ammo",Act.Act.Title),255,0,0)
+				Stage.Current = Nil
+			else
+				RPGChar[Act.Executor.Tag].Points.Ammo.Have--
 			End
 		End
 		

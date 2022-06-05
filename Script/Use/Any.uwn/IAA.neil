@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Any.uwn/IAA.neil
-// Version: 22.06.04
+// Version: 22.06.05
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -110,6 +110,7 @@ Bool Give(String Item,Int N=1)
 		if ItemNum[i]==0
 			ItemSlot[i]=Item
 			ItemSlot[i]=N
+			Lua.Neil.Globals._module_IAA[Item].Given++
 			Return True
 		End
 	LoopWhile i<Any.Caps.InvSlots
@@ -209,6 +210,8 @@ Var GetIAA(String F)
 				return F:upper()
 			Case "GIVE"
 				Return Give(F)
+			Case "GIVEN"
+				Return GData.NValue("Given",F)
 			Case "NUM"
 				Return ItemNum
 			Case "EXPLAIN"
@@ -232,7 +235,16 @@ Var GetIAA(String F)
 				End
 		End
 	End
-	return Lua.setmetatable({},{["__index"]=GIndex})
+	Void GNewIndex(s,String k,Value)
+		String Key = K:upper()
+		Switch(Key)
+			case "GIVEN"
+				GData.Value("Given",F,Lua.tostring(Value))
+			Default
+				Lua.Error("Any.IAA."..k.." is read-only")
+		End
+	end
+	return Lua.setmetatable({},{["__index"]=GIndex,["__newindex"]=GNewIndex})
 End
 
 global const int IAAEX_full    = 0

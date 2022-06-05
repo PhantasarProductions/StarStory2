@@ -32,10 +32,17 @@
 ; 
 ; **********************************************
 ; 
-; version: 22.06.03
+; version: 22.06.05
 ; End License Information
 include basis.aqs
 
 Chunk ZA_Leave
 	call MiniMsg,"Going back to Mulan Artificial Forest"
 	call GoToMap,"007_Mulan","#004","From_Catwalks"
+	
+Chunk ZA_Einde
+	Done Complete_991_CatWalks
+	jmptrue einde
+	call Score,500,""
+	:einde
+	exit

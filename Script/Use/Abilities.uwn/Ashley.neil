@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.06.01
+// version: 22.06.05
 // End License Information
 
 #use "libs/linkedlist"
@@ -100,7 +100,7 @@ Class __AshleyRage
 					Else
 						Graphics.Color(255,180,0)
 					End
-					Fnt.Dark("*"..RI.PowerUp,EX-120,2,0)
+					Fnt.Dark("*"..RI.PowerUp,EX-120,Y,2,0)
 				End
 			else
 				Graphics.Color(120,120,120)
@@ -151,6 +151,7 @@ Class __AshleyRage
 	End
 	Set Int Used
 		int OldPU = Self.PowerUp
+		CSayF("Abilities.Ashley.%s.Used = %d",Tag,Value)
 		Stuff.Value(Tag,"Used",sprintf("%d",Value))
 		If Used>Self.TrueAPCost*(0.5*__skill) && (!Self.PU_HalfAP)
 			Stuff.Value(Tag,"HalfAP","TRUE")
@@ -186,7 +187,7 @@ Class __AshleyRage
 		Abl = Any.IAA[Tag]
 		NeedToUnlock = Need
 		AllowPowerUp = APU
-		Used = 0
+		//Used = 0
 		Stuff.Value(Tag,"Unlocked",Lua.tostring(Need==0 || Unlocked):upper())
 		CSayF("%s has been added to Ashley's rage list",Name) 
 	End

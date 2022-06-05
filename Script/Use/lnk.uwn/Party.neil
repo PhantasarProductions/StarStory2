@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/lnk.uwn/Party.neil
-// Version: 22.05.22
+// Version: 22.06.05
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -129,6 +129,16 @@ Module
 			T+=RPGChar[RPGParty[i]].Stat.Level
 		End
 		Return T div C
+	End
+	
+	Void Score(int exp,string ch="")
+		if ch==""
+			for i=1,Count
+				Score(exp,RPGParty[i])
+			End
+			Return
+		end
+		RPGChar[ch].Points.EXP.Have+=exp
 	End
 
 	Constructor

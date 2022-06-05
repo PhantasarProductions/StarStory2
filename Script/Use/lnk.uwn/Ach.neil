@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/lnk.uwn/Ach.neil
-// Version: 22.04.09
+// Version: 22.06.05
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -34,10 +34,148 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
+#undef ACH_DEBUG
+
+Void DC(string A)
+#if ACH_DEBUG
+	print(A)
+#fi
+End
+
+Init
+	Medals.Game="SS2"
+End
+
+Var AStuff = GINIE.LoadNew("Data/General/Achievements.ini","ACHIEVEMENTS_DATA")
+//Var GAwarded = GINIE.Obtain("ACHIEVEMENTS")
+
+Class Achievement
+	ReadOnly String Tag
+	Get String Rec
+		Return "REC:"..Tag
+	End
+	
+	Get Bool Awarded
+		//Return GAwarded.Value("GOT",Tag):upper()=="TRUE"
+		Return gv.gbool["Awarded_"..Tag] 
+	End
+	Set Bool Awarded
+		DC("Awarded: "..Tag)
+		If !Awarded
+			Lnk.Party.MiniWrt("You have earned the achievement: ",255,0,255)
+			Lnk.Party.MiniMsg(self.Name,255,255,0)
+			Any.Good.Play()
+			Medals.Award(Tag)
+		End
+		//GAwarded.Value("GOT",Tag,Lua.tostring(Value):upper())
+		gv.gbool["Awarded_"..Tag] = value
+	End
+	
+	Get String Name
+		Return AStuff.Value(Rec,"NAME")
+	End
+	
+	Get String Title
+		Return Name
+	End
+	
+	Get String Description
+		Return AStuff.Value(Rec,"DESCRIPTION")
+	End
+	
+	Get String Desc
+		Return Description
+	End
+	
+	Get Bool HideUnlessLearned
+		Return AStuff.Value(Rec,"HIDEUNLESSEARNED")
+	End
+	
+	
+	Readonly Var Auto
+	ReadOnly Bool DoAuto
+	
+	Constructor(String _T)
+		Tag = _T
+		Auto = {}
+		String Keys   = AStuff.Value(Rec,"AUTO_KEYS")
+		String values = AStuff.Value(Rec,"AUTO_VALUES")
+		Var k = Split(keys," ")
+		Var v = Split(values," ")
+		CSayF("Keys: %s(%d); Values: %s(%d);",keys,#k,values,#v)
+		Lua.assert(#k==#v,sprintf("Achievement autocheck mismatch! (%s) Keys:%d; Values:%d",Tag,#k,#v))
+		DoAuto=#k>0
+		for i=1,#k
+			Auto[k[i]]=v[i]
+		end
+		CSayF("Creating record for: %s",_T)
+	end
+End
+
+QuickMeta AchM
+	index
+		key = key:upper()
+		Static Var MijnMap
+		MijnMap = MijnMap || {}
+		MijnMap[key] = MijnMap[key] || new Achievement(key)
+		return MijnMap[Key]
+	End
+End
+	
+
 Module
 
+	Get String Source 
+		Return GINIE.UnParse("ACHIEVEMENTS")
+	End
+
 	Void Auto()
-		// TO DO: Code!
+		CSay("Automated achievement checkup requested")
+		for AT in Each(AStuff.Categories)
+			//CSay(AT)
+			if prefixed(AT,"REC:")
+				String ATag=Right(AT,#AT-4)
+				Var A = AchM[ATag]
+				CSayF("= DoAuto is %s of '%s'",A.DoAuto,ATag)
+				if A.DoAuto
+					Bool R = True
+					For tk,v in pairs(A.Auto)
+						string t=left( tk,1)
+						string k=right(tk,#tk-1):upper()
+						int vi = Lua.tonumber(v)||0
+						CSayF("Ach.Auto: Checking %s for value %s(%d)",tk,v,vi)
+						switch t
+							case "$"
+								R = R && gv.gstr[k]==v
+							case "%"
+								R = R && (gv.gint[k]>=vi)
+							case "&"
+								R = R && (gv.gbool[k] && v:upper()=="TRUE")
+							case "*"
+								switch k
+									Case "KLARE"
+										R = R && RPGChar.Klahre.Stat.Level >= vi
+									case "YORNO"
+										R = R && RPGChar.Yorno.Stat.Level >= vi
+									case "DOCTOR"
+										R = R && RPGChar.Doctor.Stat.Level >= vi
+									case "ASHLEY"
+										R = R && RPGChar.Ashley.Stat.Level >= vi
+									Default
+										Lua.error("Unknown achievement system data check: "..tk)
+								end
+							default
+								Lua.error("Unknown achievement system data type check: "..tk)
+						End
+					end
+					If R
+						CSayF("Awarding: %s",ATag)
+						A.Awarded=true
+					End
+				end
+			end
+		end
 	End
 	
 	Void Show()

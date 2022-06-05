@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Renc.neil
-// Version: 22.06.03
+// Version: 22.06.04
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -231,6 +231,7 @@ Module Class
 			Fnt.DarkText(sprintf("%d",Layers[L].ENC),Screen.W,GAUGEY,1,0)
 			GaugeX = math.max(GaugeX-1,Screen.W-GaugeW)
 			If Moved && Layers[L].CD<1500 && LAYERS[L].ENC>0 && math.random(0,Layers[L].CD)==0
+				Lnk.Map.StopWalking()
 				GAlarm.HotCenter()
 				AAlarm.Play()
 				For i=0,360,5

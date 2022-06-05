@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.05.24
+// version: 22.06.04
 // End License Information
 Var Ret = new LinkedList()
 
@@ -89,7 +89,9 @@ Void Shoot(string ch,Var Card)
 End
 
 Void Reload(string ch,Var Card)
-	Lua.error("Reload not yet implemented")
+	//Lua.error("Reload not yet implemented")
+	Var act = new Action("ACT_RELOAD",Ch,{ch},{})
+	FlowCombat.Execution.ComeToMe(Act,Card)
 End
 
 Void ARMS(string ch,Var Card)
