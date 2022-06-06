@@ -81,5 +81,6 @@ Chunk NPC_Jeroen
 	call GoToSave
 	
 Chunk NPC_Heijn
+	Done BLACKBOX_SPOKEN_HEIJN
 	Call maptext,"HEIJN"
 	Call Heijn
