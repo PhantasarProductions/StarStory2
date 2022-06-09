@@ -1,6 +1,6 @@
 // License Information:
-// src/Tricky Script/Script/Use/Combat/HPDrain.neil
-// Version: 22.06.01
+// src/Tricky Script/Script/Use/Combat/Effect.uwn/HPDrain.neil
+// Version: 22.06.07
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -48,3 +48,5 @@ Bool _PA(Act,Tar,Arg)
         FlowCombat.charmsg(Exe.Tag,sprintf("%d received",HPDrain),255,0,0)
         Return True
 End
+
+Return _PA
