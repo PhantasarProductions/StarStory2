@@ -91,7 +91,8 @@ Group BBX
 	End
 
 	Void Heijn()
-		Lnk.Party.MiniMsg("Heijn not yet implemented",255,0,0)
+		//Lnk.Party.MiniMsg("Heijn not yet implemented",255,0,0)
+		Lnk.FieldMenu.Go(Lnk.Map.Leader,"SHOP_HEIJN")
 	End
 		
 	
