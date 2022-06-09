@@ -132,7 +132,7 @@ Class __AshleyRage
 	
 	Get Bool Unlocked
 		//Return AshleyKills>=NeedToUnlock &&
-		Print(Tag,"Unlocked",Stuff.Value(Tag,"Unlocked")) // DEBUG ONLY
+		//Print(Tag,"Unlocked",Stuff.Value(Tag,"Unlocked")) // DEBUG ONLY
 		Return Stuff.Value(Tag,"Unlocked"):upper()=="TRUE" 
 	End
 	Set Bool Unlocked
