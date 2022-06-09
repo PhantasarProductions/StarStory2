@@ -1,0 +1,58 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/Use/Merchant.uwn/Heijn.neil
+// (c) Jeroen Broks, 2022, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 22.06.07
+// End License Information
+
+
+// Generated: 6/7/2022 4:19:07 PM
+
+Var _RET = New TMerchant("Heijn", "Heijn's shop", "Aurina")
+
+Init
+	_RET.CHealing.AddLast(New TStockItem("ITM_ADHBANDAGE", "Heijn", True))
+	_RET.CHealing.AddLast(New TStockItem("ITM_ANTIDOTE", "Heijn", False))
+	_RET.CHealing.AddLast(New TStockItem("ITM_BANDAGE", "Heijn", False))
+	_RET.CAssist.AddLast(New TStockItem("ITM_BOOK1", "Heijn", False))
+	_RET.CAttack.AddLast(New TStockItem("ITM_FLASHBOMB", "Heijn", False))
+	_RET.CHealing.AddLast(New TStockItem("ITM_MEDI1", "Heijn", False))
+	_RET.CHealing.AddLast(New TStockItem("ITM_MEDI2", "Heijn", False))
+	_RET.CAttack.AddLast(New TStockItem("ITM_MOLOTOV", "Heijn", True))
+	_RET.CAttack.AddLast(New TStockItem("ITM_ROCK", "Heijn", False))
+	_RET.CAttack.AddLast(New TStockItem("ITM_SHOCKER", "Heijn", False))
+	_RET.CHealing.AddLast(New TStockItem("ITM_VLUGZOUT", "Heijn", False))
+	_RET.CJewels.AddLast(New TStockItem("JWL_EMERALD1", "Heijn", False))
+End
+
+Return _RET
