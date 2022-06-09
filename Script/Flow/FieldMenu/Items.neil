@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Items.neil
-// Version: 22.06.04
+// Version: 22.06.08
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -64,6 +64,11 @@ Module
 		Var itm = Any.IAA[ItemTag]
 		return itm.Item_Type=="Usable" || itm.Item_Type=="Consumable"
 	End
+	
+	Bool Allow_Shop(string ItemTag)
+		Var itm = Any.IAA[ItemTag]
+		return itm.Sellable && itm.Shop_Price>0
+	End
 
 	Void Flow(uBox,string FMChar,string FMSituation)
 		Static Int ScrollY = 0
@@ -100,8 +105,9 @@ Module
 				If INm==0
 					Graphics.Color(75,75,75)
 					Fnt.Text("----",X,Y)
-				Else
-					If Self["Allow_"..FMSituation](ITg)
+				Else			
+					Bool IsShop = Prefixed(FMSituation:upper(),"SHOP_")
+					If (IsShop && Self.Allow_Shop) || Self["Allow_"..FMSituation](ITg)
 						__White
 					Else
 						Graphics.Color(123,123,123)						
@@ -110,6 +116,11 @@ Module
 					If INm>1
 						__SkyBlue
 						Fnt.Text(Lua.tostring(INm),EX,Y,1)						
+					End
+					If IsShop
+						Static Const Var Merchant = uwn("Script/Use/Merchant.uwn") 
+						__Ember
+						Fnt.Text(sprintf("%d %s",IAA[ITg].SellPrice,Left(Merchant[right(FMSituation,#FMSituation-5)].Currency,2)),ubox.x+(ubox.w div 2),Y,1)
 					End
 				End
 			End
@@ -140,7 +151,7 @@ Module
 				FitText.Dark(DFt,e,X,(Y+30)+(i*20),2)
 			End
 			If ML
-				UseItem(FMChar,Hover,ITg)
+				UseItem(FMChar,Hover,ITg,FMSituation)
 			End
 		End
 	End
