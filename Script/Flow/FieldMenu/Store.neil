@@ -1,0 +1,170 @@
+// License Information:
+// src/Tricky Script/Script/Flow/FieldMenu/Store.neil
+// Version: 22.06.08
+// Copyright (C) 2022 Jeroen Petrus Broks
+// 
+// ===========================
+// This file is part of a project related to the Phantasar Chronicles or another
+// series or saga which is property of Jeroen P. Broks.
+// This means that it may contain references to a story-line plus characters
+// which are property of Jeroen Broks. These references may only be distributed
+// along with an unmodified version of the game.
+// 
+// As soon as you remove or replace ALL references to the storyline or character
+// references, or any termology specifically set up for the Phantasar universe,
+// or any other univers a story of Jeroen P. Broks is set up for,
+// the restrictions of this file are removed and will automatically become
+// zLib licensed (see below).
+// 
+// Please note that doing so counts as a modification and must be marked as such
+// in accordance to the zLib license.
+// ===========================
+// zLib license terms:
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// End License Information
+
+#use "libs/linkedlist"
+
+Class TMerchant
+	ReadOnly Static Table CatNames = {"Healing","Assist","Attack","Jewels"}
+	ReadOnly String Name
+	ReadOnly String Tag
+	ReadOnly String Currency
+	ReadOnly Var CHealing
+	ReadOnly Var CAssist
+	ReadOnly Var CAttack
+	ReadOnly Var CJewels
+	
+	Constructor(String _T,String _N,String _C)
+		Tag      = _T
+		Name     = _N
+		Currency = _C
+		CHealing = New TLinkedList()
+		CAssist  = New TLinkedList()
+		CAttack  = New TLinkedList()
+		CJewels  = New TLinkedList()
+	End
+	
+End
+
+Class TStockItem
+	ReadOnly String Tag
+	ReadOnly Bool Always
+	ReadOnly String MTag
+	Get Var Item
+		Return Any.IAA[Tag]
+	End
+	Get Bool Available
+		//Print(Tag,Always , Item[MTag.."_ForSaleByDefault"] , Item.Given>0,Always || Item[MTag.."_ForSaleByDefault"] || Item.Given>0) // debug only
+		Return Always || Item[MTag.."_ForSaleByDefault"] || Item.Given>0
+	End
+	Get Int BuyPrice
+		Return Item.Shop_Price
+	End
+	Get Int SellPrice
+		Return Item.SellPrice
+	End
+	Get String Name
+		Return Item.Name
+	End
+	Constructor(String _Tag,String _M,_Always)
+		Tag = _Tag
+		MTag = _M
+		Always = _Always==true
+	End
+End
+
+Class TCat
+	ReadOnly Var Img
+	ReadOnly String Tag
+	Constructor(string _T)
+		Img = Image.Obtain("BUY_"..(_T:upper()))
+		Tag = _T
+	End
+	ReadOnly Static Var Lst = New TLinkedList()
+End
+
+Const Var Merchant = uwn("Script/Use/Merchant.uwn")
+
+
+Module
+	//ReadOnly Var IAA = Any.IAA
+	
+	Var Fnt = ImageFont.Obtain("BOXTEXT")
+	
+	Var Current = nil
+	
+	Constructor
+		For c in Each{"Healing","Attack","Assist","Jewels"}
+			TCat.Lst.AddLast(new TCat(c))
+		End
+	End
+	
+	Void Flow(uBox,string FMChar,string FMSituation)
+		int cx = ubox.x + 10
+		int cy = ubox.y + 10
+		string mtag = right(FMSituation,#FMSituation-5)
+		
+		// Categories
+		for c in TCat.Lst.Each		
+			int cw=120
+			int ch=60
+			int chv=0
+			Current = Current || c
+			if Any.Mouse.MX>ubox.x && Any.Mouse.MX<ubox.x+180 && Any.Mouse.MY>cy && Any.Mouse.MY<cy+70
+				chv = 40
+				if Any.Mouse.ML
+					Current = c
+				end
+			end
+			__White
+			if Current==c
+				__black
+				graphics.rect(cx+chv,cy,cw+30,ch)
+				__White
+				cw = 130
+				ch = 65
+			end
+			c.img.Stretch(cx+chv,cy,cw,ch)
+			cy += 100
+		End
+		
+		// Stock
+		static int scrolly = 0
+		int by = ubox.y + 10
+		int sx = ubox.x + 200
+		int ex = (ubox.x+ubox.w)-20
+		int sy = by - (scrolly*30)
+		For ki in Merchant[Mtag]["C"..Current.tag].Each
+			int sh = 0
+			If ki.Available
+				//if true
+				if sy>=ubox.y+10 && sy<=(ubox.y+ubox.h)-40
+					if Any.Mouse.MX>SX && Any.Mouse.MX<EX && Any.Mouse.MY>SY && Any.Mouse.MY<SY+30
+						SH=20
+						If Any.Mouse.ML && ki.Item.CanGive && Any.Aurina.XPay(ki.BuyPrice,Merchant[Mtag].Currency)
+							CSayF("Can I give %s (%s)?",ki.Item.Tag,ki.Item.Give)
+						End
+					end				
+					__White
+					fnt.Dark(Ki.Name,sx+sh,sy)
+					__SkyBlue
+					Fnt.Dark(sprintf("%d %s",ki.BuyPrice,left(Merchant[mtag].currency,2)),ex-sh,sy,1)
+				End
+				sy+=30
+			End
+		End
+	End
+End
