@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowFieldMenu.Neil
-// Version: 22.05.26
+// Version: 22.06.06
 // Copyright (C) 2020, 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -43,6 +43,7 @@
 
 table Situations = {}
 table Situations_Field = {}
+table Situations_Shop = {}
 table SitActive = {}
 global string FMChar
 string FMSituation
@@ -78,8 +79,13 @@ init
 	Situations.COMBAT_ITEMS = { { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="ITEMS" } ,        ["ICONFILE"] = "ITEMS" } }
 	//Situations.COMBAT_SWITCH = {{ ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="SWITCH" } ,       ["ICONFILE"] = "SWITCH" }}
 	//Situations.VAULT = {{ ["RIGHT"] = { ["ID"]="VAULT" }, ["LEFT"] = { ["ID"]="ITEMS" } ,        ["ICONFILE"] = "ITEMS" }}
-	Situations.SHOP  = {{ ["RIGHT"] = { ["ID"]="SHOP" }, ["LEFT"] = { ["ID"]="ITEMS" } ,        ["ICONFILE"] = "BUY" }}
+	//Situations.SHOP  = {{ ["RIGHT"] = { ["ID"]="SHOP" }, ["LEFT"] = { ["ID"]="ITEMS" } ,        ["ICONFILE"] = "BUY" }}
 	//Situations.WSHOP = {{ ["RIGHT"] = { ["ID"]="SHOP" }, ["LEFT"] = { ["ID"]="ITEMS" } ,        ["ICONFILE"] = "BUY" },{["ICONFILE"]="TRADE",["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="TRADE" }}}
+	
+	Situations_Shop += {["WHOLE"]={["ID"]="STORE"}, ["ICONFILE"]="BUY"}
+	Situations_Shop += {["WHOLE"]={["ID"]="ITEMS"}, ["ICONFILE"]="SELL"}
+	Situations.SHOP_HEIJN = Situations_Shop
+	// TODO: Phantasar - Same link
 	
 	Situations.UPGRADE = {}
 	Situations.UPGRADE += { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="UPGRADEWEAPON" } ,        ["ICONFILE"] = "WEAPON UPGRADE" }
