@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowConsole.neil
-// Version: 22.06.03
+// Version: 22.06.08
 // Copyright (C) 2020, 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -378,6 +378,10 @@ deftable icommandtable
 	SETCASH = void(table c)
 		Any.Aurina.Have = Lua.tonumber(c[1]) || Any.Aurina.Have
 		CSayF("Aurinas: %d",Any.Aurina.Have)
+	End
+	SETRATE = void(table c)
+		Any.Aurina.rate = Lua.tonumber(c[1]) || Any.Aurina.Rate
+		CSayF("Aurina rate: %d",Any.Aurina.Rate)
 	End
 	SEIN = ToggleSein
 	MEDAL = void()
