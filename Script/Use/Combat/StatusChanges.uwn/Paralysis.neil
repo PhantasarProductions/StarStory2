@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Combat/StatusChanges.uwn/Paralysis.neil
-// Version: 22.06.05
+// Version: 22.06.07
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -54,7 +54,7 @@ Module
 		R,G,B = Graphics.GetColor()
 		__White
 		Md[Chr.CharTag] = !Md[Chr.CharTag]
-		Bool Mdd=Mdd[Chr.CharTag]
+		Bool Mdd=Md[Chr.CharTag]
 		ParaImg.Tile(Chr.X-(Chr.W div 2)-5-MdX[Mdd],Chr.Y-Chr.H,16,Chr.H)
 		ParaImg.Tile(Chr.X+(Chr.W div 2)+5+MdX[Mdd],Chr.Y-Chr.H,16,Chr.H)		
 		Graphics.Color(R,G,B)
