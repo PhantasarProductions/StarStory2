@@ -90,8 +90,11 @@ Init
 	LAsset.C("Fonts/Mini.jfbf","MINITEXT",wh_font,true)
 	LAsset.C("Fonts/Lobster.jfbf","DOCTORTEXT",wh_font,true)
 	LAsset.C("GFX/Cursor/Default.png","MOUSE",wh_Image)
-	For k in Each{"Status","Items","Abilities","Achievements","Weapon Upgrade","ARM_Gadget_Upgrade"}
+	For k in Each{"Status","Items","Abilities","Achievements","Weapon Upgrade","ARM_Gadget_Upgrade","Buy","Sell"}
 		LAsset.C(sprintf("GFX/MenuIcons/%s.png",k),sprintf("ICO_%s",k:upper()),wh_Image)
+	End
+	For k in Each{"Healing","Attack","Assist","Jewels"}
+		LAsset.C(sprintf("GFX/MenuIcons/B_%s.png",k),sprintf("BUY_%s",k:upper()),wh_Image)
 	End
 
 	for elem in each {"Dark", "Earth", "Fire", "Frost", "Light", "Lightning", "Water", "Wind"}
