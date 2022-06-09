@@ -1,6 +1,6 @@
 ; License Information:
 ; src/Tricky Script/.BehaviorSource/StdCalls.aqs
-; Version: 22.06.05
+; Version: 22.06.07
 ; Copyright (C) 2022 Jeroen Petrus Broks
 ; 
 ; ===========================
@@ -73,3 +73,4 @@ csChunk NewState,State.LoadNew
 csChunk Music,Music.Play
 csChunk QAudio,Any.QuickAudio
 csChunk Score,Lnk.Party.Score
+csChunk VWMap,Any.Voorwaarde.GoToMap

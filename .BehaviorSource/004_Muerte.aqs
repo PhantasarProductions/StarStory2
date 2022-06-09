@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 22.05.29
+; version: 22.06.07
 ; End License Information
 
 
@@ -65,15 +65,16 @@ Chunk ZA_StartSudoku
 Chunk Solved_Sudoku
 	call Sudoku_SeinGeel,"SEIN_NBX_SUDOKU_SOLUTION"
 	call PKill,"Barrier_Next"
-	
+
 Chunk ZA_QUICKSEWERS
-	call csay,"Quick way into sewers"
-	chk &Been_In_Sewers-
-	jmpfalse einde
-	;call crash,"Quick way to sewers not yet set"
-	call gotomap,"006_Sewers","#000","Start"
-	:einde
-	exit
+	call VWMap,Been_In_Sewers,"006_Sewers","#000","Start"
+;	call csay,"Quick way into sewers"
+;	chk &Been_In_Sewers-
+;	jmpfalse einde
+;	;call crash,"Quick way to sewers not yet set"
+;	call gotomap,"006_Sewers","#000","Start"
+;	:einde
+;	exit
 	
 Chunk ZA_TutorialBoss
 	Done MUERTE_TUTORIAL_BOSS
