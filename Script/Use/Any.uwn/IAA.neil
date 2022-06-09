@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Any.uwn/IAA.neil
-// Version: 22.06.05
+// Version: 22.06.08
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -94,13 +94,16 @@ QuickMeta ItemNum
 	end
 End
 
-Bool Give(String Item,Int N=1)
+Bool Give(String Item,Int N=1,CheckOnly)
 	Item=Item:upper()
 	int i=0
 	Repeat
 		i++
 		if ItemSlot[i]==Item && ItemNum[i]+N<=Any.Caps.InvItemsPerSlot
-			ItemNum[i]++
+			if !CheckOnly
+				ItemNum[i]++			
+				Lua.Neil.Globals.Any.IAA[Item].Given++
+			End
 			Return True
 		End
 	LoopWhile i<Any.Caps.InvSlots
@@ -108,9 +111,11 @@ Bool Give(String Item,Int N=1)
 	Repeat
 		i++
 		if ItemNum[i]==0
-			ItemSlot[i]=Item
-			ItemSlot[i]=N
-			Lua.Neil.Globals._module_IAA[Item].Given++
+			if !CheckOnly
+				ItemSlot[i]=Item
+				ItemSlot[i]=N
+				Lua.Neil.Globals._module_IAA[Item].Given++
+			end
 			Return True
 		End
 	LoopWhile i<Any.Caps.InvSlots
@@ -210,6 +215,9 @@ Var GetIAA(String F)
 				return F:upper()
 			Case "GIVE"
 				Return Give(F)
+			case "CANGIVE"
+				// Second parameter true will only make the checkups, but won't do the actual giving
+				Return Give(F,1,true)
 			Case "GIVEN"
 				Return GData.NValue("Given",F)
 			Case "NUM"
@@ -218,6 +226,18 @@ Var GetIAA(String F)
 				Return Explanation(F)
 			Case "EXPLAINTABLE"
 				return Split(Explanation(F),"\n")
+			Case "SELLPRICE" "SELL_PRICE"
+				Int BuyPrice = ME[F].Shop_Price
+				Switch __Skill
+					Case 1
+						Return BuyPrice
+					Case 2
+						Return math.ceil(BuyPrice * 0.75)
+					Case 3
+						Return math.max(1,BuyPrice Div 5)
+					default
+						Return 0
+				End				
 			Case "NAME"
 				return Data.Value(Rec,"Title")
 			Default
