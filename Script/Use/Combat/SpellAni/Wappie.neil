@@ -65,11 +65,14 @@ module
 	
 	void Draw()
 		__White
-		Cops.Stretch(0,0,Screen.W,Screen.H)
+		Cops.Stretch(0,0,Screen.W,Screen.H,CopF)
 	end
 	
 	void Update()
 		Time--
+		if math.random(1,(__skill*2)^2)==1
+			RPGChar.Ashley.Points.AP.Have++
+		End
 	end
 	
 	get bool Ended
