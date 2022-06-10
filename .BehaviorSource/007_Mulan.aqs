@@ -53,15 +53,18 @@ Chunk ZA_BAR
 	call VWKill,"!Visited_BFOC",BAR_BFOC
 	
 	
-Chunk ZA_Funhouse
+Chunk ZA_Funhouse	
 	Call StopWalking
 	Call Pop,"Fun","West" 
 	Call MapText,"FUNHOUSE" 
 	Call VitalBoss,"FUNHOUSE","","Funhouse,ZA_Funhouse"
-	Call Schedule,"After_Funhouse"
+	Call Schedule,"After_Funhouse"	
 	exit
 	
 Chunk After_Funhouse
-	Call MapText,"FUNHOUSE_POSTBOSS"
-	Call SetObj,"SEIN_Funhouse","TEXTURE","GFX/Textures/Medals/Sein/Geel.png"
+	Done DEFEATED_FUNHOUSE
+	call pkill,"Funhouse"
+	call pkill,"ZA_Funhouse"
+	Call MapText,"FUNHOUSE_AFTER"
+	Call SetObj,"SEIN_Funhouse","TEXTURE","GFX/Textures/Medals/Sein/Geel.png"	
 	exit
