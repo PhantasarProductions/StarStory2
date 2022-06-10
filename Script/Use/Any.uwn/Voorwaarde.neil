@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Any.uwn/Voorwaarde.neil
-// Version: 22.06.07
+// Version: 22.06.09
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -41,5 +41,11 @@ Module
 			Lnk.Map.GoToMap(map,layer,start)
 		end
 	end
+	
+	Void Kill(string voorwaarde, string Tag)
+		if gv.gbool[voorwaarde]
+			Lnk.Map.Kill(Tag,False)
+		End
+	End
 	
 end

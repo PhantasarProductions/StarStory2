@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 22.06.03
+; version: 22.06.10
 ; End License Information
 
 include basis.aqs
@@ -47,4 +47,21 @@ Chunk ZA_Welcome
 Chunk ZA_ToCatwalk
 	call MiniMsg,"Entering Catwalks"
 	call GoToMap,"991_Catwalks","#000","Start"
+	exit
+	
+Chunk ZA_BAR
+	call VWKill,"!Visited_BFOC",BAR_BFOC
+	
+	
+Chunk ZA_Funhouse
+	Call StopWalking
+	Call Pop,"Fun","West" 
+	Call MapText,"FUNHOUSE" 
+	Call VitalBoss,"FUNHOUSE","","Funhouse,ZA_Funhouse"
+	Call Schedule,"After_Funhouse"
+	exit
+	
+Chunk After_Funhouse
+	Call MapText,"FUNHOUSE_POSTBOSS"
+	Call SetObj,"SEIN_Funhouse","TEXTURE","GFX/Textures/Medals/Sein/Geel.png"
 	exit

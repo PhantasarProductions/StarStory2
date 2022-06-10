@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Boss.neil
-// Version: 22.05.19
+// Version: 22.06.10
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -52,6 +52,7 @@ Module
 		Lnk.Combat.PrepareCombat()
 		Lnk.Combat.Arena = Arena
 		Lnk.Combat.Music = Stuff.Value(src,"Tune")
+		Lnk.Combat.Wipe  = "GameOver"
 		For i=1,9
 			String F = Stuff.Value(src,"FOE"..i)
 			Int Lvl = IVal(src,"LEVEL"..i.."_"..__skill)
@@ -63,16 +64,24 @@ Module
 		Lnk.Combat.Start()		
 	End
 	
-	Void Vital(string src,string scr)
-		Lnk.party.MiniMsg("Prepare for the battle!",255,0,0)
-		Start("BOSS::VITAL::"..src,scr)
-	end
+	//Void Vital(string src,string scr)
+	//	Lnk.party.MiniMsg("Prepare for the battle!",255,0,0)
+	//	Start("BOSS::VITAL::"..src,scr)
+	//end
 	
 	Void Regular()
 		Lnk.party.MiniMsg("You encountered a boss! Prepare for the battle!",255,0,0)
 		Start("BOSS::REGLR::"..FlowField.Map.Layer,"")
 		FlowField.Kill.Kill("BOSS_Actor",   False)
 		FlowField.Kill.Kill("BOSS_Activate",False)
+	End
+	
+	Void Vital(string Tag,String Script,String Disappear="")
+		Lnk.party.MiniMsg("Prepare for the battle!",255,0,0)
+		Start("BOSS::VITAL::"..Tag,Script)
+		For D in each(Split(Disappear,","))
+			FlowField.Kill(D,true)
+		End
 	End
 	
 

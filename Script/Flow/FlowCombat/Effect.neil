@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Effect.neil
-// Version: 22.06.05
+// Version: 22.06.10
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -168,8 +168,8 @@ Group Effect
 			Case "PercentStat"
 				Hurt(Target,math.ceil( (iAct.Attack/100) * Target.Stats[iAct.Attack_OffenseStat]),iAct.Attack_Element)
 			Case "BattleStat"
-				Int Atk1 = math.floor(Executor.EndStats[iAct.Attack_OffenseStat]*1.5)
-				Int Atk2 = math.floor(Executor.EndStats[iAct.Attack_OffenseStat]*2.5)
+				Int Atk1 = math.floor((Executor.EndStats[iAct.Attack_OffenseStat]*(iAct.Attack/100))*1.5)
+				Int Atk2 = math.floor((Executor.EndStats[iAct.Attack_OffenseStat]*(iAct.Attack/100))*2.5)
 				Int Def1 = math.floor(  Target.EndStats[iAct.Attack_DefenseStat]*0.75)
 				Int Def2 = math.floor(  Target.EndStats[iAct.Attack_DefenseStat]*1.25)
 				Int Atk = XRoll(Atk1,Atk2)

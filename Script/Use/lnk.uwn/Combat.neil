@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/lnk.uwn/Combat.neil
-// Version: 22.06.03
+// Version: 22.06.10
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -47,6 +47,10 @@ Module
 		ISSet("String","FLOW_COMBAT","FlowCombat.Start.Music",Value)
 	End
 	
+	Set String Wipe
+		ISSet("String","FLOW_COMBAT","FlowCombat.Start.Wipe",Value)
+	End
+	
 	Set String Tune
 		Music = Value
 	End
@@ -66,8 +70,10 @@ Module
 		CDLoading()
 		Loading()
 		
+		
 		State.LoadNew("FLOW_COMBAT","Script/Flow/FlowCombat.neil")
 		State.Call("FLOW_COMBAT","FlowCombat.Start.StartPreparation","nil")
+		Wipe="Respawn" 
 	End
 	
 	Void Start()
