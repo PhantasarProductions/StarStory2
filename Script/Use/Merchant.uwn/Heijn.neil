@@ -32,11 +32,11 @@
 // 
 // **********************************************
 // 
-// version: 22.06.07
+// version: 22.06.10
 // End License Information
 
 
-// Generated: 6/7/2022 4:19:07 PM
+// Generated: 6/10/2022 11:28:54 AM
 
 Var _RET = New TMerchant("Heijn", "Heijn's shop", "Aurina")
 
@@ -51,6 +51,7 @@ Init
 	_RET.CAttack.AddLast(New TStockItem("ITM_MOLOTOV", "Heijn", True))
 	_RET.CAttack.AddLast(New TStockItem("ITM_ROCK", "Heijn", False))
 	_RET.CAttack.AddLast(New TStockItem("ITM_SHOCKER", "Heijn", False))
+	_RET.CAttack.AddLast(New TStockItem("ITM_SPORES", "Heijn", False))
 	_RET.CHealing.AddLast(New TStockItem("ITM_VLUGZOUT", "Heijn", False))
 	_RET.CJewels.AddLast(New TStockItem("JWL_EMERALD1", "Heijn", False))
 End
