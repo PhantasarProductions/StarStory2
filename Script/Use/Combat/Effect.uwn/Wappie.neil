@@ -35,7 +35,7 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 Bool _PA(Act,_Tar,Arg)
-	Var = Fighter.ByTag[_Tar]
+	Var Tar = Fighter.ByTag[_Tar]
 	Int Dmg
 	Switch __Skill
 		Case 1
@@ -50,6 +50,7 @@ Bool _PA(Act,_Tar,Arg)
 			DMG = Tar.HP
 	End
 	Effect.Hurt(Tar,dmg)
+	Return True
 End
 
 Return _PA
