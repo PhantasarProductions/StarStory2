@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 22.06.10
+; version: 22.06.11
 ; End License Information
 
 include basis.aqs
@@ -68,3 +68,11 @@ Chunk After_Funhouse
 	Call MapText,"FUNHOUSE_AFTER"
 	Call SetObj,"SEIN_Funhouse","TEXTURE","GFX/Textures/Medals/Sein/Geel.png"	
 	exit
+	
+Chunk ZA_BFOC
+	Done Visited_BFOC
+	JmpTrue negeer
+	call GoToMap,"008_BFOC","SCHWABBA","Start"
+	Exit
+	:negeer
+	call CSay,"Ignored! You've already been here. How did you get here?"
