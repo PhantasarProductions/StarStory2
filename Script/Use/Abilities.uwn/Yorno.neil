@@ -32,11 +32,26 @@
 // 
 // **********************************************
 // 
-// version: 22.05.21
+// version: 22.06.20
 // End License Information
+
+#use "Script/Use/Abilities.uwn/Use/Gadget"
+
+Table YAbl 
+//DefTable YAbl
+Init
+	YAbl = {}
+	YAbl.ACharge = True
+	YAbl.Flame = True
+End
+
 Module
-	ReadOnly Var Stuff = GINIE.CreateNew("YORNO_GADGET")
+	ReadOnly Var Stuff 
 
 	Void View(ubox)
+	End
+	
+	Constructor
+		Stuff = new Gadget("Yorno",YAbl)
 	End
 End
