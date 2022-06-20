@@ -32,9 +32,28 @@
 // 
 // **********************************************
 // 
-// version: 22.06.06
+// version: 22.06.18
 // End License Information
 #use "Script/Use/AnyWay"
+
+Var __BBX
+
+// Quin Return. Nothing to do with those damn QR Codes
+Group QR
+	Get Delegate MapText
+		Return lnk.BoxText.Map
+	End
+
+	Get Delegate Unl
+		return __BBX.TransUnlock
+	End
+
+	Void Visited_BFOC()
+		MapText("POST_BFOC")
+		Unl("009_Glevu_Corridor","#001","TRANS_GENERAL__XXIX")
+	End
+End
+	
 
 Group BBX
 
@@ -61,6 +80,11 @@ Group BBX
 		Lnk.Map.SetObj("STARS","InsertY",lnk.Map.CamY div 3)
 	End
 	
+	Void TransUnlock(string m, string l, string o)
+		gv.gbool["ScottyUnlocked_"..m] = true
+		gv.gbool[sprintf("TRANS_ACTIVATED_%s_%s_%s",m,l,o)] = true
+	End
+	
 	Void Quino()
 		Switch QuinoSituation
 			Case "Welcome"
@@ -72,6 +96,19 @@ Group BBX
 			Default
 				Lua.error("Unknown situation")
 		End
+	End
+	
+	Void QRDo(string v)
+		if gv.bool[v]
+			if !Done[v.."__QR_BBX"]
+				Lnk.Map.Pop("Q","North")
+				QR[v]()
+			end
+		end
+	End
+	
+	Void QuinReturn()
+		QRDo("Visited_BFOC")
 	End
 	
 	Void Helmut()
@@ -95,6 +132,8 @@ Group BBX
 		Lnk.FieldMenu.Go(Lnk.Map.Leader,"SHOP_HEIJN")
 	End
 		
-	
+End
 
+Init 
+	__BBX = BBX
 End
