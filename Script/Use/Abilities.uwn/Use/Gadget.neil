@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Abilities.uwn/Use/Gadget.neil
-// Version: 22.06.20
+// Version: 22.06.21
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -36,9 +36,21 @@
 // End License Information
 #use "Libs/LinkedList"
 
+
+QuickMeta GPU_Pic
+	Index
+		Static Var Pics
+		Pics = Pics || {}
+		Key = Key:upper()
+		Pics[Key] = Pics[Key] || Image.LoadNew("GFX/Gadget/"..key..".bmp","GADGET_POWERUP_"..Key)
+		Return Pics[Key]
+	End
+End
+
+
 Class Gadget_Item
 	ReadOnly Var Parent
-	ReadOnly String ATag
+	ReadOnly String ATag	
 	Get String Exe
 		Return Parent.Tag
 	End
@@ -46,8 +58,55 @@ Class Gadget_Item
 		Return Any.IAA["ABL_"..Exe.."_"..ATag]
 	End
 	Get Bool Unlocked
+		If ATag:upper()=="ZTRANSFER"
+			Return RPGParty[3]=="Doctor"
+		End
 		Return Parent.Stuff.Value("Unlocked",atag):upper()=="TRUE"
 	End
+	Get String Name
+		Return Abl.Name
+	End
+	Get Int EP_Cost
+		String T = "APCOST_"..Exe
+		If Parent.Stuff.Value("EP_Cut",atag):upper()=="TRUE"
+			Switch __Skill
+				case 1
+					return math.max(Abl[T] div 4,1)
+				case 2
+					return math.max(Abl[T] div 2,1)
+				case 3
+					return math.max(math.ceil(ABL[T] * 0.75),1)
+				default
+					return 123456789
+			end
+		else
+			return Abl[T]
+		End
+	End
+	
+	Get Bool AllowSpread
+		Return Abl.AllowPowerUp_Spread
+	End
+	Get Bool Spread
+		Return AllowSpread && Parent.Stuff.Value("Spread",atag):upper()=="TRUE"
+	End
+	Bool SelectedSpread = False
+	
+	Get Bool AllowDouble
+		Return Abl.AllowPowerUp_DBLPower
+	End
+	Get Bool Double
+		Return AllowDouble && Parent.Stuff.Value("Double",atag):upper()=="TRUE"
+	End
+	Bool SelectedDouble
+	
+	Get Int AllowXCards
+		Return math.min(30 div __skill,Abl.AllowPowerup_ExtraCards)
+	End
+	Get Int XCards
+		Return math.min(AllowXCards,Parent.Stuff.NValue("XCards",atag))
+	End
+	Int SelectedXCards
 	
 	
 	Constructor(_ouwe,_tag,_unlockedfromstart)
@@ -64,6 +123,74 @@ Class Gadget_Class
 	ReadOnly String Tag
 	ReadOnly Var Stuff 
 	ReadOnly Var Items
+	static var fnt = ImageFont.Obtain("BOXTEXT")
+	
+	var SelectedItem=nil
+	Int TS
+	
+	Void ShowAll(ubox,Situation)
+		Int BX = ubox.x + 10
+		Int BY = ubox.y + 10
+		Int CY = BY		
+		Int EX = BX + (ubox.w-20)
+		Int EY = BY + (ubox.y-20)
+		For GI in Items.Each
+			Int HX = 0
+			If Any.Mouse.MX>BX && Any.Mouse.MX<EX && Any.Mouse.MY>CY && Any.Mouse.MY<CY+30
+				HX = 20
+				If Any.Mouse.ML && GI.Unlocked
+					SelectedItem = GI
+					TS = os.time()
+				End
+			End
+			Int CX = BX + HX			
+			If GI.Unlocked
+				__White
+				Fnt.Text(GI.Name,CX,CY)
+				__Yellow
+				Fnt.Text(""..GI.EP_Cost,EX,CY,1)
+			Else
+				Graphics.Color(100,100,100)
+				Fnt.Text("---",CX,CY)
+			End
+			CY += 30
+		End
+	End
+	
+	Void ShowItem(ubox,Situation)
+		Int BX = ubox.x + 10
+		Int BY = ubox.y + 10
+		Int EX = BX + (ubox.w-20)
+		int BW = EX-BX
+		If Any.Mouse.MR || math.abs(os.time()-TS)>5 || (!SelectedItem)
+			CSayF("Unselect. Any of these was true: MR%sTM%s(%d);SINil%s",Any.Mouse.MR , math.abs(os.time()-TS)>5,math.abs(os.time()-TS), (!SelectedItem))
+			SelectedItem=nil
+			return			
+		End
+		TS = os.time()
+		__White
+		Fnt.Text(SelectedItem.Name,BX,BY)
+		__Yellow
+		Fnt.Text(""..SelectedItem.EP_Cost,EX,BY,1)
+		If SelectedItem.AllowSpread
+			GPU_Pic[sprintf("Spread_%s",SelectedItem.Spread)].Draw(BX,BY+60)
+		End
+		If SelectedItem.AllowDouble
+			GPU_Pic[sprintf("2x Power_%s",SelectedItem.Spread)].Draw(BX+(ubox.w div 2),BY+60)
+		End
+		For i=1,SelectedItem.AllowXCards
+			int i2 = i-1
+			GPU_Pic[sprintf("+%02d Cards_%s",i,SelectedItem.XCards>=i)].Draw(BX+((i2 div 15)*(BW div 2)),BY+120+((i2 % 15)*30))
+		End
+	End
+	
+	Void Show(ubox,Situation)
+		If SelectedItem
+			ShowItem(ubox,situation)
+		Else
+			ShowAll(ubox,situation)
+		End
+	End
 	
 	
 	Constructor(string _T,Table A)
