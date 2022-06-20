@@ -41,14 +41,19 @@ Table YAbl
 //DefTable YAbl
 Init
 	YAbl = {}
+	// Charge
 	YAbl.ACharge = True
+	YAbl.ZTransfer = True
+	
+	// Actual stuff
 	YAbl.Flame = True
 End
 
 Module
 	ReadOnly Var Stuff 
 
-	Void View(ubox)
+	Void View(ubox,situation)
+		Stuff.Show(ubox,situation)
 	End
 	
 	Constructor
