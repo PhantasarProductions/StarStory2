@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 22.06.11
+; version: 22.06.17
 ; End License Information
 
 include basis.aqs
@@ -41,5 +41,6 @@ Chunk ZA_Schwabba
 	call maptext,"S001"
 	call GotoLayer,"BFOC","Start"
 	
-Chunk ZA_BFOC
-	call crash,"Nothing to do here, yet!"
+Chunk ZA_Gesprek
+	call maptext,"M001"	
+	call GoToMap,"000_BlackBox","BASE","Q_Start"
