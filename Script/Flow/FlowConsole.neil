@@ -385,7 +385,7 @@ deftable icommandtable
 	End
 	SEIN = ToggleSein
 	MEDAL = void()
-		CSayF("Meda rate: %03d%%",Medals.Percent)
+		CSayF("Medal rate: %03d%%",Medals.Percent)
 	End
 	IKBENBOOS = void()
 		for i=1,4
