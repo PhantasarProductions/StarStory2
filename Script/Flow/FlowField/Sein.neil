@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Sein.neil
-// Version: 22.06.05
+// Version: 22.08.03
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -103,7 +103,9 @@ Module
 								end
 								Lua.assert(Val>0,"Low level check failure")
 							Case "MEDAL" "MEDALS"
-								Val = Medals.Percent
+								Val = math.ceil(Medals.AltPercent)
+							Case "TRUEMEDAL" "TRUEMEDALS"
+								Val = math.ceil(Medals.Percent)
 							Case "CYCLE" "CYCLES" "CYC"
 								Val = Any.Caps.Cycle
 							Default
