@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowConsole.neil
-// Version: 22.06.08
+// Version: 22.08.03
 // Copyright (C) 2020, 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -385,7 +385,12 @@ deftable icommandtable
 	End
 	SEIN = ToggleSein
 	MEDAL = void()
-		CSayF("Medal rate: %03d%%",Medals.Percent)
+		//CSayF("Medal rate: %03d%%",Medals.Percent)
+		CSayF("Medal Score: %05d / %05d",Medals.FullScore,Medals.MaxScore)
+		CSayF("Medal Rate: %03d%%",Medals.Percent)
+		CSay("---")
+		CSayF("Medal Alt Score: %05d / %05d",Medals.FullScore,Medals.AltMax)
+		CSayF("Medal Alt rate: %03.2f%%",Medals.AltPercent)
 	End
 	IKBENBOOS = void()
 		for i=1,4

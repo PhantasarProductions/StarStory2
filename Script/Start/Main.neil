@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.06.06
+// version: 22.08.03
 // End License Information
 #macro wh_Image 1
 #macro wh_Font 2
@@ -67,6 +67,7 @@ end
 
 // Testing if the file is actually compiled correctly at all and running
 Init
+	Medals.AltMax=35000
 	FPS.MinTicks=25;
 	Print("Klahre welcomes you")
 	Print("Apollo is running in "..Core.Platform)
