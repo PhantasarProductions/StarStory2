@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Abilities.uwn/Use/Gadget.neil
-// Version: 22.06.21
+// Version: 22.08.03
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -123,6 +123,16 @@ Class Gadget_Class
 	ReadOnly String Tag
 	ReadOnly Var Stuff 
 	ReadOnly Var Items
+	Static Get Int MX
+		return Any.Mouse.MX
+	End
+	Static Get Int MY
+		return Any.Mouse.MY
+	End
+	Static Get Bool ML
+		Return Any.Mouse.ML
+	End
+	
 	static var fnt = ImageFont.Obtain("BOXTEXT")
 	
 	var SelectedItem=nil
@@ -161,6 +171,7 @@ Class Gadget_Class
 		Int BX = ubox.x + 10
 		Int BY = ubox.y + 10
 		Int EX = BX + (ubox.w-20)
+		Int EY = BY + (ubox.h-20)
 		int BW = EX-BX
 		If Any.Mouse.MR || math.abs(os.time()-TS)>5 || (!SelectedItem)
 			CSayF("Unselect. Any of these was true: MR%sTM%s(%d);SINil%s",Any.Mouse.MR , math.abs(os.time()-TS)>5,math.abs(os.time()-TS), (!SelectedItem))
@@ -181,6 +192,23 @@ Class Gadget_Class
 		For i=1,SelectedItem.AllowXCards
 			int i2 = i-1
 			GPU_Pic[sprintf("+%02d Cards_%s",i,SelectedItem.XCards>=i)].Draw(BX+((i2 div 15)*(BW div 2)),BY+120+((i2 % 15)*30))
+		End
+		// Okay
+		Int CanX = BX+10
+		if prefixed(Situation:upper(),"COMBAT")
+			Static Var Okay = GPU_Pic["Okay_True"]
+			Int OkX = BX
+			Int OkY = EY - Okay.Height
+			Okay.Draw(OkX,OkY)
+			CanX += Okay.Width + 10
+		End
+		Static Var Cancel = GPU_Pic["Cancel_True"]
+		Int CanY = EY - Cancel.Height
+		Cancel.Draw(CanX,CanY)
+		//CSayF("%s/%d/%d",ML,MX,MY) // debug only
+		if ML && MX>CanX && MY>CanY && MX<CanX+Cancel.Width && MY<EY
+			CSay("Click on cancel button!")
+			SelectedItem=nil
 		End
 	End
 	
