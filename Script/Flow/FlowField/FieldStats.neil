@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/FieldStats.neil
-// Version: 22.05.22
+// Version: 22.08.03
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -61,7 +61,9 @@ Void FieldStats()
 	W("Time:",FlowField.Time.Display,0)	 
 	C("Aurinas:",Any.Aurina.Have,Any.Aurina.Have>0)
 	C("Shilders:",Any.Aurina.HaveShilders,Any.Aurina.HaveShilders>0)
-	C("Area:",FlowField.Map.Layer,prefixed(FlowField.Map.Layer,"#"))	
+	C("Area:",FlowField.Map.Layer,prefixed(FlowField.Map.Layer,"#") && FlowField.Layers.Data("Title")=="")
+	C("Area:",sprintf("%s - %s",FlowField.Map.Layer,FlowField.Layers.Data("Title")),prefixed(FlowField.Map.Layer,"#") && FlowField.Layers.Data("Title")!="")
+	C("Area:",FlowField.Layers.Data("Title"),(!prefixed(FlowField.Map.Layer,"#")) && FlowField.Layers.Data("Title")!="")
 	W("Location:",FlowField.Map.KthuraMap.MetaData.Title)
 	__White
 End
