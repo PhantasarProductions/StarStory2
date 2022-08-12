@@ -32,12 +32,39 @@
 // 
 // **********************************************
 // 
-// version: 22.05.05
+// version: 22.08.10
 // End License Information
 Var Ret = new TLinkedList()
 
+Class __PIMI_YornoGadget Extends Stage
+	Static var Card
+	Static var ch
+	static var M = Any.Mouse
+
+
+	static var SelItem 
+	
+	void Draw()
+		__Black
+		Graphics.Alpha(100)
+		Graphics.Rect(kit_uBox.x,kit_uBox.y,kit_uBox.w,kit_uBox.h)
+		Graphics.Alpha(255)
+		Abl.Yorno.View(kit_uBox,"Combat_UserMenu")
+		Any.Mouse.Draw()
+		if M.ML && (M.MX<kit_uBox.x || M.MY<kit_ubox.y || M.MX>kit_ubox.x+kit_ubox.w || M.MY>kit_ubox.y+kit_ubox.y)
+			Stage.Current = nil
+		end
+	end
+	
+	Void Update()
+	End
+End
+var PIMI_YornoGadget = new __PIMI_YornoGadget()
+
+
 Void Gadget(string CH,Var Card)
-	Lua.error("Gadgets not yet supported")
+	//Lua.error("Gadgets not yet supported")
+	Stage.Current = PIMI_YornoGadget
 End
 
 Init

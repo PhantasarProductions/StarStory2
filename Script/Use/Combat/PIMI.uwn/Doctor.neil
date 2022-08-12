@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.05.23
+// version: 22.08.12
 // End License Information
 Var Ret = new LinkedList()
 
@@ -40,11 +40,35 @@ Void Tri(String CH,Var Card)
 	//Lua.error("Tricorder not yet supported")
 	Var act = new Action("ACT_TRICORDER",Ch,{})
 	PITAR.ComeToMe(act,Card)
-
 End
 
+class __PIMI_DoctorGadget Extends Stage
+	Static var Card
+	Static var ch
+	static var M = Any.Mouse
+
+
+	static var SelItem 
+	
+	void Draw()
+		__Black
+		Graphics.Alpha(100)
+		Graphics.Rect(kit_uBox.x,kit_uBox.y,kit_uBox.w,kit_uBox.h)
+		Graphics.Alpha(255)
+		Abl.Doctor.View(kit_uBox,"Combat_UserMenu")
+		Any.Mouse.Draw()
+		if M.ML && (M.MX<kit_uBox.x || M.MY<kit_ubox.y || M.MX>kit_ubox.x+kit_ubox.w || M.MY>kit_ubox.y+kit_ubox.y)
+			Stage.Current = nil
+		end
+	end
+	
+	Void Update()
+	End
+End
+var PIMI_DoctorGadget = new __PIMI_DoctorGadget()
+
 Void HGadget(String Ch,Var Card)
-	Lua.error("Rage not yet supported")
+	Stage.Current = PIMI_DoctorGadget
 End
 
 Void ItemExt(String Ch,Var Card)
