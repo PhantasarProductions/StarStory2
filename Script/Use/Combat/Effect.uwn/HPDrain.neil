@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Combat/Effect.uwn/HPDrain.neil
-// Version: 22.06.07
+// Version: 22.08.10
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -34,8 +34,9 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
-Bool _PA(Act,Tar,Arg)
+Bool _PA(Act,TarTag,Arg)
         //String MyArg = Act.EffectScript_Arg
+        Var Tar = Fighter.ByTag[TarTag]
         String MyArg = Arg
         Var Exe = Act.Executor
         Int DrainPrc = Lua.tonumber(MyArg) || 10
