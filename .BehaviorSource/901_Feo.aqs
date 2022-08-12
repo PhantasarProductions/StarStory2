@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 22.05.15
+; version: 22.08.09
 ; End License Information
 
 Include Basis.aqs
@@ -47,4 +47,112 @@ Chunk ZA_Welcome
 	
 Chunk ZA_Muerte
 	call GoToMap,"004_Muerte","#002","From_Feo"
+	exit
+	
+Chunk NPC_SWITCH1
+	Done FEO_SWITCH1
+	jmptrue einde
+	call SetObj,"NPC_Switch1","Texture","GFX/Textures/Switch/Right.png"
+	:einde
+	exit
+	
+Chunk NPC_SWITCH2
+	Done FEO_SWITCH2
+	jmptrue einde
+	call SetObj,"NPC_Switch2","Texture","GFX/Textures/Switch/Right.png"
+	:einde
+	exit
+	
+Chunk ZA_CheckStairs1
+	Call CSay,"Checking stairs!"
+	
+	; 1st switch
+	Call CSay,"=> Switch #1"
+	Chk &FEO_SWITCH1
+	jmpfalse einde
+	
+	; 2nd switch
+	Call CSay,"=> Switch #2"
+	Chk &FEO_SWITCH2
+	jmpfalse einde
+	
+	; Open door
+	Done FEO_OpenDoorToStairs_1
+	jmptrue Already
+	call PKill,"BAR_Stairs1"
+	Call CSay,"=> Open sesame"
+	exit
+	
+	; Keep door closed
+	:einde
+	Call CSay,"=> Failed! Door remains closed!" 
+	exit
+	
+	; Already open
+	:Already
+	Call CSay,"=> Already Open!"
+	exit
+	
+	
+	
+; Second floor 
+Chunk NPC_SWITCH3
+	Done FEO_SWITCH3
+	jmptrue einde
+	call SetObj,"NPC_Switch3","Texture","GFX/Textures/Switch/Right.png"
+	call CSay,"Switch #3"
+	:einde
+	exit
+
+Chunk NPC_SWITCH4
+	Done FEO_SWITCH4
+	jmptrue einde
+	call SetObj,"NPC_Switch4","Texture","GFX/Textures/Switch/Right.png"
+	call CSay,"Switch #4"
+	:einde
+	exit
+
+	
+Chunk ZA_CheckStairs2
+	Call CSay,"Checking stairs!"
+	
+	; 1st switch
+	Call CSay,"=> Switch #3"
+	Chk &FEO_SWITCH3
+	jmpfalse einde
+	
+	; 2nd switch
+	Call CSay,"=> Switch #4"
+	Chk &FEO_SWITCH4
+	jmpfalse einde
+	
+	; Open door
+	Done FEO_OpenDoorToStairs_2
+	jmptrue Already
+	call PKill,"BAR_Stairs2"
+	Call CSay,"=> Open sesame"
+	exit
+	
+	; Keep door closed
+	:einde
+	Call CSay,"=> Failed! Door remains closed!" 
+	exit
+	
+	; Already open
+	:Already
+	Call CSay,"=> Already Open!"
+	exit
+	
+Chunk ZA_Feo
+	Call MapText,"FEO" 
+	Call VitalBoss,"FEO","","Feo,ZA_Feo"
+	Call Schedule,"After_Feo"
+	
+Chunk After_Feo
+	Call pKill,"Feo"
+	Call pKill,"ZA_Feo"
+	Done Complete_901_Feo
+	jmptrue einde
+	call Score,500,""
+	:einde
 	exit
