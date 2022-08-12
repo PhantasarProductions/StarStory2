@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Class_Action.neil
-// Version: 22.06.02
+// Version: 22.08.11
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -83,6 +83,11 @@ Class Action
 	ReadOnly String AfterMsg = ""
 	ReadOnly Int AshleyLearn = 0
 	ReadOnly Var Ashley
+	
+	// Gadget
+	ReadOnly Bool DoublePower = False
+	ReadOnly Bool Spread      = False
+	ReadOnly Int  XCard       = 0
 
 	Int TarFilter()
 		Table NTargets
