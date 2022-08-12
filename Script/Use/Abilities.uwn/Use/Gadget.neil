@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Abilities.uwn/Use/Gadget.neil
-// Version: 22.08.03
+// Version: 22.08.11
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -54,8 +54,11 @@ Class Gadget_Item
 	Get String Exe
 		Return Parent.Tag
 	End
+	Get String FullTag
+		Return "ABL_"..Exe.."_"..ATag
+	End
 	Get Var Abl
-		Return Any.IAA["ABL_"..Exe.."_"..ATag]
+		Return Any.IAA[fULLtAG]
 	End
 	Get Bool Unlocked
 		If ATag:upper()=="ZTRANSFER"
@@ -138,6 +141,11 @@ Class Gadget_Class
 	var SelectedItem=nil
 	Int TS
 	
+	
+	bool S_DBL = False
+	bool S_SPR = False
+	Int  S_CRD = 0
+	
 	Void ShowAll(ubox,Situation)
 		Int BX = ubox.x + 10
 		Int BY = ubox.y + 10
@@ -201,7 +209,16 @@ Class Gadget_Class
 			Int OkY = EY - Okay.Height
 			Okay.Draw(OkX,OkY)
 			CanX += Okay.Width + 10
+			if ML && MX>OkX && MY>OkY && MX<OkX+Okay.Width && MY<EY
+				CSay("Click on okay button!")
+				Static Var CUG 
+				CUG = CUG || NeilUse("Script/Use/Abilities.uwn/Use/GadgetUseCombat")
+				CUG(Tag,SelectedItem,S_DBL,S_SPR,S_CRD)
+				SelectedItem=nil
 		End
+
+		End
+		// Cancel
 		Static Var Cancel = GPU_Pic["Cancel_True"]
 		Int CanY = EY - Cancel.Height
 		Cancel.Draw(CanX,CanY)
