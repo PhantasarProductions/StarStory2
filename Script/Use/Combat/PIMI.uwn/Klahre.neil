@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.06.04
+// version: 22.08.11
 // End License Information
 Var Ret = new LinkedList()
 
@@ -49,7 +49,9 @@ Class __PIMI_ARMS Extends Stage
 	Static var ch
 
 
-	static var SelItem 
+	static var SelItem
+	
+	static var M = Any.Mouse
 	
 	void Draw()
 		__Black
@@ -58,6 +60,9 @@ Class __PIMI_ARMS Extends Stage
 		Graphics.Alpha(255)
 		Abl.Klahre.View(kit_uBox,ch,"Combat_UserMenu")
 		Any.Mouse.Draw()
+		if M.ML && (M.MX<kit_uBox.x || M.MY<kit_ubox.y || M.MX>kit_ubox.x+kit_ubox.w || M.MY>kit_ubox.y+kit_ubox.y)
+			Stage.Current = nil
+		end
 	end
 	
 	Void Update()
