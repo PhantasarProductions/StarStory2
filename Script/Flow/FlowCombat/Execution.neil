@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Execution.neil
-// Version: 22.06.04
+// Version: 22.08.11
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -73,6 +73,7 @@ Class Stage_Execution Extends Stage
 				Stage.Current = Nil
 				DoShowBox    = False
 			Else
+				CSayF("Rage/Energy (%d) deducted by %d",AP.Have,Act.APCost)
 				AP.Have -= Act.APCost
 			End
 		End
