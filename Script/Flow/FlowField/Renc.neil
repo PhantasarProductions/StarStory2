@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Renc.neil
-// Version: 22.06.04
+// Version: 22.08.12
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -210,7 +210,7 @@ Module Class
 		Int PX = FlowField.Map.OPlayer.X
 		Int PY = FlowField.Map.OPlayer.Y
 		Bool Moved = False
-		If (OL == FlowField.FollowTheLeader.LeaderMapTag) && (PX!=OX || OY!=OY) && Layers[L].ENC>0
+		If (OL == FlowField.FollowTheLeader.LeaderMapTag) && (PX!=OX || OY!=PY) && Layers[L].ENC>0
 			Layers[L].CD = math.max(0,Layers[L].CD-Any.Luck.Roll(FlowField.FollowTheleader.LeaderTag,1,125,False))
 			Moved = True
 		End
