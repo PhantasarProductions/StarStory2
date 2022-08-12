@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Defeated.neil
-// Version: 22.05.10
+// Version: 22.08.10
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -38,7 +38,7 @@ Bool __defeated(string gr)
 	Bool ret = true
 	For t,dat in pairs(Fighter.ByTag)
 		If dat.Team==gr
-			ret = ret && dat.HP==0
+			ret = ret && (dat.HP==0 || (dat.Team=="Foe" && dat.Gone))
 		End
 		//CSayF("Want group %s; Is Group %s; HP %d; Ret %s",gr,Dat.Team,dat.HP,tostring(Ret))
 	End
