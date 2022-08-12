@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/PlayerInputTarget.neil
-// Version: 22.05.05
+// Version: 22.08.11
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -48,6 +48,16 @@ Class _PITar Extends Stage
 	End
 	
 	Get String TargetType
+		if Act.Spread
+			switch IAct.Target
+				Case "1F" "AF"
+					return "AF"
+				case "1A" "AA"
+					return "AA"
+				default
+					return IAct.target
+			end
+		end
 		Return IAct.Target
 	End
 	
