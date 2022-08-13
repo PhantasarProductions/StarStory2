@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Effect.neil
-// Version: 22.06.10
+// Version: 22.08.13
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -215,6 +215,7 @@ Group Effect
 			return true
 		elseif iAct.X_Experience>0
 			X.Have += iAct.X_Experience
+			CSayF("%s gained %d extra experience points due to this move (total %d/%d)",Target.Tag,iAct.X_Experience,X.Have,X.Maximum)
 			Return True
 		Else
 			Return False

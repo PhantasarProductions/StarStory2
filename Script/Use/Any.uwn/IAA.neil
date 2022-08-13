@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Any.uwn/IAA.neil
-// Version: 22.06.08
+// Version: 22.08.13
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -245,6 +245,10 @@ Var GetIAA(String F)
 					Case "STRING"
 						return Data.Value(Rec,Key)
 					Case "INT" "NUMBER"
+						// Debug only!
+						//if Key:upper()=="X_EXPERIENCE"
+						//	Lua.error("Value: "..DATA.Value(Rec,Key))
+						//end
 						return Lua.tonumber(DATA.Value(Rec,Key)) || 0
 					Case "BOOLEAN"
 						return Data.Value(Rec,Key):upper()=="TRUE"
