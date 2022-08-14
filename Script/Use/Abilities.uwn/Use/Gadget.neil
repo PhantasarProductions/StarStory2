@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Abilities.uwn/Use/Gadget.neil
-// Version: 22.08.11
+// Version: 22.08.14
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -65,6 +65,9 @@ Class Gadget_Item
 			Return RPGParty[3]=="Doctor"
 		End
 		Return Parent.Stuff.Value("Unlocked",atag):upper()=="TRUE"
+	End
+	Set Bool Unlocked
+		Parent.Stuff.Value("Unlocked",atag,tostring(value):upper())
 	End
 	Get String Name
 		Return Abl.Name

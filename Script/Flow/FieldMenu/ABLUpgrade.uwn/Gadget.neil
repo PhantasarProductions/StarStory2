@@ -39,14 +39,30 @@
 Void Upgrade(SG,string t,ubox,prnt)
 End
 
+String TR(string s,int l)
+	if #s<=l
+		return s
+	else
+		return left(s,l-3).."..."
+	end
+end
+
 Void Install(G,string t,ubox,prnt)
 	int lx = ubox.x + 15
 	int rx = (ubox.w+ubox.x)-30
 	int y = 15 + ubox.y
+
 	For GI in G.Items.Each
 		if !GI.Unlocked
+			if any.Mouse.MX>lx && any.Mouse.MX<rx && any.Mouse.MY>y && any.Mouse.MY<y+30
+				__Black
+				Graphics.Rect(lx,y,ubox.w-30,30)
+				if Any.Mouse.ML && Any.Aurina.Pay(GI.Abl.GadgetInstallPrice)
+					GI.Unlocked = true
+				End
+			end
 			__white
-			prnt.fnt.Text("Inst '"..GI.Name.."'",lx,y)
+			prnt.fnt.Text("Inst '"..TR(GI.Name,15).."'",lx,y)
 			if GI.Abl.GadgetInstallPrice<=__Cash
 				__Green
 			else
