@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.06.21
+// version: 22.08.14
 // End License Information
 
 #use "Script/Use/Abilities.uwn/Use/Gadget"
@@ -48,6 +48,7 @@ Init
 	// Actual stuff
 	YAbl.Flame = True
 	YAbl.Spark = False
+	YAbl.Light = False
 End
 
 Module

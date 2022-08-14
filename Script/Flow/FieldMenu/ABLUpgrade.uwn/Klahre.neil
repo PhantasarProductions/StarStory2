@@ -1,0 +1,95 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/Flow/FieldMenu/ABLUpgrade.uwn/Klahre.neil
+// (c) Jeroen Broks, 2022, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 22.08.14
+// End License Information
+
+
+ReadOnly Table Updates = { ["AmmoMax"] = {["Name"]="Ammo", ["CS"]="%d", ["Plus"]=4-__skill}, ["XPower"]={["Name"]="Extra Power",["CS"]="%d",["Plus"]=(12 div __skill)}, ["XRepeat"]={["Name"]="Repeat", ["CS"]="%dx", ["Plus"]=1},["Hit"]={["Name"]="Hit", ["CS"]="%03d%%",["Plus"]=4-__skill}}
+var ARMS = Abl.Klahre
+
+Var SelectedARM = Nil
+
+void sARM(string Tag,ARM)
+	SelectedARM = {["IAA"] = Any.IAA[Tag], ["ARM"]=ARM}		
+End
+
+Init
+	ARMS.Action = sARM
+End
+
+Void _R(ubox,sit,parent)
+	__White
+	//parent.fnt.text("ARMS not yet available",ubox.x,ubox.y+15)
+	if !SelectedARM
+		parent.fnt.text("Select an ARM to modify",ubox.x+15,ubox.y+15)
+		return
+	end
+	parent.fnt.text(SelectedARM.IAA.Title,ubox.x+15,ubox.y+15)
+	int y = ubox.y+100
+	int lx = ubox.x+15
+	int cx = ubox.x+(ubox.w div 2)
+	int rx = (ubox.x+ubox.w)-30
+	For k,d in sPairs(Updates)
+		If SelectedARM.ARM["Cost"..k]>0 && SelectedARM.ARM["Cost"..k]<Any.Aurina.MaxHave
+			if Any.Mouse.MX>lx && Any.Mouse.MY>y && Any.Mouse.MX<rx && Any.Mouse.MY<y+30
+				__Black
+				graphics.rect(lx,y,rx-lx,30)
+				If Any.Mouse.ML 
+					If k=="Hit" && SelectedARM.ARM.Hit>=100
+						Any.Aurina.Buzz.Play()
+					ElseIf Any.Aurina.Pay( SelectedARM.ARM["Cost"..k] )
+						SelectedARM.ARM["Cost"..k] += math.max(1,SelectedARM.ARM["Cost"..k] div (4-__skill))
+						SelectedARM.ARM[k]+=d.Plus
+					End
+				end
+			end
+			__White
+			parent.fnt.text(d.Name,lx,y)
+			If SelectedARM.ARM["Cost"..k]>__Cash
+				__Red
+			Else
+				__Green
+			End
+			parent.fnt.text(sprintf("%d Au",SelectedARM.ARM["Cost"..k]),rx,y,1)
+			__SkyBlue
+			parent.fnt.text(sprintf(d.CS,SelectedARM.ARM[k]),cx,y,2)
+		End
+		y+=30
+	End
+	__White
+	parent.fnt.text(sprintf("Aurinas: %d",__Cash),lx,(ubox.y+ubox.h)-15,0,1)
+End
+
+Return _R

@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.05.24
+// version: 22.08.14
 // End License Information
 
 #use "libs/fittext"
@@ -103,13 +103,13 @@ Class TARM
 		Stuff.Value(Tag,"Cost_Ammo",Lua.tostring(Value))
 	End
 	Get Int CostXPower
-		Return math.max(ARM.ARM_Cost_XPower,Lua.tonumber(Stuff.Value(Tag,"Cost_XPower"))||1)
+		Return math.max(ARM.ARM_Cost_XPower,Lua.tonumber(Stuff.Value(Tag,"Cost_XPower"))||0)
 	End
 	Set Int CostXPower
 		Stuff.Value(Tag,"Cost_XPower",Lua.tostring(Value))
 	End
 	Get Int CostXRepeat
-		Return math.max(ARM.ARM_Cost_XRepeat,Lua.tonumber(Stuff.Value(Tag,"Cost_XRepeat"))||1)
+		Return math.max(ARM.ARM_Cost_XRepeat,Lua.tonumber(Stuff.Value(Tag,"Cost_XRepeat"))||0)
 	End
 	Set Int CostXRepeat
 		Stuff.Value(Tag,"Cost_XRepeat",Lua.tostring(Value))
@@ -236,7 +236,7 @@ Module
 			End
 			If ML
 				//UseItem(FMChar,Hover,ITg)
-				Action(Itg)
+				Action(Itg,ARM[ITg])
 			End
 		End
 	End

@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.06.09
+// version: 22.08.14
 // End License Information
 
 #use "libs/linkedlist"
@@ -153,7 +153,7 @@ Class __AshleyRage
 		int OldPU = Self.PowerUp
 		CSayF("Abilities.Ashley.%s.Used = %d",Tag,Value)
 		Stuff.Value(Tag,"Used",sprintf("%d",Value))
-		If Used>Self.TrueAPCost*(0.5*__skill) && (!Self.PU_HalfAP)
+		If Used>Self.TrueAPCost*(0.1*__skill) && (!Self.PU_HalfAP)
 			Stuff.Value(Tag,"HalfAP","TRUE")
 			Lnk.Party.MiniWrt("Ashley ",255,180,0)
 			Lnk.Party.MiniMsg(sprintf("gained the powerup 'half rage cost' on ability '%s'",Name),0,180,255)
@@ -177,7 +177,7 @@ Class __AshleyRage
 		return TrueAPCost
 	End
 	Get Int PowerUp
-		Return math.max(0,math.min(AllowPowerup,Used div math.max(1,Abl.Attack)))
+		Return math.max(0,math.min(AllowPowerup,Used div math.max(1,(Abl.Attack div (4-__skill)))))
 	End
 		
 	

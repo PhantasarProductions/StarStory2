@@ -1,7 +1,7 @@
 // License Information:
 // **********************************************
 // 
-// src/Tricky Script/Script/Flow/FieldMenu/UpgradeARMGadget.neil
+// src/Tricky Script/Script/Flow/FieldMenu/ABLUpgrade.uwn/Yorno.neil
 // (c) Jeroen Broks, 2022, All Rights Reserved.
 // 
 // This file contains material that is related
@@ -32,14 +32,11 @@
 // 
 // **********************************************
 // 
-// version: 22.08.13
+// version: 22.08.14
 // End License Information
-Module
-	
-	Var Fnt = ImageFont.Obtain("BOXTEXT")
-	Var WTD = UWN("Script/Flow/FieldMenu/ABLUpgrade.uwn")
 
-	Void Flow(uBox,string FMChar,string FMSituation)
-		WTD[FMChar](ubox,FMSituation,self)
-	End
+Void _R(ubox,sit,parent)
+	parent.WTD.Gadget("Yorno",ubox,parent)	
 End
+
+Return _R

@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Anyway.neil
-// Version: 22.05.27
+// Version: 22.08.14
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -55,6 +55,8 @@
 
 #macro __skill gv.gint.skill
 
+#macro __Cash Any.Aurina.Have
+
 #macro __white   Graphics.Color(255,255,255)
 #macro __skyblue Graphics.Color(  0,180,255)
 #macro __cyan    Graphics.Color(  0,255,255)
@@ -62,6 +64,7 @@
 #macro __ember   Graphics.Color(255,180,  0)
 #macro __Yellow  Graphics.Color(255,255,  0)
 #macro __Red     Graphics.Color(255,  0,  0)
+#macro __Green   Graphics.Color(000,255,000)
 
 #macro __lang    gv.gstring.lang
 

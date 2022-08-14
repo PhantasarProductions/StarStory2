@@ -1,7 +1,7 @@
 // License Information:
 // **********************************************
 // 
-// src/Tricky Script/Script/Flow/FieldMenu/UpgradeARMGadget.neil
+// src/Tricky Script/Script/Flow/FieldMenu/ABLUpgrade.uwn/Gadget.neil
 // (c) Jeroen Broks, 2022, All Rights Reserved.
 // 
 // This file contains material that is related
@@ -32,14 +32,41 @@
 // 
 // **********************************************
 // 
-// version: 22.08.13
+// version: 22.08.14
 // End License Information
-Module
-	
-	Var Fnt = ImageFont.Obtain("BOXTEXT")
-	Var WTD = UWN("Script/Flow/FieldMenu/ABLUpgrade.uwn")
 
-	Void Flow(uBox,string FMChar,string FMSituation)
-		WTD[FMChar](ubox,FMSituation,self)
-	End
+
+Void Upgrade(SG,string t,ubox,prnt)
 End
+
+Void Install(G,string t,ubox,prnt)
+	int lx = ubox.x + 15
+	int rx = (ubox.w+ubox.x)-30
+	int y = 15 + ubox.y
+	For GI in G.Items.Each
+		if !GI.Unlocked
+			__white
+			prnt.fnt.Text("Inst '"..GI.Name.."'",lx,y)
+			if GI.Abl.GadgetInstallPrice<=__Cash
+				__Green
+			else
+				__Red
+			end
+			prnt.fnt.Text(sprintf("%d Au",GI.Abl.GadgetInstallPrice),rx,y,1)
+			y+=30
+		end
+	end
+end
+
+Void _GR(string t,ubox,prnt)
+	Var G = Abl[t].Stuff
+	If G.SelectedItem
+		Upgrade(G.SelectedItem,t,ubox,prnt)
+	Else
+		Install(G,t,ubox,prnt)
+	End
+	__White
+	prnt.fnt.text(sprintf("Aurinas: %d",__Cash),ubox.x+16,(ubox.y+ubox.h)-15,0,1)
+End
+
+Return _GR
