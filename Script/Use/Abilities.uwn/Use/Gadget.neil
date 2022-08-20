@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Abilities.uwn/Use/Gadget.neil
-// Version: 22.08.14
+// Version: 22.08.16
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -114,6 +114,18 @@ Class Gadget_Item
 	End
 	Int SelectedXCards
 	
+	Set Bool Double
+		Lua.assert(AllowDouble,"Doubling this gadget was not allowed")
+		Parent.Stuff.Value("Double",atag,Lua.tostring(value):upper())
+	End
+	Set Bool Spread
+		Lua.assert(AllowSpread,"Spread this gadget was not allowed")
+		Parent.Stuff.Value("Spread",atag,Lua.tostring(value):upper())
+	End
+	Set Int XCards
+		Parent.Stuff.Value("XCards",atag,Lua.tostring(value))
+	End
+	
 	
 	Constructor(_ouwe,_tag,_unlockedfromstart)
 		Parent = _ouwe
@@ -199,6 +211,7 @@ Class Gadget_Class
 		End
 		If SelectedItem.AllowDouble
 			GPU_Pic[sprintf("2x Power_%s",SelectedItem.Spread)].Draw(BX+(ubox.w div 2),BY+60)
+			GPU_Pic[sprintf("2x Power_%s",SelectedItem.Double)].Draw(BX+(ubox.w div 2),BY+60)
 		End
 		For i=1,SelectedItem.AllowXCards
 			int i2 = i-1
