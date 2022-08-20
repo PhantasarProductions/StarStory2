@@ -34,3 +34,6 @@
 ; 
 ; version: 22.08.20
 ; End License Information
+cschunk ALN,Audio.LoadNew
+cschunk AQP,Audio.QPlay
+cschunk NAR,abl.Klahre.Add
