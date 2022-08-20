@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Items.neil
-// Version: 22.06.08
+// Version: 22.08.20
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -92,7 +92,8 @@ Module
 			//	__white
 			//	DFt.DarkText(sprintf("INm:%d ITg:%s M(%d,%d); Itm(%d,%d)-(%d,%d)",INm,ITg,MX,MY,X,EX,Y,Y+30),2,2)
 			//end
-			If INm>0 && ITg!="" && MX>uBox.x && MX<ubox.x+ubox.w && MY>Y && MY<Y+30 && i>ScrollY && i<=ScrollYMax
+			//If INm>0 && ITg!="" && MX>uBox.x && MX<ubox.x+ubox.w && MY>Y && MY<Y+30 && i>ScrollY && i<=ScrollYMax
+			If INm>0 && ITg!="" && MX>uBox.x && MX<ubox.x+ubox.w && MY>Y && MY<Y+30 && SY>=0 && SY<=ubox.h-40
 				Hover=i
 				BsX=10
 			End
