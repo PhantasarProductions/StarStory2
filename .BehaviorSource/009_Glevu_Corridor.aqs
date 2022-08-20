@@ -40,3 +40,6 @@ cschunk NAR,abl.Klahre.Add
 
 Include Basis.aqs
 
+
+Chunk Load
+	call CSay,"Corridor"
