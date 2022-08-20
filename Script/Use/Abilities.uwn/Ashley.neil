@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.08.14
+// version: 22.08.20
 // End License Information
 
 #use "libs/linkedlist"
@@ -177,7 +177,7 @@ Class __AshleyRage
 		return TrueAPCost
 	End
 	Get Int PowerUp
-		Return math.max(0,math.min(AllowPowerup,Used div math.max(1,(Abl.Attack div (4-__skill)))))
+		Return math.max(0,math.min(AllowPowerup,Used div math.max(1,(Abl.Attack div (5-__skill)))))
 	End
 		
 	
