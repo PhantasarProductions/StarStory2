@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Combat/Effect.uwn/TakeOver.neil
-// Version: 22.08.19
+// Version: 22.08.20
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -35,7 +35,8 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
-Bool _TO(Act,Tar,Exe)
+Bool _TO(Act,TarTag,Exe)
+	Var Tar = Fighter.Bytag[TarTag]
 	Var T = {}
 	For i,card in pairs(FlowCombat.Cards.Lijst)
 		If Card.FightTag==Tar.Tag && (!Card.Joker)
@@ -46,7 +47,7 @@ Bool _TO(Act,Tar,Exe)
 		FlowCombat.Cards.Replace(idx,Exe.Tag)			
 	End
 	Int total = #T
-	Tar.Points.EXP.Have+=total
+	Tar.Char.Points.EXP.Have+=total
 	return #T>0
 End
 
