@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.08.14
+// version: 22.08.15
 // End License Information
 
 #use "libs/fittext"
@@ -118,7 +118,7 @@ Class TARM
 	Constructor(string _Tag)
 		Tag = _Tag:upper()
 		ARM = any.iaa[Tag]		
-		AmmoMax = ARM.ARM_Init_Ammo 
+		AmmoMax = math.max(ARM.ARM_Init_Ammo,AmmoMax) 
 		Ammo = AmmoMax
 		Lua.assert(ARM,sprintf("Any.IAA['%s'] appears to have returned 'nil' for some odd reason.",Tag))
 	End
