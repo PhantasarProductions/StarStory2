@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 22.06.17
+; version: 22.08.19
 ; End License Information
 ; Behavior Apollo Quick Script for 'E:/Projects/Applications/Apollo/Games/Star Story 2/src/Tricky Story/Kthura/000_BlackBox'
 ; Created 4/11/2022 11:03:28 AM
@@ -85,3 +85,7 @@ Chunk NPC_Heijn
 	Done BLACKBOX_SPOKEN_HEIJN
 	Call maptext,"HEIJN"
 	Call Heijn
+	
+Chunk RecoverAshley
+	Call iPop,"Q","North"
+	Call MapText,"RecoverAshley"
