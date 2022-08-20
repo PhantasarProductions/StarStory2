@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Execution.neil
-// Version: 22.08.11
+// Version: 22.08.20
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -278,7 +278,9 @@ Class Stage_Execution Extends Stage
 	
 	Void Update_AfterAction()
 		// Are there additional cards to be added?
-		If Act.Act.ADDCARD_Action_Number>0			
+		var xcards = Act.Act.ADDCARD_Action_Number + Act.XCard
+		
+		If xcards>0			
 			String AddAct = Act.Act.ADDCARD_Action_Act
 			Bool Allowed = true
 			if AddAct=="Self"
@@ -286,9 +288,10 @@ Class Stage_Execution Extends Stage
 				AddAct = Act.Act.Tag
 			End
 			If Allowed
-				For i = 1,Act.Act.ADDCARD_Action_Number
+				//For i = 1,Act.Act.ADDCARD_Action_Number
+				For i = 1,xcards
 					CSayF("%0d/%0d:> Adding action card '%s'",i,Act.Act.ADDCARD_Action_Number,AddAct)
-					FlowCombat.Cards.AddCard(i*Act.Act.ADDCARD_Action_Interval,Act.Executor.Tag,new Action(AddAct,Act.Executor.Tag,Act.TarTags))
+					FlowCombat.Cards.AddCard(i*math.max(Act.Act.ADDCARD_Action_Interval,2),Act.Executor.Tag,new Action(AddAct,Act.Executor.Tag,Act.TarTags))
 				End
 			End
 		End
