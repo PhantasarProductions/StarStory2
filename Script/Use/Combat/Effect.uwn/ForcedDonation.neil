@@ -32,13 +32,13 @@
 // 
 // **********************************************
 // 
-// version: 22.08.19
+// version: 22.08.20
 // End License Information
 Bool _FD(A)
 	int Claim = __Cash div (__Skill + 1)
-	charmsg(A.Tag,sprintf("Forced %d aurinas as a 'donation'",__Cash-Claim), 255,0,0)
+	charmsg(A.Executor.Tag,sprintf("Forced %d aurinas as a 'donation'",__Cash-Claim), 255,0,0)
 	__Cash = Claim
 	Return True
 End
 
-return _FD()
+return _FD
