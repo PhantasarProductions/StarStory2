@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Foe.neil
-// Version: 22.08.09
+// Version: 22.08.17
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -104,6 +104,22 @@ Class Foe Extends Fighter
 						CSayF("Ashley has now witnessed 1 kill")
 					Else
 						CSayF("Ashley has now witnessed %d kills",gv.gInt.AshleyKills)
+					End
+				End
+				Int C=0
+				Int TLvl
+				For i=1,4
+					String PT = RPGParty[i]
+					if PT!=""
+						C++
+						TLvl+=RPGChar[PT].Stat.Level
+					End
+				End				
+				If C>0 
+					int ALvl = TLvl Div C
+					
+					if ALvl>=10 && ALvl<(Self.Char.Stats.Level*2) || Self.Char.Stats.Level==1000000
+						Lnk.Ach.Award("TROPHY_DAVID")
 					End
 				End
 			End
