@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.08.11
+// version: 22.08.20
 // End License Information
 Var Ret = new LinkedList()
 
@@ -70,8 +70,10 @@ Class __PIMI_ARMS Extends Stage
 End
 var PIMI_ARMS = new __PIMI_ARMS()
 
-Void ARM_Action(string armtag)
-	var act = new Action(armTag,"Klahre",{},{["KlareARM"]=true})
+Void ARM_Action(string armtag,_ARM)
+	var xarg = {["KlareARM"]=true,["XCard"]=_ARM.XRepeat, ["XPower"]=_ARM.XPower}
+	var act = new Action(armTag,"Klahre",{},xarg)
+	print(serialize("ARM Klahre.\nArgs",xarg))
 	PITAR.ComeToMe(act,FlowCombat.Cards.Lijst[1])
 End
 Init
