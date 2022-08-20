@@ -59,6 +59,7 @@ Chunk ZA_MarcMarion
 	Call Schedule,"After_MarcMarion"
 	;call crash,"Rest not yet scripted"
 	exit
+	
 Chunk After_MarcMarion
 	call ALN,"Audio/Combat/SpellAni/photon.ogg","SPELLANI_LASER"
 	call ALN,"Audio/Combat/ARM Shot.ogg","ARM_SHOT"
@@ -77,3 +78,5 @@ Chunk After_MarcMarion
 	call PKill,"EFUGuy"
 	call ipop,"MM","North"
 	call MapText,"EFU3"
+	;done "TRANS_ACTIVATED_009_GLEVU_CORRIDOR_#005_TRANS_GENERAL__NKR"
+	done TRANS_ACTIVATED_009_GLEVU_CORRIDOR_#005_TRANS_GENERAL__NKR
