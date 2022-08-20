@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.06.04
+// version: 22.08.19
 // End License Information
 
 #use "Libs/Fittext"
@@ -270,6 +270,10 @@ Class Fighter
 	
 	Get Int HP
 		Return Points.HP.Have
+	End
+	
+	Set Int HP
+		Points.HP.Have = Value
 	End
 	
 	Get Int HPMax
