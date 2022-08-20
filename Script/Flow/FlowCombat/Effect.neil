@@ -160,16 +160,18 @@ Group Effect
 		If iAct.Attack<=0
 			Return False
 		End
+		Int iAttack = iAct.Attack + Act.XPower
+		CSayF("Attack requested: %d + %d = %d",iAct.Attack,Act.XPower,iAttack)
 		Switch iAct.Attack_Type
 			Case "Absolute" 
-				Hurt(Target,iAct.Attack,iAct.Attack_Element)
+				Hurt(Target,iAttack,iAct.Attack_Element)
 			Case "PercentHP"
-				Hurt(Target,math.ceil( (iAct.Attack/100) * Target.HP),iAct.Attack_Element)
+				Hurt(Target,math.ceil( (iAttack/100) * Target.HP),iAct.Attack_Element)
 			Case "PercentStat"
-				Hurt(Target,math.ceil( (iAct.Attack/100) * Target.Stats[iAct.Attack_OffenseStat]),iAct.Attack_Element)
+				Hurt(Target,math.ceil( (iAttack/100) * Target.Stats[iAct.Attack_OffenseStat]),iAct.Attack_Element)
 			Case "BattleStat"
-				Int Atk1 = math.floor((Executor.EndStats[iAct.Attack_OffenseStat]*(iAct.Attack/100))*1.5)
-				Int Atk2 = math.floor((Executor.EndStats[iAct.Attack_OffenseStat]*(iAct.Attack/100))*2.5)
+				Int Atk1 = math.floor((Executor.EndStats[iAct.Attack_OffenseStat]*(iAttack/100))*1.5)
+				Int Atk2 = math.floor((Executor.EndStats[iAct.Attack_OffenseStat]*(iAttack/100))*2.5)
 				Int Def1 = math.floor(  Target.EndStats[iAct.Attack_DefenseStat]*0.75)
 				Int Def2 = math.floor(  Target.EndStats[iAct.Attack_DefenseStat]*1.25)
 				Int Atk = XRoll(Atk1,Atk2)
