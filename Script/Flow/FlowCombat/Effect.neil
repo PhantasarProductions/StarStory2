@@ -142,13 +142,13 @@ Group Effect
 	End
 	
 	Get Bool Hit
-		If !iAct.Check_Accuracy
-			Return True
-		End
 		If iAct.ARM && Executor.Tag=="Klahre"
 			//Lua.error("ARMS hit check not yet implemented")
 			Int R = XRoll(0,100,False)
-			Return R<=Abl.Klahre.Map[iAct.Tag]
+			Return R<=Abl.Klahre.ARM[iAct.Tag].Hit
+		End
+		If !iAct.Check_Accuracy
+			Return True
 		End
 		Int Acc = XRoll(Executor.EndStats.Accuracy div 2,math.ceil(Executor.EndStats.Accuracy * 1.25))
 		Int Eva = XRoll(  Target.EndStats.Evasion  div 4,math.ceil(  Target.EndStats.Evasion  * 1.15))
