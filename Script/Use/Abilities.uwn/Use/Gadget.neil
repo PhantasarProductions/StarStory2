@@ -210,7 +210,6 @@ Class Gadget_Class
 			GPU_Pic[sprintf("Spread_%s",SelectedItem.Spread)].Draw(BX,BY+60)
 		End
 		If SelectedItem.AllowDouble
-			GPU_Pic[sprintf("2x Power_%s",SelectedItem.Spread)].Draw(BX+(ubox.w div 2),BY+60)
 			GPU_Pic[sprintf("2x Power_%s",SelectedItem.Double)].Draw(BX+(ubox.w div 2),BY+60)
 		End
 		For i=1,SelectedItem.AllowXCards
