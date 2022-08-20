@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.06.01
+// version: 22.08.19
 // End License Information
 
 #use "Libs/LinkedList"
@@ -85,11 +85,29 @@ Init
 	End
 	Do
 		Var N = New TMusic()
+		N.Entry   = "Music/Combat/SBoss/Marc and Marion.ogg"
+		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
+		N.Title   = "Break down in the cold"
+		N.Artist  = "Nihilore"
+		N.WebSite = "http://www.nihilore.com/"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
 		N.Entry   = "Music/Combat/Victory/Victory.ogg"
 		N.License = "Free for personal and commercial use -- https://pixabay.com/nl/service/license/"
 		N.Title   = "Home Logo"
 		N.Artist  = "Muzaproduction"
 		N.WebSite = "NONE"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/Dungeon/10000 People chanting -I am an individual-.ogg"
+		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
+		N.Title   = "10000 People chanting -I am an individual-"
+		N.Artist  = "Nihilore"
+		N.WebSite = "http://www.nihilore.com/"
 		TMusic.Lst.AddLast(N)
 	End
 	Do
@@ -131,7 +149,7 @@ Init
 	Do
 		Var N = New TMusic()
 		N.Entry   = "Music/Dungeon/Journey to ascend.ogg"
-		N.License = " Journey To Ascend by Kevin MacLeod Link: https://incompetech.filmmusic.io/song/8951-journey-to-ascend License: https://filmmusic.io/standard-license"
+		N.License = "Journey To Ascend by Kevin MacLeod Link: https://incompetech.filmmusic.io/song/8951-journey-to-ascend License: https://filmmusic.io/standard-license"
 		N.Title   = "Journey to ascend"
 		N.Artist  = "Kevin McLeod"
 		N.WebSite = "http://incompetech.com"
@@ -151,6 +169,15 @@ Init
 		N.Entry   = "Music/Dungeon/The Water and the Well.ogg"
 		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
 		N.Title   = "The Water and the Well"
+		N.Artist  = "Nihilore"
+		N.WebSite = "http://www.nihilore.com/"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/Combat/Renc/Ancrapraxis.ogg"
+		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
+		N.Title   = "Ancrapraxis"
 		N.Artist  = "Nihilore"
 		N.WebSite = "http://www.nihilore.com/"
 		TMusic.Lst.AddLast(N)
@@ -178,15 +205,6 @@ Init
 		N.Entry   = "Music/Hub/Healing.ogg"
 		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
 		N.Title   = "Healing"
-		N.Artist  = "Nihilore"
-		N.WebSite = "http://www.nihilore.com/"
-		TMusic.Lst.AddLast(N)
-	End
-	Do
-		Var N = New TMusic()
-		N.Entry   = "Music/Combat/Renc/Ancrapraxis.ogg"
-		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
-		N.Title   = "Ancrapraxis"
 		N.Artist  = "Nihilore"
 		N.WebSite = "http://www.nihilore.com/"
 		TMusic.Lst.AddLast(N)
