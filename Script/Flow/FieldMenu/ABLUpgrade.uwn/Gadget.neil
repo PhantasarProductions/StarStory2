@@ -32,11 +32,98 @@
 // 
 // **********************************************
 // 
-// version: 22.08.14
+// version: 22.08.16
 // End License Information
 
+#use "libs/xmath"
+
+var Upgrades
+
+Init
+	Upgrades = {}
+	// Double Power
+	Upgrades.DPower = {}
+	Upgrades.DPower.Show = "Enbl Double Power"
+	Upgrades.DPower.Key = "Double"
+	Upgrades.DPower.Value = True
+	Bool _RD(G)
+		return G.Double
+	End
+	Upgrades.DPower.Reject = _RD
+	Int _PD(G)
+		return G.Abl.GadgetInstallPrice*__skill
+	End
+	Upgrades.DPower.Price = _PD 
+	
+	// Spread
+	Upgrades.Spread = {}
+	Upgrades.Spread.Show = "Enbl Spread"
+	Upgrades.Spread.Key = "Spread"
+	Upgrades.Spread.Value = True
+	Bool _RS(G)
+		return G.Spread
+	End
+	Upgrades.Spread.Reject = _RS
+	Int _PS(G)
+		return G.Abl.GadgetInstallPrice*(__skill^2)
+	End
+	Upgrades.Spread.Price = _PS 
+	
+	// XCard
+	Upgrades.XCard = {}
+	Upgrades.XCard.Show = "Enbl extra card"
+	Upgrades.XCard.Key    = "XCards"
+	Upgrades.XCard.Value  = 1
+	Bool _RXC(G)
+		Return G.XCards>=G.AllowXCards
+	End
+	Upgrades.XCard.Reject = _RXC
+	Int _PXC(G)
+		Return math.floor((G.Abl.GadgetInstallPrice*(__skill+(__skill / 10)))*(G.XCards+1))
+	End
+	Upgrades.XCard.Price  = _PXC
+	
+	// Na controle
+	for k,v in pairs(Upgrades)
+		Lua.assert(v.Price,"No price function on: "..k)
+	End
+End
 
 Void Upgrade(SG,string t,ubox,prnt)
+	int lx = ubox.x + 15
+	int rx = (ubox.w+ubox.x)-30
+	int y = 15 + ubox.y	
+	static var MS = Any.Mouse
+	For K,U in spairs(Upgrades)
+		//CSayF("%6s> Allow: (%s)%s; Reject: (%s)%s; -> %s",K,Lua.type(SG["Allow"..U.Key]),SG["Allow"..U.Key] , Lua.type(U.Reject(SG)),U.Reject(SG), Lua.tostring(SG["Allow"..U.Key] && (!U.Reject(SG))))
+		If SG["Allow"..U.Key] && (!U.Reject(SG))			
+			int price = U.Price(SG)
+			if MS.MX>lx && MS.MY>y && MS.MX<rx && MS.MY<y+30
+				number c = math.abs(xmath.sin(FPS.Ticks div 5))
+				Graphics.Color(math.floor(c*255),math.floor(c*180),0)
+				Graphics.Rect(ubox.x,y,ubox.w,30)
+				if MS.ML && Any.Aurina.Pay(price)
+					switch Lua.type(U.Value)
+						case "number"
+							SG[U.Key] += U.Value
+						case "boolean"
+							SG[U.Key] = U.Value
+						default
+							Lua.error("Gadget upgrade value error ("..k.."/"..Lua.type(U.Value).."/"..Lua.tostring(U.Value)..")")
+					end
+				end
+			end
+			__White
+			prnt.fnt.Text(U.Show,lx,y)
+			if __Cash>=price
+				__Green
+			Else
+				__Red
+			End
+			prnt.fnt.Text(sprintf("%d Au",price),rx,y,1)
+			y += 30
+		End
+	End
 End
 
 String TR(string s,int l)
