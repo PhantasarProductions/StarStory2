@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Sein.neil
-// Version: 22.08.03
+// Version: 22.08.22
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -89,6 +89,8 @@ Module
 								Val = RPGChar.Doctor.Stat.Level
 							Case "ASHLEY"
 								Val = RPGChar.Ashley.Stat.Level
+							Case "ASLEYKILL" "ASHLEYKILLS" "ASHLEY_KILL" "ASHLEY_KILLS" 
+								Val = gv.gInt.AshleyKills
 							Case "LOWLEVEL" "LOWESTLEVEL" "LOWLVL" "LOLEVEL" "LOLVL" "MINLVL" "MINLV" "MINLEVEL"
 								int m = 2000000
 								Val = m
