@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 22.08.20
+; version: 22.08.24
 ; End License Information
 
 cschunk ALN,Audio.LoadNew
@@ -82,3 +82,15 @@ Chunk After_MarcMarion
 	done TRANS_ACTIVATED_009_GLEVU_CORRIDOR_#005_TRANS_GENERAL__NKR
 	call GoToMap,"000_BlackBox","BASE","Q_Start"
 	call schedule,"RecoverAshley"
+	
+Chunk ZA_Einde
+	Done Complete_009_Glevu_Corridor
+	jmptrue negeer
+	call Score,1200,""
+	:negeer
+	exit
+	
+Chunk ZA_Brandon
+	call MiniMsg,"Entering Lersgobrandon Tunnel"
+	call GoToMap,"010_LetsGoBrandon_Tunnel","#000","Start"
+	exit
