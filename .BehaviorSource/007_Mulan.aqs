@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 22.06.11
+; version: 22.08.24
 ; End License Information
 
 include basis.aqs
@@ -72,6 +72,7 @@ Chunk After_Funhouse
 Chunk ZA_BFOC
 	Done Visited_BFOC
 	JmpTrue negeer
+	Done Complete_007_Mulan
 	call GoToMap,"008_BFOC","SCHWABBA","Start"
 	Exit
 	:negeer
