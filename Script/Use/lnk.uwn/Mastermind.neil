@@ -1,0 +1,183 @@
+// License Information:
+// src/Tricky Script/Script/Use/lnk.uwn/Mastermind.neil
+// Version: 22.08.28
+// Copyright (C) 2022 Jeroen Petrus Broks
+// 
+// ===========================
+// This file is part of a project related to the Phantasar Chronicles or another
+// series or saga which is property of Jeroen P. Broks.
+// This means that it may contain references to a story-line plus characters
+// which are property of Jeroen Broks. These references may only be distributed
+// along with an unmodified version of the game.
+// 
+// As soon as you remove or replace ALL references to the storyline or character
+// references, or any termology specifically set up for the Phantasar universe,
+// or any other univers a story of Jeroen P. Broks is set up for,
+// the restrictions of this file are removed and will automatically become
+// zLib licensed (see below).
+// 
+// Please note that doing so counts as a modification and must be marked as such
+// in accordance to the zLib license.
+// ===========================
+// zLib license terms:
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// End License Information
+var Kleuren
+
+Init 
+	Kleuren = {}
+	Kleuren += {  0,180,255 }
+	Kleuren += {255,  0,  0 }
+	Kleuren += {  0,255,  0 }
+	Kleuren += {255,180,180 }
+	Kleuren += {255,180,  0 }
+	Kleuren += {  0,  0,255 }
+	Kleuren += {180,100,  0 }
+	Kleuren += {180,255,  0 }
+	Kleuren += {  0,255,180 }
+	Kleuren += {180,  0,255 }
+	Kleuren += {255,255,255 }
+	Kleuren += {255,  0,255 }
+	For i,k in ipairs(KLeuren)
+		CSayF("Color %02d -> %02x%02x%02x",i,k[1],k[2],k[3])
+	End
+end	
+	
+
+class MMClass
+	readonly int cdigit1
+	readonly int cdigit2
+	readonly int cdigit3
+	readonly int cdigit4
+	int fdigit1 = 0
+	int fdigit2 = 0
+	int fdigit3 = 0
+	int fdigit4 = 0
+	readonly string Tag
+	
+	Get Bool Solved
+		Return gv.gbool["SOLVED_MASTERMIND_"..Tag]
+	End
+	
+	Set Bool Solved
+		gv.gbool["SOLVED_MASTERMIND_"..Tag] = Value
+	End
+	
+	Get Int HalfGoed
+		Int R=0
+		For  i=1,4
+			for j=1,4
+				If self["fdigit"..i]==self["cdigit"..j] && j!=i
+					R++
+				End
+			End
+		End
+		Return R
+	End
+	
+	Get Int VolledigGoed
+		Int R = 0
+		for i=1,4
+			If self["fdigit"..i]==self["cdigit"..i] && self["fdigit"..i]!=0
+				R++
+			End
+		End
+		Return R
+	End
+	
+	
+	Constructor(String T)
+		CSay("Constructing mastermind puzzle for: "..T)
+		Tag = T
+		For i=1,4
+			Bool Ok = true
+			Int R
+			Int TimeOut = 1500
+			Repeat
+				Assert(TimeOut>0,"Timeout on constructing MasterMind! Position: ",i)
+				TimeOut--
+				R = math.random(1,__Skill*4)
+				//CSayF("===> Trying %d (pos: %d);  (Timeout: %04d)",R,i,TimeOut)
+				Ok = true
+				for j=1,4
+					if j!=i
+						Ok = Ok && (R!=self["cdigit"..j])
+					end
+				end
+			Until Ok
+			self["cdigit"..i] = R
+			CSayF("Position #%d => %d", i, R)
+		End
+	End	
+end
+
+Var Puzzles
+
+Void Check(PZ,string N)
+	Static String Tex = "GFX/Textures/Puzzles/Sudoku/nums/%d.png"
+	static int oldtime = 0
+	if math.abs(os.time()-oldtime)<2
+		CSayF("Request ignored. Time stamps too short %d - %d = %d",os.time(),oldtime,os.time()-oldtime)
+		Return
+	End
+	oldtime = os.time()
+	PZ["fdigit"..N] = (PZ["fdigit"..N] % (__Skill*4))+1 
+	FlowField.Map.CurrentLayer.Obj("MM_HGOED").Texture = sprintf(Tex,PZ.HalfGoed)
+	FlowField.Map.CurrentLayer.Obj("MM_VGOED").Texture = sprintf(Tex,PZ.VolledigGoed)
+	Var O = FlowField.Map.CurrentLayer.Obj("ZA_MM"..n)
+	O.R = Kleuren[ PZ["fdigit"..N] ] [ 1 ]
+	O.G = Kleuren[ PZ["fdigit"..N] ] [ 2 ]
+	O.B = Kleuren[ PZ["fdigit"..N] ] [ 3 ] 
+	CSayF("Digit %s now has value: %02d",N,PZ["fdigit"..N])
+	if PZ.VolledigGoed>=4
+		Audio.LoadNew("Audio/SFX/Good.ogg","AU_GOOD").Play()
+		Lnk.Party.Score(2500)
+		for t in each{"ZA_MM1","ZA_MM2","ZA_MM3","ZA_MM4","ZA_MMInit","MM_Barrier","MM_HGoed","MM_VGoed"}
+			Lnk.Map.PKill(t)
+			CSay("Killed: "..t)
+		End
+	End
+End
+
+
+
+QuickMeta LNK_Mastermind
+	index
+		string _Tag = sprintf("KTH___%s___LAY__%s",gv.gstr.LoadedMap,FlowField.Map.Layer)
+		Puzzles = Puzzles || {}
+		key = key:upper()
+		switch key
+			case "INIT"
+				Puzzles[_Tag] = Puzzles[_Tag] || new MMClass(_Tag)
+				return NIKS
+			case "TAG"
+				Return _Tag
+			case "SOLVED"
+				Return gv.gbool["SOLVED_MASTERMIND_".._Tag]
+			default
+				if !prefixed(key,"ZA_MM")
+					Lua.error("Invalid Mastermind field: "..key)
+				elseif self.Solved
+					Return
+				else
+					Check(Puzzles[_Tag],Right(Key,1))
+					Return NIKS
+				end
+		end
+	End
+			
+End
+
+Return LNK_Mastermind
