@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.08.19
+// version: 22.08.29
 // End License Information
 
 #use "Libs/Fittext"
@@ -347,6 +347,7 @@ Class Fighter
 		
 		Int _stat_index(s,string Key)
 			return Char.Stat["END_"..FURL(Key)]
+			//return Char.Stat["END_"..Key]
 		End
 		EndStats = Lua.setmetatable({},{["__index"]=_stat_index})
 		CSayF("Created fighter '%s' for team: %s",_Tag,_Team)

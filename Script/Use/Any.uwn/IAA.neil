@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Any.uwn/IAA.neil
-// Version: 22.08.13
+// Version: 22.08.29
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -240,6 +240,11 @@ Var GetIAA(String F)
 				End				
 			Case "NAME"
 				return Data.Value(Rec,"Title")
+			Case "HASFIELD"
+				Bool Chk(string F)
+					Return IAA_Class.Value("CLASS",F):upper()!=""
+				End
+				Return Chk
 			Default
 				Switch IAA_Class.Value("CLASS",Key):upper()
 					Case "STRING"
