@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Foe.neil
-// Version: 22.08.17
+// Version: 22.08.26
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -342,6 +342,10 @@ Class Foe Extends Fighter
 		// Positions
 		NF._X = X
 		NF._Y = Y
+		if f:upper()=="BOSS/BLOEMSCHOEN"
+			NF._X = screen.w div 3
+			NF._Y = screen.h - 130
+		end
 		
 		// AI
 		NF.AI = NeilUse("Script/Use/Combat/AI/"..NF.RawData.Value("AI","SCRIPT"))
