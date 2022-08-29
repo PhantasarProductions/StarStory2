@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 22.08.24
+; version: 22.08.26
 ; End License Information
 
 cschunk ALN,Audio.LoadNew
