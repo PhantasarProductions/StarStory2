@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.08.19
+// version: 22.08.26
 // End License Information
 
 #use "Libs/LinkedList"
@@ -106,6 +106,15 @@ Init
 		N.Entry   = "Music/Dungeon/10000 People chanting -I am an individual-.ogg"
 		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
 		N.Title   = "10000 People chanting -I am an individual-"
+		N.Artist  = "Nihilore"
+		N.WebSite = "http://www.nihilore.com/"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/Dungeon/Blaxland.ogg"
+		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
+		N.Title   = "Blaxland"
 		N.Artist  = "Nihilore"
 		N.WebSite = "http://www.nihilore.com/"
 		TMusic.Lst.AddLast(N)
@@ -234,6 +243,15 @@ Init
 		N.Title   = "Path to Jotunheim"
 		N.Artist  = " Tri-Tachyon"
 		N.WebSite = "NONE"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/SBoss/Bloemschoen.ogg"
+		N.License = "Creative Commons - By Attribution  (Incompetech.com)"
+		N.Title   = "Exit the premises"
+		N.Artist  = "Kevin McLeod"
+		N.WebSite = "http://incompetech.com"
 		TMusic.Lst.AddLast(N)
 	End
 	Do
