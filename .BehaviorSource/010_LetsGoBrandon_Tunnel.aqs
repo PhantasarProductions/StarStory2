@@ -1,3 +1,74 @@
+; License Information:
+; **********************************************
+; 
+; src/Tricky Script/.BehaviorSource/010_LetsGoBrandon_Tunnel.aqs
+; (c) Jeroen Broks, 2022, All Rights Reserved.
+; 
+; This file contains material that is related
+; to a storyline that is which is strictly
+; copyrighted to Jeroen Broks.
+; 
+; This file may only be used in an unmodified
+; form with an unmodified version of the
+; software this file belongs to.
+; 
+; You may use this file for your study to see
+; how I solved certain things in the creation
+; of this project to see if you find valuable
+; leads for the creation of your own.
+; 
+; Mostly this file comes along with a project
+; that is for most part released under an
+; open source license and that means that if
+; you use that code with this file removed
+; from it, you can use it under that license.
+; Please check out the other files to find out
+; which license applies.
+; This file comes 'as-is' and in no possible
+; way the author can be held responsible of
+; any form of damages that may occur due to
+; the usage of this file
+; 
+; 
+; **********************************************
+; 
+; version: 22.08.28
+; End License Information
+
+Include Basis.aqs
+Include MasterMind.aqs
+
+
 Chunk Load
 	call CSay,"Let's go, Brandon!"
+	exit
+	
+	
+Chunk ZA_Bloemschoen
+	done defeated_bloemschoen
+	jmpfalse start
+	call Crash,"Huh? Bloemschoen dupe!"	
+	exit
+	:start
+	Call StopWalking
+	call MapText,"BLOEMSCHOEN"
+	Call VitalBoss,"Bloemschoen","","Bloemschoen,ZA_Bloemschoen"
+	Call Schedule,"After_Bloemschoen"	
+	exit	
+	
+Chunk After_Bloemschoen
+	Done DEFEATED_FUNHOUSE
+	call pkill,"Bloemschoen"
+	call pkill,"ZA_Bloemschoen"	
+	Call SetObj,"SEIN_Bloemschoen","TEXTURE","GFX/Textures/Medals/Sein/Geel.png"	
+	exit
+	
+Chunk ZA_SecretNotice
+	Done Ashley_Mentioned_The_Secret_Dungeon_In_Letsgobrandon_tunnel
+	jmptrue einde
+	call miniwrt,"Ashley: ",255,255,0
+	call minimsg,"Hey guys! I think I found a hidden passage to the west. I wonder what we can find there!",0,180,255
+	call score,1500,"Ashley"
+	call score,200
+	:einde
 	exit
