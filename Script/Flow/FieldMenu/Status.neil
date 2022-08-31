@@ -35,6 +35,47 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 Module
+	Int JewelSlots(lvl)
+		number a = 100000
+		Switch __skill
+			Case 1
+				for b=90,1,-1
+					if a<=lvl
+						//return math.floor(a)
+						return b
+					end
+					a=a*0.89
+				end
+				return 2
+			Case 2
+				For b=45,1,-1
+					//If b<=lvl
+					if a<=lvl
+						//return math.floor(a)
+						return b
+					end
+					a=a*0.8
+				end
+				Return 1
+			Case 3
+				int a = 1
+				int b = 1
+				if lvl==100000
+					return 30
+				end
+				while (a<100000)
+					//print(b,math.floor(a))
+					if b>=lvl
+						Return math.min(30,math.ceil(a))
+					End
+					a += (a*0.5)
+					b += 1
+				end
+				Return 0
+			Default
+				Return 0
+		End
+	End
 	Void Flow(uBox,string FMChar,string FMSituation)
 		Static Var Fnt = ImageFont.Obtain("BOXTEXT")
 		Static Var Banner = {}
