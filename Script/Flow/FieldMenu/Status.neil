@@ -141,6 +141,19 @@ Module
 				__SkyBlue
 				MiniText.Text(sprintf("%d jewel slots",js),ubox.x+5,jy)
 		End
+		for i=1,4
+			int j = i+jscroll
+			string jn = "---" 
+			if Ch.Data[sprintf("Jewel_%02d",j)]!=""
+				jn = Any.IAA[Ch.Data[sprintf("Jewel_%02d",j)]].Title
+			end
+			if j<=js
+				__white
+			else
+				Graphics.Color(80,80,80)
+			end
+			MiniText.Text(sprintf("%02d: %s",j,jn),ubox.x+10,jy+(i*jh))
+		end
 	End
 End
 
