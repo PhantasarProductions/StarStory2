@@ -132,6 +132,8 @@ Module
 		static int jy = (ubox.y+ubox.h)-(6*jh)-5
 		static int jscroll = 0
 		switch js
+			case 0
+				// Do nothing
 	End
 End
 
