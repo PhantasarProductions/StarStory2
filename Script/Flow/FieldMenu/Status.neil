@@ -133,7 +133,8 @@ Module
 		static int jy = (ubox.y+ubox.h)-(6*jh)-5
 		static int jscroll = 0
 	End
-End	Var NU = NeilUse("Script/Flow/FieldMenu/Status")
+End
+
 Global Void CONSOLE_JewelSlots()
 	Var NU = NeilUse("Script/Flow/FieldMenu/Status")
 	//for i=1,90 div __skill
