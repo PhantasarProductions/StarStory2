@@ -127,5 +127,6 @@ Module
 		Fnt.Text("Luck",ubox.x+5,270+((#Any.Resistance.Stats)*30))
 		__SkyBlue
 		Fnt.Text(Any.Resistance.Luck(FMChar),(ubox.x+ubox.w)-5,270+((#Any.Resistance.Stats)*30),1)
+		
 	End
 End
