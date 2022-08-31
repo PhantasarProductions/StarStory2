@@ -93,7 +93,6 @@ Module
 
 	Void Flow(uBox,string FMChar,string FMSituation)
 		Static Var Fnt = ImageFont.Obtain("BOXTEXT")
-		Static Var Mini = ImageFont.Obtain("MINITEXT")
 		Static Var MiniText = ImageFont.Obtain("MINITEXT")
 		Static Var Banner = {}
 		Static Var APN = { ["Yorno"]="Energy",["Doctor"]="Energy",["Ashley"]="Rage" }
