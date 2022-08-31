@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Items.neil
-// Version: 22.08.20
+// Version: 22.08.31
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -96,6 +96,14 @@ Module
 			If INm>0 && ITg!="" && MX>uBox.x && MX<ubox.x+ubox.w && MY>Y && MY<Y+30 && SY>=0 && SY<=ubox.h-40
 				Hover=i
 				BsX=10
+				if Events.KeyHit(Events.KeyByName("Delete")) && INm>=1
+					if Sys.Yes(sprintf("Are you sure you wish to dispose %s x%d?\n\nPlease note recovery is not possible after this point!",IAA[Itg].Title,INM))
+						IAA.SlotNum[i] = 0
+						IAA.Slot[i] = ""
+						Hover = -1
+					end
+					Events.flush()
+				end				
 			End
 			X   = BsX + ubox.x
 			EX  = (ubox.x+ubox.w)-BsX
