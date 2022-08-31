@@ -148,7 +148,11 @@ Module
 				jn = Any.IAA[Ch.Data[sprintf("Jewel_%02d",j)]].Title
 			end
 			if j<=js
-				__white
+				if MX>ubox.x && MX<ubox.x+ubox.w && MY>jy+(i*jh) && MY<jy+((i+1)*jh)
+					__black
+					graphics.rect(ubox.x+5,jy+(i*jh),ubox.w-10,jh)
+				end
+				__white				
 			else
 				Graphics.Color(80,80,80)
 			end
