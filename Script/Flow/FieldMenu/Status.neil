@@ -134,6 +134,8 @@ Module
 		static int jscroll = 0
 	End
 End	Var NU = NeilUse("Script/Flow/FieldMenu/Status")
+Global Void CONSOLE_JewelSlots()
+	Var NU = NeilUse("Script/Flow/FieldMenu/Status")
 	//for i=1,90 div __skill
 	int o = 0
 	for i=1,100000
