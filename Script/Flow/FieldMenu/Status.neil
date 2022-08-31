@@ -102,9 +102,6 @@ Module
 			__SkyBlue
 			Fnt.Text(sprintf("%d of %d",Ch.Points.AP.Have,Ch.Points.AP.Maximum),(ubox.x+ubox.w)-5,230,1)
 		End
-		
-		
-		
 		For i,s in pairs(Any.Resistance.Stats)
 			int y=270+(i*30)
 			__White
