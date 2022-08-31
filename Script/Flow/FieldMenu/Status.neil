@@ -78,6 +78,18 @@ Module
 				Return 0
 		End
 	End
+	
+	get int MX
+		return Any.Mouse.MX
+	end
+	
+	get int MY
+		return Any.Mouse.MY
+	end
+	
+	get bool ML
+		return Any.Mouse.ML
+	End
 
 	Void Flow(uBox,string FMChar,string FMSituation)
 		Static Var Fnt = ImageFont.Obtain("BOXTEXT")
