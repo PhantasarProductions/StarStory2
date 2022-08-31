@@ -128,5 +128,6 @@ Module
 		__SkyBlue
 		Fnt.Text(Any.Resistance.Luck(FMChar),(ubox.x+ubox.w)-5,270+((#Any.Resistance.Stats)*30),1)
 		
+		int js = JewelSlots(Ch.Stat.Level)
 	End
 End
