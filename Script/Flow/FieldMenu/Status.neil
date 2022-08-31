@@ -154,6 +154,11 @@ Module
 			end
 			MiniText.Text(sprintf("%02d: %s",j,jn),ubox.x+10,jy+(i*jh))
 		end
+		if MX>ubox.x && MY>jy && MX<ubox.x+ubox.w && MY<ubox.y+ubox.h
+			jscroll-=Any.Mouse.Wheel
+			jscroll=math.min(jscroll,(90 div __skill)-4)
+			jscroll=math.max(jscroll,0)
+		end
 	End
 End
 
