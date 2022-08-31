@@ -1,6 +1,5 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Status.neil
-// Version: 22.04.14
 // Version: 22.08.31
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
@@ -132,6 +131,7 @@ Module
 		const int jh = 12
 		static int jy = (ubox.y+ubox.h)-(6*jh)-5
 		static int jscroll = 0
+		switch js
 	End
 End
 
