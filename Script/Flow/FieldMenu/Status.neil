@@ -116,7 +116,6 @@ Module
 		End
 		For i,s in pairs(Any.Resistance.Stats)
 			int y=270+(i*30)
-			__White
 			if s!="HP"
 				__White
 				Fnt.Text(s,ubox.x+5,y)
