@@ -137,6 +137,10 @@ Module
 			case 1
 				__SkyBlue
 				MiniText.Text("1 jewel slot",ubox.x+5,jy)
+			default	
+				__SkyBlue
+				MiniText.Text(sprintf("%d jewel slots",js),ubox.x+5,jy)
+		End
 	End
 End
 
