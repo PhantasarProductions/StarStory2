@@ -36,6 +36,7 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 Module
+	
 	Int JewelSlots(lvl)
 		number a = 100000
 		Switch __skill
@@ -77,6 +78,7 @@ Module
 				Return 0
 		End
 	End
+
 	Void Flow(uBox,string FMChar,string FMSituation)
 		Static Var Fnt = ImageFont.Obtain("BOXTEXT")
 		Static Var Banner = {}
