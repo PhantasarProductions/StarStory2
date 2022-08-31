@@ -134,6 +134,9 @@ Module
 		switch js
 			case 0
 				// Do nothing
+			case 1
+				__SkyBlue
+				MiniText.Text("1 jewel slot",ubox.x+5,jy)
 	End
 End
 
