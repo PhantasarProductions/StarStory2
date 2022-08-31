@@ -129,5 +129,6 @@ Module
 		Fnt.Text(Any.Resistance.Luck(FMChar),(ubox.x+ubox.w)-5,270+((#Any.Resistance.Stats)*30),1)
 		
 		int js = JewelSlots(Ch.Stat.Level)
+		const int jh = 12
 	End
 End
