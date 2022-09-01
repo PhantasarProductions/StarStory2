@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/UseItem.neil
-// Version: 22.06.08
+// Version: 22.09.01
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -74,7 +74,23 @@ void _UseItem(string ch,int Slot,string ittag)
 				lnk.Party.MiniMsg(sprintf("Using the item '%s' had no effect at all",It.Title),255,0,0)
 			End
 		Case "Jewel"
-			Lua.error("Jewels not yet scripted")
+			Static Var NU = NeilUse("Script/Flow/FieldMenu/Status")
+			Int JewSlot = 0
+			string JewTag
+			Repeat
+				JewSlot++
+				JewTag=sprintf("Jewel_%02d",JewSlot)
+				If JewSlot>NU.JewelSlots(Char.Stat.Level)
+					Buzz.Play()
+					lnk.Party.MiniMsg(sprintf("%s has no empty jewel slots",Char.Name),255,0,0)
+					Return
+				End
+			Until Char.Data[JewTag]==""
+			CSayF("Gonna equip %s on %s on slot %d (%s)",ittag,ch,JewSlot,JewTag)
+			Char.Data[JewTag]=ittag
+			Any.IAA.SlotNum[Slot]--	
+			//Lua.error("Jewels not yet scripted")
+			Lnk.Party.StatRecalc(ch)
 		Default
 			Buzz.Play()			
 			lnk.Party.MiniMsg(sprintf("The item '%s' cannot be used that way",It.Title),255,0,0)
