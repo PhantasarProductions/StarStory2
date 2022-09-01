@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/lnk.uwn/Party.neil
-// Version: 22.06.05
+// Version: 22.09.01
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -54,7 +54,7 @@ Module
 	
 	Void Boxes(string character="",nohover)		
 		State.Call("SUB_PARTY","SubParty.Boxes",sprintf("\"%s\",%s",character,nohover==true))
-	End
+	End	
 	
 	Void Portrait(string ch,Int x,Int Y)
 		static var LP
@@ -139,6 +139,10 @@ Module
 			Return
 		end
 		RPGChar[ch].Points.EXP.Have+=exp
+	End
+	
+	Void StatRecalc(string ch)
+		State.Call("SUB_PARTY","SubParty.StatRecalc",sprintf("\"%s\"",ch))
 	End
 
 	Constructor
