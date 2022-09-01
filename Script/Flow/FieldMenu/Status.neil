@@ -151,6 +151,16 @@ Module
 				if MX>ubox.x && MX<ubox.x+ubox.w && MY>jy+(i*jh) && MY<jy+((i+1)*jh)
 					__black
 					graphics.rect(ubox.x+5,jy+(i*jh),ubox.w-10,jh)
+					if ML
+						If Any.IAA.Give(Ch.Data[sprintf("Jewel_%02d",j)])
+							Ch.Data[sprintf("Jewel_%02d",j)]=""
+							Party.Recalc(FMChar)
+						Else
+							static var buzz = Audio.Obtain("BUZZ")
+							buzz.play()
+							lnk.Party.MiniMsg("Inventory full! Remove something else first before you unequip this jewel!",255,0,0)
+						End
+					end
 				end
 				__white				
 			else

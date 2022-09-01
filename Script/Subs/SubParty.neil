@@ -89,9 +89,9 @@ Group SubParty
 								RPGChar[Tag].Stat["BUFF_"..st] = RPGChar[Tag].Stat["BUFF_"..st]
 								RPGChar[Tag].Stat["PERM_"..st] = RPGChar[Tag].Stat["PERM_"..st]
 								RPGChar[Tag].Stat["EQUI_"..st] = RPGChar[Tag].Stat["EQUI_"..st]
-								RPGChar[Tag].StatScript["END_"..st] = "SUM:"..Tag..".BASE_"..st..".BUFF_"..st..".PERM_"..st.."."
+								RPGChar[Tag].StatScript["END_"..st] = "SUM:"..Tag..".BASE_"..st..".BUFF_"..st..".PERM_"..st..".EQUI_"..st.."."
 								RPGChar[Tag].Stat.Level=level
-								print("\t= "..st.." for "..tag.." is "..ins[2])
+								print("\t= "..st.." for "..tag.." is "..ins[2])								
 							end
 						else
 							Lua.error("Unknown instruction! >> "..line)
