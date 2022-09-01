@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowConsole.neil
-// Version: 22.08.03
+// Version: 22.09.01
 // Copyright (C) 2020, 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -402,6 +402,24 @@ deftable icommandtable
 		end
 		CSay("Ashley is not party")
 	End
+	EQFIX = void(table c)
+		if #c==0
+			var a = {}
+			for i=1,4
+				if RPGParty[i]!=""
+					a += RPGParty[i]
+				end
+			end
+			icommandtable.EQFIX(a)
+			return
+		end
+		for ch in each(c)
+			CSayF("Fixing: "..ch)
+			for st in each(Any.Resistance.AllStat)
+				RPGChar[ch].StatScript["END_"..st] = "SUM:"..ch..".BASE_"..st..".BUFF_"..st..".PERM_"..st..".EQUI_"..st.."."
+			end
+		end
+	end
 end
 
 
