@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Any.uwn/Resistance.neil
-// Version: 22.05.14
+// Version: 22.09.01
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -49,6 +49,8 @@ Module
 	ReadOnly Var Elements = {"None","Flame","Wind","Water","Earth","Frost","Thunder","Light","Darkness"}
 	ReadOnly Var _Luck = {[0]="Worst",[1]="Bad",[2]="Normal",[3]="Good", [4]="Best"}
 	ReadOnly Var _EResName = {[0]="Fatal",[1]="Very weak",[2]="Weak",[3]="--",[4]="Resistant",[5]="Immune",[6]="Aborb"}
+	
+	
 	String Luck(L)
 		switch(Lua.type(L))
 			case "string"
@@ -91,4 +93,21 @@ Module
 			Return
 		end
 	End
+	
+	Get Var AllStat
+		Static Var _AS
+		if !_AS
+			CSayF("AllStat called for the first time, so I gotta generate this")
+			Var wtab = { [Status]="ZSR_", [Elements]="ZER_", [Stats]=""}
+			_AS={}
+			for tabel,prefix in pairs(wtab)
+				for s in each(tabel)
+					_AS += sprintf("%s%s",prefix,s)
+					CSayF("Added: [%02d] %s",#_AS,_AS[#_AS])
+				end
+			end
+		end
+		Return _AS
+	End
+
 End
