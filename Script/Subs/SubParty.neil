@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Subs/SubParty.neil
-// Version: 22.06.03
+// Version: 22.09.01
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -344,6 +344,23 @@ Group SubParty
 			End
 		End
 	End
+	
+	Void StatRecalc(string chtag)
+		Var Char=RPGChar[chtag]
+		for s in each(Any.Resistance.AllStat)
+			Char.Stat["EQUI_"..s] = 0
+		end
+		for i=1,90 div __skill
+			string sltag=sprintf("Jewel_%02d",i)
+			string ittag=Char.Data[sltag]
+			if ittag!=""
+				var it = Any.IAA[ittag]
+				for s in each(Any.Resistance.AllStat)
+					Char.Stat["EQUI_"..s] += it["Jewel_"..s]
+				end
+			end
+		end
+	end
 
 	Constructor
 		Stats = {}
