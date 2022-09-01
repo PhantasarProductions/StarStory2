@@ -129,7 +129,7 @@ Group SubParty
 						RPGChar[Ch].Stat["BUFF_"..st] = 0
 						RPGChar[Ch].Stat["PERM_"..st] = 0
 						RPGChar[Ch].Stat["EQUI_"..st] = 0					
-						RPGChar[Ch].StatScript["END_"..st] = "SUM:"..Ch..".BASE_"..st..".BUFF_"..st..".PERM_"..st.."."
+						RPGChar[Ch].StatScript["END_"..st] = "SUM:"..Ch..".BASE_"..st..".BUFF_"..st..".PERM_"..st..".EQUI_"..st.."."
 						If R=="Status" && RS!="None"
 							RPGChar[Ch].Stat["BASE_"..st] = Math.random(__skill,25*__skill)
 						End
@@ -139,7 +139,7 @@ Group SubParty
 				RPGChar[Ch].Stat["BUFF_Luck"] = 0
 				RPGChar[Ch].Stat["PERM_Luck"] = 0
 				RPGChar[Ch].Stat["EQUI_Luck"] = 0					
-				RPGChar[Ch].StatScript["END_Luck"] = "SUM:"..Ch..".BASE_Luck"..".BUFF_Luck"..".PERM_Luck".."."
+				RPGChar[Ch].StatScript["END_Luck"] = "SUM:"..Ch..".BASE_Luck"..".BUFF_Luck"..".PERM_Luck"..".EQUI_Luck."
 				Lnk.Party.LuckRoll(Ch)
 				For i=1,90 div __skill
 					RPGChar[ch].Data[sprintf("Jewel_%02d",i)]=""
@@ -347,17 +347,30 @@ Group SubParty
 	
 	Void StatRecalc(string chtag)
 		Var Char=RPGChar[chtag]
+		CSay("Stat recalc: "..chtag)
 		for s in each(Any.Resistance.AllStat)
 			Char.Stat["EQUI_"..s] = 0
+			CSayF("=> Resetting: %s"..s)
 		end
 		for i=1,90 div __skill
 			string sltag=sprintf("Jewel_%02d",i)
 			string ittag=Char.Data[sltag]
 			if ittag!=""
+				CSAYF("=> Checking slot #%02d: (%s) => %s",i,sltag,ittag) 
 				var it = Any.IAA[ittag]
 				for s in each(Any.Resistance.AllStat)
-					Char.Stat["EQUI_"..s] += it["Jewel_"..s]
+					if s!="AP"
+						Char.Stat["EQUI_"..s] += it["Jewel_"..s]
+						CSayF("=> EQUI_%s += %d  (total: %d)",s,  it["Jewel_"..s],Char.Stat["EQUI_"..s])
+					end
 				end
+				if it.Jewel_Rage>0 && chtag=="Ashley" 
+					Char.Stat["EQUI_AP"] += it.Jewel_Rage
+				end
+				if it.Jewel_Energy>0 && (chtag=="Yorno" || chtag=="Doctor") 
+					Char.Stat["EQUI_AP"] += it.Jewel_Energy
+				end
+				
 			end
 		end
 	end
