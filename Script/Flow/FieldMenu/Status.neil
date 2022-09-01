@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Status.neil
-// Version: 22.08.31
+// Version: 22.09.01
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -154,7 +154,7 @@ Module
 					if ML
 						If Any.IAA.Give(Ch.Data[sprintf("Jewel_%02d",j)])
 							Ch.Data[sprintf("Jewel_%02d",j)]=""
-							Party.Recalc(FMChar)
+							Lnk.Party.Recalc(FMChar)
 						Else
 							static var buzz = Audio.Obtain("BUZZ")
 							buzz.play()
