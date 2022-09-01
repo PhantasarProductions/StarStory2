@@ -99,7 +99,7 @@ Module
 		if !_AS
 			CSayF("AllStat called for the first time, so I gotta generate this")
 			Var wtab = { [Status]="ZSR_", [Elements]="ZER_", [Stats]=""}
-			_AS={}
+			_AS={"AP"}
 			for tabel,prefix in pairs(wtab)
 				for s in each(tabel)
 					_AS += sprintf("%s%s",prefix,s)
