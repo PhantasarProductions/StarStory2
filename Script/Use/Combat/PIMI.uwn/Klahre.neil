@@ -32,16 +32,16 @@
 // 
 // **********************************************
 // 
-// version: 22.08.20
+// version: 22.09.02
 // End License Information
 Var Ret = new LinkedList()
 
 
 group kit_uBox
 	const int X = 100
-	const int Y = 100
+	const int Y =  90
 	const int W = Screen.W - 200
-	const int H = Screen.H - 400
+	const int H = Screen.H - 380
 end
 
 Class __PIMI_ARMS Extends Stage
