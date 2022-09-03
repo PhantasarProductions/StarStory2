@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Execution.neil
-// Version: 22.08.20
+// Version: 22.09.03
 // Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -313,7 +313,7 @@ Class Stage_Execution Extends Stage
 			//End
 			// Exp Rate
 			ExpRate[Act.Executor.Tag]=ExpRate[Act.Executor.Tag]||EXPBaseRate
-			ExpRate[Act.Executor.Tag]+= 0.003 - (__skill/1000)
+			ExpRate[Act.Executor.Tag]+= (0.003 - (__skill/1000))
 			// Skill up
 			#if skillexp
 			For ski=1,5
