@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Any.uwn/IAA.neil
-// Version: 22.08.29
+// Version: 22.09.03
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -207,6 +207,7 @@ end
 
 Var GetIAA(String F)
 	string Rec="REC:"..F
+	Lua.assert(F!="","Tagless item request")
 	Var Data = GINIE.LoadNew("Data/IAA/"..F..".INI",Rec)
 	Var GIndex(s,String Key)
 		Key = Key:upper()
