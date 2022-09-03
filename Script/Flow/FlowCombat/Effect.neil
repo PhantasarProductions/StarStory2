@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Effect.neil
-// Version: 22.08.29
+// Version: 22.09.03
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -162,6 +162,10 @@ Group Effect
 		End
 		Int iAttack = iAct.Attack + Act.XPower
 		CSayF("Attack requested: %d + %d = %d",iAct.Attack,Act.XPower,iAttack)
+		If (Act.DoublePower)
+			iAttack += iAttack
+			CSayF("=> Attack power doubled so it's now: %d",iAttack)
+		End
 		Switch iAct.Attack_Type
 			Case "Absolute" 
 				Hurt(Target,iAttack,iAct.Attack_Element)
