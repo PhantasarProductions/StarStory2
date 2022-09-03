@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Abilities.uwn/Use/Gadget.neil
-// Version: 22.08.20
+// Version: 22.09.03
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
 // ===========================
@@ -191,6 +191,15 @@ Class Gadget_Class
 		End
 	End
 	
+	Void QC(Bool Condition)
+		if Condition
+			__White
+		Else
+			int c=math.random(80,90)
+			graphics.color(c,c,c)
+		end
+	End
+	
 	Void ShowItem(ubox,Situation)
 		Int BX = ubox.x + 10
 		Int BY = ubox.y + 10
@@ -208,16 +217,42 @@ Class Gadget_Class
 		__Yellow
 		Fnt.Text(""..SelectedItem.EP_Cost,EX,BY,1)
 		If SelectedItem.AllowSpread
-			GPU_Pic[sprintf("Spread_%s",SelectedItem.Spread)].Draw(BX,BY+60)
+			Var Pic = GPU_Pic[sprintf("Spread_%s",SelectedItem.Spread)]
+			int ix = BX
+			int iy = BY+60
+			if MX>ix && MY>iy && ML && MX<ix+Pic.Width && MY<iy+Pic.Height && SelectedItem.Spread
+				SelectedItem.SelectedSpread=!SelectedItem.SelectedSpread
+				Events.Flush()
+			End
+			QC(SelectedItem.SelectedSpread)
+			Pic.Draw(BX,BY+60)
 		End
 		If SelectedItem.AllowDouble
-			GPU_Pic[sprintf("2x Power_%s",SelectedItem.Double)].Draw(BX+(ubox.w div 2),BY+60)
+			var Pic = GPU_Pic[sprintf("2x Power_%s",SelectedItem.Double)]
+			int ix = BX+(ubox.w div 2)
+			int iy = BY+60
+			if MX>ix && MY>iy && ML && MX<ix+Pic.Width && MY<iy+Pic.Height && SelectedItem.Double
+				SelectedItem.SelectedDouble=!SelectedItem.SelectedDouble
+				Events.Flush()
+			End
+			QC(SelectedItem.SelectedDouble)
+			Pic.Draw(ix,iy)
 		End
 		For i=1,SelectedItem.AllowXCards
 			int i2 = i-1
-			GPU_Pic[sprintf("+%02d Cards_%s",i,SelectedItem.XCards>=i)].Draw(BX+((i2 div 15)*(BW div 2)),BY+120+((i2 % 15)*30))
+			int ix = BX+((i2 div 15)*(BW div 2))
+			int iy = BY+120+((i2 % 15)*30)
+			var Pic = GPU_Pic[sprintf("+%02d Cards_%s",i,SelectedItem.XCards>=i)]
+			if MX>ix && MY>iy && ML && MX<ix+Pic.Width && MY<iy+Pic.Height && SelectedItem.XCards>=i
+				SelectedItem.SelectedXCards = i
+				//S_CRD = i
+				Events.Flush()
+			End
+			QC(SelectedItem.SelectedXCards==i)
+			Pic.Draw(ix,iy)
 		End
 		// Okay
+		__White
 		Int CanX = BX+10
 		if prefixed(Situation:upper(),"COMBAT")
 			Static Var Okay = GPU_Pic["Okay_True"]
@@ -229,11 +264,13 @@ Class Gadget_Class
 				CSay("Click on okay button!")
 				Static Var CUG 
 				CUG = CUG || NeilUse("Script/Use/Abilities.uwn/Use/GadgetUseCombat")
-				CUG(Tag,SelectedItem,S_DBL,S_SPR,S_CRD)
+				//CUG(Tag,SelectedItem,S_DBL,S_SPR,S_CRD)
+				CUG(Tag,SelectedItem,SelectedItem.SelectedDouble,SelectedItem.SelectedSpread,SelectedItem.SelectedXCards)
 				SelectedItem=nil
 		End
 
 		End
+		__White
 		// Cancel
 		Static Var Cancel = GPU_Pic["Cancel_True"]
 		Int CanY = EY - Cancel.Height
