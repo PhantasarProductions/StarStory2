@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.08.12
+// version: 22.09.03
 // End License Information
 
 // !!COMBAT ONLY!!
@@ -55,7 +55,7 @@ Void _Ret(string ch,abl,bool DBL, Bool SPREAD, int XCard)
 		end
 	end
 	CSayF("Gadget %s => %d EP",abl.FullTag,APCost)
-	var act = new Action(abl.fulltag,ch,{},{ ["DoublePower"]=DBL, ["Spread"]=Spread, ["DeductAP"]=true, ["APCost"]=APCost })
+	var act = new Action(abl.fulltag,ch,{},{ ["DoublePower"]=DBL, ["Spread"]=Spread, ["DeductAP"]=true, ["APCost"]=APCost,["XCard"]=XCard })
 	PITAR.ComeToMe(act,FlowCombat.Cards.Lijst[1])
 End
 
