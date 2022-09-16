@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 22.08.28
+; version: 22.09.04
 ; End License Information
 
 Include Basis.aqs
@@ -72,3 +72,17 @@ Chunk ZA_SecretNotice
 	call score,200
 	:einde
 	exit
+	
+Chunk ZA_PreBoss
+	Chk &Complete_010_LetsGoBrandon_Tunnel
+	jmptrue Einde
+	call CSay,"Not yet completed, so let's remove the barrier!"
+	call kill,"Complete"
+	exit
+	:Einde
+	call CSay,"Complete, so leave the barrier be!"
+	exit
+	
+Chunk ZA_CloseToComplete
+	Call SetObj,"SEIN_Einde","TEXTURE","GFX/Textures/Medals/Sein/Geel.png"
+	EXIT

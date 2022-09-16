@@ -44,7 +44,7 @@ Bool _TO(Act,TarTag,Exe)
 		End
 	End
 	For idx in Each(T)
-		FlowCombat.Cards.Replace(idx,Exe.Tag)			
+		FlowCombat.Cards.Replace(idx,Exe)			
 	End
 	Int total = #T
 	Tar.Char.Points.EXP.Have+=total

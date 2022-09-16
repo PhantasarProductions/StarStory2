@@ -242,6 +242,15 @@ Group Effect
 		End
 	End
 		
+	Get Bool TarXCard
+		if iAct.ADDCARD_Char_Number<=0
+			Return False
+		End
+		for i=1,iAct.ADDCARD_Char_Number
+			FlowCombat.Cards.Add(i*iAct.ADDCARD_Char_Interval,TarTag)
+		End
+		Return True
+	End
 	
 	Bool Run(_Act,string _TarTag)
 		Act      = _Act
@@ -251,6 +260,7 @@ Group Effect
 			Ret = Cure || Ret // Cure 1st
 			Ret = Attack || Ret
 			Ret = XEXP || Ret
+			Ret = TarXCard || Ret
 			If iAct.Effect_Script!=""
 				ret = FX[iAct.Effect_Script](_Act,_TarTag,iAct.Effect_Param) || Ret
 			End
