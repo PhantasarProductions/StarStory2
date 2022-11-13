@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 22.09.04
+; version: 22.11.13
 ; End License Information
 
 Include Basis.aqs
@@ -95,4 +95,3 @@ Chunk ZA_Reynard
 	Done TRANS_ACTIVATED_011_Luyten_#001_TRANS_GENERAL__XXXV
 	Done SCOTTYUNLOCKED_011_LUYTEN
 	Exit
-	
