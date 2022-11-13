@@ -86,3 +86,13 @@ Chunk ZA_PreBoss
 Chunk ZA_CloseToComplete
 	Call SetObj,"SEIN_Einde","TEXTURE","GFX/Textures/Medals/Sein/Geel.png"
 	EXIT
+	
+Chunk ZA_Reynard
+	Done Complete_010_LetsGoBrandon_Tunnel
+	call pop,"Rey","North"
+	call MapText,"REYNARD"
+	call GoToMap,"000_BlackBox","BASE","Q_Start"	
+	Done TRANS_ACTIVATED_011_Luyten_#001_TRANS_GENERAL__XXXV
+	Done SCOTTYUNLOCKED_011_LUYTEN
+	Exit
+	
