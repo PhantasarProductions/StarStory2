@@ -32,8 +32,11 @@
 ; 
 ; **********************************************
 ; 
-; version: 22.11.13
+; version: 22.11.17
 ; End License Information
-;Placeholder
-chunk Nothing
+
+Include Basis.aqs
+
+chunk Load
+	call CSay,"All hail Entgen Luyten. The witch of Limbricht!" 
 	Exit
