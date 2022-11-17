@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.05.28
+// version: 22.11.17
 // End License Information
 #use "Script/Use/Anyway"
 #use "Libs/LinkedList"
@@ -145,7 +145,11 @@ Global Void Apollo_Flow()
 						__SkyBlue
 						CSayF("Lnk.Map.GoToMap(%s, %s, %s)",Loc.Kthura,Loc.Layer,Loc.Obj)
 						Lnk.Map.GoToMap(Loc.Kthura,Loc.Layer,Loc.Obj)
-						Flow.Current="FIELD"						
+						Flow.Current="FIELD"			
+						For Tag in Each{"Klahre","Yorno","Doctor","Ashley"}
+							Lnk.Party.LuckRoll(Tag)
+							CSayF("New luck base value %s => %d",Tag,RPGChar[Tag].Stat["BASE_Luck"])
+						End
 					End
 				End
 				Fnt.Text(Loc.Name,CX,CY)
