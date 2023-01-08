@@ -1,0 +1,108 @@
+// License Information:
+// src/Tricky Script/Script/Use/Combat/Arena/Flowers.neil
+// Arena - Flowers
+// version: 23.01.08
+// Copyright (C) 2023 Jeroen P. Broks
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// End License Information
+Var Tex
+Int JunkNum
+
+Void ATex(string k,string v)
+	Tex = Tex || {}
+	Tex[k:upper()] = v
+	CSay("Arena> Registered texture "..v.." at tag: "..k)
+End
+
+Var LoadTex(string Tag)
+	Tag = Tag:upper()
+	Return Image.LoadNew(Tex[Tag],"ARENA_FOREST_"..Tag)
+End
+
+Init
+	//ATex("METAL","GFX/TextureS/Metal/metal027.png")
+	ATex("FLOOR","GFX/Textures/Forest/Grass1.png")
+	//For i,a in ipairs(JCR6.GetDir("GFX/TEXTURES/JUNK/"))
+	//	ATex("JUNK_"..i,a)
+	//	JunkNum = math.max(i,JunkNum)
+	//End
+	ATex("FLOWER1","GFX/Textures/Moving Flowers/Animated Blue.jpbf")
+	ATex("FLOWER2","GFX/Textures/Moving Flowers/Animated Purple.jpbf")
+	ATex("FLOWER3","GFX/Textures/Moving Flowers/Animated Red.jpbf")
+	CSayF("Flower arena loaded!")
+End
+
+
+Module
+
+	Get Int HH 
+		Return Screen.Height div 2
+	End
+	
+	Const Int Frames = 180
+	Var Flowers
+	Var TexMetal
+	Var TexFlower = {}
+	Var TexFloor 
+	
+	Void Load()
+		//TexMetal = LoadTex("METAL")
+		TexFloor = LoadTex("FLOOR")
+		//TexJunk = {}
+		Flowers = {}
+		for i=1,3
+			TexFlower[i] = LoadTex("FLOWER"..i)
+		end
+		//for i=1,JunkNum
+		//	TexJunk[i]=LoadTex("TREE_"..i)
+		//	TexJunk[i].HotBottomCenter()
+		//End
+	End
+	
+	Void UnLoad()
+		TexMetal = nil
+		TexFloor = nil
+		//TexJunk = nil
+		TexFlower = nil
+		//Image.KillByPrefix("ARENA_TREES_")
+	End
+	
+	Void NewBattle()
+		//Int N = math.random(20,100)
+		Flowers = {}
+		For i=-80,Screen.W,3
+			Flowers += {["Tex"]=math.random(1,3), ["X"]=i, ["Y"]=math.random(HH-200,HH-100), ["Frame"]=math.random(0,179), ["Spd"]=math.random(1,10), ["Tick"]=0, ["Dir"]=math.random(-1,1)}
+		End
+		For F in Each(Flowers)
+			While F.Dir 
+				F.Dir = math.random(-1,1)
+			End
+		End
+	End
+	
+	Void Draw()
+		//TexMetal.Tile(0, 0,Screen.W,HH)
+		TexFloor.Tile(0,HH,Screen.W,HH-90)
+		For J in Each(Flowers)
+			//J.Tex.Draw(J.X,J.Y)
+			TexFlower[J.Tex].Draw(J.X,J.Y,J.Frame)
+			J.Tick = (J.Tick + 1) % J.Spd
+			if J.Tick==0
+				J.Frame = (J.Frame+J.Dir) % 180
+			end			
+		End
+	End
+	
+End
