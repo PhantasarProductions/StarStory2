@@ -49,7 +49,7 @@ End
 Module
 
 	Get Int HH 
-		Return Screen.Height div 2
+		Return Screen.Height div 3
 	End
 	
 	Const Int Frames = 180
@@ -63,8 +63,14 @@ Module
 		TexFloor = LoadTex("FLOOR")
 		//TexJunk = {}
 		Flowers = {}
+		int st = os.time()
+		int lf = 1
 		for i=1,3
-			TexFlower[i] = LoadTex("FLOWER"..i)
+			if os.time()-st<5
+				lf = i
+			end
+			TexFlower[i] = LoadTex("FLOWER"..lf)
+				
 		end
 		//for i=1,JunkNum
 		//	TexJunk[i]=LoadTex("TREE_"..i)
@@ -81,6 +87,7 @@ Module
 	End
 	
 	Void NewBattle()
+		Load()
 		//Int N = math.random(20,100)
 		Flowers = {}
 		For i=-80,Screen.W,3
@@ -95,7 +102,7 @@ Module
 	
 	Void Draw()
 		//TexMetal.Tile(0, 0,Screen.W,HH)
-		TexFloor.Tile(0,HH,Screen.W,HH-90)
+		TexFloor.Tile(0,HH,Screen.W,Screen.H-HH)
 		For J in Each(Flowers)
 			//J.Tex.Draw(J.X,J.Y)
 			TexFlower[J.Tex].Draw(J.X,J.Y,J.Frame)
