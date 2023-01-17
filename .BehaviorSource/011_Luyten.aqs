@@ -40,3 +40,12 @@ Include Basis.aqs
 chunk Load
 	call CSay,"All hail Entgen Luyten. The witch of Limbricht!" 
 	Exit
+	
+	
+chunk ZA_Einde
+	Done Complete_011_Luyten
+	JmpTrue Ketting
+	call Score,6000
+	:Ketting
+	call GoToMap,"012_SecretSafe","#000","Start"
+	Exit
