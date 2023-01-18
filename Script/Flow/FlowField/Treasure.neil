@@ -53,6 +53,7 @@ Module
 	End
 	
 	Void Load(string MapBundle)
+		CSayF("Loading trasure data for %s",MapBundle)
 		TreasureData = GINIE.Load("Kthura/"..MapBundle.."/Treasures","TREASURES")
 		Treasures = {}
 		For tr in TreasureData.ListEach("Main","List")
