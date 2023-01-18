@@ -95,3 +95,14 @@ Chunk ZA_Reynard
 	Done TRANS_ACTIVATED_011_Luyten_#001_TRANS_GENERAL__XXXV
 	Done SCOTTYUNLOCKED_011_LUYTEN
 	Exit
+	
+Chunk ZA_SecretDungeon
+	call miniwrt,"Ashley: ",255,255,0
+	call minimsg,"Look at that! A secret vault!",0,180,255
+	call minimsg,"I wonder what's stored in there",0,180,255
+	Done DiscoveredVault
+	jmptrue SkipEXP
+	call score,15000,"Ashley"
+	:SkipEXP
+	Call GoToMap,"902_Vault","#001","Start"
+	Exit
