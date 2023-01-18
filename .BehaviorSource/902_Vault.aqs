@@ -1,0 +1,5 @@
+Include Basis.aqs 
+
+Chunk ZA_Leave
+	Call GoToMap,"010_LetsGoBrandon_Tunnel","002","From_Secret" 
+	Exit
