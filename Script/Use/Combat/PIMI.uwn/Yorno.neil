@@ -2,7 +2,7 @@
 // **********************************************
 // 
 // src/Tricky Script/Script/Use/Combat/PIMI.uwn/Yorno.neil
-// (c) Jeroen Broks, 2022, All Rights Reserved.
+// (c) Jeroen Broks, 2022, 2023, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -32,9 +32,17 @@
 // 
 // **********************************************
 // 
-// version: 22.08.10
+// version: 23.01.23
 // End License Information
 Var Ret = new TLinkedList()
+
+group Yor_uBox
+	const int X = 100
+	const int Y =  90
+	const int W = Screen.W - 200
+	const int H = Screen.H - 380
+end
+
 
 Class __PIMI_YornoGadget Extends Stage
 	Static var Card
@@ -47,11 +55,11 @@ Class __PIMI_YornoGadget Extends Stage
 	void Draw()
 		__Black
 		Graphics.Alpha(100)
-		Graphics.Rect(kit_uBox.x,kit_uBox.y,kit_uBox.w,kit_uBox.h)
+		Graphics.Rect(Yor_uBox.x,Yor_uBox.y,Yor_uBox.w,Yor_uBox.h)
 		Graphics.Alpha(255)
-		Abl.Yorno.View(kit_uBox,"Combat_UserMenu")
+		Abl.Yorno.View(Yor_uBox,"Combat_UserMenu")
 		Any.Mouse.Draw()
-		if M.ML && (M.MX<kit_uBox.x || M.MY<kit_ubox.y || M.MX>kit_ubox.x+kit_ubox.w || M.MY>kit_ubox.y+kit_ubox.y)
+		if M.ML && (M.MX<Yor_uBox.x || M.MY<Yor_uBox.y || M.MX>Yor_uBox.x+Yor_uBox.w || M.MY>Yor_uBox.y+Yor_uBox.y)
 			Stage.Current = nil
 		end
 	end

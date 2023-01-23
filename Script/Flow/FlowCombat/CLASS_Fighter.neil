@@ -2,7 +2,7 @@
 // **********************************************
 // 
 // src/Tricky Script/Script/Flow/FlowCombat/CLASS_Fighter.neil
-// (c) Jeroen Broks, 2022, All Rights Reserved.
+// (c) Jeroen Broks, 2022, 2023, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.08.29
+// version: 23.01.23
 // End License Information
 
 #use "Libs/Fittext"
@@ -64,9 +64,9 @@ Class Fighter
 		
 		void S(SF,string K,V)
 			Bool Value = V!=nil && v!=false
-			Bool Was   = TrueStatusChanges[K]!=nil && v!=false
+			Bool Was   = TrueStatusChanges[K]!=nil && TrueStatusChanges[K]!=false
 			K = K:upper()
-			TrueStatusChanges[K]=TrueStatusChanges[K] || True
+			TrueStatusChanges[K]=Value//TrueStatusChanges[K] || True
 			If Value!=Was
 				StChange[K][Func[Value]](Self,K)
 			End

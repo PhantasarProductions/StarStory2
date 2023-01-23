@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Effect.neil
-// Version: 22.11.13
-// Copyright (C) 2022 Jeroen Petrus Broks
+// Version: 23.01.23
+// Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -150,8 +150,8 @@ Group Effect
 		If !iAct.Check_Accuracy
 			Return True
 		End
-		Int Acc = XRoll(Executor.EndStats.Accuracy div 2,math.ceil(Executor.EndStats.Accuracy * 1.25))
-		Int Eva = XRoll(  Target.EndStats.Evasion  div 4,math.ceil(  Target.EndStats.Evasion  * 1.15))
+		Int Acc = XRoll(Executor.EndStats.Accuracy div 2,math.ceil(Executor.EndStats.Accuracy * 9.25))
+		Int Eva = XRoll(  Target.EndStats.Evasion  div 4,math.ceil(  Target.EndStats.Evasion  * 0.75))
 		CSayF("Accuracy check Acc:%d; Eva:%d  Result: %s",Acc,Eva,Acc>Eva)
 		Return Acc>Eva
 	End

@@ -1,7 +1,7 @@
 // License Information:
-// src/Tricky Script/Script/Use/Combat/StatusChanges.uwn/Disease.neil
+// src/Tricky Script/Script/Use/Combat/Arena/Facility.neil
 // Version: 23.01.23
-// Copyright (C) 2022, 2023 Jeroen Petrus Broks
+// Copyright (C) 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -34,33 +34,43 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
-Module
-	Const String Resistance = "Bio"
+
+#use "libs/linkedlist"
+#use "libs/xmath"
+
+Module Class
+	Const String FloorFile = "GFX/Textures/Facility/Floor.png"
+	Const String WallFile  = "GFX/Textures/Facility/North.png" 
 	
-	Delegate MW = Lnk.Party.MiniWrt
-	Delegate MM = Lnk.Party.MiniMsg
+	Const Var NewBattle = NIKS
 	
-	Var Max
 	
-	Void Draw(Chr)
-		Graphics.Color(255,180,0)
-		Max[Chr.Tag] = math.min(Max[Chr.Tag] || Chr.HP,Max[Chr.Tag])
-		Chr.HP = math.min(Chr.HP,Max[Chr.Tag])
-		if Chr.HP<=0
-			CSayF("HP Zero raeched for character '%s'. Disease must now be false!",Chr.Tag)
-			Chr.StatusChanges.Disease = False
+	
+	Constructor
+	End
+	
+	Static Var Floor
+	Static Var Wall
+	
+	
+	Static Void Load()
+		Floor = Image.LoadNew(FloorFile,"Arena_Facility_Floor")
+		Wall  = Image.LoadNew(WallFile, "Arena_Facility_Wall")
+	End
+	
+	Static Void UnLoad()
+		Floor = nil
+		wall  = nil
+		Image.KillByPrefix("Arena_Facility")
+	End
+		
+	Static Void Draw()	
+		static int HH=math.floor(Screen.H * 0.30)
+		__White
+		Floor.Tile(0,HH,Screen.W,Screen.H-HH)
+		For i = 0,Screen.W,96
+			Wall.Stretch(i,HH-180,96,192)
 		End
 	End
-	
-	Void Cause(Chr)
-		Max = Max || {}
-		Max[Chr.Tag] = Chr.HP
-		CSayF("Max HP for %s now set to %d",Chr.Tag,Max[Chr.Tag])
-	End
-	
-	Const Delegate Cure = NIKS
-	Const Delegate AltAI = NIKS	
-	Const Delegate SkipTurn = NIKS	
-	Const Delegate PreTurn= NIKS
 	
 End

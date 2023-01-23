@@ -1,0 +1,66 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/Use/Combat/StatScript.uwn/Android.neil
+// (c) Jeroen Broks, 2023, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 23.01.23
+// End License Information
+Void _Android(CHAR)
+	//Var NFS = CHAR.Char.Stats
+	For s in Each(Any.Resistance.Stats)
+		string formscript = "SUM:"..CHAR.Tag
+		for i1,v1 in ipairs{ "BASE_", "POWERUP_", "BUFF_"}
+			if S=="HP" && v1=="BASE_"
+				Char.Char.Stat.BASE_HP=RPGChar.Ashley.Stat.BASE_HP*(__Skill*5)
+				CSayF("HP set to %d",Char.Char.Stat.BASE_HP)
+			elseif S=="Evasion" && v1=="BASE_"
+				Char.char.Stat.Base_Evasion = 5 * __skill
+				CSayF("Evansion is %d",Char.char.Stat.Base_Evasion) 
+			elseif v1=="BASE_" || v1=="BUFF_" 
+				CHAR.Char.Link_Stat("Ashley",v1..s)		
+				CSayF("Linked %s%s to Ashley's stat",v1,s)
+			else
+				Char.Char.Stat[v1..s] = 0
+				CSayF("Set %s%s to zero",v1,s)
+			End
+			formscript += "."..v1..s
+		End
+		CSayF("Scripted END_%s -> %s",s,formscript)
+		RPGChar[CHAR.Tag].StatScript["END_"..s] = formscript
+		CSayF("Statistic has become: %d",Char.Char.Stat["END_"..s])
+	End
+	CHAR.Char.Link_Stat("Ashley","Level")
+	CHAR.Char.Points.HP.MaxCopy="END_HP" 
+	CHAR.Char.Points.HP.Have = CHAR.Char.Points.HP.Maximum 
+End
+
+Return _Android

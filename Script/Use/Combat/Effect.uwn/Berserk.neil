@@ -1,8 +1,8 @@
 // License Information:
 // **********************************************
 // 
-// src/Tricky Script/Script/Use/Abilities.uwn/Yorno.neil
-// (c) Jeroen Broks, 2022, 2023, All Rights Reserved.
+// src/Tricky Script/Script/Use/Combat/Effect.uwn/Berserk.neil
+// (c) Jeroen Broks, 2023, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -34,32 +34,25 @@
 // 
 // version: 23.01.23
 // End License Information
-
-#use "Script/Use/Abilities.uwn/Use/Gadget"
-
-Table YAbl 
-//DefTable YAbl
-Init
-	YAbl = {}
-	// Charge
-	YAbl.ACharge = True
-	YAbl.ZTransfer = True
-	
-	// Actual stuff
-	YAbl.Flame = True
-	YAbl.Spark = False
-	YAbl.Light = False
-	YAbl.FreezerRay = False
+Bool _PA(Act,TarTag,Arg)
+        //String MyArg = Act.EffectScript_Arg
+        Var Tar = Fighter.ByTag[TarTag]
+        If TarTag=="Ashley"
+        	While Tar.Points.HP.Have>1 && Tar.Points.AP.Have<Tar.Points.AP.Maximum
+        		Tar.Points.HP.Have --
+        		Switch __Skill
+        			case 1
+        				Tar.Points.AP.Maximum += math.random(10,100)
+        			case 2
+        				Tar.Points.AP.Maximum += math.random(1,25)
+        			case 3
+        				Tar.Points.AP.Maximum += math.random(0,2)
+        			default
+        				Lua.error("Unknown berserk skill!") 
+        		End
+        	End        	
+        End
+        Return True
 End
 
-Module
-	ReadOnly Var Stuff 
-
-	Void View(ubox,situation)
-		Stuff.Show(ubox,situation)
-	End
-	
-	Constructor
-		Stuff = new Gadget("Yorno",YAbl)
-	End
-End
+Return _PA
