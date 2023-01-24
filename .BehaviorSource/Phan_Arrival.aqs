@@ -47,4 +47,7 @@ Chunk ZA_Return
 	
 Chunk ZA_Arrive
 	Done Aankomst_op_Phantasar
+	JmpTrue IgnoreText
 	call MapText,"AANKOMST"
+	:IgnoreText
+	exit
