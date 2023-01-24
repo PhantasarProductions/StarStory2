@@ -40,12 +40,19 @@ Include Basis.aqs
 Include Puzzle_Sudoku.aqs
 
 Chunk ZA_Phantasar
-	call crash,"Phantasar areas not yet included!"
+	Done DISCOVERED_PHANTASAR
+	JMPTRUE JustGoToPhantasar
+	call Score,1234567890
+	:JustGoToPhantasar
+	;call crash,"Phantasar areas not yet included!"
+	call GoToMap,"PHAN_Arrival","ARRIVAL","Start"
+	exit
 	
 	
 Chunk ZA_Slums
 	call MiniMsg,"Entering the slums"
 	call GoToMap,"002_Slums","#006","Einde"
+	exit
 	
 Chunk ZA_Green
 	Done Tutorial_Muerte_Green
