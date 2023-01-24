@@ -34,7 +34,9 @@
 ; 
 ; version: 23.01.24
 ; End License Information
-Include Basis.aqs
+
+Include Phantasar.aqs
+
 
 Chunk Load
 	call CSay,"Welcome to Phantasar"
