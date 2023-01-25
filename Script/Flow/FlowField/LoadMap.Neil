@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/LoadMap.Neil
-// Version: 22.06.05
-// Copyright (C) 2021, 2022 Jeroen Petrus Broks
+// Version: 23.01.25
+// Copyright (C) 2021, 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -87,7 +87,7 @@ Void Remap()
 	FlowField.ZoneAction.HideSecret("*")
 End
 
-Init
+Init	
 	LoadActions += "Map"
 	LoadActions += "Kill"
 	LoadActions += "Layers"
@@ -114,6 +114,7 @@ End
 Void RetLoadMap(string mapbundle)
 	Progress.Create("LOADMAP",#LoadActions)
 	CSayF("Loading map '%s'", mapbundle)
+	gv.gbool.OnPhantasar = Prefixed(mapbundle:upper(),"PHAN_")
 	For i,f in iPairs(LoadActions)
 		CSayF("= Loadmap step %d/%d: %s",i,#LoadActions,Lua.tostring(f))
 		Progress.LOADMAP = i
@@ -129,9 +130,10 @@ Void RetLoadMap(string mapbundle)
 			default
 				Lua.error("Unknown action type!")
 		End		
-	End
+	End	
 	FlowField.Map.Layer = FlowField.Map.KthuraMap.Layers[1]
 	Progress.Kill("LOADMAP")
+	CSayF("Combat monsters dropping shilders in stead of aurinas is: %s",Lua.tostring(gv.gbool.OnPhantasar))
 End
 
 Return RetLoadMap
