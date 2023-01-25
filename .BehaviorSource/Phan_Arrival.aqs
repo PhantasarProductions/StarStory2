@@ -37,7 +37,6 @@
 
 Include Phantasar.aqs
 
-
 Chunk Load
 	call CSay,"Welcome to Phantasar"
 	exit
