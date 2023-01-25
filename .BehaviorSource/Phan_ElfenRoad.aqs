@@ -1,0 +1,35 @@
+
+Include Phantasar.aqs
+
+Chunk NPC_Asklepia
+	call PhanText,"ASKLEPIA"
+	call PRecover
+	exit
+	
+Chunk NPC_Scyndi
+	chk &Scyndi
+	jmptrue SpokenBefore
+	call SLead,Scyndi
+	exit
+	:SpokenBefore
+	call PhanText,"SCYNDI"
+	exit
+	
+Chunk Scyndi_Yorno
+	call MapText,"SCYNDI_YORNO"
+	exit
+	
+Chunk Scyndi_Doctor
+	call MapText,"SCYNDI_DOCTOR"
+	exit
+	
+Chunk Scyndi_Ashley
+	call MapText,"SCYNDI_ASHLEY"
+	exit
+	
+Chunk Scyndi_Klahre
+	Done Scyndi
+	Call MapText,"SCYNDI_WELCOME"
+	call PKill,"Scyndi_Barrier"
+	call Score,3000,"Klahre"
+	exit
