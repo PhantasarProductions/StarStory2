@@ -1,0 +1,128 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/Flow/FlowPhantasarWorld.neil
+// (c) Jeroen Broks, 2023, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 23.01.25
+// End License Information
+#use "Script/Use/Anyway"
+#use "Libs/LinkedList" 
+
+ReadOnly Var SFont = ImageFont.Obtain("NEWTEXT")
+global readonly var Dev = Any.Dev
+
+Class Destination
+	Static Var Lijst = new TLinkedList()
+	
+	ReadOnly String ID
+	ReadOnly String Caption
+	ReadOnly String GoMap
+	ReadOnly String GoLayer
+	ReadOnly String GoExit
+	
+	ReadOnly Bool Always
+	
+	Get Bool Available
+		Return Always || gv.gbool["PhantasarUnlocked_"..ID]
+	End
+	
+	Set Bool Available
+		Assert(!Always,"Destination "..ID.." should always be available")
+		gv.gbool["PhantasarUnlocked_"..ID] = value
+	End
+	
+	Constructor(String _ID,String _CP,String _GM, String _GL, String _GE, _AA)
+		ID      = _ID
+		Caption = _CP
+		GoMap   = _GM
+		GoLayer = _GL
+		GoExit  = _GE
+		Always  = _AA==true
+		Lijst.AddLast(Self)
+		CSay("Phantasar World Map Item: ".._ID)
+	End
+End
+	
+Global Void ComeToMe()
+	CSay("Going to the Phantasar World Map")
+	Flow.Current="FLOW_PHANTASARWORLD"
+	Lua.Neil.Globals.Music.Play("Music/Hub/The Start To Fantasy.ogg")
+End
+	
+Init
+	Var A
+	A = new Destination("GATE","Gateway","PHAN_ARRIVAL","ARRIVAL","FromPhantasar",true)
+	A = new Destination("ELFR","Elfen Road","PHAN_ELFENROAD","#001","Start",true)
+	A = new Destination("CITY","Iskarderiu","PHAN_ISKARDERIU","OUTSIDE","Start")
+	A = new Destination("ZUID","Southern Forest","PHAN_SOUTHERN","#001","Start")
+	A = new Destination("DOOM","The Temple Of Doom","PHAN_DOOM","#001","Start")
+	A = new Destination("MINE","The Airom Mines","PHAN_AIROM","MINE","Start")
+	CSay("Phantasar World Map Initiated")
+End
+
+Global ReadOnly Delegate PRGL = NIKS
+
+Global Void PhanText(string Tag)
+	If gv.gbool.MetRosetta
+		Lnk.BoxText.Map(Tag)
+	else
+		Lnk.BoxText.Map(Tag.."_PHAN")
+	End
+End
+
+Global Void Apollo_Flow()
+	__White
+	Dev.ToConsole()
+	int i=0
+	for v in Destination.Lijst.EACH
+		i++
+		int x=i*2
+		int y=i*30
+		if v.Available
+			__White
+			If Events.MouseY()>y && Events.MouseY()<y+30
+				__SkyBlue
+				if Events.MouseHitLeft()
+					Lnk.Map.GoToMap(v.GoMap,v.GoLayer,v.GoExit)
+					Flow.Current="FLOW_FIELD"
+				end
+			End
+			SFont.Text(v.Caption,x,y)
+		else
+			Graphics.Color(100,100,100)
+			SFont.Text("???",x,y)
+		End
+	end
+	
+	Lnk.Party.Boxes()	
+	Any.Mouse.Draw()
+End
