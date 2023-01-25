@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Foe.neil
-// Version: 23.01.23
+// Version: 23.01.25
 // Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
@@ -131,7 +131,7 @@ Class Foe Extends Fighter
 				Case 1
 					if math.random(0,lnk.party.level)<self.Level
 						// TODO: Phantasar -> Shilders
-						if false
+						if gv.gbool.OnPhantasar
 							if any.Aurina.RateShilders==1
 								CharMsg(Self.CharTag,"Dropped shilder",0,180,255)
 							Else
