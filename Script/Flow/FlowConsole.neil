@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowConsole.neil
-// Version: 22.09.01
-// Copyright (C) 2020, 2021, 2022 Jeroen Petrus Broks
+// Version: 23.01.25
+// Copyright (C) 2020, 2021, 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -329,6 +329,9 @@ deftable icommandtable
 		gv.vbool["CHEAT.JACK"] = !gv.vbool["CHEAT.JACK"]
 		CSayF("Jack the Ripper: %s",Lua.tostring(gv.vbool["CHEAT.JACK"]))
 	end
+	PHANTA = void()
+		CSayF("Combat monsters dropping shilders in stead of aurinas is: %s",Lua.tostring(gv.gbool.OnPhantasar))
+	end
 	VARS = ShowGV
 	IDDQD = ToggleGod
 	GOD = ToggleGod
@@ -340,11 +343,6 @@ deftable icommandtable
 				CSay(l)
 			end
 		end
-	end
-	NIM = void()
-		Static Delegate SNIM
-		SNIM = SNIM || NeilUse("Script/Use/Misc/GoToNIM")
-		SNIM("DEBUG")
 	end
 	WHIZZY = void()
 		//gv.gBool["CHEAT.REGEN"]=!gv.gBool["CHEAT.REGEN"]
