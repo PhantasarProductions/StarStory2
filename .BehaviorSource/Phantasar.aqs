@@ -40,7 +40,7 @@ SChunk Go_PhantasarWorld,FLOW_PHANTASARWORLD,ComeToMe
 sChunk PhanText,FLOW_PHANTASARWORLD,PhanText
 
 Chunk Load
-	done OnPhantasar
+	;done OnPhantasar
 	call LoadNewState,"FLOW_PHANTASARWORLD","Script/Flow/FlowPhantasarWorld.neil"
 
 		
