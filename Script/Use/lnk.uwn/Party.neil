@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Use/lnk.uwn/Party.neil
-// Version: 22.09.01
-// Copyright (C) 2022 Jeroen Petrus Broks
+// Version: 23.01.25
+// Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -143,6 +143,21 @@ Module
 	
 	Void StatRecalc(string ch)
 		State.Call("SUB_PARTY","SubParty.StatRecalc",sprintf("\"%s\"",ch))
+	End
+	
+	Void Recover(string ch="")
+		if Ch==""
+			for i=1,4
+				if RPGParty[i] && RPGParty[i]!=""
+					Recover(RPGParty[i])
+				end
+			end
+			return
+		end
+		RPGChar[ch].Points.HP.Have = RPGChar[ch].Points.HP.Maximum
+		CSayF("%s is at full HP now",ch)
+		MiniWrt(RPGChar[ch].Name,255,180,0)
+		Minimsg(" feels better now",180,255,0)
 	End
 
 	Constructor
