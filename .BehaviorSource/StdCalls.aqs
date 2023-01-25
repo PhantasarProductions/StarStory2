@@ -1,7 +1,7 @@
 ; License Information:
 ; src/Tricky Script/.BehaviorSource/StdCalls.aqs
-; Version: 22.09.04
-; Copyright (C) 2022 Jeroen Petrus Broks
+; Version: 23.01.25
+; Copyright (C) 2022, 2023 Jeroen Petrus Broks
 ; 
 ; ===========================
 ; This file is part of a project related to the Phantasar Chronicles or another
@@ -80,3 +80,6 @@ csChunk VWMap,Any.Voorwaarde.GoToMap
 csChunk VWKill,Any.Voorwaarde.Kill
 csChunk Schedule,Lnk.Schedule.Add
 csChunk SetObj,Lnk.Map.SetObj
+csChunk PRecover,Lnk.Party.Recover
+
+csChunk LoadNewState,State.LoadNew
