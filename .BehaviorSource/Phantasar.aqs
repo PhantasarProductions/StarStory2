@@ -32,11 +32,20 @@
 ; 
 ; **********************************************
 ; 
-; version: 23.01.24
+; version: 23.01.25
 ; End License Information
 Include Basis.aqs
 
+SChunk Go_PhantasarWorld,FLOW_PHANTASARWORLD,ComeToMe
+sChunk PhanText,FLOW_PHANTASARWORLD,PhanText
+
+Chunk Load
+	done OnPhantasar
+	call LoadNewState,"FLOW_PHANTASARWORLD","Script/Flow/FlowPhantasarWorld.neil"
+
+		
 
 Chunk ZA_PHANTASAR
 	call minimsg,"Entering the Delisto World Map",2550,180,0
+	Call Go_PhantasarWorld
 	Exit
