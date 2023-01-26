@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Renc.neil
-// Version: 22.08.12
-// Copyright (C) 2022 Jeroen Petrus Broks
+// Version: 23.01.26
+// Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -127,7 +127,7 @@ Module Class
 			Lay.NOENCOUNTERS = Lay.NOENCSTRING =="TRUE" || NoEncounters
 			Lay.MAX = 5
 			Lay.ENC = 5
-			Lay.CDMAX = 12000 div __skill
+			Lay.CDMAX = 24000 div __skill
 			Lay.CD    = Lay.CDMAX
 			If NoEncounters
 				Lay.ENC=0
