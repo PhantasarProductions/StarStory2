@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Time.neil
-// Version: 22.04.28
-// Copyright (C) 2022 Jeroen Petrus Broks
+// Version: 23.01.26
+// Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -70,6 +70,9 @@ Module
 		End
 		Int Days = Hours div 24
 		Hours = Hours % 24
+		if Days == 1
+			return sprintf("%d day; %d:%02d:%02d",Days,Hours,Minutes,Seconds)
+		end
 		return sprintf("%d days; %d:%02d:%02d",Days,Hours,Minutes,Seconds)
 	End
 	
