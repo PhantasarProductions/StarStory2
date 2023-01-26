@@ -69,3 +69,11 @@ Chunk Scyndi_Klahre
 	call PKill,"Scyndi_Barrier"
 	call Score,3000,"Klahre"
 	exit
+	
+Chunk ZA_North
+	Done PhantasarUnlocked_CITY
+	Done Complete_Phan_ElfenRoad
+	JmpTrue Leave
+	call Score,5000
+	:Leave
+	call ZA_Phantasar
