@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Use/Any.uwn/IAA.neil
-// Version: 22.09.03
-// Copyright (C) 2022 Jeroen Petrus Broks
+// Version: 23.01.26
+// Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -186,7 +186,7 @@ string Explanation(string itg,int t=2)
 				ret += sprintf("Target gains %d action bubbles (interval %d)\n",IT.ADDCARD_Char_Number,IT.ADDCARD_Char_Interval)
 			end
 			if IT.ADDCARD_Action_Number>1
-				if IT.ADDCARD_Action_Act=="Self"
+				if IT.ADDCARD_Action_Act=="Self" || IT.ADDCARD_Action_Act==""
 					ret += sprintf("Will place %d bubbles to repeat itself (interval %d)\n",IT.ADDCARD_Action_Number,IT.ADDCARD_Action_Interval)
 				Else
 					ret += sprintf("Will place %d bubbles containing the action '%s' (interval %d)\n",IT.ADDCARD_Action_Number,Any.IAA[IT.AddCard_Action_Act],IT.ADDCARD_Action_Interval)
