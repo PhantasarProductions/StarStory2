@@ -1,6 +1,6 @@
 ; License Information:
 ; src/Tricky Script/.BehaviorSource/StdCalls.aqs
-; Version: 23.01.25
+; Version: 23.01.26
 ; Copyright (C) 2022, 2023 Jeroen Petrus Broks
 ; 
 ; ===========================
@@ -81,5 +81,6 @@ csChunk VWKill,Any.Voorwaarde.Kill
 csChunk Schedule,Lnk.Schedule.Add
 csChunk SetObj,Lnk.Map.SetObj
 csChunk PRecover,Lnk.Party.Recover
+csChunk SaveGame,Lnk.Map.GoToSave
 
 csChunk LoadNewState,State.LoadNew
