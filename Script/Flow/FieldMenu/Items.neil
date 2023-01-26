@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Items.neil
-// Version: 22.08.31
-// Copyright (C) 2022 Jeroen Petrus Broks
+// Version: 23.01.26
+// Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -36,6 +36,8 @@
 // End License Information
 
 #use "Libs/FitText"
+
+#macro __IT IAA[Itg]
 
 Module
 
@@ -93,7 +95,7 @@ Module
 			//	DFt.DarkText(sprintf("INm:%d ITg:%s M(%d,%d); Itm(%d,%d)-(%d,%d)",INm,ITg,MX,MY,X,EX,Y,Y+30),2,2)
 			//end
 			//If INm>0 && ITg!="" && MX>uBox.x && MX<ubox.x+ubox.w && MY>Y && MY<Y+30 && i>ScrollY && i<=ScrollYMax
-			If INm>0 && ITg!="" && MX>uBox.x && MX<ubox.x+ubox.w && MY>Y && MY<Y+30 && SY>=0 && SY<=ubox.h-40
+			If INm>0 && ITg!="" && MX>uBox.x && MX<ubox.x+ubox.w && MY>Y && MY<Y+30 && SY>=0 && SY<=ubox.h-40 && INm>=1
 				Hover=i
 				BsX=10
 				if Events.KeyHit(Events.KeyByName("Delete")) && INm>=1
@@ -134,15 +136,16 @@ Module
 				End
 			End
 		End
-		If Hover>=0
+		If Hover>=0 && IAA.Slot[Hover]
 			String ITg = IAA.Slot[Hover]
 			Lua.assert(ITg!="",sprintf("Hovering slot #%d gives no an empty string",Hover))
-			Var IT = IAA[Itg]
+			//print("ITg = "..ITg)
+			//Var IT = IAA[Itg]
 			Int X=MX+10
-			Int Y=MY+15
-			var Ex = IT.ExplainTable
-			Int W=Fnt.TextWidth(IT.Title)
-			w = math.max(w,DFt.TextWidth(IT.Desc))
+			Int Y=MY+15			
+			var Ex = __IT.ExplainTable
+			Int W=Fnt.TextWidth(__IT.Title)
+			w = math.max(w,DFt.TextWidth(__IT.Desc))
 			For i,e in ipairs(EX)
 				W=math.max(W,DFt.TextWidth(e))
 			End
@@ -152,9 +155,9 @@ Module
 			Graphics.Rect(math.max(math.min(X-(W div 2),Screen.W-W),0),Y,W,50+(#EX*20))
 			Graphics.Alpha(255)
 			__SkyBlue
-			FitText.Dark(Fnt,IT.Title,X,Y,2)
+			FitText.Dark(Fnt,__IT.Title,X,Y,2)
 			__Ember
-			FitText.Dark(DFt,IT.Desc,X,(Y+30),2)
+			FitText.Dark(DFt,__IT.Desc,X,(Y+30),2)
 			__White
 			For i,e in ipairs(EX)
 				FitText.Dark(DFt,e,X,(Y+30)+(i*20),2)
