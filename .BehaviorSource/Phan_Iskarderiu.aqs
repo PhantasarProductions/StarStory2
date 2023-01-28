@@ -1,0 +1,76 @@
+; License Information:
+; **********************************************
+; 
+; src/Tricky Script/.BehaviorSource/Phan_Iskarderiu.aqs
+; (c) Jeroen Broks, 2023, All Rights Reserved.
+; 
+; This file contains material that is related
+; to a storyline that is which is strictly
+; copyrighted to Jeroen Broks.
+; 
+; This file may only be used in an unmodified
+; form with an unmodified version of the
+; software this file belongs to.
+; 
+; You may use this file for your study to see
+; how I solved certain things in the creation
+; of this project to see if you find valuable
+; leads for the creation of your own.
+; 
+; Mostly this file comes along with a project
+; that is for most part released under an
+; open source license and that means that if
+; you use that code with this file removed
+; from it, you can use it under that license.
+; Please check out the other files to find out
+; which license applies.
+; This file comes 'as-is' and in no possible
+; way the author can be held responsible of
+; any form of damages that may occur due to
+; the usage of this file
+; 
+; 
+; **********************************************
+; 
+; version: 23.01.28
+; End License Information
+Include Phantasar.aqs
+
+Chunk NPC_Guard
+	call PhanText,"GUARD"
+	exit
+	
+Chunk NPC_Man1
+	Call PhanText,"MAN1" 
+	exit
+	
+Chunk NPC_Man2
+	Call PhanText,"MAN2" 
+	exit	
+	
+Chunk NPC_Man3
+	Call PhanText,"MAN3" 
+	exit
+	
+	
+Chunk NPC_Woman1
+	Call PhanText,"WOMAN1" 
+	exit
+	
+Chunk NPC_Woman2
+	Call PhanText,"WOMAN2" 
+	exit
+	
+Chunk NPC_SASHAFUNDA
+	Call PhanText,"SASHAFUNDA" 
+	exit
+
+
+sChunk UnlockDragon,FLOW_PHANTASARWORLD,UnlockDragonRuins
+Chunk NPC_ThalaDigoh
+	Call PhanText,"THALA"
+	Call UnlockDragon
+	; Not only when you've spoken with Rosetta you can unlock the dragon castle
+	; OR when you have Klahre in the lead, since she understands the language
+	; of Phantasar by default.
+	exit
