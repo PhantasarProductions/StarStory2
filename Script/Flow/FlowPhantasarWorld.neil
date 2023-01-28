@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 23.01.25
+// version: 23.01.28
 // End License Information
 #use "Script/Use/Anyway"
 #use "Libs/LinkedList" 
@@ -82,9 +82,10 @@ Init
 	Var A
 	A = new Destination("GATE","Gateway","PHAN_ARRIVAL","ARRIVAL","FromPhantasar",true)
 	A = new Destination("ELFR","Elfen Road","PHAN_ELFENROAD","#001","Start",true)
-	A = new Destination("CITY","Iskarderiu","PHAN_ISKARDERIU","OUTSIDE","Start")
+	A = new Destination("CITY","Iskarderiu","PHAN_ISKARDERIU","TOWN","START")
 	A = new Destination("ZUID","Southern Forest","PHAN_SOUTHERN","#001","Start")
 	A = new Destination("DOOM","The Temple Of Doom","PHAN_DOOM","#001","Start")
+	A = new Destination("DRGN","The Dragon Ruins","PHAN_DRAGON","#000","Start")
 	A = new Destination("MINE","The Airom Mines","PHAN_AIROM","MINE","Start")
 	CSay("Phantasar World Map Initiated")
 End
@@ -97,6 +98,18 @@ Global Void PhanText(string Tag)
 	else
 		Lnk.BoxText.Map(Tag.."_PHAN")
 	End
+End
+
+Global Void UnlockDragonRuins()
+	If gv.gbool.MetRosetta || Lnk.Map.Leader=="Klahre"
+		CSay("Spoken to Rosetta or Klahre in the lead.")
+		CSayF("Unlock status was: ",Lua.tostring(Done.PhantasarUnlocked_DRGN))
+	else
+		CSay("Apparently you neither have Klahre in the leader or spoken with Rosetta")
+	end
+	// Don't forget folks, Klahre understands the language of Phantasar, 
+	// so even without speaking to Rosetta, she can understand the hint 
+	// about the Dragon Castle.
 End
 
 Global Void Apollo_Flow()
