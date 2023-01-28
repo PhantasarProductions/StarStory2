@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 23.01.26
+; version: 23.01.28
 ; End License Information
 Include Basis.aqs
 
@@ -40,6 +40,7 @@ SChunk Go_PhantasarWorld,FLOW_PHANTASARWORLD,ComeToMe
 sChunk PhanText,FLOW_PHANTASARWORLD,PhanText
 
 csChunk NPC_SAVESPOT,Lnk.Map.GoToSave
+csChunk NPC_SAVE,Lnk.Map.GoToSave
 
 Chunk Load
 	;done OnPhantasar
