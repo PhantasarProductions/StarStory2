@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.Neil
-// Version: 22.04.26
-// Copyright (C) 2021, 2022 Jeroen Petrus Broks
+// Version: 23.01.28
+// Copyright (C) 2021, 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -114,7 +114,8 @@ Global Void PartyRightClick(int ch,string tag)
 End
 
 Global Void Apollo_Flow()
-	__Dev.ToConsole()
+	Any.Quit.Check()
+	__Dev.ToConsole()	
 	FlowField.DrawScreen()
 	FlowField.FollowTheLeader.Run()
 	FlowField.Renc.UpdateGauge()
