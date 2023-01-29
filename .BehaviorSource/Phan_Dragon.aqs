@@ -1,1 +1,17 @@
 Include Phantasar.aqs
+
+
+Chunk NPC_SWITCHNEXT
+
+	Done Phantasar_Dragon_SwitchFloor2
+	jmptrue GebeurtNiks
+	call MiniWrt,"Ashley:",0,255,0
+	call MiniMsg,"I think I hear a door opening on the North",255,180,0
+	call Score,9000,"Ashley"
+	call PKill,"DOORNEXT"
+	exit
+	
+	:GebeurtNiks
+	call MiniMsg,"Nothing happens"
+	exit
+	
