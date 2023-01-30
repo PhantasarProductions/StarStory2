@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Hero.neil
-// Version: 22.06.02
-// Copyright (C) 2022 Jeroen Petrus Broks
+// Version: 23.01.30
+// Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -34,6 +34,7 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
 Class Hero Extends Fighter
 
 	Const Bool Gone = False
@@ -59,7 +60,7 @@ Class Hero Extends Fighter
 	
 	Get Bool Damned
 		// TODO: Make this react to the undead status
-		Return False
+		Return Self.TrueStatusChanges.DAMNED!=nil && Self.TrueStatusChanges.DAMNED!=false
 	End
 	
 	Int EleRes(string ele)
