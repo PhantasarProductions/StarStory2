@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 23.01.28
+; version: 23.01.30
 ; End License Information
 Include Phantasar.aqs
 
@@ -64,6 +64,41 @@ Chunk NPC_Woman2
 Chunk NPC_SASHAFUNDA
 	Call PhanText,"SASHAFUNDA" 
 	exit
+	
+Chunk NPC_WEAPONS
+	Call PhanText,"WEAPONS"
+	exit
+	
+
+
+	
+Chunk NPC_INN
+	Chk &MetRosetta
+	jmptrue Enter_Inn
+	Call MapText,"ROSETTA_FIRST"
+	exit
+	:Enter_Inn
+	Call GoToLayer,"INN","START"
+	exit
+	
+Chunk NPC_TOWNHALL
+	Chk &MetRosetta
+	jmptrue Enter_Inn
+	Call MapText,"ROSETTA_FIRST"
+	exit
+	:Enter_Inn
+	Call GoToLayer,"TOWNHALL","START"
+	exit
+	
+Chunk NPC_Items
+	Chk &MetRosetta
+	jmptrue Enter_Inn
+	Call MapText,"ROSETTA_FIRST"
+	exit
+	:Enter_Inn
+	Call GoToLayer,"ITEMS","START"
+	exit
+	
 
 
 sChunk UnlockDragon,FLOW_PHANTASARWORLD,UnlockDragonRuins
