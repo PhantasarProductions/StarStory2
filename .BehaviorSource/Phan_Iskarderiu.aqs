@@ -99,6 +99,15 @@ Chunk NPC_Items
 	Call GoToLayer,"ITEMS","START"
 	exit
 	
+Chunk NPC_Rosetta
+	Done MetRosetta
+	jmptrue MetRosettaBefore
+	call MapText,"Rosetta_meet"
+	call score,2500
+	exit
+	:MetRosettaBefore
+	call MapText,"Rosetta"
+	exit
 
 
 sChunk UnlockDragon,FLOW_PHANTASARWORLD,UnlockDragonRuins
