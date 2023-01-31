@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowFieldMenu.Neil
-// Version: 23.01.28
+// Version: 23.01.31
 // Copyright (C) 2020, 2021, 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
@@ -85,7 +85,7 @@ init
 	Situations_Shop += {["WHOLE"]={["ID"]="STORE"}, ["ICONFILE"]="BUY"}
 	Situations_Shop += {["WHOLE"]={["ID"]="ITEMS"}, ["ICONFILE"]="SELL"}
 	Situations.SHOP_HEIJN = Situations_Shop
-	// TODO: Phantasar - Same link
+	Situations.SHOP_PHAN  = Situations_Shop	
 	
 	Situations.UPGRADE = {}
 	Situations.UPGRADE += { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="UPGRADEWEAPON" } ,        ["ICONFILE"] = "WEAPON UPGRADE" }
