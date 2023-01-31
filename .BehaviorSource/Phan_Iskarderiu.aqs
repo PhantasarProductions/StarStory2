@@ -139,4 +139,33 @@ Chunk NPC_Storekeeper
 	Call MapText,"STOREKEEPER"
 	call Shop
 	exit
+	
+sChunk GivePrismDiamond,FLOW_PHANTASARWORLD,GivePrismDiamond
+Chunk NPC_KEIZER
+	Done PhantasarUnlocked_ZUID
+	JmpTrue FTDone
+	call MapText,"KEIZER_1ST"
+	exit
+	
+	:FTDone	
+	Chk &Complete_Phan_Doom
+	JmpTrue DoomDone
+	call MapText,"KEIZER_PREDOOM"
+	exit
+	
+	:DoomDone
+	Chk &GivePrismDiamond
+	JmpTrue KeizerAlgemeen
+	call MapText,"KEZIER_REWARD"
+	call GivePrismDiamond
+	Chk &GivePrismDiamond
+	JmpFalse Mislukt
+	exit
+	
+	:Mislukt
+	call MapText,"KEIZER_FULL"
+	exit
+	
+	:KeizerAlgemeen
+	Call MapText,"KEIZER"
 	exit
