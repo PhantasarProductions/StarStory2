@@ -36,6 +36,9 @@
 ; End License Information
 Include Phantasar.aqs
 
+Chunk Load
+	Done PHANTASAR_VISIT_ISKARDERIU
+
 Chunk NPC_Guard
 	call PhanText,"GUARD"
 	exit
