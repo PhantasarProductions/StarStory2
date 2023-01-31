@@ -119,6 +119,10 @@ Chunk NPC_ThalaDigoh
 	; Not only when you've spoken with Rosetta you can unlock the dragon castle
 	; OR when you have Klahre in the lead, since she understands the language
 	; of Phantasar by default.
+	exit
+	
+	
+	
 ; Inside
 
 Chunk NPC_Innkeeper
