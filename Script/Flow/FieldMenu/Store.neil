@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Store.neil
-// Version: 22.06.08
-// Copyright (C) 2022 Jeroen Petrus Broks
+// Version: 23.01.31
+// Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -67,7 +67,7 @@ Class TStockItem
 		Return Any.IAA[Tag]
 	End
 	Get Bool Available
-		//Print(Tag,Always , Item[MTag.."_ForSaleByDefault"] , Item.Given>0,Always || Item[MTag.."_ForSaleByDefault"] || Item.Given>0) // debug only
+		//Print(Tag,Always , Item[MTag.."_ForSaleByDefault"] , Item.Given>0,Always || Item[MTag.."_ForSaleByDefault"] || Item.Given>0) // debug only		
 		Return Always || Item[MTag.."_ForSaleByDefault"] || Item.Given>0
 	End
 	Get Int BuyPrice
