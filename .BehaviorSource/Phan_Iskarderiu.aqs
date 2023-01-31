@@ -112,7 +112,6 @@ Chunk NPC_Rosetta
 	call MapText,"Rosetta"
 	exit
 
-
 sChunk UnlockDragon,FLOW_PHANTASARWORLD,UnlockDragonRuins
 Chunk NPC_ThalaDigoh
 	Call PhanText,"THALA"
