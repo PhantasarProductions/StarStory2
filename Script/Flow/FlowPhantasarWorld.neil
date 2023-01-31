@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 23.01.28
+// version: 23.01.31
 // End License Information
 #use "Script/Use/Anyway"
 #use "Libs/LinkedList" 
@@ -111,6 +111,14 @@ Global Void UnlockDragonRuins()
 	// so even without speaking to Rosetta, she can understand the hint 
 	// about the Dragon Castle.
 End
+
+Global Void Shop()
+	Lnk.FieldMenu.Go(Lnk.Map.Leader,"SHOP_PHAN")
+End
+
+Global Void GivePrismDiamond()
+	gv.gbool.GivePrismDiamond = Any.IAA.Give("JWL_PRISMDIAMOND")
+end
 
 Global Void Apollo_Flow()
 	__White
