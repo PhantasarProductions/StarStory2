@@ -133,6 +133,7 @@ Chunk NPC_Innkeeper
 	Call PRecover
 	:InnNoCash
 	exit
+	
 sChunk Shop,FLOW_PHANTASARWORLD,Shop
 Chunk NPC_Storekeeper
 	Call MapText,"STOREKEEPER"
