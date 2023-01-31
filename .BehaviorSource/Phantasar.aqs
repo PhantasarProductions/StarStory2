@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 23.01.28
+; version: 23.01.31
 ; End License Information
 Include Basis.aqs
 
@@ -41,6 +41,8 @@ sChunk PhanText,FLOW_PHANTASARWORLD,PhanText
 
 csChunk NPC_SAVESPOT,Lnk.Map.GoToSave
 csChunk NPC_SAVE,Lnk.Map.GoToSave
+
+csChunk Pay,Any.Aurina.PayShildersGv
 
 Chunk Load
 	;done OnPhantasar
