@@ -2,7 +2,7 @@
 // **********************************************
 // 
 // src/Tricky Script/Script/Use/Any.uwn/Aurina.neil
-// (c) Jeroen Broks, 2022, All Rights Reserved.
+// (c) Jeroen Broks, 2022, 2023, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.06.08
+// version: 23.01.31
 // End License Information
 Module
 
@@ -167,6 +167,10 @@ Module
 		static var A={["Aurina"]=Pay,["Shilder"]=PayShilders}
 		Return A[Currency](Bedrag)		
 	End
+	
+	Void PayShildersGv(int bedrag)
+		gv.gbool.PayShildersSucces=PayShilders(bedrag)
+	end
 				
 	
 End
