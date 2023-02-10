@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 23.01.23
+// version: 23.02.10
 // End License Information
 
 #use "Script/Use/Abilities.uwn/Use/Gadget"
@@ -47,6 +47,7 @@ Init
 	
 	// Actual stuff
 	YAbl.Flame = True
+	YAbl.Wind  = __Skill != 3
 	YAbl.Spark = False
 	YAbl.Light = False
 	YAbl.FreezerRay = False
