@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Map.neil
-// Version: 22.04.24
-// Copyright (C) 2022 Jeroen Petrus Broks
+// Version: 23.02.10
+// Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -246,7 +246,15 @@ Module
 		CurLayer.Obj(FlowField.FollowTheLeader.LeaderMapTag).StopWalking()
 		ArriveFunc = nil
 		ArriveParam = ""
-	End	
+	End
+	
+	Void Block(String Tag)
+		CurLayer.Obj(Tag).Impassible = true
+	End
+	
+	Void UnBlock(string Tag)
+		CurLayer.Obj(Tag).Impassible = false
+	End
 	
 	Void CBLoadMap(string MapBundle)
 		ActorWind = ActorWindDefault

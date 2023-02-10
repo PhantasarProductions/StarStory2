@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 23.01.31
+// version: 23.02.10
 // End License Information
 #use "Script/Use/Anyway"
 #use "Libs/LinkedList" 
@@ -119,6 +119,19 @@ End
 Global Void GivePrismDiamond()
 	gv.gbool.GivePrismDiamond = Any.IAA.Give("JWL_PRISMDIAMOND")
 end
+
+
+Global Void DoomOpen()
+	Lnk.Map.UnBlockObj("Barrier")
+	Lnk.Map.HideObj("Barrier")
+	Lnk.Map.ShowByLabel("Enter")
+End
+
+Global Void DoomClose()
+	Lnk.Map.BlockObj("Barrier")
+	Lnk.Map.ShowObj("Barrier")
+	Lnk.Map.HideByLabel("Enter")
+End
 
 Global Void Apollo_Flow()
 	__White
