@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Sein.neil
-// Version: 22.08.22
-// Copyright (C) 2022 Jeroen Petrus Broks
+// Version: 23.02.09
+// Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -91,14 +91,14 @@ Module
 								Val = RPGChar.Ashley.Stat.Level
 							Case "ASLEYKILL" "ASHLEYKILLS" "ASHLEY_KILL" "ASHLEY_KILLS" 
 								Val = gv.gInt.AshleyKills
-							Case "LOWLEVEL" "LOWESTLEVEL" "LOWLVL" "LOLEVEL" "LOLVL" "MINLVL" "MINLV" "MINLEVEL"
+							Case "LOWLEVEL" "LOWESTLEVEL" "LOWLVL" "LOLEVEL" "LOLVL" "MINLVL" "MINLV" "MINLEVEL" "LO"
 								int m = 2000000
 								Val = m
 								for i=1,Lnk.Party.Count
 									Val = math.min(RPGChar[RPGParty[i]].Stat.Level)
 								end
 								Lua.assert(Val<m,"Low level check failure")
-							Case "HILEVEL" "HIGHLEVEL" "HIGHESTLEVEL" "HILVL" "MAXLVL" "MAXLV" "MAXLEVEL"
+							Case "HILEVEL" "HIGHLEVEL" "HIGHESTLEVEL" "HILVL" "MAXLVL" "MAXLV" "MAXLEVEL" "HI"
 								Val = 0
 								for i=1,Lnk.Party.Count
 									Val = math.max(RPGChar[RPGParty[i]].Stat.Level)
