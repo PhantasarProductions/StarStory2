@@ -38,3 +38,11 @@ Include Phantasar.aqs
 
 sChunk ZA_OpenDoom,FLOW_PHANTASARWORLD,DoomOpen
 sChunk ZA_CloseDoom,FLOW_PHANTASARWORLD,DoomClose
+
+
+Chunk ZA_KillBarrier
+	call PKill,"ZA_KillBarrier"
+	call PKill,"Barrier"
+	call score,2500
+	call MiniMsg,"A door opens",255,255,0
+	exit
