@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Use/lnk.uwn/Ach.neil
-// Version: 22.08.17
-// Copyright (C) 2022 Jeroen Petrus Broks
+// Version: 23.02.23
+// Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -89,7 +89,7 @@ Class Achievement
 	End
 	
 	Get Bool HideUnlessLearned
-		Return AStuff.Value(Rec,"HIDEUNLESSEARNED")
+		Return AStuff.Value(Rec,"HIDEUNLESSEARNED")=="TRUE"
 	End
 	
 	
@@ -183,8 +183,35 @@ Module
 		AchM[ATag].Awarded = True
 	End
 	
-	Void Show()
-		// TO DO: Code!	
+	readonly delegate Show = NIKS
+	
+	Void ShowAll(int _x, int _y,int _w,int _h)
+		static int scroll = 0
+		int py = -scroll
+		static var bfnt = ImageFont.Obtain("BOXTEXT")
+		static var sfnt = ImageFont.Obtain("MINITEXT")
+		static int ih = 45 
+		int maxitems = _h div ih		
+		for AT in Each(AStuff.Categories)
+			//CSay(AT)
+			if prefixed(AT,"REC:")
+				String ATag=Right(AT,#AT-4)
+				Var A = AchM[ATag]
+				//CSayF("y: %04d/%04d; %s/%s > %s",py,maxitems,Lua.tostring(A.HideUnlessLearned),Lua.tostring(A.Awarded),ATag)
+				if (!A.HideUnlessLearned) || A.Awarded
+					if (A.Awarded)
+						__White
+					else
+						Graphics.Color(100,100,100)
+					end
+					if (py>=0 && py<maxitems)
+						bfnt.text(A.Name,_x+5,_y+(py*ih))
+						sfnt.text(A.Description,_x+_w,_y+(((py+1)*ih)-5),1,1)
+					end
+					py++
+				end
+			end
+		end
 	End
 	
 End
