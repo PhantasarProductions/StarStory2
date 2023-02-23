@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Achievements.neil
-// Version: 22.04.14
-// Copyright (C) 2022 Jeroen Petrus Broks
+// Version: 23.02.23
+// Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -36,5 +36,7 @@
 // End License Information
 Module
 	Void Flow(uBox,string FMChar,string FMSituation)
+		//Lnk.Ach.ShowAll(uBox.x || 5,uBox.y || 5,uBox.w || (Screen.W-10),uBox.h || (Screen.H-138))
+		Lnk.Ach.ShowAll(uBox.x ,uBox.y ,uBox.w ,uBox.h)
 	End
 End
