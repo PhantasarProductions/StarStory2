@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/UseItem.neil
-// Version: 22.09.01
-// Copyright (C) 2022 Jeroen Petrus Broks
+// Version: 23.02.24
+// Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -65,6 +65,7 @@ void _UseItem(string ch,int Slot,string ittag)
 				Success=true
 			ElseIf IT.X_Experience
 				Char.Points.EXP.Have += IT.X_Experience div (__skill+1)
+				CSayF("%s now has %d experience points",ch,Char.Points.EXP.Have)
 				Success=true
 			End
 			If Success
@@ -111,7 +112,7 @@ End
 
 Void _UseItemSel(string ch,int Slot,string ittag,string situation)
 	Switch situation:upper()
-		Case "SHOP_HEIJN"
+		Case "SHOP_HEIJN" "SHOP_PHAN"
 			_SellItem(ch,slot,ittag)
 		Default
 			_UseItem(ch,slot,ittag)
