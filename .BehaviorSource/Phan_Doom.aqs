@@ -32,12 +32,13 @@
 ; 
 ; **********************************************
 ; 
-; version: 23.02.22
+; version: 23.03.03
 ; End License Information
 Include Phantasar.aqs
 
 sChunk ZA_OpenDoom,FLOW_PHANTASARWORLD,DoomOpen
 sChunk ZA_CloseDoom,FLOW_PHANTASARWORLD,DoomClose
+sChunk ZA_CloseDoom2,FLOW_PHANTASARWORLD,DoomClose
 
 
 Chunk ZA_KillBarrier
