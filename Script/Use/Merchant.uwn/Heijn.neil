@@ -32,11 +32,13 @@
 // 
 // **********************************************
 // 
-// version: 23.01.31
+// version: 23.03.29
 // End License Information
 
 
 // Generated: 6/10/2022 12:59:34 PM
+
+const int BookMax = 2
 
 Var _RET = New TMerchant("Heijn", "Heijn's shop", "Aurina")
 
@@ -44,7 +46,6 @@ Init
 	_RET.CHealing.AddLast(New TStockItem("ITM_ADHBANDAGE", "Heijn", True))
 	_RET.CHealing.AddLast(New TStockItem("ITM_ANTIDOTE", "Heijn", False))
 	_RET.CHealing.AddLast(New TStockItem("ITM_BANDAGE", "Heijn", False))
-	_RET.CAssist.AddLast(New TStockItem("ITM_BOOK1", "Heijn", False))
 	_RET.CAttack.AddLast(New TStockItem("ITM_FLASHBOMB", "Heijn", False))
 	for i=1,4 
 		_RET.CHealing.AddLast(New TStockItem(sprintf("ITM_MEDI%d",i), "Heijn", False))
@@ -54,10 +55,13 @@ Init
 	_RET.CAttack.AddLast(New TStockItem("ITM_SHOCKER", "Heijn", False))
 	_RET.CAttack.AddLast(New TStockItem("ITM_SPORES", "Heijn", False))
 	_RET.CHealing.AddLast(New TStockItem("ITM_VLUGZOUT", "Heijn", False))
-	for i=1,3 do
+	for i=1,3
 		for j in each{"AMETHYST","EMERALD","SAPHIRE","DIAMOND"}
 			_RET.CJewels.AddLast(New TStockItem(sprintf("JWL_%s%d",j,i), "Heijn", False))
 		end
+	end
+	for i=1,BookMax
+		_RET.CAssist.AddLast(New TStockItem(sprintf("ITM_BOOK%d",i), "Heijn", False))
 	end
 End
 
