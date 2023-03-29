@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 23.01.31
+; version: 23.03.27
 ; End License Information
 Include Phantasar.aqs
 
@@ -156,7 +156,7 @@ Chunk NPC_KEIZER
 	:DoomDone
 	Chk &GivePrismDiamond
 	JmpTrue KeizerAlgemeen
-	call MapText,"KEZIER_REWARD"
+	call MapText,"KEIZER_REWARD"
 	call GivePrismDiamond
 	Chk &GivePrismDiamond
 	JmpFalse Mislukt
