@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 23.03.03
+; version: 23.03.15
 ; End License Information
 Include Phantasar.aqs
 
@@ -46,4 +46,13 @@ Chunk ZA_KillBarrier
 	call PKill,"Barrier"
 	call score,2500
 	call MiniMsg,"A door opens",255,255,0
+	exit
+	
+Chunk NPC_Merya
+	call PKill,"MeryaBarrier"
+	call MapText,"MERYA"
+	call Score,10000
+	done Complete_Phan_Doom
+	call PKill,"NPC_Merya"
+	call ZA_Phantasar
 	exit
