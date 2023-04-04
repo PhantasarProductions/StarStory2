@@ -32,6 +32,18 @@
 ; 
 ; **********************************************
 ; 
-; version: 23.03.30
+; version: 23.04.02
 ; End License Information
+
 Include Basis.aqs
+
+chunk NPC_Abel
+	Done SpokenToAbelWesthouse
+	jmptrue SpokenToAbelWesthouse
+	call MapText,"ABEL1"
+	call Score,5000
+	call PKill,"AbelBarrier"
+	exit
+	:SpokenToAbelWesthouse
+	call MapText,"ABEL2"
+	exit
