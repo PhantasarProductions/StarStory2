@@ -32,13 +32,14 @@
 // 
 // **********************************************
 // 
-// version: 23.03.29
+// version: 23.04.04
 // End License Information
 
 
 // Generated: 6/10/2022 12:59:34 PM
 
 const int BookMax = 2
+const int MediMax = 5
 
 Var _RET = New TMerchant("Heijn", "Heijn's shop", "Aurina")
 
@@ -47,7 +48,7 @@ Init
 	_RET.CHealing.AddLast(New TStockItem("ITM_ANTIDOTE", "Heijn", False))
 	_RET.CHealing.AddLast(New TStockItem("ITM_BANDAGE", "Heijn", False))
 	_RET.CAttack.AddLast(New TStockItem("ITM_FLASHBOMB", "Heijn", False))
-	for i=1,4 
+	for i=1,5
 		_RET.CHealing.AddLast(New TStockItem(sprintf("ITM_MEDI%d",i), "Heijn", False))
 	end
 	_RET.CAttack.AddLast(New TStockItem("ITM_MOLOTOV", "Heijn", True))
