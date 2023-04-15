@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Sein.neil
-// Version: 23.03.27
+// Version: 23.04.10
 // Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
@@ -42,6 +42,10 @@ Module
 		Return Right(N,#N-1)
 	End
 
+	Void SeinGeel(string Tag)
+		Lnk.Map.SetObj(Tag,"Texture","GFX/Textures/Medals/Sein/Geel.png")
+	End
+	
 	Void CBLoadMap(string mapbundle)
 		CSayF("Checking sein: %s",mapbundle)
 		Data = GINIE.Load("Kthura/"..mapbundle.."/Sein","MAPSEIN")
