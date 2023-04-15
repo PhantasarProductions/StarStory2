@@ -49,3 +49,4 @@ chunk NPC_Abel
 	:SpokenToAbelWesthouse
 	call MapText,"ABEL2"
 	exit
+	exit
