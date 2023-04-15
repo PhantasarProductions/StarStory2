@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 23.03.30
+// version: 23.04.14
 // End License Information
 
 #use "Libs/LinkedList"
@@ -76,11 +76,11 @@ Init
 	End
 	Do
 		Var N = New TMusic()
-		N.Entry   = "Music/Combat/Boss/Katabasis.ogg"
-		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
-		N.Title   = "Katabasis"
-		N.Artist  = "Nihilore"
-		N.WebSite = "http://www.nihilore.com/"
+		N.Entry   = "Music/Boss/Lilith's rage.ogg"
+		N.License = " No restrictions. Commercial use encouraged."
+		N.Title   = "Lilith's rage"
+		N.Artist  = "Aaron Krogh"
+		N.WebSite = "aaronkrog.tumblr.com"
 		TMusic.Lst.AddLast(N)
 	End
 	Do
@@ -180,6 +180,15 @@ Init
 		N.Title   = "Once Around The Solar System"
 		N.Artist  = "Eric Matyas"
 		N.WebSite = "http://soundimage.org"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/Combat/Boss/Katabasis.ogg"
+		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
+		N.Title   = "Katabasis"
+		N.Artist  = "Nihilore"
+		N.WebSite = "http://www.nihilore.com/"
 		TMusic.Lst.AddLast(N)
 	End
 	Do
@@ -337,15 +346,6 @@ Init
 	End
 	Do
 		Var N = New TMusic()
-		N.Entry   = "Music/Combat/Phantasar/Day of Chaos.ogg"
-		N.License = "Creative Commons - By Attribution  (Incompetech.com)"
-		N.Title   = "Day of Chaos"
-		N.Artist  = "Kevin McLeod"
-		N.WebSite = "http://incompetech.com"
-		TMusic.Lst.AddLast(N)
-	End
-	Do
-		Var N = New TMusic()
 		N.Entry   = "Music/Dungeon/Dark Techno City.ogg"
 		N.License = "https://soundimage.org/attribution-info/"
 		N.Title   = "Dark Techno City"
@@ -387,6 +387,15 @@ Init
 		N.Title   = "In The Belly Of The Whale"
 		N.Artist  = "Nihilore"
 		N.WebSite = "http://www.nihilore.com/"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/Combat/Phantasar/Day of Chaos.ogg"
+		N.License = "Creative Commons - By Attribution  (Incompetech.com)"
+		N.Title   = "Day of Chaos"
+		N.Artist  = "Kevin McLeod"
+		N.WebSite = "http://incompetech.com"
 		TMusic.Lst.AddLast(N)
 	End
 	Do
