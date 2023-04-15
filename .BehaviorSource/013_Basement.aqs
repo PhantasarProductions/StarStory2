@@ -57,4 +57,10 @@ Chunk ZA_SeinShort
 	Call Score,1234
 	Call CSay,"Sein triggered. Floor 004 done!"
 	exit
+	
+Chunk NPC_MurratTek
+	Call MapText,"MURRATTEK"
+	Call pKill,"NPC_MurratTek"
+	Call pKill,"Barrier_MurratTek"	
+	Call VitalBoss,"MurratTek","","NPC_MurratTek"
 	exit
