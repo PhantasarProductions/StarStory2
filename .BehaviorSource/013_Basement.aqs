@@ -37,6 +37,8 @@
 
 Include Basis.aqs
 
+
+
 chunk NPC_Abel
 	Done SpokenToAbelWesthouse
 	jmptrue SpokenToAbelWesthouse
