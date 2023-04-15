@@ -49,4 +49,12 @@ chunk NPC_Abel
 	:SpokenToAbelWesthouse
 	call MapText,"ABEL2"
 	exit
+	
+Chunk ZA_SeinShort
+	Done DONE_SEIN_BASEMENT_SHORTCUT_FLOOR_004
+	Call pKill,"ZA_SeinShort" 
+	Call Geel,"SEIN_Short" 
+	Call Score,1234
+	Call CSay,"Sein triggered. Floor 004 done!"
+	exit
 	exit
