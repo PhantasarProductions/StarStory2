@@ -1,0 +1,189 @@
+// License Information:
+// src/Tricky Script/Script/Flow/FlowElevator.neil
+// Version: 23.04.16
+// Copyright (C) 2023 Jeroen Petrus Broks
+// 
+// ===========================
+// This file is part of a project related to the Phantasar Chronicles or another
+// series or saga which is property of Jeroen P. Broks.
+// This means that it may contain references to a story-line plus characters
+// which are property of Jeroen Broks. These references may only be distributed
+// along with an unmodified version of the game.
+// 
+// As soon as you remove or replace ALL references to the storyline or character
+// references, or any termology specifically set up for the Phantasar universe,
+// or any other univers a story of Jeroen P. Broks is set up for,
+// the restrictions of this file are removed and will automatically become
+// zLib licensed (see below).
+// 
+// Please note that doing so counts as a modification and must be marked as such
+// in accordance to the zLib license.
+// ===========================
+// zLib license terms:
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// End License Information
+#use "Script/Use/Anyway"
+#use "Libs/LinkedList"
+
+Class Floor
+	ReadOnly Int IDN
+	
+	Get String ID2FMT
+		return sPrintF("%03d",math.max(0,IDN))
+	End
+	
+	Get String ID2Floor
+		Return "#"..ID2FMT
+	End
+	
+	Const Bool Always = true
+	Get Bool KeyCard
+		return gv.vBool[sPrintF("EUF_KEY_RED_%03d",math.max(0,IDN-1))]
+	end
+	
+	ReadOnly String UnLockCheck
+	
+	Get Bool UnLocked
+		return Self[UnLockCheck]
+	End
+	
+	ReadOnly String Kthura
+	ReadOnly String Layer
+	ReadOnly String Start
+	
+	ReadOnly Int X
+	ReadOnly Int Y
+	
+	Get Int DX
+		Return (X*150)+5
+	End
+	
+	Get Int DY
+		Return Y*75
+	End
+	
+	Static Var BRed
+	Static Var BGreen
+	Static Var BGreenHover
+	
+	Static ReadOnly Var Font = ImageFont.Obtain("BOXTEXT")
+	
+	Static Get Int MX
+		Return Events.MouseX()
+	End
+	Static Get Int MY
+		Return Events.MouseY()
+	End
+	Static Get Bool ML
+		Return Events.MouseHitLeft()
+	End
+	
+	Get Bool Hovering
+		Return MX>=DX && MY>=DY && MX<=DX+70 && MY<=DY+70
+	End	
+	
+	Get Var Button
+		If !Unlocked
+			BRed = BRed || Image.LoadNew("GFX/Elevator/Red.png","EFU_ELERED")
+			Return BRed
+		ElseIf Hovering
+			BGreenHover = BGreenHover || Image.LoadNew("GFX/Elevator/Green Hover.png","EFU_ELEGREENHOVER")
+			Return BGreenHover
+		Else
+			BGreen = BGreen || Image.LoadNew("GFX/Elevator/Green Hover.png","EFU_ELEGREENHOVER")
+			Return BGreen
+		End
+	End
+		
+		
+	
+	Static ReadOnly Var List = New TLinkedList()
+	
+	Get String Label
+		if IDN<0
+			return sprintf("B%d",math.abs(IDN))
+		else
+			return sprintf("%d",IDN)
+		End
+	End
+	
+	
+	Void Draw(IgnoreClick)
+		__White
+		Button.Draw(DX,DY)
+		Font.Text(Label,DX+90,DY+35,2,2)
+		If (!IgnoreClick) && Hovering && ML && Unlocked
+			Events.Flush()
+			CSayF("Clicked on button %d",IDN)
+			If (Lnk.Map.LoadedMap:upper()!=Kthura:upper())
+				Lnk.Map.GoToMap(Kthura,Layer,Start)
+				Flow.Current="FIELD"
+			Else
+				Lnk.Map.GoToLayer(Layer,Start)
+			End
+			Flow.Current="FIELD"
+		End
+		
+	End
+	
+	Static Void DrawAll(IgnoreClick)
+		For FL in List.Each
+			FL.Draw(IgnoreClick)
+		End
+	End
+
+	
+	Constructor(Int _IDN,String _KTh, String _Lay,_ULC="KeyCard",_S="Start")
+		UnLockCheck=_ULC
+		Kthura=_KTH
+		Layer=_Lay
+		IDN=_IDN
+		Start=_S
+		X = List.Count div 8
+		Y = List.Count % 8
+		List.AddLast(Self)
+		CSayF("Floor %s pos(%2d,%2d) added to elevator",ID2Floor,X,Y)
+	End
+		
+End
+
+
+Init
+	Var NL
+	For i=20,11,-1
+		NL = New Floor(i,"015_EFU_HQ_2",sprintf("#%03d",i))
+		CSayF("Floors: %d",NL.List.Count)
+	End
+		For i=10,1,-1
+		NL = New Floor(i,"014_EFU_HQ_1",sprintf("#%03d",i))
+		CSayF("Floors: %d",NL.List.Count)
+	End
+	NL = New Floor(0,"014_EFU_HQ_1","#000","Always")
+	NL = New Floor(-1,"013_Basement","#001","Always")
+	CSayF("Floors: %d After ground floor and basement were added",NL.List.Count)
+End
+
+Global Const Var PartyRightClick = NIKS
+Global Const Var PartyClick = NIKS
+
+global Const Var PRGL = Floor.DrawAll
+
+Global Void Apollo_Flow()
+	Floor.DrawAll()
+	Lnk.Party.Boxes()
+	__Dev.ToConsole()
+	__Mouse.Draw()
+	
+End

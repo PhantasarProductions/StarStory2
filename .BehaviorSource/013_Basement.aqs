@@ -32,12 +32,12 @@
 ; 
 ; **********************************************
 ; 
-; version: 23.04.15
+; version: 23.04.16
 ; End License Information
 
 Include Basis.aqs
 
-
+CSCHUNK Elevator,Lnk.Elevator.GoElevator
 
 chunk NPC_Abel
 	Done SpokenToAbelWesthouse
@@ -75,4 +75,14 @@ Chunk ZA_Door
 	
 Chunk ZA_CloseDoor
 	Call Close,ELEVATOR
+	exit
+	
+Chunk ZA_Elevator
+	Done Tut_Elevator
+	JmpTrue MetDeLift
+	;call MapText,"ELEVATOR"
+	call Score,2500
+	:MetDeLift
+	;call Crash,"Elevator not yet scripted"
+	call Elevator
 	exit
