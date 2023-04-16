@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 23.04.14
+; version: 23.04.15
 ; End License Information
 
 Include Basis.aqs
@@ -63,4 +63,16 @@ Chunk NPC_MurratTek
 	Call pKill,"NPC_MurratTek"
 	Call pKill,"Barrier_MurratTek"	
 	Call VitalBoss,"MurratTek","","NPC_MurratTek"
+	exit
+	
+Chunk ZA_Door
+	Done Complete_013_Basement
+	Jmp OpenDeur
+	call Score,3500
+	:OpenDeur
+	call Open,ELEVATOR
+	exit
+	
+Chunk ZA_CloseDoor
+	Call Close,ELEVATOR
 	exit
