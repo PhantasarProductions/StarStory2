@@ -346,6 +346,15 @@ Init
 	End
 	Do
 		Var N = New TMusic()
+		N.Entry   = "Music/Combat/Phantasar/Day of Chaos.ogg"
+		N.License = "Creative Commons - By Attribution  (Incompetech.com)"
+		N.Title   = "Day of Chaos"
+		N.Artist  = "Kevin McLeod"
+		N.WebSite = "http://incompetech.com"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
 		N.Entry   = "Music/Dungeon/Dark Techno City.ogg"
 		N.License = "https://soundimage.org/attribution-info/"
 		N.Title   = "Dark Techno City"
@@ -387,15 +396,6 @@ Init
 		N.Title   = "In The Belly Of The Whale"
 		N.Artist  = "Nihilore"
 		N.WebSite = "http://www.nihilore.com/"
-		TMusic.Lst.AddLast(N)
-	End
-	Do
-		Var N = New TMusic()
-		N.Entry   = "Music/Combat/Phantasar/Day of Chaos.ogg"
-		N.License = "Creative Commons - By Attribution  (Incompetech.com)"
-		N.Title   = "Day of Chaos"
-		N.Artist  = "Kevin McLeod"
-		N.WebSite = "http://incompetech.com"
 		TMusic.Lst.AddLast(N)
 	End
 	Do
