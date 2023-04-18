@@ -76,11 +76,11 @@ Init
 	End
 	Do
 		Var N = New TMusic()
-		N.Entry   = "Music/Boss/Lilith's rage.ogg"
-		N.License = " No restrictions. Commercial use encouraged."
-		N.Title   = "Lilith's rage"
-		N.Artist  = "Aaron Krogh"
-		N.WebSite = "aaronkrog.tumblr.com"
+		N.Entry   = "Music/Combat/Boss/Katabasis.ogg"
+		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
+		N.Title   = "Katabasis"
+		N.Artist  = "Nihilore"
+		N.WebSite = "http://www.nihilore.com/"
 		TMusic.Lst.AddLast(N)
 	End
 	Do
@@ -184,15 +184,6 @@ Init
 	End
 	Do
 		Var N = New TMusic()
-		N.Entry   = "Music/Combat/Boss/Katabasis.ogg"
-		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
-		N.Title   = "Katabasis"
-		N.Artist  = "Nihilore"
-		N.WebSite = "http://www.nihilore.com/"
-		TMusic.Lst.AddLast(N)
-	End
-	Do
-		Var N = New TMusic()
 		N.Entry   = "Music/Combat/Phantasar/Hall Of The Mountain King.ogg"
 		N.License = "Creative Commons - By Attribution  (Incompetech.com)"
 		N.Title   = "Hall Of The Mountain King"
@@ -279,6 +270,15 @@ Init
 		N.Title   = "Dissent"
 		N.Artist  = "Nihilore"
 		N.WebSite = "http://www.nihilore.com/"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/Combat/SBoss/Lilith's rage.ogg"
+		N.License = " No restrictions. Commercial use encouraged."
+		N.Title   = "Lilith's rage"
+		N.Artist  = "Aaron Krogh"
+		N.WebSite = "aaronkrog.tumblr.com"
 		TMusic.Lst.AddLast(N)
 	End
 	Do
