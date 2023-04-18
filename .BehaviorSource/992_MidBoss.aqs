@@ -35,3 +35,19 @@
 ; version: 23.04.18
 ; End License Information
 Include Basis.aqs
+
+Chunk ZA_MidBoss
+	Done DefeatedMidBoss
+	jmptrue ForgetIt
+	call ipop,"MB","West"
+	call MapText,"MIDBOSS1"
+	call Schedule,"POSTMIDBOSS" 
+	call VitalBoss,"MIDBOSS","",""
+	:ForgetIt
+	exit
+	
+Chunk PostMidBoss
+	Call Geel,"SEIN_MIDBOSS" 
+	call MapText,"MIDBOSS2"
+	Call GoToMap,"012_SecretSafe","#001","FromMidBoss"
+	exit
