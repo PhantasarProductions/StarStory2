@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/DrawScreen.neil
-// Version: 22.04.13
-// Copyright (C) 2022 Jeroen Petrus Broks
+// Version: 23.04.19
+// Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -39,6 +39,9 @@ void _DS()
 	FlowField.Map.AutoScroll()
 	FlowField.Map.AutoTex()
 	FlowField.Map.KthuraMap.Draw(FieldFlow.Map.Layer,FieldFlow.Map.ScrollX,FieldFlow.Map.ScrollY)
+	If FlowField.Map.KthuraMap.Meta.CallbackPostDraw=="Yes"
+		FlowField.Script.Run("PostDraw")
+	End
 	FlowField.Welcome.Draw()
 End
 
