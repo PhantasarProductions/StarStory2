@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/lnk.uwn/Elevator.neil
-// Version: 23.04.16
+// Version: 23.04.20
 // Copyright (C) 2023 Jeroen Petrus Broks
 // 
 // ===========================
@@ -34,11 +34,129 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
+#use "Libs/LinkedList"
+
+Class TKeyCard
+	ReadOnly Int R
+	ReadOnly Int G
+	ReadOnly Int B
+	ReadOnly String Name
+	
+	ReadOnly Static Var Lijst = New TLinkedList()
+	
+	Constructor(Int _R,Int _G, Int _B,String _N)
+		CSay("Creating Keycard record: #%02x%02x%02x (%s)",_R,_G,_B,_N)
+		R = _R
+		G = _G
+		B = _B
+		Name=_N
+	End
+	
+End
+
 Module
+
+	Constructor
+		TKeyCard.Lijst.AddLast(New TKeyCard(255,  0,  0, "Red"))
+		TKeyCard.Lijst.AddLast(New TKeyCard(  0,255,  0, "Green"))
+		TKeyCard.Lijst.AddLast(New TKeyCard(  0,  0,255, "Blue"))
+		TKeyCard.Lijst.AddLast(New TKeyCard(255,180,  0, "Amber"))
+		TKeyCard.Lijst.AddLast(New TKeyCard(180,  0,255, "Purple"))
+	End
+
 	ReadOnly Var Yeah = Audio.LoadNew("Audio/SFX/Yeah.ogg","YEAH")
 
 	Void GoElevator()
 		State.LoadNew("FLOW_ELEVATOR","Script/Flow/FlowElevator.neil")
 		Flow.Current="FLOW_ELEVATOR"
 	End
+	
+	String KeyFloorTag(string Key)
+		string L = Lnk.Map.Layer
+		if Left(L,1)=="#"
+			L = Right(L,#L-1)
+		End
+		return sPrintF("EFU_KEY_%s_%s",Key,L)
+	End
+	
+	Get Bool Red
+		Return gv.vBool[KeyFloorTag("RED")]
+	End
+	
+	Get Bool Green
+		Return gv.vBool[KeyFloorTag("GREEN")]
+	End
+
+	Get Bool Blue
+		Return gv.vBool[KeyFloorTag("BLUE")]
+	End
+	
+	Get Bool Amber
+		Return gv.vBool[KeyFloorTag("AMBER")]
+	End
+	
+	Get Bool Purple
+		Return gv.vBool[KeyFloorTag("PURPLE")]
+	End
+	
+	Set Bool Red
+		 gv.vBool[KeyFloorTag("RED")] = Value
+	End
+	
+	Set Bool Green
+		 gv.vBool[KeyFloorTag("GREEN")] = Value
+	End
+
+	Set Bool Blue
+		 gv.vBool[KeyFloorTag("BLUE")] = Value
+	End
+	
+	Set Bool Amber
+		 gv.vBool[KeyFloorTag("AMBER")] = Value
+	End
+	
+	Set Bool Purple
+		 gv.vBool[KeyFloorTag("PURPLE")] = Value
+	End
+				 
+	
+	Void GiveKey(string k)
+		Static Int Score = 90 div __skill
+		Self[k] = true
+		Yeah.Play()
+		Lnk.Party.Score(Score)
+		Switch __Skill
+			case 1
+				Score += math.min(Score,5000)
+			case 2
+				Score += 60
+			case 3
+				Score++
+			Default
+				Lua.Error("Key invalid skill")
+		End
+	End
+	
+	Void DrawKeys()
+		static var KC = Image.LoadNew("GFX/Textures/EFU/Keycard.png","EFU_Keycard" )
+		KC.HotCenter()
+		int x = 10
+		int y = 70
+		for K in TKeyCard.Lijst.Each
+			if self[K.Name]
+				Graphics.Color(K.R,K.G,K.B)
+				Graphics.Scale(1.25,1.25)
+			Else
+				Graphics.Color(K.R div 2,K.G div 2,K.B div 2)
+				Graphics.Scale(1,1)
+			End
+			KC.Draw(x,y)
+			x+=40
+		End
+		Graphics.Scale(1,1)
+	End
+		
+				
+
 End
