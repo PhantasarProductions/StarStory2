@@ -32,6 +32,19 @@
 ; 
 ; **********************************************
 ; 
-; version: 23.04.19
+; version: 23.04.20
 ; End License Information
+
+; The base features are here
 Include EFU.aqs
+
+
+; And these chunks are specific for the first part 
+; So no need to have them loaded in part 2 as well.
+Chunk Load
+	call CSay,"EFU HeadQuarters Part 1"
+	exit
+	
+Chunk ZA_AMATEUR
+	Call MapText,"AMATEUR"
+	exit
