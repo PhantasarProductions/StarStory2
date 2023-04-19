@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 23.04.16
+; version: 23.04.20
 ; End License Information
 
 Include Basis.aqs
@@ -80,7 +80,7 @@ Chunk ZA_CloseDoor
 Chunk ZA_Elevator
 	Done Tut_Elevator
 	JmpTrue MetDeLift
-	;call MapText,"ELEVATOR"
+	call MapText,"ELEVATOR"
 	call Score,2500
 	:MetDeLift
 	;call Crash,"Elevator not yet scripted"
