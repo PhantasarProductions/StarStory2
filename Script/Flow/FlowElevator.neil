@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowElevator.neil
-// Version: 23.04.16
+// Version: 23.04.19
 // Copyright (C) 2023 Jeroen Petrus Broks
 // 
 // ===========================
@@ -50,7 +50,7 @@ Class Floor
 	
 	Const Bool Always = true
 	Get Bool KeyCard
-		return gv.vBool[sPrintF("EUF_KEY_RED_%03d",math.max(0,IDN-1))]
+		return gv.vBool[sPrintF("EFU_KEY_RED_%03d",math.max(0,IDN-1))]
 	end
 	
 	ReadOnly String UnLockCheck
