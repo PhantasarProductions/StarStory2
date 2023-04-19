@@ -34,10 +34,57 @@
 ; 
 ; version: 23.04.19
 ; End License Information
+
 Include Basis.aqs
 
 CSCHUNK ZA_Elevator,Lnk.Elevator.GoElevator
+CSCHUNK GiveKey,Lnk.Elevator.GiveKey
+CSChunk DrawKeys,Lnk.Elevator.DrawKeys
 
+Chunk NPC_Red
+	call GiveKey,"Red"
+	Call CSay,"Red Key"
+	call miniwrt,"You grabbed the ",255,255,255
+	call miniwrt,"red ",255,0,0
+	call minimsg,"key ",255,255,255
+	call pkill,"NPC_Red"
+	exit
+
+Chunk NPC_Green
+	call GiveKey,"Green"
+	Call CSay,"Green Key"
+	call miniwrt,"You grabbed the ",255,255,255
+	call miniwrt,"green ",0,255,0
+	call minimsg,"key ",255,255,255
+	call pkill,"NPC_Green"
+	exit
+
+Chunk NPC_Blue
+	call GiveKey,"Blue"
+	Call CSay,"Blue Key"
+	call miniwrt,"You grabbed the ",255,255,255
+	call miniwrt,"blue",0,0,255
+	call minimsg,"key ",255,255,255
+	call pkill,"NPC_Blue"
+	exit
+	
+Chunk NPC_Amber
+	call GiveKey,"Amber"
+	Call CSay,"Amber Key"
+	call miniwrt,"You grabbed the ",255,255,255
+	call miniwrt,"amber",255,180,0
+	call minimsg,"key ",255,255,255
+	call pkill,"NPC_Amber"
+	exit
+
+Chunk NPC_Purple
+	call GiveKey,"Purple"
+	Call CSay,"Purple Key"
+	call miniwrt,"You grabbed the ",255,255,255
+	call miniwrt,"purple",180,0,255
+	call minimsg,"key ",255,255,255
+	call pkill,"NPC_Purple"
+	exit
 
 Chunk ZA_Open
 	call CSay,"Open Sesame!"
@@ -48,3 +95,6 @@ Chunk ZA_Close
 	call CSay,"Close Sesame!"
 	call Close,ELEVATOR
 	exit
+	
+Chunk PostDraw
+	call DrawKeys
