@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/lnk.uwn/Map.Neil
-// Version: 23.02.10
+// Version: 23.04.20
 // Copyright (C) 2021, 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
@@ -151,6 +151,10 @@ Module
 		End
 		//print(sprintf ("Calling %s(%s)",func,pr))
 		State.Call("FLOW_FIELD",func,pr)
+	End
+	
+	Void HideLabelInAllLayers(string Label)
+		MCall("FlowField.Map.HideLabelInAllLayers",Label)
 	End
 
 	Void ScrollTo(Int X,Int Y,Int Speed = 1)
