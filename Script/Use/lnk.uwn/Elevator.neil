@@ -120,6 +120,9 @@ Module
 		 gv.vBool[KeyFloorTag("PURPLE")] = Value
 	End
 				 
+	Void CheckKey(string K)
+		gv.vBool.CheckedKey = self[K]
+	End
 	
 	Void GiveKey(string k)
 		Static Int Score = 90 div __skill
