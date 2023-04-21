@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 23.04.19
+; version: 23.04.21
 ; End License Information
 
 Include Basis.aqs
@@ -40,6 +40,16 @@ Include Basis.aqs
 CSCHUNK ZA_Elevator,Lnk.Elevator.GoElevator
 CSCHUNK GiveKey,Lnk.Elevator.GiveKey
 CSChunk DrawKeys,Lnk.Elevator.DrawKeys
+CSChunk HideAll,Lnk.Map.HideLabelInAllLayers
+CSChunk CheckKey,Lnk.Elevator.CheckKey
+
+Chunk Load
+	call HideAll,"Red"
+	call HideAll,"Green"
+	call HideAll,"Blue"
+	call HideAll,"Amber" 
+	call HideAll,"Purple"
+	; NO exit call here!!!
 
 Chunk NPC_Red
 	call GiveKey,"Red"
@@ -48,6 +58,7 @@ Chunk NPC_Red
 	call miniwrt,"red ",255,0,0
 	call minimsg,"key ",255,255,255
 	call pkill,"NPC_Red"
+:failed
 	exit
 
 Chunk NPC_Green
@@ -55,7 +66,7 @@ Chunk NPC_Green
 	Call CSay,"Green Key"
 	call miniwrt,"You grabbed the ",255,255,255
 	call miniwrt,"green ",0,255,0
-	call minimsg,"key ",255,255,255
+	call minimsg," key ",255,255,255
 	call pkill,"NPC_Green"
 	exit
 
@@ -64,7 +75,7 @@ Chunk NPC_Blue
 	Call CSay,"Blue Key"
 	call miniwrt,"You grabbed the ",255,255,255
 	call miniwrt,"blue",0,0,255
-	call minimsg,"key ",255,255,255
+	call minimsg," key ",255,255,255
 	call pkill,"NPC_Blue"
 	exit
 	
@@ -73,7 +84,7 @@ Chunk NPC_Amber
 	Call CSay,"Amber Key"
 	call miniwrt,"You grabbed the ",255,255,255
 	call miniwrt,"amber",255,180,0
-	call minimsg,"key ",255,255,255
+	call minimsg," key ",255,255,255
 	call pkill,"NPC_Amber"
 	exit
 
@@ -82,10 +93,68 @@ Chunk NPC_Purple
 	Call CSay,"Purple Key"
 	call miniwrt,"You grabbed the ",255,255,255
 	call miniwrt,"purple",180,0,255
-	call minimsg,"key ",255,255,255
+	call minimsg," key ",255,255,255
 	call pkill,"NPC_Purple"
 	exit
 
+Chunk ZA_Green	
+	call CheckKey,"Green"
+	chk &CheckedKey
+	jmpfalse failed
+	call CSay,"Is the green door open now?" 
+	call Kill,"Green" 
+	call LShow,"Green"
+	call Open,"Green"
+	:failed
+	exit
+	
+Chunk ZA_Blue
+	call CheckKey,"Blue"
+	chk &CheckedKey
+	jmpfalse failed
+	call CSay,"Is the blue door open now?" 
+	call Kill,"Blue" 
+	call LShow,"Blue"
+	call Open,"Blue"
+	:failed
+	exit
+
+Chunk ZA_Amber
+	call CheckKey,"Amber"
+	chk &CheckedKey
+	jmpfalse failed
+	call CSay,"Is the amber door open now?" 
+	call Kill,"Amber" 
+	call LShow,"Amber"
+	call Open,"Amber"
+	:failed
+	exit
+
+Chunk ZA_Purple
+	call CheckKey,"Purple"
+	chk &CheckedKey
+	jmpfalse failed
+	call CSay,"Is the purple door open now?" 
+	call Kill,"Purple" 
+	call LShow,"Purple"
+	call Open,"Purple"
+	:failed
+	exit
+
+Chunk ZA_Red
+	; I know this one seems a bit odd, but yeah it *is* possible to lock doors with the red key.
+	; As a matter of fact, the secret floors could make use of this.
+	call CheckKey,"Red"
+	chk &CheckedKey
+	jmpfalse failed	
+	call CSay,"Is the red door open now?" 
+	call Kill,"Red" 
+	call LShow,"Red"
+	call Open,"Red"
+	:failed
+	exit
+
+	
 Chunk ZA_Open
 	call CSay,"Open Sesame!"
 	call Open,ELEVATOR
@@ -94,6 +163,10 @@ Chunk ZA_Open
 Chunk ZA_Close
 	call CSay,"Close Sesame!"
 	call Close,ELEVATOR
+	exit
+	
+Chunk ZA_Close2
+	Call ZA_Close
 	exit
 	
 Chunk PostDraw
