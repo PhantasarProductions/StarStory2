@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 23.04.20
+; version: 23.04.22
 ; End License Information
 
 ; The base features are here
@@ -43,8 +43,35 @@ Include EFU.aqs
 ; So no need to have them loaded in part 2 as well.
 Chunk Load
 	call CSay,"EFU HeadQuarters Part 1"
-	exit
+	; No Exit (could cause conflicts) ;
 	
 Chunk ZA_AMATEUR
 	Call MapText,"AMATEUR"
+	exit
+	
+Chunk ZA_GoodIdeas
+	Done EFU_GoodIdeas
+	jmptrue ga_weg
+	Call MapText,"GOODIDEAS"
+	Call Score,100
+	:ga_weg
+	exit
+	
+Chunk ZA_Sein1
+	call CheckKey,"Red"
+	chk &CheckedKey
+	jmpfalse failed
+	Done EFU_Sein_1eVerdiepingOpGeel
+	jmptrue failed
+	call Geel,"SEIN_00000000"
+	call Score,3000
+	:failed
+	exit
+	
+Chunk NPC_Chair
+	Done EFU_Chair
+	jmptrue byebye
+	call MapText,"CHAIR"
+	call Score,200
+	:byebye
 	exit
