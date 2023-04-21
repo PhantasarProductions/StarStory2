@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Door.neil
-// Version: 22.05.13
-// Copyright (C) 2022 Jeroen Petrus Broks
+// Version: 23.04.20
+// Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -94,9 +94,10 @@ Module Class
 	End
 	
 	Static Void SetOpen(String Col,Bool IsNowOpen)
+		Col=Col:upper()
 		String C = sprintf("SetOpen(%s,%s): ",Col,Lua.tostring(IsNowOpen))
 		Lua.assert(Doors[FlowField.Map.Layer],C.."No doors registered in layer: "..FlowField.Map.Layer)
-		Lua.assert(Doors[FlowField.Map.Layer][Col],sprintf("Layer %s does not have collection %s",FlowField.Map.Layer,Col))
+		Lua.assert(Doors[FlowField.Map.Layer][Col],sprintf("Layer %s does not have door collection %s",FlowField.Map.Layer,Col))
 		For Obj in Each(Doors[FlowField.Map.Layer][Col])
 			// TODO: Sound on change
 			Obj.IsOpen = IsNowOpen
