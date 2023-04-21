@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Map.neil
-// Version: 23.02.10
+// Version: 23.04.20
 // Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
@@ -255,6 +255,13 @@ Module
 	Void UnBlock(string Tag)
 		CurLayer.Obj(Tag).Impassible = false
 	End
+	
+	Void HideLabelInAllLayers(string Label)
+		For IL in each(FlowField.Map.KthuraMap.Layers)
+			FlowField.Map.KthuraMap.Layer(IL).HideByLabel(Label)
+		End
+	End
+			
 	
 	Void CBLoadMap(string MapBundle)
 		ActorWind = ActorWindDefault
