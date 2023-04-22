@@ -55,6 +55,7 @@ Module Class
 		SubArena = {}
 		SubArena["#001"] = "PhanDung"
 		SubArena["#002"] = "Muerte"
+		SubArena["#003"] = "Slums"
 	End
 	
 	Static Void NewBattle()
