@@ -58,6 +58,7 @@ Chunk ZA_GoodIdeas
 	exit
 	
 Chunk ZA_Sein1
+	; Turn the sein to amber when the red key is in possession
 	call CheckKey,"Red"
 	chk &CheckedKey
 	jmpfalse failed
