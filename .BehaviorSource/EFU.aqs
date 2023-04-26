@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 23.04.21
+; version: 23.04.22
 ; End License Information
 
 Include Basis.aqs
@@ -171,3 +171,8 @@ Chunk ZA_Close2
 	
 Chunk PostDraw
 	call DrawKeys
+	exit
+	
+Chunk ZA_KillMe
+	Call Kill,"ZA_KillMe"
+	exit
