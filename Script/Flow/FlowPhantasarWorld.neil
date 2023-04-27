@@ -86,7 +86,7 @@ Init
 	A = new Destination("ZUID","Southern Forest","PHAN_SOUTHERN","#001","Start")
 	A = new Destination("DOOM","The Temple Of Doom","PHAN_DOOM","#001","Start")
 	A = new Destination("DRGN","The Dragon Ruins","PHAN_DRAGON","#000","Start")
-	A = new Destination("MINE","The Airom Mines","PHAN_AIROM","MINE","Start")
+	A = new Destination("MINE","The Abandoned Mines","PHAN_MINES","#001","Start")
 	CSay("Phantasar World Map Initiated")
 End
 
