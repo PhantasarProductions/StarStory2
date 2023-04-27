@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 23.04.22
+; version: 23.04.27
 ; End License Information
 
 ; The base features are here
@@ -75,5 +75,27 @@ Chunk NPC_Chair
 	jmptrue byebye
 	call MapText,"CHAIR"
 	call Score,200
+	:byebye
+	exit
+	
+Chunk ZA_Bnied
+	call MapText,"BNIED"
+	call Schedule,"Bnied_Post"
+	Call VitalBoss,"Bnied","","Bnied"
+	call PKill,"ZA_Bnied"
+	call PKill,"Bnied"
+	Call Score,300
+	exit
+	
+Chunk Bnied_post
+	call MapText,"BNIED_POST"
+	call Score,400
+	exit
+	
+Chunk ZA_Puppets
+	Done EFU_Puppets
+	jmptrue byebye
+	call MapText,"PUPPETS"
+	call Score,500
 	:byebye
 	exit
