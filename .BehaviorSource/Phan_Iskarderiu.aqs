@@ -32,9 +32,11 @@
 ; 
 ; **********************************************
 ; 
-; version: 23.03.27
+; version: 23.04.27
 ; End License Information
 Include Phantasar.aqs
+
+CsChunk AllowRachel,Abl.Klahre.AllowRachel
 
 Chunk Load
 	Done PHANTASAR_VISIT_ISKARDERIU
@@ -169,3 +171,22 @@ Chunk NPC_KEIZER
 	:KeizerAlgemeen
 	Call MapText,"KEIZER"
 	exit
+	
+	
+Chunk ZA_AllowRachel
+	Call AllowRachel
+	Chk &AllowRachel
+	JmpTrue RachelStays
+	call kill,"NPC_Rachel"
+	:RachelStays
+	exit
+	
+Chunk NPC_Rachel
+	Done PhantasarUnlocked_Mine
+	JmpTrue Rach2
+	Call Phantext,"RACHEL1"
+	
+	exit
+	:Rach2
+	Chk &MinesDone
+	JmpTrue Rach3
