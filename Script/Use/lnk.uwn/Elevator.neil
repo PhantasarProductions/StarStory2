@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/lnk.uwn/Elevator.neil
-// Version: 23.04.20
+// Version: 23.04.24
 // Copyright (C) 2023 Jeroen Petrus Broks
 // 
 // ===========================
@@ -124,8 +124,18 @@ Module
 		gv.vBool.CheckedKey = self[K]
 	End
 	
+	Get Int Score
+		Return math.max(gv.gint.EFU_Elevator_Key_Score,90 div __skill)
+	End
+	
+	Set Int Score
+		gv.gint.EFU_Elevator_Key_Score = math.min(Value,12000 div __skill)
+		CSayF("Keycard Score set to: %d",Value)
+	End
+	
+	
 	Void GiveKey(string k)
-		Static Int Score = 90 div __skill
+		//Static Int Score = 90 div __skill
 		Self[k] = true
 		Yeah.Play()
 		Lnk.Party.Score(Score)
