@@ -154,10 +154,10 @@ Module
 	End
 	
 	Void AllowRachel()
-		gvBool.AllowRachel = Stuff.Count("LIST","ARMSGATHERED")>=13
+		gv.gBool.AllowRachel = Stuff.Count("LISTS","ARMSGATHERED")>=13
+		CSayF("ARMS gathered: %02d! Rachel allowed: %s",Stuff.Count("LISTS","ARMSGATHERED"),Lua.tostring(gv.gBool.AllowRachel))		
 	End
-		
-	End
+			
 	
 	Link GetARMEXP = gv.gint.KLAHRE_ARM_EXPERIENCE
 	
