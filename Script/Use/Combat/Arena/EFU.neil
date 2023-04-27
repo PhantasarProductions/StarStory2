@@ -32,30 +32,50 @@
 // 
 // **********************************************
 // 
-// version: 23.04.22
+// version: 23.04.27
 // End License Information
 
 #use "libs/linkedlist"
 #use "libs/xmath"
 
+
 Module Class
 	
+	static Var SubArena 
+	static Var SubArenaData
 	
+	Static Void ArenaInit()
+		CSayF("Arena Init")
+		SubArenaData = SubArenaData || {}
+		SubArena     = SubArena || {}
+		SubArena["#001"]    = "PhanDung"
+		SubArena["#002"]    = "Muerte"
+		SubArena["#003"]    = "Slums"
+		SubArena["#004"]    = "PhanDung"
+		SubArena["#005"]    = "Feo"
+		SubArena["SECRET1"] = "Feo" 
+	End
 	
-	ReadOnly Var SubArena
-	ReadOnly Var SubArenaData
-	
-	Get Var SAD
-		SubArenaData[Lnk.Map.Layer] = SubArenaData[Lnk.Map.Layer] = NeilUse("Script/Use/Combat/Arena/"..SubArena[Lnk.Map.Layer]
+	Static Get Var SAD
+		if !SubArena
+			ArenaInit()
+		End
+		if !SubArena[Lnk.Map.Layer]
+			CSayF("No value for SubArena['%s']",Lnk.Map.Layer)
+			For k,v in spairs(SubArena)
+				CSayF("%s %s = '%s'",Lua.type(v),k,Lua.tostring(v))
+			end
+			Lua.Error(Lnk.Map.Layer.." has no arena data")
+		end
+		if !SubArenaData[Lnk.Map.Layer]
+			SubArenaData[Lnk.Map.Layer] = NeilUse("Script/Use/Combat/Arena/"..SubArena[Lnk.Map.Layer])
+			SubArenaData[Lnk.Map.Layer].Load()
+		End
 		Return SubArenaData[Lnk.Map.Layer]
 	End
 	
 	Constructor
-		SubArenaData = {}
-		SubArena = {}
-		SubArena["#001"] = "PhanDung"
-		SubArena["#002"] = "Muerte"
-		SubArena["#003"] = "Slums"
+		ArenaInit()
 	End
 	
 	Static Void NewBattle()
