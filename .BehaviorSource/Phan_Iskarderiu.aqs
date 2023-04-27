@@ -184,9 +184,15 @@ Chunk ZA_AllowRachel
 Chunk NPC_Rachel
 	Done PhantasarUnlocked_Mine
 	JmpTrue Rach2
-	Call Phantext,"RACHEL1"
-	
+	Call Phantext,"RACHEL1"	
 	exit
+	
 	:Rach2
 	Chk &MinesDone
 	JmpTrue Rach3
+	Call PhanText,"RACHEL2"
+	exit
+	
+	:Rach3
+	call Crash,"Rachel not yet scripted for this situation"
+	exit
