@@ -32,11 +32,12 @@
 ; 
 ; **********************************************
 ; 
-; version: 23.05.01
+; version: 23.05.02
 ; End License Information
 Include Phantasar.aqs
 
 CsChunk AllowRachel,Abl.Klahre.AllowRachel
+CsChunk ObtainArkSmash,Abl.Klahre.ObtainArkSmash
 
 Chunk Load
 	Done PHANTASAR_VISIT_ISKARDERIU
@@ -194,5 +195,13 @@ Chunk NPC_Rachel
 	exit
 	
 	:Rach3
-	call Crash,"Rachel not yet scripted for this situation"
+	Done PhantasarArkSmashObtained
+	JmpTrue Rach4
+	Call PhanText,"RACHEL3"
+	Call ObtainArkSmash
+	;call Crash,"Rachel not yet scripted for this situation"
+	exit
+	
+	:Rach4
+	call PhanText,"RACHEL4" 
 	exit
