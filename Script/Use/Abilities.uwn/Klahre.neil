@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 23.04.27
+// version: 23.05.02
 // End License Information
 
 #use "libs/fittext"
@@ -174,9 +174,27 @@ Module
 			RPGChar.Klahre.Points.EXP.Have += Self.GetARMEXP
 			Lua.Neil.Globals.FlowField.Map.CurLayer.Obj(_ARM).Texture="GFX/Treasure/ARMS_Chest_Open.png"
 			Add(_ARM)
+			TARM._TrueList = nil
 		Else
 			Lnk.BoxText.Serial("ARM","NO_"..Lead:upper())
 		End
+	End
+	
+	Void ObtainArkSmash()
+		For i,ta in ipairs(TARM.List)
+			var a = ARM[ta]
+			if __skill==1 
+				a.XRepeat++
+			end
+			a.XPower+=4-__skill
+			a.AmmoMax+=3-__skill
+			a.Hit+=12 div __skill			
+		End
+		Self.GetARMEXP += 50
+		RPGChar.Klahre.Points.EXP.Have += Self.GetARMEXP
+		Stuff.Add("LISTS","ARMSGATHERED","ARM_ARKSMASH")
+		TARM._TrueList = nil
+		//ARM_MAP.ARM_ARKSMASH || new TARM("ARM_ARKSMASH")
 	End
 	
 	Get Int MX
