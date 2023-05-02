@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 23.04.27
+; version: 23.05.01
 ; End License Information
 Include Phantasar.aqs
 
@@ -188,7 +188,7 @@ Chunk NPC_Rachel
 	exit
 	
 	:Rach2
-	Chk &MinesDone
+	Chk &PhanMineMetalTakenForRachel
 	JmpTrue Rach3
 	Call PhanText,"RACHEL2"
 	exit

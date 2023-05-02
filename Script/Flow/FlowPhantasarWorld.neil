@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 23.02.10
+// version: 23.04.28
 // End License Information
 #use "Script/Use/Anyway"
 #use "Libs/LinkedList" 
@@ -86,7 +86,7 @@ Init
 	A = new Destination("ZUID","Southern Forest","PHAN_SOUTHERN","#001","Start")
 	A = new Destination("DOOM","The Temple Of Doom","PHAN_DOOM","#001","Start")
 	A = new Destination("DRGN","The Dragon Ruins","PHAN_DRAGON","#000","Start")
-	A = new Destination("MINE","The Abandoned Mines","PHAN_MINES","#001","Start")
+	A = new Destination("MINE","The Abandoned Mines","PHAN_MINE","#001","Start")
 	CSay("Phantasar World Map Initiated")
 End
 
