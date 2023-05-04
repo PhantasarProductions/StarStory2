@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 23.04.27
+// version: 23.05.03
 // End License Information
 
 #use "libs/linkedlist"
@@ -54,6 +54,8 @@ Module Class
 		SubArena["#004"]    = "PhanDung"
 		SubArena["#005"]    = "Feo"
 		SubArena["#006"]    = "PhanDung"
+		SubArena["#007"]    = "Muerte"
+		SubArena["#008"]    = "Feo"
 		SubArena["SECRET1"] = "Feo" 
 	End
 	
