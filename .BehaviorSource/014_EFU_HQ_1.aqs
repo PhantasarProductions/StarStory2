@@ -32,6 +32,7 @@
 ; 
 ; **********************************************
 ; 
+; version: 23.05.04
 ; End License Information
 
 ; The base features are here
@@ -107,4 +108,11 @@ Chunk ZA_Admin
 	:byebye
 	exit
 	
+Chunk ZA_Press
+	Done EFU_Press
+	jmptrue byebye
+	call MapText,"PRESS"
+	call QAudio,"Audio/SFX/Ba Dum Tish.ogg"
+	call Score,700
+	:byebye
 	exit
