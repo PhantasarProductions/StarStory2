@@ -32,7 +32,6 @@
 ; 
 ; **********************************************
 ; 
-; version: 23.04.27
 ; End License Information
 
 ; The base features are here
@@ -98,4 +97,14 @@ Chunk ZA_Puppets
 	call MapText,"PUPPETS"
 	call Score,500
 	:byebye
+	exit
+	
+Chunk ZA_Admin
+	Done EFU_Admin
+	jmptrue byebye
+	call MapText,"ADMIN"
+	call Score,600
+	:byebye
+	exit
+	
 	exit
