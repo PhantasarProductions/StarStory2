@@ -39,3 +39,7 @@ Three difficulty settings, so the game can be a nice start up for the newbie, bu
 
 ## Platforms
 Windows will be the primary target, however since the underlying Apollo engine was entirely coded in C++ and its source code has been released under the terms of the GPL3 ports to other platforms should be easily possible.
+
+## Site
+
+The game has its own page on [itch](https://phantasar-productions.itch.io/star-story-ii).
