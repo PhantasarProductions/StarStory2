@@ -58,6 +58,7 @@ Module Class
 		SubArena["#008"]    = "Feo"
 		SubArena["#009"]    = "Muerte"
 		SubArena["#010"]    = "PhanDung"
+		SubArena["#011"]    = "Muerte"
 		SubArena["SECRET1"] = "Feo" 
 	End
 	
