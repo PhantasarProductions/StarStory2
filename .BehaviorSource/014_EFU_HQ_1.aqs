@@ -124,3 +124,11 @@ Chunk ZA_Dance
 	call Score,800
 	:byebye
 	exit
+	
+	
+Chunk ZA_Fraudci
+	call MapText,"Fraudci"
+	call PKill,"ZA_Fraudci"
+	call Score,900
+	Call VitalBoss,"Fraudci","","Fraudci"
+	call PKill,"Fraudci"
