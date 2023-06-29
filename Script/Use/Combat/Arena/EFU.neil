@@ -32,12 +32,18 @@
 // 
 // **********************************************
 // 
-// version: 23.05.13
+// version: 23.06.13
 // End License Information
 
 #use "libs/linkedlist"
 #use "libs/xmath"
 
+
+QuickMeta Darkness
+	Index
+		Return NIKS
+	End
+End
 
 Module Class
 	
@@ -59,7 +65,12 @@ Module Class
 		SubArena["#009"]    = "Muerte"
 		SubArena["#010"]    = "PhanDung"
 		SubArena["#011"]    = "Muerte"
+		SubArena["#012"]    = "Dark"  // Not needed, but crash prevention
+		SubArena["#013"]    = "Muerte"
+		SubArena["#014"]    = "Muerte"
 		SubArena["SECRET1"] = "Feo" 
+		
+		SubArenaData["#012"] = Darkness
 	End
 	
 	Static Get Var SAD
@@ -71,7 +82,7 @@ Module Class
 			For k,v in spairs(SubArena)
 				CSayF("%s %s = '%s'",Lua.type(v),k,Lua.tostring(v))
 			end
-			Lua.Error(Lnk.Map.Layer.." has no arena data")
+			Lua.error(Lnk.Map.Layer.." has no arena data")
 		end
 		if !SubArenaData[Lnk.Map.Layer]
 			SubArenaData[Lnk.Map.Layer] = NeilUse("Script/Use/Combat/Arena/"..SubArena[Lnk.Map.Layer])
