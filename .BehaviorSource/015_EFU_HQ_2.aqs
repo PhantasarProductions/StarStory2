@@ -49,3 +49,7 @@ Chunk ZA_Dark
 	call MapText,"DARK"
 	call Score,1200
 	
+Chunk ZA_Morgue
+	call PKill,"ZA_Morgue" 
+	call MapText,"MORGUE"
+	call Score,1234
