@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 23.06.14
+; version: 23.07.05
 ; End License Information
 Include EFU.aqs
 
@@ -53,3 +53,12 @@ Chunk ZA_Morgue
 	call PKill,"ZA_Morgue" 
 	call MapText,"MORGUE"
 	call Score,1234
+	
+Chunk NPC_Gajes
+	; Only needed because of the Sein system
+	Done DEFEATED_GAJES
+	Call MapText,"GAJES"
+	call Score,1600
+	Call VitalBoss,"Gajes","","Gajes"
+	Call PKill,"NPC_Gajes" 
+	Call Schedule,NPC_Red
