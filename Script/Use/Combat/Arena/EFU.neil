@@ -68,6 +68,7 @@ Module Class
 		SubArena["#012"]    = "Dark"  // Not needed, but crash prevention
 		SubArena["#013"]    = "Muerte"
 		SubArena["#014"]    = "Muerte"
+		SubArena["#015"]    = "EFU_Gajes"
 		SubArena["SECRET1"] = "Feo" 
 		
 		SubArenaData["#012"] = Darkness

@@ -35,8 +35,8 @@
 // version: 23.07.05
 // End License Information
 Module
-	Const String WallFile = "GFX/TextureS/Walls/lgrey133.jpg"
-	Const String FloorFile = "GFX/TextureS/Floor/Grreen105.png"
+	Const String WallFile  = "GFX/TextureS/Walls/lgrey133.jpg"
+	Const String FloorFile = "GFX/TextureS/Floor/green105.jpg"
 	
 	Const Var NewBattle = NIKS
 	
