@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 23.07.05
+// version: 23.07.07
 // End License Information
 
 const table _rmax = {3,4,10}
@@ -44,14 +44,15 @@ var RandTarget(bool enemy)
 	repeat
 		TimeOut--
 		if (TimeOut<=0)
-			Return Fighter.ByTag.FOE_5
+			Return Fighter.ByTag.FOE005
 		end
 		if enemy
-			ret = sprintf("FOE_%d",math.random(1,9))
+			ret = sprintf("FOE%03d",math.random(1,9))
 		else
 			ret = RPGParty[math.random(1,4)]
 		end
 		retf = Fighter.ByTag[ret]
+		Lua.assert(retf,sprintf("Tag '%s' could not be found, and thefore not be checked! (%s/%d)",ret,tostring(enemy),TimeOut))
 	until retf.HP>0
 	return retf
 end

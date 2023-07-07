@@ -53,7 +53,7 @@ module
 	// Init will be called EVERY time a move is being performed.
 	CONSTRUCTOR
 		CSay("Load the pictures")
-		BSOD_Image = Image.LoadNew("GFX/Combat/Spellani/BSOD.jpbf","SPELLANI_BSOD")
+		BSOD_Image = Image.LoadNew("GFX/Combat/Spellani/BSOD.png","SPELLANI_BSOD")
 	end	
 
 	void Start(aact)
@@ -64,7 +64,7 @@ module
 	
 	void Draw()
 		__White
-		BSOD_Image.Stretch(0,0,Screen.W,Screen.H,CopF)
+		BSOD_Image.Stretch(0,0,Screen.W,Screen.H) //,CopF)
 	end
 	
 	void Update()
