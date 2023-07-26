@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 23.07.05
+; version: 23.07.16
 ; End License Information
 Include EFU.aqs
 
@@ -62,3 +62,22 @@ Chunk NPC_Gajes
 	Call VitalBoss,"Gajes","","Gajes"
 	Call PKill,"NPC_Gajes" 
 	Call Schedule,NPC_Red
+	
+Chunk ZA_Security
+	Done EFU_Security
+	JmpTrue ByeBye
+	call MapText,"Security"
+	call Score,1600
+	:ByeBye
+	exit
+	
+CSChunk BonusRate, Any.Aurina.BonusRate
+
+Chunk ZA_SecretComplete
+	Done EFU_SECRET2
+	JmpTrue Byebye
+	Call Score,123456789
+	Call CSay,"Chamber of Secrets complete"
+	Call BonusRate
+	:ByeBye
+	Exit

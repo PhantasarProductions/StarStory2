@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowConsole.neil
-// Version: 23.01.25
+// Version: 23.07.16
 // Copyright (C) 2020, 2021, 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
@@ -418,6 +418,9 @@ deftable icommandtable
 			end
 		end
 	end
+	AURINA = void(table Yeah)
+		CSayF("Aurina Rate %d",Any.Aurina.Rate)
+	End
 end
 
 

@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 23.01.31
+// version: 23.07.16
 // End License Information
 Module
 
@@ -113,6 +113,27 @@ Module
 		End		 
 	End
 	
+	Void BonusRate()
+		Number A=1
+		if Done.RateDoubled
+			CSay("Bonus rate - Already done, so won't do it again")
+			Return
+		End
+		Switch __Skill
+		case 3
+			A=4
+		case 2
+			A=2
+		case 3
+			A=1.10
+		default
+			Lua.error("Skill error on Bonus Rate")
+		end
+		CSayF("Rate %d will be increased by factor %1.3f",Rate,A)
+		Rate = math.floor(Rate * A)
+		CSayF("Rate is now %d",Rate)
+		
+	End
 	
 	Get Int SpentShilders
 		Return gv.gint.ShildersSpent
