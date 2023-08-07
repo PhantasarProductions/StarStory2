@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 23.07.16
+; version: 23.08.07
 ; End License Information
 Include EFU.aqs
 
@@ -68,6 +68,14 @@ Chunk ZA_Security
 	JmpTrue ByeBye
 	call MapText,"Security"
 	call Score,1600
+	:ByeBye
+	exit
+	
+Chunk ZA_Cave
+	Done EFU_CaveTalk
+	JmpTrue ByeBye
+	call MapText,"Cave"
+	call Score,1700
 	:ByeBye
 	exit
 	
