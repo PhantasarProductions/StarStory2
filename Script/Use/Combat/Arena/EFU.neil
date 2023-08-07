@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 23.07.16
+// version: 23.08.07
 // End License Information
 
 #use "libs/linkedlist"
@@ -70,6 +70,7 @@ Module Class
 		SubArena["#014"]    = "Muerte"
 		SubArena["#015"]    = "EFU_Gajes"
 		SubArena["#016"]    = "EFU_016"
+		SubArena["#017"]    = "LetsGoBrandon" 
 		SubArena["SECRET1"] = "Feo"
 		SubArena["SECRET2"] = "Feo" 
 		
