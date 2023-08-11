@@ -1,0 +1,96 @@
+; License Information:
+; **********************************************
+; 
+; src/Tricky Script/.BehaviorSource/EFU_Guards.aqs
+; (c) Jeroen Broks, 2023, All Rights Reserved.
+; 
+; This file contains material that is related
+; to a storyline that is which is strictly
+; copyrighted to Jeroen Broks.
+; 
+; This file may only be used in an unmodified
+; form with an unmodified version of the
+; software this file belongs to.
+; 
+; You may use this file for your study to see
+; how I solved certain things in the creation
+; of this project to see if you find valuable
+; leads for the creation of your own.
+; 
+; Mostly this file comes along with a project
+; that is for most part released under an
+; open source license and that means that if
+; you use that code with this file removed
+; from it, you can use it under that license.
+; Please check out the other files to find out
+; which license applies.
+; This file comes 'as-is' and in no possible
+; way the author can be held responsible of
+; any form of damages that may occur due to
+; the usage of this file
+; 
+; 
+; **********************************************
+; 
+; version: 23.08.08
+; End License Information
+CHUNK ZA_G1
+	call Score,1000
+	call VitalBoss,"Security","","Security"
+	call kill,"G1"
+	call kill,"ZA_G1"
+CHUNK ZA_G2
+	call Score,2000
+	call VitalBoss,"Security","","Security"
+	call kill,"G2"
+	call kill,"ZA_G2"
+CHUNK ZA_G3
+	call Score,3000
+	call VitalBoss,"Security","","Security"
+	call kill,"G3"
+	call kill,"ZA_G3"
+CHUNK ZA_G4
+	call Score,4000
+	call VitalBoss,"Security","","Security"
+	call kill,"G4"
+	call kill,"ZA_G4"
+CHUNK ZA_G5
+	call Score,5000
+	call VitalBoss,"Security","","Security"
+	call kill,"G5"
+	call kill,"ZA_G5"
+CHUNK ZA_G6
+	call Score,6000
+	call VitalBoss,"Security","","Security"
+	call kill,"G6"
+	call kill,"ZA_G6"
+CHUNK ZA_G7
+	call Score,7000
+	call VitalBoss,"Security","","Security"
+	call kill,"G7"
+	call kill,"ZA_G7"
+CHUNK ZA_G8
+	call Score,8000
+	call VitalBoss,"Security","","Security"
+	call kill,"G8"
+	call kill,"ZA_G8"
+CHUNK ZA_G9
+	call Score,9000
+	call VitalBoss,"Security","","Security"
+	call kill,"G9"
+	call kill,"ZA_G9"
+CHUNK ZA_G10
+	call Score,10000
+	call VitalBoss,"Security","","Security"
+	call kill,"G10"
+	call kill,"ZA_G10"
+CHUNK ZA_G11
+	call Score,11000
+	call VitalBoss,"Security","","Security"
+	call kill,"G11"
+	call kill,"ZA_G11"
+CHUNK ZA_G12
+	call Score,12000
+	call VitalBoss,"Security","","Security"
+	call kill,"G12"
+	call kill,"ZA_G12"
