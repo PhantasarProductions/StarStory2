@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 23.08.10
+; version: 23.08.11
 ; End License Information
 
 Include Basis.aqs
@@ -56,4 +56,3 @@ Chunk ZA_ToSchwabba
 Chunk ZA_BackToCorridor
 	Call GoToLayer,GANG,Einde
 	exit
-	
