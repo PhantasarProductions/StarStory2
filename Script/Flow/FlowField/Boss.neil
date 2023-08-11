@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Boss.neil
-// Version: 22.06.10
-// Copyright (C) 2022 Jeroen Petrus Broks
+// Version: 23.08.10
+// Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -56,7 +56,10 @@ Module
 		For i=1,9
 			String F = Stuff.Value(src,"FOE"..i)
 			Int Lvl = IVal(src,"LEVEL"..i.."_"..__skill)
-			If F!="" && Lvl>0
+			If Lvl>=100000
+				// No recalc on the Black Hole Dweller.
+				Lnk.Combat.NewEnemy(F,Lvl)
+			ElseIf F!="" && Lvl>0
 				int RC = Any.Caps.LevelRecalc(lvl)
 				Lnk.Combat.NewEnemy(F,RC)
 			End
