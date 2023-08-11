@@ -32,9 +32,10 @@
 ; 
 ; **********************************************
 ; 
-; version: 23.08.07
+; version: 23.08.10
 ; End License Information
 Include EFU.aqs
+Include EFU_Guards.aqs
 
 Chunk ZA_Torture
 	Done EFU_Torture
@@ -79,6 +80,14 @@ Chunk ZA_Cave
 	:ByeBye
 	exit
 	
+Chunk ZA_BoardedUp
+	Done EFU_BoardedUp
+	JmpTrue ByeBye
+	call MapText,"BoardedUp"
+	call Score,1900
+	:ByeBye
+	exit
+	
 CSChunk BonusRate, Any.Aurina.BonusRate
 
 Chunk ZA_SecretComplete
@@ -89,3 +98,53 @@ Chunk ZA_SecretComplete
 	Call BonusRate
 	:ByeBye
 	Exit
+	
+	
+Chunk ZA_Alles	
+	chk &Alles
+	JmpTrue ByeBye
+	chk &BEEN_014_EFU_HQ_1_SECRET1
+	JmpFalse Byebye
+	chk &BEEN_015_EFU_HQ_2_SECRET2
+	JmpFalse ByeBye
+	chk &BEEN_901_FEO_CORRIDOR1
+	JmpFalse ByeBye
+	chk &BEEN_901_FEO_CORRIDOR2
+	JmpFalse ByeBye
+	chk &BEEN_901_FEO_CORRIDOR3
+	JmpFalse ByeBye
+	chk &BEEN_901_FEO_DINING
+	JmpFalse ByeBye
+	chk &BEEN_901_FEO_KITCHEN
+	JmpFalse ByeBye
+	chk &BEEN_901_FEO_LIVINGROOM
+	JmpFalse ByeBye
+	chk &BEEN_901_FEO_LOBBY
+	JmpFalse ByeBye
+	chk &BEEN_901_FEO_MEETING
+	JmpFalse ByeBye
+	chk &BEEN_901_FEO_SLEEP
+	JmpFalse ByeBye
+	chk &BEEN_901_FEO_STUDY
+	JmpFalse ByeBye
+	Chk &COMPLETE_991_CATWALKS
+	JmpFalse ByeBye
+	Chk &COMPLETE_902_VAULT
+	JmpFalse ByeBye
+	Chk &BEEN_992_MIDBOSS_MIDBOSS
+	JmPFalse ByeBye
+	; Completing Phantasar is not required, but you must at least have been there, once.
+	Chk &BEEN_PHAN_ARRIVAL_ARRIVAL
+	Jmpfalse ByeBye
+	Done Alles
+	; Got it all
+	Call Score,123456789
+	Call CSay,"Everything done! Black Hole Dweller Unlocked!"
+	; Failed (and fallthrough
+	:ByeBye	
+	exit
+	
+Chunk ZA_Schwabba
+	Done Enter_Schwabba
+	Call Score,1000
+	Call GoToMap,"016_Schwabba","Entry","Start"
