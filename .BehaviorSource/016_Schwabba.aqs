@@ -56,3 +56,7 @@ Chunk ZA_ToSchwabba
 Chunk ZA_BackToCorridor
 	Call GoToLayer,GANG,Einde
 	exit
+	
+Chunk NPC_Schwabba
+	Call MapText,"PREBOSS"
+	; Rest comes later
