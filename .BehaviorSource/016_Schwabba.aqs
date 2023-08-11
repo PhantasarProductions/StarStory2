@@ -50,7 +50,7 @@ Chunk ZA_ToCorridor
 	exit
 	
 Chunk ZA_ToSchwabba
-	Call GoToLayer,OFFCE,Start
+	Call GoToLayer,OFFICE,Start
 	exit
 	
 Chunk ZA_BackToCorridor
