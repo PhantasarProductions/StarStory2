@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 23.07.07
+// version: 23.08.11
 // End License Information
 
 #use "Libs/LinkedList"
@@ -49,6 +49,60 @@ End
 Init
 	Do
 		Var N = New TMusic()
+		N.Entry   = "Music/Dungeon/Disaster.ogg"
+		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
+		N.Title   = "Disaster"
+		N.Artist  = "Nihilore"
+		N.WebSite = "http://www.nihilore.com/"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/Dungeon/Dungeon1.ogg"
+		N.License = "Made by request of Jeroen P. Broks. Copyright still lingers with original artist. Contact him for the terms"
+		N.Title   = "Dungeon 1"
+		N.Artist  = "J.W.H. Broeders"
+		N.WebSite = "NONE"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/Dungeon/Future Industry 1.ogg"
+		N.License = "https://soundimage.org/attribution-info/"
+		N.Title   = "Future Industry 1"
+		N.Artist  = "Eric Matyas"
+		N.WebSite = "http://soundimage.org"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/Dungeon/In The Belly Of The Whale.ogg"
+		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
+		N.Title   = "In The Belly Of The Whale"
+		N.Artist  = "Nihilore"
+		N.WebSite = "http://www.nihilore.com/"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/Dungeon/Journey to ascend.ogg"
+		N.License = "Journey To Ascend by Kevin MacLeod Link: https://incompetech.filmmusic.io/song/8951-journey-to-ascend License: https://filmmusic.io/standard-license"
+		N.Title   = "Journey to ascend"
+		N.Artist  = "Kevin McLeod"
+		N.WebSite = "http://incompetech.com"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/Combat/Black Hole Dweller/Nearly There.ogg"
+		N.License = " Create Commons: By attribute, Non Commercial, Share Alike"
+		N.Title   = "Nearly There"
+		N.Artist  = "Lee Rosevere"
+		N.WebSite = "NONE"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
 		N.Entry   = "Music/Dungeon/Kalimba.ogg"
 		N.License = "Creative Commons - By Attribution  (Incompetech.com)"
 		N.Title   = "Kalimba"
@@ -63,15 +117,6 @@ Init
 		N.Title   = "Ooze"
 		N.Artist  = "Matt McFarland"
 		N.WebSite = "NONE"
-		TMusic.Lst.AddLast(N)
-	End
-	Do
-		Var N = New TMusic()
-		N.Entry   = "Music/Combat/Boss/Katabasis.ogg"
-		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
-		N.Title   = "Katabasis"
-		N.Artist  = "Nihilore"
-		N.WebSite = "http://www.nihilore.com/"
 		TMusic.Lst.AddLast(N)
 	End
 	Do
@@ -198,6 +243,24 @@ Init
 		N.Title   = "Once Around The Solar System"
 		N.Artist  = "Eric Matyas"
 		N.WebSite = "http://soundimage.org"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/Combat/Boss/Katabasis.ogg"
+		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
+		N.Title   = "Katabasis"
+		N.Artist  = "Nihilore"
+		N.WebSite = "http://www.nihilore.com/"
+		TMusic.Lst.AddLast(N)
+	End
+	Do
+		Var N = New TMusic()
+		N.Entry   = "Music/Combat/Phantasar/Day of Chaos.ogg"
+		N.License = "Creative Commons - By Attribution  (Incompetech.com)"
+		N.Title   = "Day of Chaos"
+		N.Artist  = "Kevin McLeod"
+		N.WebSite = "http://incompetech.com"
 		TMusic.Lst.AddLast(N)
 	End
 	Do
@@ -364,18 +427,18 @@ Init
 	End
 	Do
 		Var N = New TMusic()
-		N.Entry   = "Music/Combat/Phantasar/Day of Chaos.ogg"
-		N.License = "Creative Commons - By Attribution  (Incompetech.com)"
-		N.Title   = "Day of Chaos"
-		N.Artist  = "Kevin McLeod"
-		N.WebSite = "http://incompetech.com"
+		N.Entry   = "Music/Dungeon/Cathedral.ogg"
+		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
+		N.Title   = "Cathedral"
+		N.Artist  = "Nihilore"
+		N.WebSite = "http://www.nihilore.com/"
 		TMusic.Lst.AddLast(N)
 	End
 	Do
 		Var N = New TMusic()
-		N.Entry   = "Music/Dungeon/Cathedral.ogg"
+		N.Entry   = "Music/Combat/Final Boss/Wabi-Sabi.mp3"
 		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
-		N.Title   = "Cathedral"
+		N.Title   = "Wabi-Sabi"
 		N.Artist  = "Nihilore"
 		N.WebSite = "http://www.nihilore.com/"
 		TMusic.Lst.AddLast(N)
@@ -396,51 +459,6 @@ Init
 		N.Title   = "Dark Techno City"
 		N.Artist  = "Eric Matyas"
 		N.WebSite = "http://soundimage.org"
-		TMusic.Lst.AddLast(N)
-	End
-	Do
-		Var N = New TMusic()
-		N.Entry   = "Music/Dungeon/Disaster.ogg"
-		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
-		N.Title   = "Disaster"
-		N.Artist  = "Nihilore"
-		N.WebSite = "http://www.nihilore.com/"
-		TMusic.Lst.AddLast(N)
-	End
-	Do
-		Var N = New TMusic()
-		N.Entry   = "Music/Dungeon/Dungeon1.ogg"
-		N.License = "Made by request of Jeroen P. Broks. Copyright still lingers with original artist. Contact him for the terms"
-		N.Title   = "Dungeon 1"
-		N.Artist  = "J.W.H. Broeders"
-		N.WebSite = "NONE"
-		TMusic.Lst.AddLast(N)
-	End
-	Do
-		Var N = New TMusic()
-		N.Entry   = "Music/Dungeon/Future Industry 1.ogg"
-		N.License = "https://soundimage.org/attribution-info/"
-		N.Title   = "Future Industry 1"
-		N.Artist  = "Eric Matyas"
-		N.WebSite = "http://soundimage.org"
-		TMusic.Lst.AddLast(N)
-	End
-	Do
-		Var N = New TMusic()
-		N.Entry   = "Music/Dungeon/In The Belly Of The Whale.ogg"
-		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
-		N.Title   = "In The Belly Of The Whale"
-		N.Artist  = "Nihilore"
-		N.WebSite = "http://www.nihilore.com/"
-		TMusic.Lst.AddLast(N)
-	End
-	Do
-		Var N = New TMusic()
-		N.Entry   = "Music/Dungeon/Journey to ascend.ogg"
-		N.License = "Journey To Ascend by Kevin MacLeod Link: https://incompetech.filmmusic.io/song/8951-journey-to-ascend License: https://filmmusic.io/standard-license"
-		N.Title   = "Journey to ascend"
-		N.Artist  = "Kevin McLeod"
-		N.WebSite = "http://incompetech.com"
 		TMusic.Lst.AddLast(N)
 	End
 End
