@@ -1,0 +1,96 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/Use/Combat/StatScript.uwn/Schwabba.neil
+// (c) Jeroen Broks, 2023, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 23.08.12
+// End License Information
+table Chars = {"Klahre","Yorno","Doctor","Ashley"}
+table Stats = {"Power","Defense","Will","Resistence","Accuracy","Evasion","Speed","HP","Level"}
+
+Delegate _S()
+	int cp=1
+	int sp=0
+	Var Ret()
+		sp++
+		if sp>#Stats
+			sp=1
+			cp++
+		end
+		if cp>4
+			return nil,nil
+		end
+		return Chars[cp],Stats[sp]
+	end
+	Return Ret
+End
+
+
+Void _Schwabba(CH)
+	Var CHAR = CH.Char
+	Var Work
+	Work = {}
+	for ch,st in _S()
+		string Prefix="END_"
+		if st=="Level"
+			Prefix=""
+		End
+		if st=="HP"
+			Work[st] = Work[st] || 5000
+			Work[st] += RPGChar[ch].Stat["END_HP"]
+		Else 
+			Work[st] = math.max(Work[st] || 500,RPGChar[ch].Stat[Prefix..st])
+		end
+		CSayF("Char: %s; Stat %s; Value %d, Max %d",ch,st,RPGChar[ch].Stat[Prefix..st],Work[st])
+	end
+	string formscript = "SUM:"..CH.Tag
+	table md={ "BASE_", "POWERUP_", "BUFF_"}
+	for st,lv in pairs(Work)
+		string Prefix="BASE_"
+		if st=="Level"
+			Prefix=""
+		Else
+			string fs = FormScript
+			for i1,v1 in ipairs(md)				
+				CHAR.Stat[v1..st]=0
+				fs += "."..v1..st
+			end
+			Char.StatScript["END_"..st]=fs
+		End
+		Char.Stat[Prefix..st]=lv
+	end
+	Char.Points.HP.MaxCopy=Char.Stat.END_HP
+	Char.Points.HP.Have=Char.Points.HP.Maximum
+	
+End
+
+Return _Schwabba
