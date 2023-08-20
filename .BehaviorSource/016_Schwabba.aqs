@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 23.08.11
+; version: 23.08.12
 ; End License Information
 
 Include Basis.aqs
@@ -58,5 +58,13 @@ Chunk ZA_BackToCorridor
 	exit
 	
 Chunk NPC_Schwabba
-	Call MapText,"PREBOSS"
-	; Rest comes later
+	;Call MapText,"PREBOSS"
+	Call VitalBoss,"Final","","NPC_Schwabba"
+	Call Schedule,"Post_boss"
+	Call Kill,"NPC_Schabba"
+	exit
+	
+	
+Chunk Post_Boss
+	Call Crash,"Post boss not yet scripted"
+	exit
