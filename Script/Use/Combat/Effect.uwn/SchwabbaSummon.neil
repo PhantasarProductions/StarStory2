@@ -1,0 +1,98 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/Use/Combat/Effect.uwn/SchwabbaSummon.neil
+// (c) Jeroen Broks, 2023, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 23.08.17
+// End License Information
+
+Var CEnemy
+
+Void A(string e,int num1, int num2, int num3)
+	int num
+	switch __skill
+		case 1
+			num=num1
+		case 2
+			num=num2
+		case 3
+			num=num3
+		default
+			Lua.error("Skill error on summon")
+	end
+	for i=1,num
+		CEnemy += e
+	end
+	CSayF("Added %2dx %s",num,e)
+End
+
+Init
+	CEnemy = {}
+	A("Rat",50,25,1)
+	A("Flirmouse",45,23,1)
+	A("Qual",30,15,1)
+	A("Eel",50,25,1)
+	A("Jaguar",10,5,1)
+	A("Snake",40,20,1)
+	if __Skill==3
+		A("SecuGuard",1,1,2)
+		A("SecuDog",1,1,2)
+	end
+	A("secudroid",10,5,1)   
+	A("Thief",20,20,1)       
+	A("Pyroguin",40,20,1)    
+	A("Deug",40,20,1)     
+	A("bee",20,10,1)         
+	A("Astrilopup",5,2,1)  
+	A("Security",30,20,1)    
+	A("GuardDog",1,1,1)    
+End
+
+
+Bool __SUMMON(_Act,string _TarTag,String EffectParam)
+	// Skips Schwabba himself.
+	int espot = 1
+	string Tag
+	repeat
+		espot++
+		Tag=sprintf("FOE%03d",espot)
+	loopwhile Fighter.ByTag[Tag]
+	string FoeFile = CEnemy[math.random(1,#CEnemy)]
+	int    lvl = math.random(1,500*Any.Caps.Cycle)
+	int    x = math.random(100,Screen.W div 2)
+	int    y = math.random((screen.H div 2)+50,Screen.H - 140)
+	Foe.Compile(espot,"Gen/"..FoeFile,lvl,X,Y)
+	CSayF("%s answered Schwabba's call",RPGChar[Tag].Name)
+	Return True
+End
+
+Return __SUMMON
