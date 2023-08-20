@@ -1,0 +1,150 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/Use/Combat/Arena/Space.neil
+// (c) Jeroen Broks, 2023, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 23.08.17
+// End License Information
+
+#use "libs/linkedlist"
+#use "libs/xmath"
+
+class Star
+	static var List
+	int _deg = 0
+	number _rad = 0
+	number straal
+	readonly int mx = Screen.W div 2
+	readonly int my = Screen.H div 2
+	readonly number speed = math.random(1,1200) / 1000
+	readonly number ts = (math.random(1,5)-2.5)/10000
+	readonly byte r=math.random(180,255)
+	readonly byte g=math.random(180,255)
+	readonly byte b=math.random(180,255)
+	
+	Set int Deg
+		_deg = Value
+		_rad = Value * (3.141592653589793/180)
+	End
+	
+	Get Int Deg
+		return _deg
+	End
+	
+	Get Number Rad
+		Return _rad
+	End
+	
+	Set Number Rad
+		_rad = Value
+		_deg = math.floor(Value * (180/3.141592653589793))
+	End
+	
+	Get Int X
+		return mx+math.floor(math.sin(_rad) * straal)
+	End
+	
+	Get Int Y
+		return my+math.floor(math.cos(_rad) * straal)
+	End
+	
+	Void Motion()
+		_rad += ts
+		straal += speed
+	End
+	
+	Void Draw(nomotion)
+		if !nomotion
+			Motion()
+		end
+		Graphics.Color(r,g,b)
+		Graphics.plot(x,y)
+	End
+	
+	Static Void DrawAll(nomotion)
+		for s,a in List.Each
+			s.Draw(nomotion)
+			if s.x<0 || s.y<0 || s.x>Screen.W || s.y>Screen.H
+				a.UnLink()
+				var n = New Star()
+			end
+		end
+	End
+	
+	Constructor(_straal)
+		straal = _straal || 0
+		Deg = Math.random(1,360)
+		List.AddLast(Self)
+	End
+	
+end
+
+Module Class 
+	
+	Const Var NewBattle = NIKS
+	
+	Constructor
+		
+	End
+	
+	static get var Schwabba
+		return Fighter.ByTag["FOE001"]
+	end
+	
+	
+	
+	Static Void Load()
+		Star.List = Star.List || new TLinkedList()		
+		int a=math.random(10,60)
+		for i=1,a
+			var n = New Star(math.random(10,200))
+		end
+		CSay("Space arena class constructed")
+	End
+	
+	Static Void UnLoad()
+	End
+		
+	Static Void Draw()
+		Star.DrawAll()
+		
+		// Remove all enemies once Schwabba has been defeated
+		if Schwabba.HP==0
+			for k,f in Fighter.ByTag
+				if prefixed(k,"FOE") && (!k=="FOE001")
+					f.Gone=true
+				end
+			end
+		end
+	End
+	
+End
