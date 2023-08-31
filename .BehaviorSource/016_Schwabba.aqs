@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 23.08.12
+; version: 23.08.30
 ; End License Information
 
 Include Basis.aqs
@@ -61,7 +61,7 @@ Chunk NPC_Schwabba
 	;Call MapText,"PREBOSS"
 	Call VitalBoss,"Final","","NPC_Schwabba"
 	Call Schedule,"Post_boss"
-	Call Kill,"NPC_Schabba"
+	Call Kill,"NPC_Schwabba"
 	exit
 	
 	
