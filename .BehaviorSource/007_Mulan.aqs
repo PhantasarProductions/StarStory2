@@ -73,6 +73,7 @@ Chunk ZA_BFOC
 	Done Visited_BFOC
 	JmpTrue negeer
 	Done Complete_007_Mulan
+	call IncAurina
 	call GoToMap,"008_BFOC","SCHWABBA","Start"
 	Exit
 	:negeer

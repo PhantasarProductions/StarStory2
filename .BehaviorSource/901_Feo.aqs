@@ -154,5 +154,6 @@ Chunk After_Feo
 	Done Complete_901_Feo
 	jmptrue einde
 	call Score,500,""
+	call IncAurina,2
 	:einde
 	exit

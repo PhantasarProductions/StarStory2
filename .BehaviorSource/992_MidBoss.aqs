@@ -50,4 +50,5 @@ Chunk PostMidBoss
 	Call Geel,"SEIN_MIDBOSS" 
 	call MapText,"MIDBOSS2"
 	Call GoToMap,"012_SecretSafe","#001","FromMidBoss"
+	call IncAurina,5
 	exit

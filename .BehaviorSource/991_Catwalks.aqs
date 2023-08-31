@@ -44,6 +44,7 @@ Chunk ZA_Leave
 Chunk ZA_Einde
 	Done Complete_991_CatWalks
 	jmptrue einde
+	call IncAurina,5
 	call Score,500,""
 	:einde
 	exit

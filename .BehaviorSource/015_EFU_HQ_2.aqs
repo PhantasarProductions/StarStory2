@@ -140,6 +140,7 @@ Chunk ZA_Alles
 	; Got it all
 	Call Score,123456789
 	Call CSay,"Everything done! Black Hole Dweller Unlocked!"
+	call IncAurina,25
 	; Failed (and fallthrough
 	:ByeBye	
 	exit
@@ -147,4 +148,5 @@ Chunk ZA_Alles
 Chunk ZA_Schwabba
 	Done Enter_Schwabba
 	Call Score,1000
+	call IncAurina
 	Call GoToMap,"016_Schwabba","Entry","Start"

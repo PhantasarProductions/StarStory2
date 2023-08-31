@@ -44,5 +44,6 @@ Chunk ZA_Final
 	Done COMPLETE_902_VAULT
 	jmptrue einde
 	call Score,123456789
+	call IncAurina,10
 	:einde
 	exit

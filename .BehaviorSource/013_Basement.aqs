@@ -82,6 +82,7 @@ Chunk ZA_Elevator
 	JmpTrue MetDeLift
 	call MapText,"ELEVATOR"
 	call Score,2500
+	call IncAurina
 	:MetDeLift
 	;call Crash,"Elevator not yet scripted"
 	call Elevator

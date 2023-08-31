@@ -85,3 +85,5 @@ csChunk PRecover,Lnk.Party.Recover
 csChunk SaveGame,Lnk.Map.GoToSave
 
 csChunk LoadNewState,State.LoadNew
+
+csChunk IncAurina,Any.Aurina.Incr
