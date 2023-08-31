@@ -1,0 +1,178 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/Flow/FlowCredits/CreditsData.neil
+// (c) Jeroen Broks, 2023, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 23.08.30
+// End License Information
+
+// Generated data
+
+#USE "Libs/LinkedList"
+
+Class CreditLine
+	Static Var Lines
+	Static Int SY = 0
+	Byte R
+	Byte G
+	Byte B
+	Int Y
+	Var Img
+	String Caption
+
+	Constructor(O,_R=255,_G=255,_B=255)
+		Y = SY
+		R = _R
+		G = _G
+		B = _B
+		if Lua.type(O)=="string"
+			Caption=O
+			SY += 40
+		Else
+			Img=O
+			SY += O.Height
+		End
+	End
+End
+
+Init
+	CreditLine.Lines = new LinkedList()
+	CreditLine.Lines.AddLast(new CreditLine( Image.LoadNew("GFX/Intro/StarStory.png","STARSTORYLOGO") ) )
+	Creditline.Lines.AddLast(new CreditLine("Episode II - The virus strikes back!",255,180,0) )
+	CreditLine.Lines.AddLast( new CreditLine("",0,0,0) )
+	CreditLine.Lines.AddLast( new CreditLine("Audio effects:",0,180,255) )
+		CreditLine.Lines.AddLast( New CreditLine("Benboncan") )
+		CreditLine.Lines.AddLast( New CreditLine("Fesliyan Studios") )
+		CreditLine.Lines.AddLast( New CreditLine("FiftySounds") )
+		CreditLine.Lines.AddLast( New CreditLine("freesfx.co.uk") )
+		CreditLine.Lines.AddLast( New CreditLine("GR-Sites") )
+		CreditLine.Lines.AddLast( New CreditLine("Jeroen P. Broks") )
+		CreditLine.Lines.AddLast( New CreditLine("kernschall") )
+		CreditLine.Lines.AddLast( New CreditLine("PacDV") )
+		CreditLine.Lines.AddLast( New CreditLine("SoundsCrate") )
+		CreditLine.Lines.AddLast( New CreditLine("Varazuvi(TM)") )
+		CreditLine.Lines.AddLast( New CreditLine("Widzy") )
+	CreditLine.Lines.AddLast( new CreditLine("",0,0,0) )
+	CreditLine.Lines.AddLast( new CreditLine("Code:",0,180,255) )
+		CreditLine.Lines.AddLast( New CreditLine("Jeroen P. Broks") )
+	CreditLine.Lines.AddLast( new CreditLine("",0,0,0) )
+	CreditLine.Lines.AddLast( new CreditLine("Databases:",0,180,255) )
+		CreditLine.Lines.AddLast( New CreditLine("Jeroen P. Broks") )
+	CreditLine.Lines.AddLast( new CreditLine("",0,0,0) )
+	CreditLine.Lines.AddLast( new CreditLine("Design:",0,180,255) )
+		CreditLine.Lines.AddLast( New CreditLine("Jeroen P. Broks") )
+	CreditLine.Lines.AddLast( new CreditLine("",0,0,0) )
+	CreditLine.Lines.AddLast( new CreditLine("Development:",0,180,255) )
+		CreditLine.Lines.AddLast( New CreditLine("Jeroen P. Broks") )
+	CreditLine.Lines.AddLast( new CreditLine("",0,0,0) )
+	CreditLine.Lines.AddLast( new CreditLine("Fonts:",0,180,255) )
+		CreditLine.Lines.AddLast( New CreditLine("Brian Kent") )
+		CreditLine.Lines.AddLast( New CreditLine("Jeroen P. Broks") )
+		CreditLine.Lines.AddLast( New CreditLine("Pablo  Impallari") )
+	CreditLine.Lines.AddLast( new CreditLine("",0,0,0) )
+	CreditLine.Lines.AddLast( new CreditLine("Graphics:",0,180,255) )
+		CreditLine.Lines.AddLast( New CreditLine("anarres") )
+		CreditLine.Lines.AddLast( New CreditLine("barnheartowl") )
+		CreditLine.Lines.AddLast( New CreditLine("cameltech") )
+		CreditLine.Lines.AddLast( New CreditLine("dear_theophilus") )
+		CreditLine.Lines.AddLast( New CreditLine("Deluge") )
+		CreditLine.Lines.AddLast( New CreditLine("eady") )
+		CreditLine.Lines.AddLast( New CreditLine("Event Horizon Telescope") )
+		CreditLine.Lines.AddLast( New CreditLine("Fabuio") )
+		CreditLine.Lines.AddLast( New CreditLine("finao123") )
+		CreditLine.Lines.AddLast( New CreditLine("Firkin & Jeroen P. Broks") )
+		CreditLine.Lines.AddLast( New CreditLine("Flying Dutchman") )
+		CreditLine.Lines.AddLast( New CreditLine("frankes") )
+		CreditLine.Lines.AddLast( New CreditLine("GDJ") )
+		CreditLine.Lines.AddLast( New CreditLine("glitch") )
+		CreditLine.Lines.AddLast( New CreditLine("GR-Sites") )
+		CreditLine.Lines.AddLast( New CreditLine("gramzon") )
+		CreditLine.Lines.AddLast( New CreditLine("gsagri04") )
+		CreditLine.Lines.AddLast( New CreditLine("hatalar") )
+		CreditLine.Lines.AddLast( New CreditLine("hotta") )
+		CreditLine.Lines.AddLast( New CreditLine("hypocore") )
+		CreditLine.Lines.AddLast( New CreditLine("Inky2010") )
+		CreditLine.Lines.AddLast( New CreditLine("J_Alves") )
+		CreditLine.Lines.AddLast( New CreditLine("J4p4n") )
+		CreditLine.Lines.AddLast( New CreditLine("Jeroen P. Broks") )
+		CreditLine.Lines.AddLast( New CreditLine("Jonata") )
+		CreditLine.Lines.AddLast( New CreditLine("jpd2010") )
+		CreditLine.Lines.AddLast( New CreditLine("Juhelle") )
+		CreditLine.Lines.AddLast( New CreditLine("Kelly") )
+		CreditLine.Lines.AddLast( New CreditLine("liftarn & Jeroen P. Broks") )
+		CreditLine.Lines.AddLast( New CreditLine("Linvala") )
+		CreditLine.Lines.AddLast( New CreditLine("Man of Steel") )
+		CreditLine.Lines.AddLast( New CreditLine("Man Of Steel") )
+		CreditLine.Lines.AddLast( New CreditLine("Merlin2525") )
+		CreditLine.Lines.AddLast( New CreditLine("Michael Frank") )
+		CreditLine.Lines.AddLast( New CreditLine("Mioni") )
+		CreditLine.Lines.AddLast( New CreditLine("Mohammed Ibrahim") )
+		CreditLine.Lines.AddLast( New CreditLine("NASA") )
+		CreditLine.Lines.AddLast( New CreditLine("rfc1394") )
+		CreditLine.Lines.AddLast( New CreditLine("Sev") )
+		CreditLine.Lines.AddLast( New CreditLine("Skurian25") )
+		CreditLine.Lines.AddLast( New CreditLine("TheGraphicGirl") )
+		CreditLine.Lines.AddLast( New CreditLine("Vicious Speed") )
+		CreditLine.Lines.AddLast( New CreditLine("warszawianka") )
+		CreditLine.Lines.AddLast( New CreditLine("wesd444 & Jeroen P. Broks") )
+	CreditLine.Lines.AddLast( new CreditLine("",0,0,0) )
+	CreditLine.Lines.AddLast( new CreditLine("Map design:",0,180,255) )
+		CreditLine.Lines.AddLast( New CreditLine("Jeroen P. Broks") )
+	CreditLine.Lines.AddLast( new CreditLine("",0,0,0) )
+	CreditLine.Lines.AddLast( new CreditLine("Music:",0,180,255) )
+		CreditLine.Lines.AddLast( New CreditLine("Aaron Krogh") )
+		CreditLine.Lines.AddLast( New CreditLine("Eric Matyas") )
+		CreditLine.Lines.AddLast( New CreditLine("J.W.H. Broeders") )
+		CreditLine.Lines.AddLast( New CreditLine("Kevin McLeod") )
+		CreditLine.Lines.AddLast( New CreditLine("Lee Rosevere") )
+		CreditLine.Lines.AddLast( New CreditLine("Matt McFarland") )
+		CreditLine.Lines.AddLast( New CreditLine("Muzaproduction") )
+		CreditLine.Lines.AddLast( New CreditLine("Nihilore") )
+		CreditLine.Lines.AddLast( New CreditLine("Tri-Tachyon") )
+		CreditLine.Lines.AddLast( New CreditLine("Wicky77 & Wout66") )
+		CreditLine.Lines.AddLast( New CreditLine("Widzy") )
+	CreditLine.Lines.AddLast( new CreditLine("",0,0,0) )
+	CreditLine.Lines.AddLast( new CreditLine("Production:",0,180,255) )
+		CreditLine.Lines.AddLast( New CreditLine("Jeroen P. Broks") )
+	CreditLine.Lines.AddLast( new CreditLine("",0,0,0) )
+	CreditLine.Lines.AddLast( new CreditLine("Scenario:",0,180,255) )
+		CreditLine.Lines.AddLast( New CreditLine("Jeroen P. Broks") )
+	CreditLine.Lines.AddLast( new CreditLine("",0,0,0) )
+	CreditLine.Lines.AddLast( new CreditLine("Script:",0,180,255) )
+		CreditLine.Lines.AddLast( New CreditLine("Jeroen P. Broks") )
+	CreditLine.Lines.AddLast( new CreditLine("",0,0,0) )
+	CreditLine.Lines.AddLast( new CreditLine("",0,0,0) )
+	CreditLine.Lines.AddLast( new CreditLine("Copyright (c) 2022-2023",255,180,0) )
+	CreditLine.Lines.AddLast( New CreditLine("Jeroen P. Broks") )
+End
+
+// Last Generated: 8/29/2023 9:53:59 PM
