@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.Neil
-// Version: 23.01.28
+// Version: 23.08.31
 // Copyright (C) 2021, 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
@@ -99,6 +99,7 @@ End
 
 Void MapLevelCheck()
 	If FlowField.Map.MapLevel>0 && (!Done[sprintf("BEEN_%s_%s",gv.gstr.LoadedMap,FlowField.Map.Layer)])
+		Any.Aurina.Spent += math.max((2+Any.Caps.Cycle)-__SKILL,0)
 		For i=1,lnk.Party.Count
 			Var Ch=RPGChar[RPGParty[i]]
 			Ch.Points.EXP.Have += math.floor( (FlowField.Map.MapLevel/Ch.Stat.Level) * 100)
