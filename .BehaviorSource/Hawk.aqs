@@ -2,7 +2,7 @@
 ; **********************************************
 ; 
 ; src/Tricky Script/.BehaviorSource/Hawk.aqs
-; (c) Jeroen Broks, 2022, All Rights Reserved.
+; (c) Jeroen Broks, 2022, 2023, All Rights Reserved.
 ; 
 ; This file contains material that is related
 ; to a storyline that is which is strictly
@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 22.04.12
+; version: 23.08.30
 ; End License Information
 
 ; Behavior Apollo Quick Script for 'E:/Projects/Applications/Apollo/Games/Star Story 2/src/Tricky Story/Kthura/Hawk'
@@ -41,7 +41,7 @@
 Include Basis.aqs
 
 cschunk crch,lnk.party.createcharacter
-
+csChunk GoToSave,FlowField.GoToSave
 
 
 Chunk Load
@@ -58,6 +58,7 @@ Chunk Load
 Chunk ZA_Wendicka
 	call CSay,Game Start Event
 	call LHide,Bridge
+	call Kill,BridgeBlock
 ;Check up if this is the start of the game, or the coming together for the New Game+
 	Done Done_Wendicka_Prologue
 	JmpTrue AfterPrologue
@@ -84,4 +85,36 @@ Chunk ZA_Wendicka
 	call party,Klahre,Yorno
 	call GoToMap,"001_HyperloopStation","GATE27","Start_Klahre"
 	exit
+	
+;Post Game	
 	:AfterPrologue
+	Done EpilogueDone
+	jmptrue JustShowKlahre
+	call iPop,Start,South
+	call xWalkTo,PLAYER1,WT_Z_Wendicka
+	call xWalkTo,PLAYER2,WT_Z_Sue
+	call xWalkTo,PLAYER3,WT_Z_Admiral
+	call MapText,END1
+	call xWalkTo,PLAYER1,KL_Z_Wendicka
+	call xWalkTo,PLAYER2,KL_Z_Sue
+	call xWalkTo,PLAYER3,KL_Z_Admiral
+	call Show,NPC_Klahre
+	call MapText,END2
+	exit
+	
+;Make sure Klahre shows	
+	:JustShowKlahre
+	call Show,NPC_Klahre
+	exit
+	
+	
+Chunk NPC_Terminal
+	call MapText,TERMINAL
+	call GoToSave
+	exit
+	
+CsChunk NewGamePlus,Lnk.NewGamePlus	
+Chunk NPC_Klahre
+	call MapText,KLAHRE
+	call NewGamePlus
+	exit
