@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Abilities.neil
-// Version: 22.06.20
-// Copyright (C) 2022 Jeroen Petrus Broks
+// Version: 23.08.30
+// Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -36,6 +36,8 @@
 // End License Information
 Module
 	Void Flow(uBox,string FMChar,string FMSituation)
-		Abl[FMChar].View(ubox,FMSituation)	
+		If !Prefixed(FMChar,"Z_")
+			Abl[FMChar].View(ubox,FMSituation)
+		End
 	End
 End
