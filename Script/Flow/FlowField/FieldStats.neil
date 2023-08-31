@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/FieldStats.neil
-// Version: 22.08.03
-// Copyright (C) 2022 Jeroen Petrus Broks
+// Version: 23.08.31
+// Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -65,6 +65,7 @@ Void FieldStats()
 	C("Area:",sprintf("%s - %s",FlowField.Map.Layer,FlowField.Layers.Data("Title")),prefixed(FlowField.Map.Layer,"#") && FlowField.Layers.Data("Title")!="")
 	C("Area:",FlowField.Layers.Data("Title"),(!prefixed(FlowField.Map.Layer,"#")) && FlowField.Layers.Data("Title")!="")
 	W("Location:",FlowField.Map.KthuraMap.MetaData.Title)
+	C("Cycle:",Any.Caps.Cycle,Any.Caps.Cycle>=2)
 	__White
 End
 
