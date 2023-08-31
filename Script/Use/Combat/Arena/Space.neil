@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 23.08.17
+// version: 23.08.29
 // End License Information
 
 #use "libs/linkedlist"
@@ -139,8 +139,8 @@ Module Class
 		
 		// Remove all enemies once Schwabba has been defeated
 		if Schwabba.HP==0
-			for k,f in Fighter.ByTag
-				if prefixed(k,"FOE") && (!k=="FOE001")
+			for k,f in pairs(Fighter.ByTag)
+				if prefixed(k,"FOE") && (k!="FOE001")
 					f.Gone=true
 				end
 			end
