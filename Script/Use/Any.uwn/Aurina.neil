@@ -135,6 +135,10 @@ Module
 		
 	End
 	
+	Void Incr(int v=1)
+		Rate += v
+	End
+	
 	Get Int SpentShilders
 		Return gv.gint.ShildersSpent
 	End
