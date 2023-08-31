@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowMain.neil
-// Version: 22.08.24
-// Copyright (C) 2020, 2021, 2022 Jeroen Petrus Broks
+// Version: 23.08.29
+// Copyright (C) 2020, 2021, 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -61,7 +61,7 @@
 bool ShowMenu = False
 var Stars = Image.Load("GFX/Intro/Starfield.png","STARFIELD")
 var Phantasar = Image.Load("GFX/Intro/PhantasarProductions.png")
-var StarStory = Image.Load("GFX/Intro/StarStory.png")
+var StarStory = Image.Load("GFX/Intro/StarStory.png","STARSTORYLOGO")
 var ScrollText = Image.Load("GFX/Intro/IntroText.jpbf")
 var MenuFont = ImageFont.Obtain("BOXCOMP")
 
