@@ -37,6 +37,8 @@
 
 Include Basis.aqs
 
+CSChunk Credits,lnk.Credits.GoCredits
+
 Chunk ZA_Entry
 	Done Schwabba_There_And_Back_Again
 	JMPTRUE JustDoIt
@@ -66,5 +68,7 @@ Chunk NPC_Schwabba
 	
 	
 Chunk Post_Boss
-	Call Crash,"Post boss not yet scripted"
+	Call Score,123456789
+	Call MapText,"POSTBOSS"
+	Call Credits
 	exit
