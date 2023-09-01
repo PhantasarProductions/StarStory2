@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 23.01.23
+// version: 23.09.01
 // End License Information
 
 
@@ -77,15 +77,19 @@ Class __PIMI_Rage Extends Stage
 	Static var ch
 
 
-	static var SelItem 
+	static var SelItem
+	static var M = Any.Mouse
 	
-	void Draw()
+	void Draw()	
 		__Black
 		Graphics.Alpha(100)
 		Graphics.Rect(Ash_uBox.x,Ash_uBox.y,Ash_uBox.w,Ash_uBox.h)
 		Graphics.Alpha(255)
 		Rage.View(Ash_uBox,ch,"Combat_UserMenu")
 		Any.Mouse.Draw()
+		if M.ML && (M.MX<Ash_uBox.x || M.MY<Ash_ubox.y || M.MX>Ash_ubox.x+Ash_ubox.w || M.MY>Ash_ubox.y+Ash_ubox.h)
+			Stage.Current = nil
+		end
 	end
 	
 	Void Update()
