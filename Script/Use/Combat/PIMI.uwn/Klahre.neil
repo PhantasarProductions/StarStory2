@@ -2,7 +2,7 @@
 // **********************************************
 // 
 // src/Tricky Script/Script/Use/Combat/PIMI.uwn/Klahre.neil
-// (c) Jeroen Broks, 2022, All Rights Reserved.
+// (c) Jeroen Broks, 2022, 2023, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.09.02
+// version: 23.09.01
 // End License Information
 Var Ret = new LinkedList()
 
@@ -60,7 +60,7 @@ Class __PIMI_ARMS Extends Stage
 		Graphics.Alpha(255)
 		Abl.Klahre.View(kit_uBox,ch,"Combat_UserMenu")
 		Any.Mouse.Draw()
-		if M.ML && (M.MX<kit_uBox.x || M.MY<kit_ubox.y || M.MX>kit_ubox.x+kit_ubox.w || M.MY>kit_ubox.y+kit_ubox.y)
+		if M.ML && (M.MX<kit_uBox.x || M.MY<kit_ubox.y || M.MX>kit_ubox.x+kit_ubox.w || M.MY>kit_ubox.y+kit_ubox.h)
 			Stage.Current = nil
 		end
 	end
