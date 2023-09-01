@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Kill.neil
-// Version: 22.05.24
-// Copyright (C) 2022 Jeroen Petrus Broks
+// Version: 23.08.31
+// Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -53,6 +53,12 @@ Module
 			CSayF("Request to kill '%s' ignored (doesn't exist or is already killed)",Tag)
 		End
 	End	
+	
+	Void KillAllPerma()
+		Kills = GINIE.Create("PERMAKILL")
+		CSay("All permakills have been undone!")
+		CSay("Effect only takes place as soon as a new map is loaded!")
+	End
 	
 	Void CBLoadMap(string MapBundle)
 		Kills = Kills || GINIE.Obtain("PERMAKILL")

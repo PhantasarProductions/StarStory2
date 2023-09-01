@@ -422,6 +422,9 @@ deftable icommandtable
 		CSayF("Aurina Rate %d",Any.Aurina.Rate)
 		CSayF("Aurinas spent %d (need %d)",Any.Aurina.Spent,Any.Aurina.SpentNeed)
 	End
+	UNDOALLPERMA = void(table ignore)
+		lnk.map.mcall("FlowField.Kill.KillAllPerma","nil")
+	End
 end
 
 

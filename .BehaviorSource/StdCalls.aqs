@@ -1,6 +1,6 @@
 ; License Information:
 ; src/Tricky Script/.BehaviorSource/StdCalls.aqs
-; Version: 23.04.10
+; Version: 23.08.31
 ; Copyright (C) 2022, 2023 Jeroen Petrus Broks
 ; 
 ; ===========================
@@ -85,5 +85,6 @@ csChunk PRecover,Lnk.Party.Recover
 csChunk SaveGame,Lnk.Map.GoToSave
 
 csChunk LoadNewState,State.LoadNew
+
 
 csChunk IncAurina,Any.Aurina.Incr

@@ -2,7 +2,7 @@
 ; **********************************************
 ; 
 ; src/Tricky Script/.BehaviorSource/901_Feo.aqs
-; (c) Jeroen Broks, 2022, All Rights Reserved.
+; (c) Jeroen Broks, 2022, 2023, All Rights Reserved.
 ; 
 ; This file contains material that is related
 ; to a storyline that is which is strictly
@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 22.08.09
+; version: 23.08.31
 ; End License Information
 
 Include Basis.aqs

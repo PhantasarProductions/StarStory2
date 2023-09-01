@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 23.08.30
+; version: 23.08.31
 ; End License Information
 
 ; Behavior Apollo Quick Script for 'E:/Projects/Applications/Apollo/Games/Star Story 2/src/Tricky Story/Kthura/Hawk'
@@ -113,8 +113,10 @@ Chunk NPC_Terminal
 	call GoToSave
 	exit
 	
-CsChunk NewGamePlus,Lnk.NewGamePlus	
+CsChunk NewGamePlus,Lnk.NewGamePlus
+CsChunk KillAllPerma,FlowField.Kill.KillAllPerma
 Chunk NPC_Klahre
 	call MapText,KLAHRE
+	call KillAllPerma
 	call NewGamePlus
 	exit
