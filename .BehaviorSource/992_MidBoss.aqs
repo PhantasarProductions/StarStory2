@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 23.08.31
+; version: 23.09.02
 ; End License Information
 Include Basis.aqs
 
@@ -51,4 +51,8 @@ Chunk PostMidBoss
 	call MapText,"MIDBOSS2"
 	Call GoToMap,"012_SecretSafe","#001","FromMidBoss"
 	call IncAurina,5
+	exit
+	
+Chunk ZA_Leave
+	Call GoToMap,"012_SecretSafe","#001","FromMidBoss"
 	exit
