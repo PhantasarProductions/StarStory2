@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Execution.neil
-// Version: 22.09.03
-// Copyright (C) 2021, 2022 Jeroen Petrus Broks
+// Version: 23.09.02
+// Copyright (C) 2021, 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -254,6 +254,7 @@ Class Stage_Execution Extends Stage
 	
 	Void Draw_SpellAni()
 		If SpellAni
+			__White
 			SpellAni.Draw()
 		End
 	End
