@@ -2,7 +2,7 @@
 // **********************************************
 // 
 // src/Tricky Script/Script/Flow/FlowScotty.neil
-// (c) Jeroen Broks, 2022, All Rights Reserved.
+// (c) Jeroen Broks, 2022, 2023, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.11.17
+// version: 23.09.02
 // End License Information
 #use "Script/Use/Anyway"
 #use "Libs/LinkedList"
@@ -81,7 +81,7 @@ Class ScMap
 	ReadOnly String Kthura
 	ReadOnly String Name
 	Get Bool Unlocked
-		Return ((Lua.tonumber(left(Kthura,3)) || 0)<=7) || gv.gbool["ScottyUnlocked_"..Kthura]
+		Return (( (Lua.tonumber(left(Kthura,3)) || 0)<=7) && Kthura:upper()!="PHAN_ARRIVAL") || gv.gbool["ScottyUnlocked_"..Kthura]
 	End
 	Constructor(string _m)		
 		Kthura=_m
