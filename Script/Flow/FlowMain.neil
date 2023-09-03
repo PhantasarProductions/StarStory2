@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowMain.neil
-// Version: 23.08.29
+// Version: 23.09.03
 // Copyright (C) 2020, 2021, 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
@@ -282,7 +282,7 @@ void StartJukeBox()
 	// Due to copyright issues, the Jukebox has also been added to the main menu
 	Loading()
 	Flow.Load("JUKEBOX","Script/Flow/FlowJukebox.neil")
-	State.Call("FLOW_JUKEBOX","Arrival","ReturnMain")
+	State.Call("FLOW_JUKEBOX","ComeToMe","\"FLOW_MAINMENU\"")
 	Flow.Current="JUKEBOX"
 end
 
