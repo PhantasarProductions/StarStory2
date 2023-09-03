@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/lnk.uwn/Ach.neil
-// Version: 23.02.23
+// Version: 23.09.03
 // Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
@@ -186,12 +186,13 @@ Module
 	readonly delegate Show = NIKS
 	
 	Void ShowAll(int _x, int _y,int _w,int _h)
-		static int scroll = 0
-		int py = -scroll
+		static int scrolly = 0
+		int py = -scrolly
 		static var bfnt = ImageFont.Obtain("BOXTEXT")
 		static var sfnt = ImageFont.Obtain("MINITEXT")
 		static int ih = 45 
-		int maxitems = _h div ih		
+		int maxitems = _h div ih	
+		int ScrollYMax = 0
 		for AT in Each(AStuff.Categories)
 			//CSay(AT)
 			if prefixed(AT,"REC:")
@@ -209,9 +210,13 @@ Module
 						sfnt.text(A.Description,_x+_w,_y+(((py+1)*ih)-5),1,1)
 					end
 					py++
+					ScrollYMax++
 				end
 			end
 		end
+		ScrollY -= Any.Mouse.Wheel
+		ScrollY = math.min(ScrollY,ScrollYMax-maxitems)
+		ScrollY = math.max(0,ScrollY)
 	End
 	
 End
