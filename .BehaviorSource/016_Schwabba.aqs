@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 23.09.02
+; version: 23.09.03
 ; End License Information
 
 Include Basis.aqs
@@ -70,6 +70,8 @@ Chunk NPC_Schwabba
 Chunk Post_Boss
 	; This forces to make sure the postgame plays in later cycles.
 	Done Done_Wendicka_Prologue
+	; Achievement
+	Done Defeated_Schwabba
 	; Eeward for ending the game
 	Call Score,123456789
 	; End game text
