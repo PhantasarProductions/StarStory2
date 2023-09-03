@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Foe.neil
-// Version: 23.01.25
+// Version: 23.09.03
 // Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
@@ -362,7 +362,7 @@ Class Foe Extends Fighter
 			If (Lua.tonumber(NF.RawData.Value(AT,"MINLEVEL"..__skill)) || 1) <= level
 				For i=1,(Lua.tonumber(NF.RawData.Value(AT,"RATE"..__skill)) || 1)
 					NF.Actions += A
-					CSayF("%s: Added action: %s",NF.Tag,A)  
+					//CSayF("%s: Added action: %s",NF.Tag,A)  
 				End
 			End
 		End
