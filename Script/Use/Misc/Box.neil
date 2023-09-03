@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Use/Misc/Box.neil
-// Version: 22.05.01
-// Copyright (C) 2021, 2022 Jeroen Petrus Broks
+// Version: 23.09.03
+// Copyright (C) 2021, 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -94,7 +94,7 @@ Module Class
 			For i,tag in ipairs(ImgTab)
 				// GFX/ALG/Box.jpbf
 				self[tag] = Image.LoadNew(sprintf("GFX/ALG/Box.jpbf/%08d.png",i-1),sprintf("BOX_%s_%d",tag,i-1))
-				CSayF("In state '%s', box image #%d has been assigned to '%s'",ApolloState.Name,i,tag)
+				// CSayF("In state '%s', box image #%d has been assigned to '%s'",ApolloState.Name,i,tag)
 			End
 		End
 		If addtolist
