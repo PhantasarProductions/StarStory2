@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 23.09.02
+// version: 23.09.03
 // End License Information
 #use "Script/Use/Anyway"
 #use "Libs/LinkedList"
@@ -163,6 +163,22 @@ Global Void Apollo_Flow()
 			End
 		End
 	End
+	static int CanW=Fnt.TextWidth("Cancel")
+	static int CanH=Fnt.TextHeight("Cancel")
+	static int CanX=Screen.W-CanW
+	static int CanY=Screen.H-CanH
+	if M.MX>CanX && M.MY>CanY
+		__Red
+		Graphics.Rect(CanX,CanY,CanW,CanH)
+		__Yellow
+		if M.ML
+			Flow.Current="FIELD"
+		end
+	else
+		__Red
+	end
+	Fnt.Text("Cancel",CanX,CanY)
+	
 	M.Draw()
 End
 
