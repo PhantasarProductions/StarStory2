@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/FieldStats.neil
-// Version: 23.08.31
+// Version: 23.09.03
 // Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
@@ -59,6 +59,7 @@ End
 
 Void FieldStats()
 	W("Time:",FlowField.Time.Display,0)	 
+	W("Medal Rating:",sprintf("%03d%%",math.min(100,math.floor(Medals.AltPercent))))
 	C("Aurinas:",Any.Aurina.Have,Any.Aurina.Have>0)
 	C("Shilders:",Any.Aurina.HaveShilders,Any.Aurina.HaveShilders>0)
 	C("Area:",FlowField.Map.Layer,prefixed(FlowField.Map.Layer,"#") && FlowField.Layers.Data("Title")=="")
