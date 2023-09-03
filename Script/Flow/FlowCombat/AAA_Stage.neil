@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/AAA_Stage.neil
-// Version: 22.06.03
-// Copyright (C) 2021, 2022 Jeroen Petrus Broks
+// Version: 23.09.03
+// Copyright (C) 2021, 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -191,7 +191,7 @@ Class Stage_IDLE extends Stage
 				FlowCombat.PlayerInput.ComeToMe(FirstCard.FightTag)
 			End
 		ElseIf FirstCard.FightTeam=="Foe" && (!FirstCard.Action) 
-			If (!PreTurn(FirstCard)) || Fighter.ByTag[FirstCard.FightTag].HP<=0
+			If (!PreTurn(FirstCard)) || Fighter.ByTag[FirstCard.FightTag].HP<=0 || Fighter.ByTag[FirstCard.FightTag].Gone
 				Cards.DelFirst()			
 			Else
 				Static Int SO = ({0,10,5})[__skill]

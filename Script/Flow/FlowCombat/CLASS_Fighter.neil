@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 23.01.23
+// version: 23.09.03
 // End License Information
 
 #use "Libs/Fittext"
@@ -291,6 +291,9 @@ Class Fighter
 
 #region Targetable
 	Get Bool TargettableByHero
+		If Team=="Foe" && Self.Gone 
+			Return False
+		End
 		Return HP>0 || Team=="Hero"
 	End
 	
