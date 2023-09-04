@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Subs/SubParty.neil
-// Version: 22.09.01
-// Copyright (C) 2022 Jeroen Petrus Broks
+// Version: 23.09.04
+// Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -334,6 +334,7 @@ Group SubParty
 	End
 	
 	Void MiniShow()
+		Graphics.SetAlpha(255)
 		Static Var Fnt = ImageFont.Obtain("MINITEXT")
 		Static Int SY = Screen.H-37
 		For i,l In Pairs(MiniLines)
