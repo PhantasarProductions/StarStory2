@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 23.08.10
+// version: 23.09.05
 // End License Information
 
 #use "libs/linkedlist"
@@ -49,6 +49,12 @@ Module Class
 	
 	static Var SubArena 
 	static Var SubArenaData
+	
+	static get bool Reject
+		bool ret = Lnk.Map.LoadedMap:upper()=="014_EFU_HQ_1" || Lnk.Map.LoadedMap:upper()=="015_EFU_HQ_2"
+		//print(Lnk.Map.LoadedMap:upper(),!ret) // DEBUG ONLY!!!
+		return !ret
+	end
 	
 	Static Void ArenaInit()
 		CSayF("Arena Init")
@@ -81,6 +87,9 @@ Module Class
 	End
 	
 	Static Get Var SAD
+		if Reject
+			return nil
+		end
 		if !SubArena
 			ArenaInit()
 		End
@@ -103,18 +112,30 @@ Module Class
 	End
 	
 	Static Void NewBattle()
+		If Reject
+			Return
+		End
 		SAD.NewBattle()
 	End
 	
 	Static Void Load()
+		If Reject
+			Return
+		End
 		SAD.Load()
 	End
 	
 	Static Void UnLoad()
+		If Reject
+			Return
+		End
 		SAD.UnLoad()
 	End
 		
 	Static Void Draw()
+		If Reject
+			Return
+		End
 		SAD.Draw()
 	End
 	
