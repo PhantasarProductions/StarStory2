@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Renc.neil
-// Version: 23.01.26
+// Version: 23.09.05
 // Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
@@ -217,6 +217,7 @@ Module Class
 		OL = FlowField.FollowTheLeader.LeaderMapTag
 		OX = PX
 		OY = PY
+		Graphics.SetAlpha(255)
 		__White
 		Back.Draw(GaugeX,GaugeY)
 		__Yellow
