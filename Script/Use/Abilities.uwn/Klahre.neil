@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 23.05.02
+// version: 23.09.05
 // End License Information
 
 #use "libs/fittext"
@@ -246,7 +246,7 @@ Module
 			W+=8
 			__Black
 			Graphics.Alpha(120)
-			Graphics.Rect(math.max(math.min(X-(W div 2),Screen.W-W),0),Y,W,50+(#EX*20))
+			Graphics.Rect(math.max(math.min(X-(W div 2),Screen.W-W),0),Y,W,50+((#EX+1)*20))
 			Graphics.Alpha(255)
 			__SkyBlue
 			FitText.Dark(Fnt,IT.Title,X,Y,2)
