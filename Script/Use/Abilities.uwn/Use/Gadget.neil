@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Use/Abilities.uwn/Use/Gadget.neil
-// Version: 22.09.03
-// Copyright (C) 2022 Jeroen Petrus Broks
+// Version: 23.09.05
+// Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -155,8 +155,7 @@ Class Gadget_Class
 	
 	var SelectedItem=nil
 	Int TS
-	
-	
+		
 	bool S_DBL = False
 	bool S_SPR = False
 	Int  S_CRD = 0
@@ -167,6 +166,7 @@ Class Gadget_Class
 		Int CY = BY		
 		Int EX = BX + (ubox.w-20)
 		Int EY = BY + (ubox.y-20)
+		var Hover = nil
 		For GI in Items.Each
 			Int HX = 0
 			If Any.Mouse.MX>BX && Any.Mouse.MX<EX && Any.Mouse.MY>CY && Any.Mouse.MY<CY+30
@@ -175,6 +175,8 @@ Class Gadget_Class
 					SelectedItem = GI
 					TS = os.time()
 					Events.Flush()
+				Else
+					Hover = GI
 				End
 			End
 			Int CX = BX + HX			
@@ -189,6 +191,37 @@ Class Gadget_Class
 			End
 			CY += 30
 		End
+		If Hover && Hover.Unlocked
+			Static Var DFt = ImageFont.Obtain("MINITEXT")
+			Var AR = Hover			
+			String ITg = AR.FullTag 
+			Var IT = any.iaa[ITg]
+			//Lua.assert(ITg!="",sprintf("Hovering slot #%d gives no an empty string",Hover))
+			Int X=MX+10
+			Int Y=MY+15
+			var Ex = IT.ExplainTable
+			//String Updates = sprintf("Extra Power: %d; Repeat: %d; Hit: %03d%%",AR.XPower,AR.XRepeat,AR.Hit)
+			Int W=math.max(Fnt.TextWidth(IT.Title),0)			
+			w = math.max(Dft.TextWidth(IT.Desc),w)
+			For i,e in ipairs(EX)
+				W=math.max(W,DFt.TextWidth(e))
+			End			
+			W+=8
+			__Black
+			Graphics.Alpha(120)
+			Graphics.Rect(math.max(math.min(X-(W div 2),Screen.W-W),0),Y,W,50+(#EX*20))
+			Graphics.Alpha(255)
+			__SkyBlue
+			FitText.Dark(Fnt,IT.Title,X,Y,2)
+			__Ember
+			FitText.Dark(DFt,IT.Desc,X,(Y+30),2)
+			Graphics.Color(180,255,0)
+			//FitText.Dark(Dft,Updates,X,(Y+60),2) // Not applicable on gadgets and rage abilities. Only on ARMS.
+			__White
+			For i,e in ipairs(EX)
+				FitText.Dark(DFt,e,X,(Y+60)+(i*20),2)
+			End
+		End
 	End
 	
 	Void QC(Bool Condition)
@@ -200,6 +233,7 @@ Class Gadget_Class
 		end
 	End
 	
+		
 	Void ShowItem(ubox,Situation)
 		Int BX = ubox.x + 10
 		Int BY = ubox.y + 10
