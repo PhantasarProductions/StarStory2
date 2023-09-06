@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Status.neil
-// Version: 22.09.01
-// Copyright (C) 2022 Jeroen Petrus Broks
+// Version: 23.09.06
+// Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -154,7 +154,7 @@ Module
 					if ML
 						If Any.IAA.Give(Ch.Data[sprintf("Jewel_%02d",j)])
 							Ch.Data[sprintf("Jewel_%02d",j)]=""
-							Lnk.Party.Recalc(FMChar)
+							Lnk.Party.StatRecalc(FMChar)
 						Else
 							static var buzz = Audio.Obtain("BUZZ")
 							buzz.play()
