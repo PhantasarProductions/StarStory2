@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 23.09.05
+// version: 23.09.06
 // End License Information
 #macro wh_Image 1
 #macro wh_Font 2
@@ -67,8 +67,9 @@ end
 
 // Testing if the file is actually compiled correctly at all and running
 Init
+	//Medals.SetGame("STARSTORY2")
 	Medals.AltMax=25000
-	FPS.MinTicks=25;
+	FPS.MinTicks=25
 	Print("Klahre welcomes you")
 	Print("Apollo is running in "..Core.Platform)
 	

@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Use/Any.uwn/Dev.neil
-// Version: 22.03.24
-// Copyright (C) 2022 Jeroen Petrus Broks
+// Version: 23.09.06
+// Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -91,7 +91,13 @@ module
 	void CommandCallBack(string _opdracht,table para)
 		string Opdracht = "CONSOLE_".._opdracht
 		if GlobalExists(opdracht)
-			Lua.Neil.Globals[opdracht](para)
+			var Functie = Lua.Neil.Globals[opdracht]
+			if (Lua.type(Functie)=="function")
+				Functie(para)
+			Else
+				CWrite("ERROR",255,0,0)
+				CWrite(sprintf("%s appears to be a %s (containing %s) and not a function!",_opdracht,Lua.type(Functie)=="function",Lua.tostring(Opdracht)),255,255,0)
+			End
 		else
 			CWrite("ERROR! Command '".._opdracht.."' not understood!",255,0,0)
 		end

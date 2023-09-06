@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowConsole.neil
-// Version: 23.08.31
+// Version: 23.09.06
 // Copyright (C) 2020, 2021, 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
@@ -131,6 +131,7 @@ class CLine
 			dpara += "\""..v.."\""
 		end
 		dpara += "}"
+		PrintF("\x1b[32mDev Call Back:\x1b[0m %s> %s\n",ReturnToFlow,dpara)
 		State.Call(ReturnToFlow,"Any.Dev.CommandCallBack",dpara)
 	end
 
@@ -180,6 +181,7 @@ class CLine
 		end
 		string opdracht = chopped[1]:upper()
 		table para
+		para = {}
 		for i=2,#chopped
 			para[i-1]=chopped[i]
 		end

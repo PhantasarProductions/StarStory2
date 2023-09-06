@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Hero.neil
-// Version: 23.01.30
+// Version: 23.09.06
 // Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
@@ -118,6 +118,10 @@ Class Hero Extends Fighter
 			
 	
 	Get Var Img
+		If Self.HP<=0
+			ImgTable.Dead = ImgTable.Dead ||Image.LoadNew(sprintf("GFX/Combat/Heroes/%s.Dead.png",Self.Tag),sprintf("COMBAT_%s_DEAD",Self.Tag))
+			return ImgTable.Dead
+		End
 		ImgTable[UsePose] = ImgTable[UsePose] || Image.LoadNew(UsePoseFile,sprintf("COMBAT_%s_%s",Self.Tag,UsePose))
 		Return ImgTable[UsePose]
 	End
