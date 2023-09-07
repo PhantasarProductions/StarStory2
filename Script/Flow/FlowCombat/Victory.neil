@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Victory.neil
-// Version: 22.05.11
-// Copyright (C) 2021, 2022 Jeroen Petrus Broks
+// Version: 23.09.07
+// Copyright (C) 2021, 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -127,6 +127,7 @@ Class Stage_Victory extends Stage
 		if math.abs(os.time()-CheckStamp)>YWTime
 			CDLoading()
 			ResetBuffs()
+			Foe.RemoveAll()
 			Flow.Current="FIELD"
 			Lnk.Ach.Auto()
 			For i=1,4
@@ -147,7 +148,9 @@ Class Stage_Victory extends Stage
 					End
 				End
 			End
-			Lnk.Map.Schedule(":OPENDOOR:")
+			if FlowCombat.Start.OpenDoor
+				Lnk.Map.Schedule(":OPENDOOR:")
+			end
 			Repeat
 				Events.Poll()
 				FPS.WaitMinTicks()
