@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Foe.neil
-// Version: 23.09.03
+// Version: 23.09.07
 // Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
@@ -397,6 +397,16 @@ Class Foe Extends Fighter
 		Var InitialStatus = {}
 		NF.SetUp(NF.CharTag,"Foe")
 		NF.InitStatusChanges(InitialStatus)
+	End
+	
+	Static Void RemoveAll()
+		For k,v In Pairs(Fighter.ByTag)
+			If v.Team=="Foe"
+				CSay("Killing RPFCHAR: "..k)
+				RPGChar.Kill(k)
+				v.Gone=true
+			End
+		End
 	End
 
 End
