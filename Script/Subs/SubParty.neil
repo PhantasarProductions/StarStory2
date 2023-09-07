@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Subs/SubParty.neil
-// Version: 23.09.04
+// Version: 23.09.07
 // Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
@@ -351,18 +351,18 @@ Group SubParty
 		CSay("Stat recalc: "..chtag)
 		for s in each(Any.Resistance.AllStat)
 			Char.Stat["EQUI_"..s] = 0
-			CSayF("=> Resetting: %s"..s)
+			//CSayF("=> Resetting: %s"..s)
 		end
 		for i=1,90 div __skill
 			string sltag=sprintf("Jewel_%02d",i)
 			string ittag=Char.Data[sltag]
 			if ittag!=""
-				CSAYF("=> Checking slot #%02d: (%s) => %s",i,sltag,ittag) 
+				//CSAYF("=> Checking slot #%02d: (%s) => %s",i,sltag,ittag) 
 				var it = Any.IAA[ittag]
 				for s in each(Any.Resistance.AllStat)
 					if s!="AP"
 						Char.Stat["EQUI_"..s] += it["Jewel_"..s]
-						CSayF("=> EQUI_%s += %d  (total: %d)",s,  it["Jewel_"..s],Char.Stat["EQUI_"..s])
+						//CSayF("=> EQUI_%s += %d  (total: %d)",s,  it["Jewel_"..s],Char.Stat["EQUI_"..s])
 					end
 				end
 				if it.Jewel_Rage>0 && chtag=="Ashley" 
