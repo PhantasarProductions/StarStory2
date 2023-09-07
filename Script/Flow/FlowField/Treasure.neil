@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Treasure.neil
-// Version: 23.01.23
+// Version: 23.09.07
 // Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
@@ -71,7 +71,7 @@ Module
 
 	Void RandomTreasure(string tag)
 		// Placeholder
-		CSayF("Request to pick up random treasure '%s' received!",tag)
+		//CSayF("Request to pick up random treasure '%s' received!",tag)
 		String iTag = FlowField.Map.CurLayer.Obj(Tag).Data.Treasure
 		If Any.IAA.Give(iTag)
 			Lnk.Party.MiniMsg(sprintf("%s obtained",Any.IAA[iTag].Title),0,180,255)
