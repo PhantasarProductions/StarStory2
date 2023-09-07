@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/PlayerInputTarget.neil
-// Version: 23.09.03
+// Version: 23.09.06
 // Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
@@ -120,6 +120,8 @@ Class _PITar Extends Stage
 				print(Serialize("Targets_Tag",Act.Targets_Tag))
 				FlowCombat.Execution.ComeToMe(Act,Card)
 			End
+		ElseIf Any.Mouse.MR 
+			Stage.Current = nil
 		End
 	End
 	
