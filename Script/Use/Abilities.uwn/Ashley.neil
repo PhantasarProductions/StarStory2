@@ -2,7 +2,7 @@
 // **********************************************
 // 
 // src/Tricky Script/Script/Use/Abilities.uwn/Ashley.neil
-// (c) Jeroen Broks, 2022, All Rights Reserved.
+// (c) Jeroen Broks, 2022, 2023, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 22.08.20
+// version: 23.09.07
 // End License Information
 
 #use "libs/linkedlist"
@@ -60,6 +60,13 @@ Class __AshleyRage
 	ReadOnly Static Var List  = new LinkedList()
 	ReadOnly Static Var Stuff = GINIE.CreateNew("ASHLEY_RAGE")
 	Static Delegate Chosen = NIKS
+	
+	Static Get Int MX
+		Return Any.Mouse.MX
+	End
+	Static Get Int MY
+		Return Any.Mouse.MY
+	End
 
 	Static Void View(ubox)
 		int SX = ubox.x+10
@@ -67,6 +74,7 @@ Class __AshleyRage
 		int EX = (ubox.x+ubox.w)-20
 		int EY = (ubox.y+ubox.h)-20
 		int Y = SY		
+		var Hover=nil
 		For RI,RL in List.Each
 			int HX = 0
 			#if autoremove
@@ -82,6 +90,7 @@ Class __AshleyRage
 					N = Left(N,15).."..."
 				End
 				if Any.Mouse.MX>SX && Any.Mouse.MX<EX && Any.Mouse.MY>Y && Any.Mouse.MY<Y+30
+					Hover=RI
 					HX=10
 					if Any.Mouse.ML && RI.APCost<=RPGChar.Ashley.Points.AP.Have
 						Chosen(RI)
@@ -111,6 +120,37 @@ Class __AshleyRage
 				Fnt.Dark(Ndd,SX+HX,Y)
 			end
 			Y+=30
+		End
+		If Hover
+			Static Var DFt = ImageFont.Obtain("MINITEXT")
+			Var AR = Hover			
+			String ITg = AR.Tag 
+			Var IT = Hover.Abl
+			//Lua.assert(ITg!="",sprintf("Hovering slot #%d gives no an empty string",Hover))
+			Int X=MX+10
+			Int Y=MY+15
+			var Ex = IT.ExplainTable
+			//String Updates = sprintf("Extra Power: %d; Repeat: %d; Hit: %03d%%",AR.XPower,AR.XRepeat,AR.Hit)
+			Int W=math.max(Fnt.TextWidth(IT.Title),0)			
+			w = math.max(Dft.TextWidth(IT.Desc),w)
+			For i,e in ipairs(EX)
+				W=math.max(W,DFt.TextWidth(e))
+			End			
+			W+=8
+			__Black
+			Graphics.Alpha(120)
+			Graphics.Rect(math.max(math.min(X-(W div 2),Screen.W-W),0),Y,W,50+(#EX*20))
+			Graphics.Alpha(255)
+			__SkyBlue
+			FitText.Dark(Fnt,IT.Title,X,Y,2)
+			__Ember
+			FitText.Dark(DFt,IT.Desc,X,(Y+30),2)
+			Graphics.Color(180,255,0)
+			//FitText.Dark(Dft,Updates,X,(Y+60),2) // Not applicable on gadgets and rage abilities. Only on ARMS.
+			__White
+			For i,e in ipairs(EX)
+				FitText.Dark(DFt,e,X,(Y+60)+(i*20),2)
+			End
 		End
 	End
 	
@@ -201,7 +241,7 @@ Init
 	__AshleyRage.List.AddLast(new __AshleyRage("ABL_ASHLEY_PICKPOCKET",0))
 	__AshleyRage.List.AddLast(new __AshleyRage("ABL_ASHLEY_BERSERK",0))
 	__AshleyRage.List.AddLast(new __AshleyRage("ABL_ASHLEY_CHILL",0))
-	__AshleyRage.List.AddLast(new __AshleyRage("ABL_ASHLEY_READYCHARGE",1000*(10^__skill)))
+	//__AshleyRage.List.AddLast(new __AshleyRage("ABL_ASHLEY_READYCHARGE",1000*(10^__skill)))
 	int a = 25
 	for i=1,10 
 		__AshleyRage.List.AddLast(new __AshleyRage(sprintf("ABL_ASHLEY_STRIKE%X",i),a*__skill,i div __skill))
