@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Abilities.uwn/Use/Gadget.neil
-// Version: 23.09.05
+// Version: 23.09.07
 // Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
@@ -278,7 +278,11 @@ Class Gadget_Class
 			int iy = BY+120+((i2 % 15)*30)
 			var Pic = GPU_Pic[sprintf("+%02d Cards_%s",i,SelectedItem.XCards>=i)]
 			if MX>ix && MY>iy && ML && MX<ix+Pic.Width && MY<iy+Pic.Height && SelectedItem.XCards>=i
-				SelectedItem.SelectedXCards = i
+				if SelectedItem.SelectedXCards==i
+					SelectedItem.SelectedXCards=0
+				else
+					SelectedItem.SelectedXCards = i
+				end
 				//S_CRD = i
 				Events.Flush()
 			End
