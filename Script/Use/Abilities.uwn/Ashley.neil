@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 23.09.07
+// version: 23.09.08
 // End License Information
 
 #use "libs/linkedlist"
@@ -149,7 +149,7 @@ Class __AshleyRage
 			//FitText.Dark(Dft,Updates,X,(Y+60),2) // Not applicable on gadgets and rage abilities. Only on ARMS.
 			__White
 			For i,e in ipairs(EX)
-				FitText.Dark(DFt,e,X,(Y+60)+(i*20),2)
+				FitText.Dark(DFt,e,X,(Y+30)+(i*20),2)
 			End
 		End
 	End
