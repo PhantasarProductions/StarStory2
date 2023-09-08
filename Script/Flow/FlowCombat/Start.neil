@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Start.neil
-// Version: 22.06.10
-// Copyright (C) 2022 Jeroen Petrus Broks
+// Version: 23.09.07
+// Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -40,6 +40,7 @@ Module
 	String Arena
 	Table Enemies
 	String Wipe
+	Bool OpenDoor
 		
 	Void NewEnemy(String Foe,Int Level,Int X,Int Y)
 		Int Enem = #Enemies+1
@@ -62,6 +63,7 @@ Module
 		Arena = ""
 		Music = ""
 		Enemies = {}
+		OpenDoor = True
 	End
 	
 	Void StartMusic()

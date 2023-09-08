@@ -195,6 +195,7 @@ Class Stage_Victory extends Stage
 End
 
 Init
+	NIKS(Lnk.Map) // Force LNK.MAP to compile while loading. Saves waiting times after first battle. That it would lead to longer load time before the first battle, no one will bother (I hope)
 	Stage_Victory.Vic = new Stage_Victory()
 	Stage.Register("VICTORY",Stage_Victory.Vic)
 End

@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Use/lnk.uwn/Combat.neil
-// Version: 22.06.10
-// Copyright (C) 2022 Jeroen Petrus Broks
+// Version: 23.09.07
+// Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -53,6 +53,10 @@ Module
 	
 	Set String Tune
 		Music = Value
+	End
+	
+	Set Bool OpenDoor
+		ISSet("Bool","FLOW_COMBAT","FlowCombat.Start.OpenDoor",Value)
 	End
 	
 	Void NewEnemy(string Foe,Int Level,X,Y)

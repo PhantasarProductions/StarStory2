@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Boss.neil
-// Version: 23.08.10
+// Version: 23.09.07
 // Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
@@ -50,9 +50,10 @@ Module
 		End
 		Lnk.Map.StopWalking()
 		Lnk.Combat.PrepareCombat()
-		Lnk.Combat.Arena = Arena
-		Lnk.Combat.Music = Stuff.Value(src,"Tune")
-		Lnk.Combat.Wipe  = "GameOver"
+		Lnk.Combat.Arena    = Arena
+		Lnk.Combat.Music    = Stuff.Value(src,"Tune")
+		Lnk.Combat.OpenDoor = Stuff.Value(src,"OpenDoor"):upper()!="FALSE" 
+		Lnk.Combat.Wipe     = "GameOver"
 		For i=1,9
 			String F = Stuff.Value(src,"FOE"..i)
 			Int Lvl = IVal(src,"LEVEL"..i.."_"..__skill)
