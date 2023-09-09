@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/lnk.uwn/Map.Neil
-// Version: 23.04.20
+// Version: 23.09.09
 // Copyright (C) 2021, 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
@@ -386,7 +386,7 @@ Module
 		Return ISGET.String("FLOW_FIELD","FieldFlow.Map.KthuraMap.Meta.Arena")
 	End
 	
-	Void GoToSave()
+	Void GoToSave()		
 		MCall("FieldFlow.GoToSave","nil")
 	End
 	
