@@ -36,6 +36,7 @@
 // End License Information
 Void _GTS()
 	State.LoadNew("FLOW_SAVEGAME","Script/Flow/FlowSaveGame.neil")
+	State.Call("FLOW_SAVEGAME","WantSave","nil")
 	Flow.Current="SAVEGAME"
 End
 
