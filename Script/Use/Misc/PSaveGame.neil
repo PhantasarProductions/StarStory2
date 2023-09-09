@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Use/Misc/PSaveGame.neil
-// Version: 22.06.05
-// Copyright (C) 2021, 2022 Jeroen Petrus Broks
+// Version: 23.09.09
+// Copyright (C) 2021, 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -75,7 +75,11 @@ Global Void PerformSaveGame(string f)
 	//SaveGame.Data["Achievements.ini"] = GINIE.UnParse("ACHIEVEMENTS")
 	//SaveGame.Data["Achievements.ini"] = Lnk.Ach.Source
 	For k in Each{"Klahre_ARMS","Yorno_Gadget","Doctor_Gadget","Doctor_XItem","Ashley_Rage"}
-		SaveGame.Data[sprintf("Abilities/%s.ini",k)] = GINIE.UnParse(k:upper())
+		if GINIE.Has(k:upper())
+			SaveGame.Data[sprintf("Abilities/%s.ini",k)] = GINIE.UnParse(k:upper())
+		else
+			printf("\x1b[31mNOTE!\x1b[0m\t No data yet for %s, so skipping that!\n",k)
+		end
 	End
 	Lnk.Map.SG()
 	if f=="QUIT"
