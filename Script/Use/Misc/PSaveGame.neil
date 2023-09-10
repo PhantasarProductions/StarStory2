@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Misc/PSaveGame.neil
-// Version: 23.09.09
+// Version: 23.09.10
 // Copyright (C) 2021, 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
@@ -78,7 +78,7 @@ Global Void PerformSaveGame(string f)
 		if GINIE.Has(k:upper())
 			SaveGame.Data[sprintf("Abilities/%s.ini",k)] = GINIE.UnParse(k:upper())
 		else
-			printf("\x1b[31mNOTE!\x1b[0m\t No data yet for %s, so skipping that!\n",k)
+			printf("\x1b[31mNOTE!\x1b[0m\t No data yet for %s, so skipping that!\n",k) 
 		end
 	End
 	Lnk.Map.SG()
