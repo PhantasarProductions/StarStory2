@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 23.09.05
+// version: 23.09.10
 // End License Information
 
 #use "libs/fittext"
@@ -154,7 +154,7 @@ Module
 	End
 	
 	Void AllowRachel()
-		gv.gBool.AllowRachel = Stuff.Count("LISTS","ARMSGATHERED")>=13
+		gv.gBool.AllowRachel = Stuff.Count("LISTS","ARMSGATHERED")>=15
 		CSayF("ARMS gathered: %02d! Rachel allowed: %s",Stuff.Count("LISTS","ARMSGATHERED"),Lua.tostring(gv.gBool.AllowRachel))		
 	End
 			
