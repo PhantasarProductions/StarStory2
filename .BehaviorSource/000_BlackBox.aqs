@@ -32,7 +32,7 @@
 ; 
 ; **********************************************
 ; 
-; version: 23.08.10
+; version: 23.09.10
 ; End License Information
 ; Behavior Apollo Quick Script for 'E:/Projects/Applications/Apollo/Games/Star Story 2/src/Tricky Story/Kthura/000_BlackBox'
 ; Created 4/11/2022 11:03:28 AM
@@ -48,6 +48,8 @@ sChunk NPC_Scott,BBX,BBX.Scott
 csChunk GoToSave,FlowField.GoToSave
 sChunk ZA_Quin_Return,BBX,BBX.QuinReturn
 
+csChunk ReloadKlahre,Abl.Klahre.ReloadAll
+
 Chunk Update
 	call _Update
 
@@ -56,6 +58,8 @@ Chunk Load
 	call NewState,BBX,"Kthura/000_BlackBox/BBX.neil"
 	call CSay,"Recover effect"
 	call Recover
+	call CSay,"Make sure all of Klahre's ARMS are reloaded"
+	Call ReloadKlahre
 	
 Chunk ZA_Trans	
 	done BeenInBlackBox

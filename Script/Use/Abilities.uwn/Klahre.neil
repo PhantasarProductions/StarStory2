@@ -208,6 +208,14 @@ Module
 	End
 	
 	Delegate Action = NIKS
+	
+	Void ReloadAll()
+		For at In Each(TARM.List)
+			Var a = ARM[at]
+			a.Ammo=a.AmmoMax
+		End
+	End
+		
 
 	Void View(ubox,upgrading)
 		Int BX = ubox.x+5
