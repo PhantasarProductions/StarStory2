@@ -1,0 +1,144 @@
+// License Information:
+// src/Tricky Script/Script/Flow/FlowCombat/Wiped.neil
+// Version: 23.09.10
+// Copyright (C) 2023 Jeroen Petrus Broks
+// 
+// ===========================
+// This file is part of a project related to the Phantasar Chronicles or another
+// series or saga which is property of Jeroen P. Broks.
+// This means that it may contain references to a story-line plus characters
+// which are property of Jeroen Broks. These references may only be distributed
+// along with an unmodified version of the game.
+// 
+// As soon as you remove or replace ALL references to the storyline or character
+// references, or any termology specifically set up for the Phantasar universe,
+// or any other univers a story of Jeroen P. Broks is set up for,
+// the restrictions of this file are removed and will automatically become
+// zLib licensed (see below).
+// 
+// Please note that doing so counts as a modification and must be marked as such
+// in accordance to the zLib license.
+// ===========================
+// zLib license terms:
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// End License Information
+Class Stage_Wiped extends Stage
+	Static Var Wipe
+	
+	Static Var Img_Defeated = Image.LoadNew("GFX/Combat/End/Defeated.png","COMBAT_DEFEATED")
+	Static Var Img_GameOver = Image.LoadNew("GFX/Combat/End/GameOver.png","COMBAT_GAMEOVER")
+	
+	Static Get String WipeAct
+		Return FlowCombat.Start.Wipe
+	End
+	
+	Static Get Var Banner
+		Return Self["IMG_"..WipeAct]
+	End
+	
+	Static Number BanScale
+	Const Number ScaleInc = 0.016
+	
+	Const Int YWTime=3
+	Const Int TotalTime=9
+	Static Int CheckStamp
+
+	Static Get Bool Lost
+		Return FlowCombat.Defeated("Hero")
+	End
+	
+	Static Void Check()
+		If Wipe==Stage.Current
+			Return
+		End
+		if Lost
+			BanScale=0
+			gv.gint.Combat_PartyDefeated++
+			Stage.Current="WIPED"
+			CheckStamp = os.time()
+		end
+	End
+	
+	Static Get Delegate ResetBuffs
+		Return FlowCombat.Victory.ResetBuffs
+	End
+	
+	
+	Void Update()
+		BanScale = math.min(1,BanScale+ScaleInc)
+		//If BanScale>=1
+		if math.abs(os.time()-CheckStamp)>YWTime
+			CDLoading()
+			ResetBuffs()
+			Foe.RemoveAll()
+			//Flow.Current="FIELD" 
+			Lnk.Ach.Auto()
+			For i=1,4
+				string tag=RPGParty[i]
+				if Tag!=""
+					switch __skill
+						case 1 2
+							RPGChar[tag].Points.HP.Have = RPGChar[tag].Points.HP.Maximum
+						case 3
+							RPGChar[tag].Points.HP.Have = 1
+						Default
+							Lua.error("Skill error")
+					End
+				End
+			End
+			//if FlowCombat.Start.OpenDoor
+			//	Lnk.Map.Schedule(":OPENDOOR:")
+			//end
+			Repeat
+				Events.Poll()
+				FPS.WaitMinTicks()
+			Until math.abs(os.time()-CheckStamp)>TotalTime
+			If !Prefixed(FlowCombat.Start.Music:upper(),"*NOCHANGE")
+				Music.Pop()
+			End
+			switch WipeAct:upper()
+				case "DEFEATED"
+					Flow.Current="FIELD"
+					if gv.gbool.BeenInBlackBox
+						Lnk.Map.GoToMap("000_BlackBox","BASE","Start")
+					else
+						Lnk.Map.GoToMap("001_HyperLoopStation","HALL","Einde")
+					end
+				case "GAMEOVER"
+					Flow.Quit()
+				default
+					Lua.error("Unknown wipe action: "..WipeAct)
+			end
+			Return
+		End
+		
+	End
+
+	Void Draw()
+		__White
+		Graphics.Scale(BanScale,BanScale)
+		Banner.Draw(Screen.W div 2, Screen.H div 5)
+	End
+	
+End
+
+
+Init
+	NIKS(Lnk.Map) // Force LNK.MAP to compile while loading. Saves waiting times after first battle. That it would lead to longer load time before the first battle, no one will bother (I hope)
+	Stage_Wiped.Wipe = new Stage_Wiped()
+	Stage.Register("WIPED",Stage_Wiped.Wipe)
+End
+
+Return Stage_Wiped
