@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat/Wiped.neil
-// Version: 23.09.10
+// Version: 23.09.11
 // Copyright (C) 2023 Jeroen Petrus Broks
 // 
 // ===========================
@@ -39,6 +39,9 @@ Class Stage_Wiped extends Stage
 	
 	Static Var Img_Defeated = Image.LoadNew("GFX/Combat/End/Defeated.png","COMBAT_DEFEATED")
 	Static Var Img_GameOver = Image.LoadNew("GFX/Combat/End/GameOver.png","COMBAT_GAMEOVER")
+	Static Get Var IMG_Respawn
+		Return Img_Defeated
+	End
 	
 	Static Get String WipeAct
 		Return FlowCombat.Start.Wipe
@@ -80,9 +83,9 @@ Class Stage_Wiped extends Stage
 		BanScale = math.min(1,BanScale+ScaleInc)
 		//If BanScale>=1
 		if math.abs(os.time()-CheckStamp)>YWTime
-			CDLoading()
+			//CDLoading()
 			ResetBuffs()
-			Foe.RemoveAll()
+			//Foe.RemoveAll()
 			//Flow.Current="FIELD" 
 			Lnk.Ach.Auto()
 			For i=1,4
@@ -109,7 +112,7 @@ Class Stage_Wiped extends Stage
 				Music.Pop()
 			End
 			switch WipeAct:upper()
-				case "DEFEATED"
+				case "DEFEATED" "RESPAWN"
 					Flow.Current="FIELD"
 					if gv.gbool.BeenInBlackBox
 						Lnk.Map.GoToMap("000_BlackBox","BASE","Start")
@@ -138,6 +141,8 @@ End
 Init
 	NIKS(Lnk.Map) // Force LNK.MAP to compile while loading. Saves waiting times after first battle. That it would lead to longer load time before the first battle, no one will bother (I hope)
 	Stage_Wiped.Wipe = new Stage_Wiped()
+	Stage_Wiped.Img_Defeated.HotBottomCenter()
+	Stage_Wiped.Img_GameOver.HotBottomCenter()
 	Stage.Register("WIPED",Stage_Wiped.Wipe)
 End
 
