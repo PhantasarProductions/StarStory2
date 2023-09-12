@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/lnk.uwn/Elevator.neil
-// Version: 23.04.24
+// Version: 23.09.12
 // Copyright (C) 2023 Jeroen Petrus Broks
 // 
 // ===========================
@@ -143,7 +143,7 @@ Module
 			case 1
 				Score += math.min(Score,5000)
 			case 2
-				Score += 60
+				Score += 120
 			case 3
 				Score++
 			Default

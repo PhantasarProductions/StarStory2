@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 23.08.31
+// version: 23.09.12
 // End License Information
 Module
 
@@ -98,13 +98,13 @@ Module
 			gv.gint.AurinaSpent -= SpentNeed
 			Switch __skill
 				Case 1
-					SpentNeed = math.ceil(SpentNeed * 1.5)
-					Rate += math.random(1,5)
+					SpentNeed = math.ceil(SpentNeed * 1.25)
+					Rate += math.random(1,6)
 				Case 2
-					SpentNeed += SpentNeed
-					Rate += math.random(1,3)
+					SpentNeed = math.ceil(SpentNeed * 1.5)
+					Rate += math.random(1,4)
 				Case 3
-					SpentNeed = SpentNeed ^ 2
+					SpentNeed = SpentNeed * 2
 					Rate ++
 				Default
 					Lua.error("Spent skill error: "..__skill)

@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.Neil
-// Version: 23.08.31
+// Version: 23.09.12
 // Copyright (C) 2021, 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
@@ -102,7 +102,7 @@ Void MapLevelCheck()
 		Any.Aurina.Spent += math.max((2+Any.Caps.Cycle)-__SKILL,0)
 		For i=1,lnk.Party.Count
 			Var Ch=RPGChar[RPGParty[i]]
-			Ch.Points.EXP.Have += math.floor( (FlowField.Map.MapLevel/Ch.Stat.Level) * 100)
+			Ch.Points.EXP.Have += math.floor( (FlowField.Map.MapLevel/Ch.Stat.Level) * 500)
 		End
 	End
 End
