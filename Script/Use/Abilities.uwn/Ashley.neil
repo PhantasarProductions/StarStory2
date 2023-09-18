@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 23.09.08
+// version: 23.09.12
 // End License Information
 
 #use "libs/linkedlist"
@@ -46,7 +46,7 @@
 //4 Nelj?
 //5 Viisi
 //6 Kuusi
-//7 Seitsem?n
+//7 Seitseman
 //8 Kahdeksan
 //9 yhdeks?n
 //10 kymmenen
@@ -239,8 +239,8 @@ End
 Init
 //  for s=1,3 do local a=25; for i=1,10 do print(s,i,a*s) a = a + a end print("===") end
 	__AshleyRage.List.AddLast(new __AshleyRage("ABL_ASHLEY_PICKPOCKET",0))
-	__AshleyRage.List.AddLast(new __AshleyRage("ABL_ASHLEY_BERSERK",0))
-	__AshleyRage.List.AddLast(new __AshleyRage("ABL_ASHLEY_CHILL",0))
+	//__AshleyRage.List.AddLast(new __AshleyRage("ABL_ASHLEY_BERSERK",0))
+	//__AshleyRage.List.AddLast(new __AshleyRage("ABL_ASHLEY_CHILL",0))
 	//__AshleyRage.List.AddLast(new __AshleyRage("ABL_ASHLEY_READYCHARGE",1000*(10^__skill)))
 	int a = 25
 	for i=1,10 
