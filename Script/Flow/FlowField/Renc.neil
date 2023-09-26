@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField/Renc.neil
-// Version: 23.09.05
+// Version: 23.09.19
 // Copyright (C) 2022, 2023 Jeroen Petrus Broks
 // 
 // ===========================
@@ -75,13 +75,21 @@ Module Class
 			return Lua.tonumber(Stuff.Value("FOE:"..F,K..__skill)) || 0
 		End
 		CSayF("Value(%s,%s)",F,K)
-		Switch K:upper()
+		string sminl = FlowField.Map.KthuraMap.MetaData["Foe_Minlevel"..__skill]
+		string smaxl = FlowField.Map.KthuraMap.MetaData["Foe_Maxlevel"..__skill]
+		if (sminl=="")
+			sminl = FlowField.Map.KthuraMap.MetaData["Foe_MinLevel"..__skill]
+		end
+		if (smaxl=="")
+			smaxl = FlowField.Map.KthuraMap.MetaData["Foe_MaxLevel"..__skill]
+		end
+		Switch K:upper()		
 			CASE "MINLEVEL"
 				Int R
 				If OwnLevels(F)					
 					R = Val(F,K,true)
 				Else
-					R = Lua.tonumber(FlowField.Map.KthuraMap.MetaData["Foe_Minlevel"..__skill]) || 1
+					R = Lua.tonumber(sminl) || 1
 					CSayF("=> From meta: %d",R)
 				End				
 				Return Any.Caps.LevelRecalc(R)
@@ -90,7 +98,7 @@ Module Class
 				If OwnLevels(F)
 					R = Val(F,K,true)
 				Else
-					R = Lua.tonumber(FlowField.Map.KthuraMap.MetaData["Foe_Maxlevel"..__skill]) || 2
+					R = Lua.tonumber(smaxl) || 2
 					CSayF("=> From meta: %d>%d",R,Any.Caps.LevelRecalc(R))
 				End		
 				//Return Any.Caps.LevelRecalc(R)

@@ -35,7 +35,7 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
-#undef Development
+#define Development
 
 global void CSay(string message)
 	#if Development
