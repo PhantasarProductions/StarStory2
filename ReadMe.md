@@ -1,8 +1,5 @@
 # STAR STORY II
 
-This is a WIP!
-Don't expect anything you see here to work properly (if in fact it works at all)
-
 
 ![Klahré](https://user-images.githubusercontent.com/11202073/134805392-6985de40-15d0-46ef-a5e4-39895da50d0c.png)
 
@@ -21,7 +18,7 @@ OOO | Cast of characters
 ![Klahré](https://user-images.githubusercontent.com/11202073/134805392-6985de40-15d0-46ef-a5e4-39895da50d0c.png) | *Gavida Klahré* is a famous virologist, known as one of the best around the entire I.F. She has a very straightforward business-like attitude and tends to distance herself from people.
 ![Yorno](https://user-images.githubusercontent.com/11202073/134805395-8f541350-6239-4c90-a98a-79b68f6460f7.png) | *Berindo Yorno* is Klahré's assistant and gadgeteer in his free time. Yorno is a very intelligent man, yet very insecure and has a lot of trouble expressing himself properly.
 ![Salp'r'drita](https://user-images.githubusercontent.com/11202073/134805393-4e31c0e9-667e-4d59-8831-aa93d539d8e4.png) | *Salp'r'drita* is a doctor who works in the medical staff of M.E.T.E.O.R. He has a very strong devotion for his job and a very gentile personality. 
-![Ashley](https://user-images.githubusercontent.com/11202073/134805394-9a3be218-b3b3-41b9-ba44-036ac1453ef1.png) | *Ashley Johnson* was appointed as Klahré's bodyguard. She has a very careless personality and a total disregard for rules and regulations. She can also be pretty foul-mouthed at times and doesn't appear to have any respect at all for any kind of authority. She also has the tendency to quote novels, movies and even Sharespearean plays whenever the opportunity to do so arises.
+![Ashley](https://user-images.githubusercontent.com/11202073/134805394-9a3be218-b3b3-41b9-ba44-036ac1453ef1.png) | *Ashley Johnson* was appointed as Klahré's bodyguard. She has a very careless personality and a total disregard for rules and regulations. She can also be pretty foul-mouthed at times and doesn't appear to have any respect at all for any kind of authority. She also has the tendency to quote novels, movies and even Shakespearean plays whenever the opportunity to do so arises.
 
 
 
