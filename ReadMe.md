@@ -1,3 +1,6 @@
+# Operation SCI
+Status: Planned (no ETA yet)
+
 # STAR STORY II
 
 
