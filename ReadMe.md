@@ -40,3 +40,15 @@ Windows will be the primary target, however since the underlying Apollo engine w
 ## Site
 
 The game has its own page on [itch](https://phantasar-productions.itch.io/star-story-ii).
+
+
+## Operation SCI
+
+Like Dyrt, Star Story I and The Fairy Tale before, Star Story II is also scheduled to be translated to Scyndi for usage in Scyndi's Creative Interpreter. No ETAs have been set for the start and especially not the ending of that operation.
+- When you see this repository on Codeberg... Fantastico... Nothing to fear, this repo will likely be the "base of operations" when the time comes.
+- When you see this repository on Github... It will remain here and be updated, but that is until further notice. A few "red flags" that hint that Microsoft is going in a direction I don't like have appeared. 
+- When you see this repository on BitBucket... This is likely a deprecated repository then. The website of BitBucket is malfunctioning on me, plus their token system that will be mandatory from June 9th, 2026, doesn't work at all (none of my tokens were ever accepted for some silly reason). Unless Bitbucket gets its stuff fixed, no updates from June 9th on are to be expected, meaning that when you see this message after that date, chance is big you're looking at an outdated page.
+
+===
+- For the [Codeberg repository click here](https://codeberg.org/PhantasarProductions/StarStory2)
+- For the [GitHub repository click here](https://github.com/PhantasarProductions/StarStory2)
