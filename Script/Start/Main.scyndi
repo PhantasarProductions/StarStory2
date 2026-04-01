@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Start/Main.neil
-// (c) Jeroen Broks, 2022, 2023, All Rights Reserved.
+// src/Code/Script/Start/Main.scyndi
+// (c) Jeroen Broks, 2022, 2023, 2026, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,8 +33,21 @@
 // 
 // **********************************************
 // 
-// version: 23.09.06
-// End License Information
+// 
+// version: 26.04.01 XIV
+// 
+// End License
+
+Script
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Medals"
+#use "Libs/SCI/Kthura"
+#use "Libs/SCI/Graphics"
+
+
 #macro wh_Image 1
 #macro wh_Font 2
 #macro wh_Audio 3
@@ -68,13 +82,13 @@ end
 // Testing if the file is actually compiled correctly at all and running
 Init
 	//Medals.SetGame("STARSTORY2")
-	Medals.AltMax=25000
-	FPS.MinTicks=25
+	//Medals.AltMax=25000
+	//Sys.MinTicks=25
 	Print("Klahre welcomes you")
-	Print("Apollo is running in "..Core.Platform)
+	Print("Scyndi's Creative Interpreter is running in "..Sys.Platform)
 	
-	Events.HideMouse();
-	Kthura.SetAutoVisible()
+	//Events.HideMouse();
+	//Kthura.SetAutoVisible()
 
 
 	// Configure loading assets
@@ -121,18 +135,18 @@ Init
 
 
 	// Loading assets
-	Int m=#LAsset.Lijst
+	Int m=len(LAsset.Lijst)
 	for i,LA in ipairs(LAsset.Lijst)
 		Events.Poll()
 		Graphics.Cls()
 		Graphics.Color(255,255,255)
 		if Loading
-			Loading.Draw((Screen.W/2)-(Loading.Width/2),(Screen.H/2)-(Loading.Height/2))
+			Loading.Draw((Graphics.W/2)-(Loading.Width/2),(Graphics.H/2)-(Loading.Height/2))
 		end
 		Graphics.Color(65,65,65)
-		Graphics.Rect(0,Screen.H-50,Screen.W,50)
+		Graphics.Rect(0,Graphics.H-50,Graphics.W,50)
 		Graphics.Color(0,180,255)
-		Graphics.Rect(0,Screen.H-50,math.floor( (i/m) * Screen.W ),50)
+		Graphics.Rect(0,Graphics.H-50,math.floor( (i/m) * Graphics.W ),50)
 		Graphics.Color(255,255,255)
 		Graphics.Flip()
 		Events.Poll()
@@ -140,14 +154,14 @@ Init
 		switch LA.what
 			case wh_Image
 				cout("image ",LA.File," to ",LA.Tag)
-				var I =  Image.Load(LA.File,LA.Tag)
-				Loading = Loading or I
+				var I =  LoadImage(LA.File,LA.Tag)
+				Loading = Loading || I
 				if prefixed(LA.Tag,"ICO_")
 					I.HotCenter()
 				End
 			case wh_Font
 				cout("font ",LA.File," to ",LA.Tag)
-				ImageFont.Load(LA.File,LA.Tag).Fixed = LA.data==true
+				LinkFont(LA.File,LA.Tag).Fixed = LA.data==true
 			case wh_Audio
 				cout("audio ",LA.File," to ",LA.Tag)
 				Audio.Load(LA.File,LA.Tag)
@@ -160,6 +174,6 @@ Init
 
 
 	// Chaining to main menu
-	Flow.Load("MAINMENU","Script/Flow/FlowMain.neil")
-	Flow.Current="MAINMENU"		
+	Sys.LoadFlow("MAINMENU","Script/Flow/FlowMain.neil")
+	Sys.CurrentFlow="MAINMENU"
 end
