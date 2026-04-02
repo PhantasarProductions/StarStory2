@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 26.04.02
+// version: 26.04.03
 // 
 // End License
 
@@ -177,3 +177,9 @@ Init
 	Sys.LoadFlow("MAINMENU","Script/Flow/FlowMain.lbc")
 	Sys.CurrentFlow="MAINMENU"
 end
+
+
+Global Void MainFlow()
+	CSay("Ja, ik moest bestaan, he?")
+	Sys.CurrentFlow="MAINMENU"
+End
