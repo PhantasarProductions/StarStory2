@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowMain.scyndi
 // 
-// 	  Version: 26.04.02 IV
+// 	  Version: 26.04.02 XI
 // 	
 // 	  Copyright (C) 2020, 2021, 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -43,6 +43,9 @@
 // End License
 
 Script
+
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Misc/PSaveGame"
@@ -91,14 +94,14 @@ class Stage
 	static table Stages=nil
 	readonly delegate Flow
 	readonly delegate Start
-	CONSTRUCTOR(delegate AFlow,delegate AStart=nil)
+	CONSTRUCTOR(AFlow, AStart)
 		Stages  = Stages || {}
 		Flow    = AFlow
 		Start   = AStart
 		Stages += self
 	end
-	static void NewStage(delegate AFlow,delegate AStart=nil)
-		var voidme = new Stage(AFlow,AStart)
+	static void NewStage(AFlow, AStart)
+		voidme := new Stage(AFlow,AStart)
 	end
 	static void Next()
 		static int Timeout=1000
@@ -184,14 +187,14 @@ class FadeScroll
 		static bool FirstTime=true
 		if FirstTime
 			print("First time in scroller stage!")
-			Start()
+			FadeScroll.Start()
 			print("Done?")
 			FirstTime=false
 		end
 		//print("Flow")
 		bool done3=True	
 		for i,f in ipairs(Line)
-			if f.y<Screen.H and f.scale>0
+			if f.y<Screen.H && f.scale>0
 				Graphics.Scale( f.scale,f.scale)
 				//Graphics.scale(f.scale1000,f.scale1000)
 				Graphics.Color(math.floor(255*f.color),math.floor(180*f.color),0)
@@ -210,7 +213,7 @@ class FadeScroll
 					f.color-=0.0005
 				end
 			end
-			done3 = done3 and f.scale<=0	
+			done3 = done3 && f.scale<=0	
 			//done3 = done3 && f.scale1000<=0	
 			// print(i,">>>",done3,f.scale,f.color,f.y)
 		end
@@ -323,14 +326,14 @@ init
 	print("Dev:",__Dev.indev)
 end
 
-global void Apollo_Dispose()
-	Print("Main menu flow will now be disposed!")
-end
+//global void Apollo_Dispose()
+//	Print("Main menu flow will now be disposed!")
+//end
 
 
-global void Apollo_Flow()
+global void MainFlow()
 	static bool StartDestroyed
-	if not StartDestroyed
+	if ! StartDestroyed
 		Flow.Kill("APOLLO_MAIN")
 		StartDestroyed = true
 	end
