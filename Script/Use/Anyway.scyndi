@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Anyway.scyndi
 // 
-// 	  Version: 26.04.02 III
+// 	  Version: 26.04.03
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -44,16 +44,20 @@
 
 Module
 
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
+
 #use "Libs/UseWhenNeeded"
 #use "Libs/Music"
 
 
 #macro __dev Any.Dev
-#macro __Mouse Any.Mouse
+//#macro __Mouse Any.Mouse
 #macro __BoxText Lnk.BoxText
 #macro __MapText Lnk.BoxText.Map
 #macro __LMap Lnk.Map
 
+Extern __Mouse "Scyndi.Globals.Any.Mouse"
 
 
 #macro __Game "Star Story II"
@@ -91,7 +95,15 @@ End
 
 // A few voids
 Extern Screen "Graphics"
+Extern Loading "Scyndi.Globals.Lnk.Loading_h.ShowLoading"
+Extern CDLoading "Scyndi.Globals.Lnk.Loading_h.CD"
+Extern ODLoading "Scyndi.Globals.Lnk.Loading_h.OsD"
 
+Global Void WantQuit()
+	if Events.AppTerminate() && Events.Yes("Do you really want to quit?\n\n(Warning unsaved data will be lost)")
+		Sys.Quit()
+	End
+End
 
 //Init
 	//Print(ApolloState.Name.."> Script runs in '"..Any.Dev.Mode.."' mode!")
