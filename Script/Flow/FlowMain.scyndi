@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowMain.scyndi
 // 
-// 	  Version: 26.04.02 XI
+// 	  Version: 26.04.03
 // 	
 // 	  Copyright (C) 2020, 2021, 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -44,6 +44,9 @@
 
 Script
 
+#use "Libs/Music"
+
+#use "Libs/SCI/Sys"
 #use "Libs/SCI/Events"
 #use "Libs/SCI/Graphics"
 
@@ -240,7 +243,7 @@ class FadeScroll
 end
 
 void DoMenu()
-	if not showmenu
+	if ! showmenu
 		return
 	end	
 	//Graphics.Color(255,180,0)
@@ -251,14 +254,15 @@ void DoMenu()
 	Graphics.Rect(0,Screen.H-28,Screen.W,28)
 	int iw := math.floor(Screen.W div (len(Menu)+1))
 	int iwh := iw/2
-	for idx,item in ipairs(Menu)
+	for _idx,item in ipairs(Menu)
+		idx:=_idx+1
 		Graphics.Color(0,180,255)
-		if not item.Enabled
+		if ! item.Enabled
 			Graphics.Color(255,0,0)
 		end
-		if item.Enabled and Events.MouseY()>Screen.H-32 and Events.MouseX()>(iw*idx)-iwh and Events.MouseX()<(iw*idx)+iwh
+		if item.Enabled && Events.MouseY>Screen.H-32 && Events.MouseX>(iw*idx)-iwh && Events.MouseX<(iw*idx)+iwh
 			Graphics.Color(160,210,255)
-			if Events.MouseHitLeft()
+			if Events.MouseHitLeft
 				item.Action()
 			end
 		end
@@ -268,36 +272,36 @@ end
 
 void Bugs()
 	//OS.Execute("OpenURL BUGS")
-	OpenURL(__BUGS)
+	Sys.OpenURL(__BUGS)
 end
 
 void NewGame()
 	Loading()
-	Flow.Load("NEWGAME","Script/Flow/FlowNewGame.neil")
-	Flow.Current="NEWGAME"
-	State.PlanToKill("FLOW_MAINMENU")
+	Sys.LoadState("FLOW_NEWGAME","Script/Flow/FlowNewGame.lbc")
+	Sys.CurrentFlow="NEWGAME"
+	Sys.PlanToKillState("FLOW_MAINMENU")
 end
 
 void LoadGame()
 	Loading()
-	Flow.Load("SAVEGAME","Script/Flow/FlowSaveGame.neil")
-	State.Call("FLOW_SAVEGAME","WantLoad","nil")
-	Flow.Current="SAVEGAME"
+	Sys.LoadState("SAVEGAME","Script/Flow/FlowSaveGame.lbc")
+	Sys.Call("FLOW_SAVEGAME","WantLoad","nil")
+	Sys.CurrentFlow="SAVEGAME"
 end
 
-void ContinueGame()
-	Loading()
-	Lua.error("This feature is NOT yet operational")
-	//PerformLoadGame("QUIT")
-	Flow.Current="FIELD"
-end
+//void ContinueGame()
+//	Loading()
+//	Lua.error("This feature is NOT yet operational")
+//	//PerformLoadGame("QUIT")
+//	Sys.CurrentFlow="FIELD"
+//end
 
 void StartJukeBox()
 	// Due to copyright issues, the Jukebox has also been added to the main menu
 	Loading()
-	Flow.Load("JUKEBOX","Script/Flow/FlowJukebox.neil")
-	State.Call("FLOW_JUKEBOX","ComeToMe","\"FLOW_MAINMENU\"")
-	Flow.Current="JUKEBOX"
+	Sys.LoadState("JUKEBOX","Script/Flow/FlowJukebox.neil")
+	Sys.Call("FLOW_JUKEBOX","ComeToMe","FLOW_MAINMENU")
+	Sys.CurrentFlow="JUKEBOX"
 end
 
 
@@ -307,7 +311,7 @@ init
 	Menu += new MenuItem("Load Game",LoadGame)
 	Menu += new MenuItem("JukeBox",StartJukeBox)
 	Menu += new MenuItem("Bugs",BUGS)
-	Menu += new MenuItem("Exit",FLOW.QUIT)
+	Menu += new MenuItem("Exit",Sys.QUIT)
 	Print("Starfield.Tile:",0,0,Screen.W,Screen.H)
 	Print("Starfield.Size:",Stars.Width,Stars.Height)
 	Print("Phantasar.Size:",Phantasar.Width,Phantasar.Height)
@@ -323,7 +327,7 @@ init
 	Stage.NewStage(ShowLogo)
 	Stage.NewStage(ShowLogo)
 	Music.Play("Music/Introduction/Introduction.ogg")
-	print("Dev:",__Dev.indev)
+	//print("Dev:",__Dev.indev)
 end
 
 //global void Apollo_Dispose()
@@ -332,24 +336,24 @@ end
 
 
 global void MainFlow()
-	static bool StartDestroyed
-	if ! StartDestroyed
-		Flow.Kill("APOLLO_MAIN")
-		StartDestroyed = true
-	end
-	__Dev.ToConsole()
+	//static bool StartDestroyed
+	//if ! StartDestroyed
+		//Flow.Kill("APOLLO_MAIN")		
+	//	StartDestroyed = true
+	//end
+	WantQuit()
 	// print("Start Flow!")
-	int mx = Events.MouseX()
-	int my = Events.MouseY()
+	int mx = Events.MouseX
+	int my = Events.MouseY
 	Graphics.Color(255,255,255)
-	Stars.Tile(0,0,Screen.W,Screen.H)
+	Stars.Tile(0,0,Graphics.W,Graphics.H)
 	Stage.Stages[Stage.AtStage].Flow()
 	//Stars.Draw(0,0)
-	if Events.KeyHit(27) or Events.Terminate()
+	if Events.KeyHit(27) || Events.AppTerminate()
 		Print("User hit ESCAPE! Leaving the game!")
-		Flow.Quit()
+		Sys.Quit()
 	end
-	if (not ShowMenu) and (Events.KeyHit(32) or Events.KeyHit(13) or Events.MouseHitLeft())
+	if (! ShowMenu) && (Events.KeyHit(32) || Events.KeyHit(13) || Events.MouseHitLeft)
 		Print("User forced menu to appear already")
 		ShowMenu = true
 	end
@@ -361,3 +365,7 @@ global void MainFlow()
 	Graphics.Color(255,255,255)
 	__Mouse.Draw(mx,my)
 end
+
+Init
+	print("Mainflow check",MainFlow)
+End
