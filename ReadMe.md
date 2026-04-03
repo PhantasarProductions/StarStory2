@@ -38,7 +38,7 @@ Three difficulty settings, so the game can be a nice start up for the newbie, bu
 
 
 ## Platforms
-Windows will be the primary target, however since the underlying Apollo engine was entirely coded in C++ and its source code has been released under the terms of the GPL3 ports to other platforms should be easily possible.
+Linux (AppImage) will be the primary target, however since the underlying Scyndi's Creative Interpreter engine has a Windows build, the game should run on Windows as well. No official Mac version planned, but hey the source code of Scyndi's Creative Interpreter is freely available and entirely coded in C++ and GPL3 licensed, so if you wanna port that engine to Mac you're free to do so, and the game should then run on Mac as well.
 
 ## Site
 
