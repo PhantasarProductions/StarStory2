@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Any.uwn/Mouse.scyndi
 // 
-// 	  Version: 26.04.03
+// 	  Version: 26.04.03 I
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -69,8 +69,8 @@ Module
 	
 	void Draw()
 		static var pointer = ObtainImage("MOUSE")
-		SetCOlor(255,255,255)
-		Graphics.SetScale(1,1)
+		SetColor(255,255,255)
+		SetScale(1,1)
 		pointer.Draw(MX,MY)
 	end
 	
