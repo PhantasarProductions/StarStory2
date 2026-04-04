@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Anyway.scyndi
 // 
-// 	  Version: 26.04.03
+// 	  Version: 26.04.04 I
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -66,24 +66,26 @@ Extern __Mouse "Scyndi.Globals.Any.Mouse"
 #macro __Chapter gv.gint.Chapter
 #macro __PartyLevel gv.gint.PartyLevel
 
-#macro __skill gv.gint.skill
+//#macro __skill gv.gint.skill
+Extern __skill "Scyndi.Globals.gint.skill"
 
 #macro __Cash Any.Aurina.Have
 
-#macro __white   Graphics.Color(255,255,255)
-#macro __skyblue Graphics.Color(  0,180,255)
-#macro __cyan    Graphics.Color(  0,255,255)
-#macro __black   Graphics.Color(  0,  0,  0)
-#macro __ember   Graphics.Color(255,180,  0)
-#macro __Yellow  Graphics.Color(255,255,  0)
-#macro __Red     Graphics.Color(255,  0,  0)
-#macro __Green   Graphics.Color(000,255,000)
+Extern __white   "Scyndi.Class.Graphics.Color(255,255,255)"
+Extern __skyblue "Scyndi.Class.Graphics.Color(  0,180,255)"
+Extern __cyan    "Scyndi.Class.Graphics.Color(  0,255,255)"
+Extern __black   "Scyndi.Class.Graphics.Color(  0,  0,  0)"
+Extern __ember   "Scyndi.Class.Graphics.Color(255,180,  0)"
+Extern __Yellow  "Scyndi.Class.Graphics.Color(255,255,  0)"
+Extern __Red     "Scyndi.Class.Graphics.Color(255,  0,  0)"
+Extern __Green   "Scyndi.Class.Graphics.Color(000,255,000)"
 
-#macro __lang    gv.gstring.lang
+Extern __lang    "Scyndi.Globals.gstring.lang"
 
 readonly global var Any = UWN("Script/Use/Any.uwn")
 readonly global var Lnk = UWN("Script/Use/Lnk.uwn")
 readonly global var Abl = UWN("Script/Use/Abilities.uwn")
+readonly global var Cnv = UWN("Script/Use/Cnv.uwn")
 
 readonly var _LLoading = Lnk.Loading_h
 
@@ -94,10 +96,14 @@ End
 
 
 // A few voids
-Extern Screen "Graphics"
+Extern Screen "Scyndi.Class.Graphics"
 Extern Loading "Scyndi.Globals.Lnk.Loading_h.ShowLoading"
 Extern CDLoading "Scyndi.Globals.Lnk.Loading_h.CD"
 Extern ODLoading "Scyndi.Globals.Lnk.Loading_h.OsD"
+
+// Convert to statistician
+Extern RPGChar  "Scyndi.Globals.Cnv.RPG2Statistician.RPGChar"
+Extern RPGParty "Scyndi.Globals.Cnv.RPG2Statistician.RPGParty"
 
 Global Void WantQuit()
 	if Events.AppTerminate() && Events.Yes("Do you really want to quit?\n\n(Warning unsaved data will be lost)")
