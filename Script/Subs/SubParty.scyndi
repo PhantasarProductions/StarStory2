@@ -1,45 +1,53 @@
-// License Information:
-// src/Tricky Script/Script/Subs/SubParty.neil
-// Version: 23.09.07
-// Copyright (C) 2022, 2023 Jeroen Petrus Broks
+// License:
+// 	  src/Code/Script/Subs/SubParty.scyndi
 // 
-// ===========================
-// This file is part of a project related to the Phantasar Chronicles or another
-// series or saga which is property of Jeroen P. Broks.
-// This means that it may contain references to a story-line plus characters
-// which are property of Jeroen Broks. These references may only be distributed
-// along with an unmodified version of the game.
+// 	  Version: 26.04.04 IV
+// 	
+// 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
 // 
-// As soon as you remove or replace ALL references to the storyline or character
-// references, or any termology specifically set up for the Phantasar universe,
-// or any other univers a story of Jeroen P. Broks is set up for,
-// the restrictions of this file are removed and will automatically become
-// zLib licensed (see below).
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
 // 
-// Please note that doing so counts as a modification and must be marked as such
-// in accordance to the zLib license.
-// ===========================
-// zLib license terms:
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
-// in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-// misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-// End License Information
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
 
 Script
 
 #use "libs/xmath"
 #use "script/use/anyway"
-#use "script/use/misc/box"
+#use "script/use/misc/cbox"
 
 #macro __BoxPosY Screen.H - 138
 
@@ -69,31 +77,31 @@ Group SubParty
 	End
 	
 	void GrabLevel(string tag,int level)
-		string n = tag
+		string n := tag
 		//string dat = JCR6.LoadString(sprintf("Data/LvData/%s/%d",n,math.floor((level-1)/500)))
-		string dat = JCR6.LoadString(sprintf("Data/Characters/%s/LvData/%d",n,math.floor((level-1)/500)))		
-		table tdat = Split(dat,"\n")
+		string dat := JCR6.LoadString(sprintf("Data/Characters/%s/LvData/%d",n,math.floor((level-1)/500)))		
+		table tdat := XSplit(dat,"\n")
 		int lvl = -100
 		for line in each(tdat)
 			if Trim(line)!="" 
-				table ins = split(line," ")
-				switch ins[1]
+				table ins := xsplit(line," ")
+				switch ins[0]
 					case "REM"
 						// DO NOTHING!
 					case "LEVEL"
-						lvl = lua.tonumber(ins[2])
+						lvl = lua.tonumber(ins[1])
 					default
-						if prefixed(ins[1],"STAT.") 
+						if prefixed(ins[0],"STAT.") 
 							if lvl==level
-								string st = right(ins[1],#ins[1]-5)
-								RPGChar[Tag].Stat["BASE_"..st] = tonumber(ins[2])
+								string st := right(ins[0],len(ins[0])-5)
+								RPGChar[Tag].Stat["BASE_"..st] = tonumber(ins[1])
 								// This is to make sure this is properly set up
 								RPGChar[Tag].Stat["BUFF_"..st] = RPGChar[Tag].Stat["BUFF_"..st]
 								RPGChar[Tag].Stat["PERM_"..st] = RPGChar[Tag].Stat["PERM_"..st]
 								RPGChar[Tag].Stat["EQUI_"..st] = RPGChar[Tag].Stat["EQUI_"..st]
 								RPGChar[Tag].StatScript["END_"..st] = "SUM:"..Tag..".BASE_"..st..".BUFF_"..st..".PERM_"..st..".EQUI_"..st.."."
 								RPGChar[Tag].Stat.Level=level
-								print("\t= "..st.." for "..tag.." is "..ins[2])								
+								print("\t= "..st.." for "..tag.." is "..ins12])								
 							end
 						else
 							Lua.error("Unknown instruction! >> "..line)
@@ -377,9 +385,10 @@ Group SubParty
 			end
 		end
 	end
-
-	Constructor
-		Stats = {}
-		MiniLines = {}
-	End
+end	
+	
+Init
+	SubParty.Stats = {}
+	SubParty.MiniLines = {}
 End
+
