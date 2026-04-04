@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Subs/SubParty.scyndi
 // 
-// 	  Version: 26.04.04 IV
+// 	  Version: 26.04.04 XXI
 // 	
 // 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -46,10 +46,21 @@
 Script
 
 #use "libs/xmath"
+
+#use "libs/sci/sys"
+#use "libs/SCI/JCR6"
+#use "libs/sci/audio"
+#use "Libs/sci/sstring"
+#use "libs/sci/Graphics"
+
 #use "script/use/anyway"
 #use "script/use/misc/cbox"
 
 #macro __BoxPosY Screen.H - 138
+
+extern tonumber "tonumner"
+plua MiniFontForSubParty = ObtainFont("MINITEXT")
+	
 
 Class TMiniMsg
 	Int X
@@ -101,7 +112,7 @@ Group SubParty
 								RPGChar[Tag].Stat["EQUI_"..st] = RPGChar[Tag].Stat["EQUI_"..st]
 								RPGChar[Tag].StatScript["END_"..st] = "SUM:"..Tag..".BASE_"..st..".BUFF_"..st..".PERM_"..st..".EQUI_"..st.."."
 								RPGChar[Tag].Stat.Level=level
-								print("\t= "..st.." for "..tag.." is "..ins12])								
+								print("\t= "..st.." for "..tag.." is "..ins[1])								
 							end
 						else
 							Lua.error("Unknown instruction! >> "..line)
@@ -164,7 +175,7 @@ Group SubParty
 	
 	Table LvScale = {}
 	Void Boxes(string HLChar,bool nohover)
-		static var Fnt = ImageFont.Obtain("MINITEXT")
+		LocExtern Fnt "MiniFontForSubParty"
 		__Black
 		Graphics.Rect(0,Screen.H-50,Screen.W,50)
 		Self.MiniShow()
@@ -174,7 +185,7 @@ Group SubParty
 		Static Table Boxes = { new Box(0,__BoxPosY,20,100,false),new Box(0,__BoxPosY,20,100,false),new Box(0,__BoxPosY,20,100,false),new Box(0,__BoxPosY,20,100,false)}
 		Int C  = lnk.Party.Count
 		Int M3 = 0
-		Int W = Screen.W Div C
+		Int W := Screen.W Div C
 		Int Hover=0		
 		Graphics.Scale(1,1)
 		If C==3
@@ -183,8 +194,8 @@ Group SubParty
 		Lua.assert(C>0,"Empty party")
 		//For i=1,C
 		For i in Each(Order[C])
-			String Ch = RPGParty[i]
-			Int W2 = W
+			String Ch := RPGParty[i]
+			Int W2 := W
 			if i==3
 				W2+=M3
 			End
@@ -232,11 +243,11 @@ Group SubParty
 				Graphics.Rect(Boxes[i].X,Boxes[i].Y,Boxes[i].W,Boxes[i].H)
 				Graphics.SetAlpha(255)
 			End
-			Var B=Boxes[i]
+			B:=Boxes[i]
 			// Portrait
 			__White
 				If ch==HLChar
-					plua alf = math.abs(math.floor(xmath.sin(FPS.Ticks/50)*255))
+					alf := math.abs(math.floor(xmath.sin(FPS.Ticks/50)*255))
 					//CSayF("Alpha: %03d / Tricks: %05d",alf,FPS.Ticks)
 					Graphics.SetAlpha(alf)
 				end
@@ -244,15 +255,15 @@ Group SubParty
 			Graphics.SetAlpha(255)
 			if !prefixed(ch,"Z_")
 				// Bars			
-				Int barx = B.X + 100
-				Int barwidth = B.W-110			
+				Int barx := B.X + 100
+				Int barwidth := B.W-110			
 				// HP
 				Do
-					Var HP = RPGChar[ch].Points.HP
-					Number Breuk = HP.Have / HP.Maximum
-					Int HPG = math.floor(255*Breuk)
-					Int HPR = math.floor(255 - HPG)
-					Int HBR = Math.floor(barwidth*Breuk)
+					Var HP := RPGChar[ch].Points.HP
+					Number Breuk := HP.Have / HP.Maximum
+					Int HPG := math.floor(255*Breuk)
+					Int HPR := math.floor(255 - HPG)
+					Int HBR := Math.floor(barwidth*Breuk)
 					// print(HPR,HPG,0)
 					Graphics.Color(50,50,50)
 					Graphics.Rect(barx,B.Y+25,barwidth,10)
@@ -268,11 +279,11 @@ Group SubParty
 				End
 				// AP
 				If RPGChar[ch].Points.AP.Maximum>0
-					Var AP = RPGChar[ch].Points.AP
-					Number Breuk = AP.Have / AP.Maximum
+					AP := RPGChar[ch].Points.AP
+					Number Breuk := AP.Have / AP.Maximum
 					//Int APG = math.floor(180*Breuk)			
 					//Int ABB = 255
-					Int ABR = Math.floor(barwidth*Breuk)
+					Int ABR := Math.floor(barwidth*Breuk)
 					// print(APR,APG,0)
 					string N="???"
 					Graphics.Color(50,50,50)
@@ -299,9 +310,9 @@ Group SubParty
 				End
 				// Experience
 				If RPGChar[ch].Stat.Level<Any.Caps.LevelCap
-					Var XP = RPGChar[ch].Points.EXP
-					Number Breuk = XP.Have / XP.Maximum
-					Int ABR = Math.floor(barwidth*Breuk)
+					XP := RPGChar[ch].Points.EXP
+					Number Breuk := XP.Have / XP.Maximum
+					Int ABR := Math.floor(barwidth*Breuk)
 					Graphics.Color(50,50,50)
 					Graphics.Rect(barx,B.Y+75,barwidth,10)
 					Graphics.Color(255,255,255)
@@ -320,7 +331,7 @@ Group SubParty
 	End
 	
 	Void MiniWrt(string m,int r, int g, int b)
-		static var Fnt = ImageFont.Obtain("MINITEXT")
+		LocExtern Fnt "MiniFontForSubParty"
 		MiniCur = MiniCur || {}
 		int x=0
 		for mlin in Each(MiniCur)
@@ -345,10 +356,10 @@ Group SubParty
 	
 	Void MiniShow()
 		Graphics.SetAlpha(255)
-		Static Var Fnt = ImageFont.Obtain("MINITEXT")
+		LocExtern Fnt "MiniFontForSubParty"
 		Static Int SY = Screen.H-37
 		For i,l In Pairs(MiniLines)
-			Int Y=SY+((i-1)*12)
+			Int Y:=SY+((i-1)*12)
 			For B in Each(l)
 				Graphics.Color(b.r,b.g,b.b)
 				Fnt.Text(b.msg,b.x,y)
@@ -357,18 +368,18 @@ Group SubParty
 	End
 	
 	Void StatRecalc(string chtag)
-		Var Char=RPGChar[chtag]
+		Char:=RPGChar[chtag]
 		CSay("Stat recalc: "..chtag)
 		for s in each(Any.Resistance.AllStat)
 			Char.Stat["EQUI_"..s] = 0
 			//CSayF("=> Resetting: %s"..s)
 		end
 		for i=1,90 div __skill
-			string sltag=sprintf("Jewel_%02d",i)
-			string ittag=Char.Data[sltag]
+			string sltag:=sprintf("Jewel_%02d",i)
+			string ittag:=Char.Data[sltag]
 			if ittag!=""
 				//CSAYF("=> Checking slot #%02d: (%s) => %s",i,sltag,ittag) 
-				var it = Any.IAA[ittag]
+				it := Any.IAA[ittag]
 				for s in each(Any.Resistance.AllStat)
 					if s!="AP"
 						Char.Stat["EQUI_"..s] += it["Jewel_"..s]
