@@ -1,39 +1,56 @@
-// License Information:
-// src/Tricky Script/Script/Flow/FlowNewGame.neil
-// Version: 22.04.20
-// Copyright (C) 2021, 2022 Jeroen Petrus Broks
+// License:
+// 	  src/Code/Script/Flow/FlowNewGame.scyndi
 // 
-// ===========================
-// This file is part of a project related to the Phantasar Chronicles or another
-// series or saga which is property of Jeroen P. Broks.
-// This means that it may contain references to a story-line plus characters
-// which are property of Jeroen Broks. These references may only be distributed
-// along with an unmodified version of the game.
+// 	  Version: 26.04.04 VII
+// 	
+// 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
 // 
-// As soon as you remove or replace ALL references to the storyline or character
-// references, or any termology specifically set up for the Phantasar universe,
-// or any other univers a story of Jeroen P. Broks is set up for,
-// the restrictions of this file are removed and will automatically become
-// zLib licensed (see below).
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
 // 
-// Please note that doing so counts as a modification and must be marked as such
-// in accordance to the zLib license.
-// ===========================
-// zLib license terms:
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
-// in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-// misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-// End License Information
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+Script
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/JCR6"
+#use "Libs/SCI/GINIE"
+#use "Libs/SCI/SString"
+#use "Libs/SCI/Graphics"
+#use "Libs/SCI/InterVar"
+
 #use "Script/Use/Anyway"
 
 #macro __alphabet a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z
@@ -43,9 +60,9 @@ Global Delegate PRGL = NIKS
 Class NGS
 	Abstract Void Flow()
 	
-	Static ReadOnly Var Big = ImageFont.Obtain("BIGTEXT")
-	Static ReadOnly Var Fnt = ImageFont.Obtain("BOXTEXT")
-	Static ReadOnly Var Skl = ImageFont.Obtain("NEWTEXT")
+	Static ReadOnly Var Big = ObtainFont("BIGTEXT")
+	Static ReadOnly Var Fnt = ObtainFont("BOXTEXT")
+	Static ReadOnly Var Skl = ObtainFont("NEWTEXT")
 	
 	Static Table Stages = {}
 	Static Int Stage = 1
@@ -59,18 +76,18 @@ Class NGS
 		CSayF("Went to stage %d",Stage)
 		If !Current
 			RPGParty.Max=4
-			For i,ch in iPairs{"Z_Wendicka","Z_Sue","Z_Admiral"}
+			For i,ch in Lua.ipairs{"Z_Wendicka","Z_Sue","Z_Admiral"}
 				Lnk.Party.CreateCharacter(ch,0)
 				RPGParty[i]=ch
 			End
 			CDLoading()
 			GINIE.Create("PERMAKILL")
 			GINIE.Create("INVENTORY")
-			Lua.Neil.Globals.Flow.Load("FIELD","Script/Flow/FlowField.neil")
+			Lua.Neil.Globals.Flow.Load("FIELD","Script/Flow/FlowField.lbc")
 			Lnk.Map.GoToMap("Hawk","BRIDGE","Start",true,true)
 			Lnk.Schedule.Add(":OPENDOOR:")
 			//Lua.error("No script yet when all stages have been done!")
-			Lua.Neil.Globals.Flow.Current="FLOW_FIELD"
+			Sys.CurrentFlow="FLOW_FIELD"
 		End
 	End
 	
@@ -93,18 +110,20 @@ Class NGSkill Extends NGS
 	End
 	
 	Void ParaF(string fmt,__alphabet)
-		Para( sPrintf(fmt,__alphabet))
+		self.Para( sPrintf(fmt,__alphabet))
 	End
 
 	Void Flow()
+		LocExtern Para "self.Para"
+		LocExtern ParaF "self.ParaF"
 		__Skill = 0
 		__SkyBlue
-		NGS.Big.Text("How tough are you?",Screen.W div 2,10,2)
-		For i,name in iPairs(SklNames)
-			int y = (i*ith)+30
+		NGS.Big.Text("How tough are you?",Graphics.W div 2,10,2)
+		For i,name in Pairs(SklNames)
+			int y := (i*ith)+30
 			int m = 0
 			__SkyBlue
-			if __Mouse.MX<10+NGS.FNT.TextWidth(Name) && __Mouse.MY>y && __Mouse.MY<y+ith
+			if __Mouse.MX<10+NGS.FNT.Width(Name) && __Mouse.MY>y && __Mouse.MY<y+ith
 				__Cyan
 				__Skill = i
 				m = 5 
@@ -167,7 +186,7 @@ Class LRec
 		Return Num div 4
 	End
 	Get Int X
-		Return Col * (Screen.W div 4)
+		Return Col * (Graphics.W div 4)
 	End
 	Get Int Y
 		Return (Row * 30)+100
@@ -190,10 +209,10 @@ Class NGLang Extends NGS
 	Int ExY
 	
 	Constructor
-		Plua D = JCR6.GetDir("Scenario")
+		D := JCR6.Dir("Scenario")
 		For LT in Each(D)
-			pLua LS = Split(LT,"/")
-			String LN = LS[2]
+			pLua LS := XSplit(LT,"/")
+			String LN := LS[1]
 			Langs[LN] = Langs[LN] || new LRec(LN)
 			ExY = math.max(Langs[LN].Y+50)
 		End
@@ -201,10 +220,10 @@ Class NGLang Extends NGS
 
 	Void Flow()
 		__skyblue
-		NGS.Big.Text("Which language do you desire for the scenario?",Screen.W div 2,5,2)
+		NGS.Big.Text("Which language do you desire for the scenario?",Graphics.W div 2,5,2)
 		For Lang,Data in Pairs(Langs)
 			__skyblue
-			If __Mouse.MX>Data.X && __Mouse.MY>Data.Y && __Mouse.MX<Data.X+NGS.Fnt.TextWidth(Lang) && __Mouse.MY<Data.Y+25
+			If __Mouse.MX>Data.X && __Mouse.MY>Data.Y && __Mouse.MX<Data.X+NGS.Fnt.width(Lang) && __Mouse.MY<Data.Y+25
 				__Cyan
 				If __Mouse.ML
 					__Lang=Lang
@@ -239,18 +258,20 @@ Class NGReady Extends NGS
 	End
 End
 
-Global Void Apollo_Flow()
-	__Dev.ToConsole()
+Global Void MainFlow()
+	//__Dev.ToConsole()
 	NGS.Current.Flow()
 	__Mouse.Draw()
+	WantQuit()
 End
 
 
 
 Init
-	gv.Clear()
+	gClear()
 	__skill=3
 	NGSkill.MEX = Any.Caps.EXPNeeded
+	NGS.Stages += "Ignore me!"
 	NGS.Stages += new NGSkill()
 	NGS.Stages += new NGLang()
 	NGS.Stages += new NGReady()
