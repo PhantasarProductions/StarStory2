@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowNewGame.scyndi
 // 
-// 	  Version: 26.04.04 VII
+// 	  Version: 26.04.05 I
 // 	
 // 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -83,7 +83,7 @@ Class NGS
 			CDLoading()
 			GINIE.Create("PERMAKILL")
 			GINIE.Create("INVENTORY")
-			Lua.Neil.Globals.Flow.Load("FIELD","Script/Flow/FlowField.lbc")
+			Sys.LoadFlow("FIELD","Script/Flow/FlowField.lbc")
 			Lnk.Map.GoToMap("Hawk","BRIDGE","Start",true,true)
 			Lnk.Schedule.Add(":OPENDOOR:")
 			//Lua.error("No script yet when all stages have been done!")
