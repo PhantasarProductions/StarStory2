@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Subs/SubProgress.scyndi
 // 
-// 	  Version: 26.04.03 IX
+// 	  Version: 26.04.05 I
 // 	
 // 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -67,7 +67,7 @@ Class ProgressBar
 	Static Number DoorY2 = 0
 	Static Int DoorTime = 0
 	Static Int DoorOldTime = os.time()
-	Const Number DoorSpeed = 5.5
+	Static ReadOnly Number DoorSpeed = 6.5
 	
 	Int CurrentValue
 	
