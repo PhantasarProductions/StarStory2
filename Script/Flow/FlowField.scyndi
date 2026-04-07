@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField.scyndi
 // 
-// 	  Version: 26.04.07 VI
+// 	  Version: 26.04.07 IX
 // 	
 // 	  Copyright (C) 2021, 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -68,7 +68,7 @@ QuickMeta FlowField
 	End
 End
 
-ReadOnly Global Var FieldFlow = FlowField
+Global Get Var FieldFlow; return FlowField; End
 
 Init
 	Table Bundle = JCR6.Dir("Script/Flow/FlowField")
@@ -116,7 +116,7 @@ global Void PRGL()
 End
 
 Void MapLevelCheck()
-	If FlowField.Map.MapLevel>0 && (!Done[sprintf("BEEN_%s_%s",gv.gstr.LoadedMap,FlowField.Map.Layer)])
+	If FlowField.Map.MapLevel>0 && (!Done[sprintf("BEEN_%s_%s",gstr.LoadedMap,FlowField.Map.Layer)])
 		Any.Aurina.Spent += math.max((2+Any.Caps.Cycle)-__SKILL,0)
 		For i=1,lnk.Party.Count
 			Var Ch=RPGChar[RPGParty[i]]
