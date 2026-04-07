@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Any.uwn/Mouse.scyndi
 // 
-// 	  Version: 26.04.03 I
+// 	  Version: 26.04.07
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -45,6 +45,7 @@
 
 #use "Libs/SCI/Events"
 #use "Libs/SCI/Graphics"
+#use "Libs/SCI/InterVar"
 
 Module
 	get bool ML
@@ -65,6 +66,14 @@ Module
 	
 	get int wheel
 		return Events.MouseWheelY
+	End
+	
+	get int KMX
+		return gint.ScrollX+Events.MouseX
+	End
+	
+	Get int KMY
+		return gint.ScrollY+Events.MouseY
 	End
 	
 	void Draw()
