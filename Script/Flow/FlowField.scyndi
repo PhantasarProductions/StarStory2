@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField.scyndi
 // 
-// 	  Version: 26.04.07 IX
+// 	  Version: 26.04.07 XI
 // 	
 // 	  Copyright (C) 2021, 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -80,13 +80,25 @@ Init
 		Table Gespleten := XSplit(File,"/")
 		String Gestript := Upper(Gespleten[len(Gespleten)-1])
 		Gestript = Replace(Gestript,".LBC","")
+		Ges3 := Mid(Gestript,5,Len(Gestript)-5)
+		GTyp := Left(Gestript,3)
 		If Prefixed(File,"#") || Suffixed(File,"#") || Suffixed(Upper(File),".NEIL")
 			CSayF("Skipping section %d/%d: %s => %s",idx+1,Aantal,File,Gestript)
 		Else
-			CSayF(" Loading section %d/%d: %s => %s",idx+1,Aantal,File,Gestript)
+			CSayF(" Loading section %d/%d: %s => %s (%s::%s)",idx+1,Aantal,File,Gestript,GTyp,Ges3)
 			//_real[Gestript] = NeilUse(Replace(File:upper(),".NEIL",""),"FLOWFIELD."..Gestript)
-			Lua.Scyndi.Use(File)
-			_real[Gestript] = Lua.Scyndi.Class[Gestript]
+			Lua.Scyndi.Use(StripExt(File))
+			Switch GTyp
+				Case "MOD"
+					CSayF("  => Module")
+					_real[Ges3] = Lua.Scyndi.Class[Gestript]
+				Case "CLS" "CLA"
+					CSayF("  => Class")
+					_real[Ges3] = Lua.Scyndi.Class[Ges3]
+				default
+					Lua.error("Unknown FlowField Type: "..GTyp)
+			End
+			//_real[Gestript] = Lua.Scyndi.Class[Gestript]
 		End
 	End	
 	Progress.Kill("LOADFIELD")
