@@ -1,54 +1,73 @@
-// License Information:
-// src/Tricky Script/Script/Flow/FlowField/Map.neil
-// Version: 23.04.20
-// Copyright (C) 2022, 2023 Jeroen Petrus Broks
+// License:
+// 	  src/Code/Script/Flow/FlowField/MOD_Map.scyndi
 // 
-// ===========================
-// This file is part of a project related to the Phantasar Chronicles or another
-// series or saga which is property of Jeroen P. Broks.
-// This means that it may contain references to a story-line plus characters
-// which are property of Jeroen Broks. These references may only be distributed
-// along with an unmodified version of the game.
+// 	  Version: 26.04.07 VII
+// 	
+// 	  Copyright (C) 2022, 2023, 2026 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
 // 
-// As soon as you remove or replace ALL references to the storyline or character
-// references, or any termology specifically set up for the Phantasar universe,
-// or any other univers a story of Jeroen P. Broks is set up for,
-// the restrictions of this file are removed and will automatically become
-// zLib licensed (see below).
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
 // 
-// Please note that doing so counts as a modification and must be marked as such
-// in accordance to the zLib license.
-// ===========================
-// zLib license terms:
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
-// in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-// misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-// End License Information
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
 
 #use "libs/xmath" 
 
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Kthura"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Anyway"
+
 Module
 
-	Var KthuraMap
-	String Layer
+#accept FlowField
+
+	//Var KthuraMap
+	//String Layer
+	Link Layer = Kthura.CurrentLayer
+	
 	Bool MSDraw 
 	Bool MSUpdate
-	Int ScrollX
-	Int ScrollY
+	//Int ScrollX
+	//Int ScrollY
+	Link ScrollX = gint.ScrollX
+	Link ScrollY = gint.ScrollY
 	Int GoToX
 	Int GoToY
 	//Bool AllowAutoScroll 
-	Link AllowAutoScroll = gv.gbool.AllowAutoScroll
+	Link AllowAutoScroll = gbool.AllowAutoScroll
 	Var ArriveFunc = Nil
 	String ArriveParam 
 	Var ActorWind
@@ -58,15 +77,17 @@ Module
 	End
 	
 	Get String LoadedMap
-		Return gv.gstr.LoadedMap
+		Return gstr.LoadedMap
 	End
 	Set String LoadedMap
-		gv.gstr.LoadedMap=value
+		gstr.LoadedMap=value
 	End
 	
 	
 	Get Var CurLayer		
-		Return KthuraMap.Layer(Layer)
+		//Return KthuraMap.Layer(Layer)
+		LUA.error("FlowField.Map.CurLayer was an Apollo Only feature and cannot be used by SCI!")
+		return nil
 	End
 	
 	Get Var CurrentLayer
@@ -74,8 +95,8 @@ Module
 	End
 	
 	Get Var OPlayer
-		Lua.assert(CurLayer.HasTag(FlowField.FollowTheLeader.LeaderMapTag),"Required object for player "..FlowField.FollowTheLeader.LeaderMapTag.." is not existent!")
-		Return CurLayer.Obj(FlowField.FollowTheLeader.LeaderMapTag)
+		Lua.assert(Kthura.HasObj(FlowField.FollowTheLeader.LeaderMapTag),"Required object for player "..FlowField.FollowTheLeader.LeaderMapTag.." is not existent!")
+		Return Kthura.Obj[FlowField.FollowTheLeader.LeaderMapTag]
 	End
 	
 	Get Table ActorWindDefault
@@ -90,13 +111,13 @@ Module
 	Void AutoTex()
 		ActorWind = ActorWind || ActorWindDefault
 		For k,_w in pairs(ActorWind)
-			if CurLayer.HasTag(k)
+			if Kthura.HasObj(k)
 				string w = _w.W				
 				if w=="Auto"
-					w = CurLayer.Obj(k).Wind
+					w = Kthura.Obj[k].Wind
 				end
 				if _w.OT!=w
-					CurLayer.Obj(k).Texture=sprintf("GFX/Actors/%s.%s.jpbf",_w.T,w)
+					Kthura.Obj[k].Texture=sprintf("GFX/Actors/%s.%s.jpbf",_w.T,w)
 					_w.OT=w
 				End
 			End
@@ -124,7 +145,7 @@ Module
 	End	
 	
 	Void AutoScroll()
-		If (!gv.gbool.AllowAutoScroll) || (!CurLayer.HasTag(FlowField.FollowTheLeader.LeaderMapTag)) 
+		If (!gbool.AllowAutoScroll) || (!Kthura.HasObj(FlowField.FollowTheLeader.LeaderMapTag)) 
 			Return
 		End
 		ScrollX = OPlayer.X - (Screen.W div 2)
@@ -156,18 +177,18 @@ Module
 	End
 	
 	Bool Walking()
-		If !KthuraMap
-			CSay("WARNING! KthuraMap is nil!")
-			Return False
-		End
-		If !CurLayer.HasTag(FlowField.FollowTheLeader.LeaderMapTag)
+		//If !KthuraMap
+		//	CSay("WARNING! KthuraMap is nil!")
+		//	Return False
+		//End
+		If !Kthura.HasObj(FlowField.FollowTheLeader.LeaderMapTag)
 			CSayF("No player!")
 			Return False
 		End		
-		Bool ret = CurLayer.Obj(FlowField.FollowTheLeader.LeaderMapTag).Walking
+		Bool ret := Kthura.Obj[FlowField.FollowTheLeader.LeaderMapTag].Walking
 		//CSayF("Walking Check:!%s/%s => %s",Lua.tostring(ret),lua.tostring(ArriveFunc),lua.tostring((!ret) && ArriveFunc))
 		if (!ret) && ArriveFunc
-			number Afstand = xMath.Pythagoras(Player.X,Player.Y, GoToX, GoToY)
+			number Afstand := xMath.Pythagoras(Player.X,Player.Y, GoToX, GoToY)
 			CSayF("Distance is %04.3f",Afstand)
 			If Afstand < 60
 				Switch Lua.type(ArriveFUNC)
@@ -185,7 +206,7 @@ Module
 	end
 	
 	Get Int MapLevel
-		Int R = Lua.tonumber(KthuraMap.Meta.MapLevel) || 0
+		Int R = Lua.tonumber(Kthura.MetaData.MapLevel) || 0
 		If Any.Caps.Cycle<2
 			Return R
 		End
@@ -193,6 +214,7 @@ Module
 	End
 	
 	void SG()
+		// No more use
 		//SaveGame.Data["PermaKills.NEIL"] = FieldFlow.Kill.Serialize
 		string r = "// Mapstuff\nInit\n"		
 		r += "\tFlowField.Map.ScrollX = "..tostring(FlowField.Map.ScrollX).."\n"
@@ -204,7 +226,7 @@ Module
 		//r += "\tFlowField.Map.Player.Y = ".tostring(FlowField.Map.Player.Y).."\n"
 		//r += "\tFlowField.Map.Player.Wind = \"".FlowField.Map.Player.Wind.."\"\n"
 		For i=1,4
-			If CurLayer.HasTag("PLAYER"..i)
+			If Kthura.HasObj("PLAYER"..i)
 				Var P = CurLayer.Obj("PLAYER"..i)
 				r += sprintf("\tFlowField.Map.CurLayer.Spawn(\"PLAYER%d\",0,0)\n",i)
 				r += sprintf("\tFlowField.Map.CurLayer.Obj(\"PLAYER%d\").X = %d\n",i,P.X)
@@ -213,22 +235,23 @@ Module
 			End
 		End
 		r += "end\n"
-		SaveGameData["Map.neil"] = r
+		//SaveGameData["Map.neil"] = r
 	End
 	
 	Void LG()
-		CSay("Loading Kthura Map: "..LoadedMap)
-		FlowField.LoadMap(LoadedMap)
-		Loading()
-		CSay("Parsing player positions from savegame") 
-		NeilDoString(SaveGame.Data["MAP.NEIL"],"SG:Map.Neil")
+		// No more use!		
+		//CSay("Loading Kthura Map: "..LoadedMap)
+		//FlowField.LoadMap(LoadedMap)
+		//Loading()
+		//CSay("Parsing player positions from savegame") 
+		//NeilDoString(SaveGame.Data["MAP.NEIL"],"SG:Map.Neil")
 	End
 	
 	Void WalkClick(Int mX, Int mY)		
-		int x = mx + ScrollX
-		int y = my + ScrollY
+		int x := mx + ScrollX
+		int y := my + ScrollY
 		CSayF("Request to walk to (%4d,%4d); Mouse(%4d,%4d); Scroll(%4d,%4d)",x,y,mx,my,ScrollX,ScrollY)
-		if !CurLayer.HasTag(FlowField.FollowTheLeader.LeaderMapTag)
+		if !Kthura.HasObj(FlowField.FollowTheLeader.LeaderMapTag)
 			CSay("But there is no player available now, so the request will be ignored!")
 			return
 		end				
@@ -240,7 +263,7 @@ Module
 	End
 	
 	Void StopWalking()
-		if !CurLayer.HasTag(FlowField.FollowTheLeader.LeaderMapTag)
+		if !Kthura.HasObj(FlowField.FollowTheLeader.LeaderMapTag)
 			Return
 		End		
 		CurLayer.Obj(FlowField.FollowTheLeader.LeaderMapTag).StopWalking()
@@ -266,13 +289,13 @@ Module
 	Void CBLoadMap(string MapBundle)
 		ActorWind = ActorWindDefault
 		//AllowAutoScroll = true
-		LoadedMap = MapBundle:upper()
+		LoadedMap = Upper(MapBundle)
 		CSayF("= Loading Kthura Map: %s",MapBundle)
-		KthuraMap = Kthura.Load("Kthura/"..MapBundle)
-		KthuraMap.Remap()
-		Layer = KthuraMap.Layers[1]
-		gv.gStr.MapTitle = KthuraMap.Meta.Title
-		gv.gbool.AllowAutoScroll = True
+		//KthuraMap = Kthura.Load("Kthura/"..MapBundle)
+		Kthura.Load("Kthura/"..MapBundle)
+		Kthura.Remap()
+		Layer = Kthura.Layers[1]
+		gStr.MapTitle = Kthura.MetaData.Title
+		gbool.AllowAutoScroll = True
 	End
 
-End
