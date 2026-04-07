@@ -1,70 +1,93 @@
-// License Information:
-// src/Tricky Script/Script/Use/lnk.uwn/Map.Neil
-// Version: 23.09.09
-// Copyright (C) 2021, 2022, 2023 Jeroen Petrus Broks
+// License:
+// 	  src/Code/Script/Use/lnk.uwn/Map.scyndi
 // 
-// ===========================
-// This file is part of a project related to the Phantasar Chronicles or another
-// series or saga which is property of Jeroen P. Broks.
-// This means that it may contain references to a story-line plus characters
-// which are property of Jeroen Broks. These references may only be distributed
-// along with an unmodified version of the game.
+// 	  Version: 26.04.07 X
+// 	
+// 	  Copyright (C) 2021, 2022, 2023, 2026 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
 // 
-// As soon as you remove or replace ALL references to the storyline or character
-// references, or any termology specifically set up for the Phantasar universe,
-// or any other univers a story of Jeroen P. Broks is set up for,
-// the restrictions of this file are removed and will automatically become
-// zLib licensed (see below).
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
 // 
-// Please note that doing so counts as a modification and must be marked as such
-// in accordance to the zLib license.
-// ===========================
-// zLib license terms:
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
-// in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-// misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-// End License Information
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+
+Module
+
+#use "Script/Use/Anyway"
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Kthura"
+#use "Libs/SCI/InterVar"
 
 Global Table MapScript
 
 Group Player
 
-	Set Int Dominance
-		Lua.Neil.Globals.Map.SetObj("PLAYER","Dominance",value)
-	End
+	//Set Int Dominance
+	//	Lua.Neil.Globals.Map.SetObj("PLAYER","Dominance",value)
+	//End
+	Link Dominance = Kthura.Obj.Player.Dominance
 	
-	Get Int X
-		Return ISGet.Int("FLOW_FIELD","FlowField.Map.CurLayer.Obj('PLAYER').X")
-	End
+	//Get Int X
+	//	Return ISGet.Int("FLOW_FIELD","FlowField.Map.CurLayer.Obj('PLAYER').X")
+	//End
+	Link X = Kthura.Obj.Player.X
 	
-	Get Int Y
-		Return ISGet.Int("FLOW_FIELD","FlowField.Map.CurLayer.Obj('PLAYER').Y")
-	End
+	//Get Int Y
+	//	Return ISGet.Int("FLOW_FIELD","FlowField.Map.CurLayer.Obj('PLAYER').Y")
+	//End
+	Link Y = Kthura.Obj.Player.Y
 	
-	Void StopWalking()
-		Lua.Neil.Globals.Map.StopWalking()
-	End
+	//Void StopWalking()
+	//	Lua.Neil.Globals.Map.StopWalking()
+	//End
+	Link StopWalking = Kthura.Obj.Player.StopWalking
 	
-	Get String LeaderMapTag
-		Return ISGet.Str("FLOW_FIELD","FlowField.FollowTheLeader.LeaderMapTag")
-	End
+	//Get String LeaderMapTag
+	//	Return ISGet.Str("FLOW_FIELD","FlowField.FollowTheLeader.LeaderMapTag")
+	//End
+	Link LeaderMapTag = gstr.FollowTheLeader_LeaderMapTag
 	
-	Get String LeaderTag
-		Return ISGet.Str("FLOW_FIELD","FlowField.FollowTheLeader.LeaderTag")
-	End
+	//Get String LeaderTag
+	//	Return ISGet.Str("FLOW_FIELD","FlowField.FollowTheLeader.LeaderTag")
+	//End
+	Link LeaderTag = gstr.FollowTheLeader_LeaderTag
 	
 	Void WalkTo(a,b,c)
-		Lua.Neil.Globals.Map.MCall("FlowField.Map.CurLayer.Obj('"..LeaderMapTag.."').WalkTo",a,b,c)
+		//Lua.Neil.Globals.Map.MCall("FlowField.Map.CurLayer.Obj('"..LeaderMapTag.."').WalkTo",a,b,c)
+		Kthura.Obj.Player.WalkTo(a,b,c)
 	End
 	
 End
@@ -72,16 +95,18 @@ End
 // For the "Follow the leader" effect
 QuickMeta Players
 	NewIndex
-		Lua.Neil.Globals.Map.SetObj("PLAYER",Key,value)
+		//Lua.Neil.Globals.Map.SetObj("PLAYER",Key,value)
+		Kthura.Obj.PLAYER[Key] = value
 		For i=2,4
 			If RPGParty[i]!=""
-				Lua.Neil.Globals.Map.SetObj("PLAYER"..i,Key,value)
+				//Lua.Neil.Globals.Map.SetObj("PLAYER"..i,Key,value)
+				Kthura.Obj["PLAYER"..i][key] = value
 			End
 		End
 	End
 End
 
-Module
+//Module
 
 	Get Var Ach
 		//Return Lua.Neil.Globals.Ach
@@ -95,62 +120,71 @@ Module
 	End
 	
 	Get String Layer
-		Return ISGet.String("FLOW_FIELD","FlowField.Map.Layer")
+		//Return ISGet.String("FLOW_FIELD","FlowField.Map.Layer")
+		Return Kthura.CurrentLayer
 	End
 	
 	Set String Layer
-		ISSet("STRING","FLOW_FIELD","FlowField.Map.Layer",Value)
+		//ISSet("STRING","FLOW_FIELD","FlowField.Map.Layer",Value)
+		Kthura.CurrentLayer=Value
 	End
 
 	Get String LoadedMap
-		Return gv.gstr.LoadedMap
+		Return gstr.LoadedMap
 	End
 	
 	#region Scroll
 	Get Bool AllowAutoScroll
-		Return ISGet.Bool("FLOW_FIELD","FlowField.Map.AllowAutoScroll")
+		//Return ISGet.Bool("FLOW_FIELD","FlowField.Map.AllowAutoScroll")
+		return gbool.AllowAutoScroll
 	End
 	
 	Set Bool AllowAutoScroll
 		CSay("Setting AutoScroll To: "..lua.tostring(value))
 		//ISSET("BOOL","FLOW_FIELD","FlowField.Map.AllowAutoScroll",value)
-		State.Call("FLOW_FIELD","FlowField.Map.SetAutoScroll",lua.tostring(value))
+		//State.Call("FLOW_FIELD","FlowField.Map.SetAutoScroll",lua.tostring(value))
+		gbool.AllowAutoScroll
 	End
 	
-	Get Int ScrollX
-		Return ISGET.Int("FLOW_FIELD","FlowField.Map.ScrollX")
-	End
-	Set Int ScrollX
-		ISSET("INT","FLOW_FIELD","FlowField.Map.ScrollX",value)
-	End
-	Get Int ScrollY
-		Return ISGET.Int("FLOW_FIELD","FlowField.Map.ScrollY")
-	End
-	Set Int ScrollY
-		ISSET("INT","FLOW_FIELD","FlowField.Map.ScrollY",value)
-	End
+	//Get Int ScrollX
+	//	Return ISGET.Int("FLOW_FIELD","FlowField.Map.ScrollX")
+	//End
+	//Set Int ScrollX
+	//	ISSET("INT","FLOW_FIELD","FlowField.Map.ScrollX",value)
+	//End
+	//Get Int ScrollY
+	//	Return ISGET.Int("FLOW_FIELD","FlowField.Map.ScrollY")
+	//End
+	//Set Int ScrollY
+	//	ISSET("INT","FLOW_FIELD","FlowField.Map.ScrollY",value)
+	//End
+	Link ScrollX = gInt.ScrollX
+	Link ScrollY = gInt.ScrollY
 	#endregion
 
-	Void MCall(String func,a,b,c,d,e,f,g,h)
-		String pr
-		For i,p in iPairs {a,b,c,d,e,f,g,h}
-			If i>1 
-				pr += ", "
-			End
-			Switch lua.type(p)
-				Case "string"
-					pr += "\""..p.."\""
-				Case "number" "boolean"
-					pr += toString(p)
-				Default
-					lua.error("Illegal MCall type "..lua.type(p))
-			End
-		End
-		If pr=="" 
-			pr = "nil"
-		End
-		//print(sprintf ("Calling %s(%s)",func,pr))
-		State.Call("FLOW_FIELD",func,pr)
+	//Void MCall(String func,a,b,c,d,e,f,g,h)
+	//	String pr
+	//	For i,p in iPairs {a,b,c,d,e,f,g,h}
+	//		If i>1 
+	//			pr += ", "
+	//		End
+	//		Switch lua.type(p)
+	//			Case "string"
+	//				pr += "\""..p.."\""
+	//			Case "number" "boolean"
+	//				pr += toString(p)
+	//			Default
+	//				lua.error("Illegal MCall type "..lua.type(p))
+	//		End
+	//	End
+	//	If pr=="" 
+	//		pr = "nil"
+	//	End
+	//	//print(sprintf ("Calling %s(%s)",func,pr))
+	//	State.Call("FLOW_FIELD",func,pr)
+	//End
+	Void MCall(String Func,Infinity)
+		Sys.Call("FLOW_FIELD",func,infinity)
 	End
 	
 	Void HideLabelInAllLayers(string Label)
@@ -167,7 +201,7 @@ Module
 	End
 	
 	Void LoadMap(string Map)
-		If ApolloState.Name=="MAPSCRIPT"
+		If Sys.StateName=="MAPSCRIPT"
 			MCall("FlowField.Schedule.Add","LOAD:"..Map)
 		Else
 			MCall("FlowField.LoadMap",Map)
@@ -311,12 +345,14 @@ Module
 	End
 	
 	Get Table ObjEnum
-		Table T = Split(ISGET.STRING("FLOW_FIELD","FlowField.Map.CurLayer.ObjEnumString"),";")
-		Int M = #T
-		for i=1,M
-			T[i]=Lua.tonumber(T[i]) || 0
-		End
-		Return T
+		// May be replaced by a better way to go!
+		Lua.error("Map.ObjEnum - DUMMIED!")
+		//Table T = XSplit(ISGET.STRING("FLOW_FIELD","FlowField.Map.CurLayer.ObjEnumString"),";")
+		//Int M := len(T)
+		//for i=1,M
+		//	T[i]=Lua.tonumber(T[i]) || 0
+		//End
+		//Return T
 	End
 	
 	Void Kill(String Tag, bool perma)
@@ -420,23 +456,25 @@ Module
 		End
 	End
 	
-	Set Bool AllowEncOff
-		gv.gbool["ALLOWENCOUNTEROFF_"..LoadedMap] = Value
-	End
 	
 	Get Bool AllowEncOff
-		Switch __Game
-			Case "The Fairy Tale"
-				return gv.gbool["ALLOWENCOUNTEROFF_"..LoadedMap] || (__Chapter>0 && Prefixed(LoadedMap:upper(),"PRO_"))
-			Case "Star Story II"
+		//Switch __Game
+		//	Case "The Fairy Tale"
+		//		return gbool["ALLOWENCOUNTEROFF_"..LoadedMap] || (__Chapter>0 && Prefixed(LoadedMap:upper(),"PRO_"))
+		//	Case "Star Story II"
 				return __PartyLevel>MapLevel
-			Default
-				Lua.error("No check of allowing random encounters on or off in this game")
-		End
+		//	Default
+		//		Lua.error("No check of allowing random encounters on or off in this game")
+		//End
 	End
 	
+	Set Bool AllowEncOff
+		gbool["ALLOWENCOUNTEROFF_"..LoadedMap] = Value
+	End
+	
+	
 	Bool MapAllowEncOff(string m) 
-		return gv.gbool["ALLOWENCOUNTEROFF_"..m] || (__Chapter>0 && Prefixed(m:upper(),"PRO_"))
+		return gbool["ALLOWENCOUNTEROFF_"..m] || (__Chapter>0 && Prefixed(m:upper(),"PRO_"))
 	End
 	
 	Void Pop(string spot,string wind="North", instant)
@@ -460,17 +498,19 @@ Module
 	End
 	
 	Var LabelEach(String Label)
-		String Raw = ISGET.String("FLOW_FIELD",sprintf("FlowField.Map.CurrentLayer.SLabelEnum(\"%s\")",Label))
-		Table Tab = Split(Raw,";")
-		Int I=0
-		Var Ret()
-			I++
-			If I>#Tab
-				Return Nil
-			End
-			Return Lua.tonumber(Tab[I])
-		End
-		Return Ret
+		//String Raw = ISGET.String("FLOW_FIELD",sprintf("FlowField.Map.CurrentLayer.SLabelEnum(\"%s\")",Label))
+		//Table Tab = Split(Raw,";")
+		//Int I=0
+		//Var Ret()
+		//	I++
+		//	If I>#Tab
+		//		Return Nil
+		//	End
+		//	Return Lua.tonumber(Tab[I])
+		//End
+		//Return Ret
+		Lua.error("Lnk.Map.LabelEach has been dummied!")
+		return nil
 	End
 	
 	Void KillByLabel(string Label,Bool Perm)
@@ -535,27 +575,38 @@ Module
 	End
 	
 	Get String Leader
-		return RPGParty[gv.gint.Leader]
+		return RPGParty[gint.Leader]
 	End
 
 	
-	CONSTRUCTOR
-		table m
-		m = {}
-		delegate idx(s,string key)
-			Void f(para)
+	Init
+		//table m
+		m := {}
+		//delegate idx(s,string key)
+		ddef idx
+			plua s
+			string key
+			s,key=inifnity
+			//Void f(para)
+			ddef f
+				para:=infinity
 				para = para || "nil"
-				Script(key,para)
+				Map["Script"](key,para)
 			end
 			return f
 		end
 		m.__index = idx
-		MapScript = Lua.setmetatable({},m)
-		string MetaIndex(s,string key)
+		MapScript = setmetatable({},m)
+		//string MetaIndex(s,string key)
+		ddef MetaIndex
+			plua a
+			string key
+			a,key=infinity
 			//CSayF("Remoye Map Meta Request: %s",key)
-			return ISGET.STRING("FLOW_FIELD",sprintf("FlowField.Map.KthuraMap.Meta[\"%s\"]",key))
+			//return ISGET.STRING("FLOW_FIELD",sprintf("FlowField.Map.KthuraMap.Meta[\"%s\"]",key))
+			return Kthura.MetaData[key]
 		end
-		Meta = Lua.setmetatable({},{["__index"]=MetaIndex})
+		Meta = setmetatable({},{["__index"]=MetaIndex})
 	end
 
-End
+//End
