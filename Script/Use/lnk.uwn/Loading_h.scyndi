@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/lnk.uwn/Loading_h.scyndi
 // 
-// 	  Version: 26.04.02 V
+// 	  Version: 26.04.07
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -71,7 +71,7 @@ Void L_Kill(String Tag)
 	_CSayF("Progress Bar '%s' released for destruction",Tag)
 End
 
-QuickMeta Progress
+QuickMeta QM_Progress
 	Index
 		LoadLoading()
 		_CSayF("Want:   Progress.%s",Key)
@@ -98,6 +98,11 @@ QuickMeta Progress
 	End
 End
 
+Var Progress
+Init
+	Progress=QM_Progress
+End
+
 //Global Void Loading()
 Void ShowLoading()
 	LoadLoading()
@@ -108,12 +113,12 @@ End
 Void CD(fl)
 	LoadLoading()
 	//State.Call("SUB_LOADING","ProgressBar.CloseDoor",sprintf("\"%s\"",fl || ApolloState.Name))
-	Sys.Call("SUB_LOADING","ProgressBar.CloseDoor",fl,  Sys.StateName)
+	Sys.Call("SUB_LOADING","ProgressBar.CloseDoor",fl ||  Sys.StateName)
 End
 
 //Global Void ODLoading(fl)
 void OD(fl)
 	LoadLoading()
 	//State.Call("SUB_LOADING","ProgressBar.OpenDoor",sprintf("\"%s\"",fl || ApolloState.Name))
-	Sys.Call("SUB_LOADING","ProgressBar.OpenDoor",fl,  Sys.StateName)
+	Sys.Call("SUB_LOADING","ProgressBar.OpenDoor",fl || Sys.StateName)
 End
