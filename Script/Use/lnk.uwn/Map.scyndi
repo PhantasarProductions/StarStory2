@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/lnk.uwn/Map.scyndi
 // 
-// 	  Version: 26.04.07 X
+// 	  Version: 26.04.07 XV
 // 	
 // 	  Copyright (C) 2021, 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -214,7 +214,8 @@ End
 	End
 	
 	Bool HasTag(string Tag)
-		Return ISGET.BOOL("FLOW_FIELD",sPrintF("FlowField.Map.CurLayer.HasTag(\"%s\")",Tag))
+		//Return ISGET.BOOL("FLOW_FIELD",sPrintF("FlowField.Map.CurLayer.HasTag(\"%s\")",Tag))
+		return Kthura.HasObj(Tag)
 	End
 	
 	Void BlockObj(string Tag)
@@ -251,14 +252,15 @@ End
 	Void GoToLayer(string aLayer, string SpawnPoint)
 		for i=1,4
 			If HasTag("PLAYER"..i)
-				Self.Kill("PLAYER"..i,False)
+				Map.Kill("PLAYER"..i,False)
 			End
 		End
 		//MCall("FlowField.Map.SetLayer",aLayer)
-		ISSET("string","FLOW_FIELD","FlowField.Map.Layer",aLayer)
+		//ISSET("string","FLOW_FIELD","FlowField.Map.Layer",aLayer)
+		Kthura.CurrentLayer=aLayer
 		for c=1,4
 			if RPGParty[c]!=""
-				Self.Spawn("PLAYER"..c,SpawnPoint)
+				Map.Spawn("PLAYER"..c,SpawnPoint)
 			end
 		end
 		Ach.Auto()
@@ -282,10 +284,11 @@ End
 		Spawn("PLAYER1",a,b)
 	End
 	
-	Void Script(String Func,Args="nil")
+	Void $Script(String Func,Infinity)
 		
 		//State.Call("MAPSCRIPT","MScript."..Func,"\""..Lua.tostring(Args).."\"")
-		State.Call("FLOW_FIELD","FlowField.Script.Run","\""..Func.."\",\""..Lua.tostring(Args).."\"")
+		//State.Call("FLOW_FIELD","FlowField.Script.Run","\""..Func.."\",\""..Lua.tostring(Args).."\"")
+		Sys.Call("FLOW_FIELD","FlowField.Script.Run",Func,Infinity)
 	End
 	
 	Void SG()
@@ -300,29 +303,31 @@ End
 	End	
 	String ObjGetString(tag,string VarTag)
 		//CSayF("ObjGetString(%s %s,%s)",Lua.type(tag),Lua.tostring(tag),VarTag)
-		switch Lua.type(Tag)
-			case "string"
-				Return ISGet.String("FLOW_FIELD",sprintf("FlowField.Map.CurLayer.Obj(\"%s\").%s",tag,VarTag))
-			case "number"
-				Return ISGet.String("FLOW_FIELD",sprintf("FlowField.Map.CurLayer.Obj(%d).%s",tag,VarTag))
-			default
-				Lua.Error(sprintf("ObjGetString(<%s>,\"%s\"): Illegal function call",Lua.type(tag),VarTag))
-		End
+		return Kthura.Obj[Tag][VarTag]
+		//switch Lua.type(Tag)
+		//	case "string"
+		//		Return ISGet.String("FLOW_FIELD",sprintf("FlowField.Map.CurLayer.Obj(\"%s\").%s",tag,VarTag))
+		//	case "number"
+		//		Return ISGet.String("FLOW_FIELD",sprintf("FlowField.Map.CurLayer.Obj(%d).%s",tag,VarTag))
+		//	default
+		//		Lua.Error(sprintf("ObjGetString(<%s>,\"%s\"): Illegal function call",Lua.type(tag),VarTag))
+		//End
 	End
 	Get Delegate GetObjString
 		Return ObjGetString
 	End
 	
 	Int ObjGetInt(tag,string VarTag)
+		return Kthura.Obj[Tag][TagTag]
 		//CSayF("ObjGetInt(%s %s,%s)",Lua.type(tag),Lua.tostring(tag),VarTag)
-		switch Lua.type(Tag)
-			case "string"
-				Return ISGet.Int("FLOW_FIELD",sprintf("FlowField.Map.CurLayer.Obj(\"%s\").%s",tag,VarTag))
-			case "number"
-				Return ISGet.Int("FLOW_FIELD",sprintf("FlowField.Map.CurLayer.Obj(%d).%s",tag,VarTag))
-			default
-				Lua.Error(sprintf("ObjGetInt(<%s>,\"%s\"): Illegal function call",Lua.type(tag),VarTag))
-		End
+		//switch Lua.type(Tag)
+		//	case "string"
+		//		Return ISGet.Int("FLOW_FIELD",sprintf("FlowField.Map.CurLayer.Obj(\"%s\").%s",tag,VarTag))
+		//	case "number"
+		//		Return ISGet.Int("FLOW_FIELD",sprintf("FlowField.Map.CurLayer.Obj(%d).%s",tag,VarTag))
+		//	default
+		//		Lua.Error(sprintf("ObjGetInt(<%s>,\"%s\"): Illegal function call",Lua.type(tag),VarTag))
+		//End
 	End
 	
 	Get Delegate GetObjInt
