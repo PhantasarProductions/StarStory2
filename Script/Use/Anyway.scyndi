@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Anyway.scyndi
 // 
-// 	  Version: 26.04.04 I
+// 	  Version: 26.04.07
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -100,6 +100,7 @@ Extern Screen "Scyndi.Class.Graphics"
 Extern Loading "Scyndi.Globals.Lnk.Loading_h.ShowLoading"
 Extern CDLoading "Scyndi.Globals.Lnk.Loading_h.CD"
 Extern ODLoading "Scyndi.Globals.Lnk.Loading_h.OsD"
+Extern Progress "Scyndi.Globals.Lnk.Loading_h.Progress"
 
 // Convert to statistician
 Extern RPGChar  "Scyndi.Globals.Cnv.RPG2Statistician.RPGChar"
