@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Subs/SubParty.scyndi
 // 
-// 	  Version: 26.04.04 XXI
+// 	  Version: 26.04.04 XXXII
 // 	
 // 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -52,6 +52,7 @@ Script
 #use "libs/sci/audio"
 #use "Libs/sci/sstring"
 #use "libs/sci/Graphics"
+#use "libs/sci/intervar"
 
 #use "script/use/anyway"
 #use "script/use/misc/cbox"
@@ -69,6 +70,7 @@ Class TMiniMsg
 	int G
 	int B
 End
+
 
 
 
@@ -125,6 +127,7 @@ Group SubParty
 	End
 
 	Void CreateCharacter(string ch,int level)
+		//LocExtern GrabLevel "Scyndi.Class.SubParty.GrabLevel"
 		CSayF("Request to create character %s at level %d",ch,level)
 		Switch ch
 			Case "Z_Wendicka" "Z_Sue" "Z_Admiral"
@@ -165,7 +168,7 @@ Group SubParty
 				For i=1,90 div __skill
 					RPGChar[ch].Data[sprintf("Jewel_%02d",i)]=""
 				End
-				GrabLevel(ch,level)
+				self.GrabLevel(ch,level)
 				If Ch!="Asley" 
 					RPGChar[Ch].Points.AP.Have = RPGChar[Ch].Points.AP.Maximum
 				End
@@ -181,12 +184,14 @@ Group SubParty
 		Self.MiniShow()
 		__White
 		lnk.Ach.Show()
-		Static Table Order = { {1},{1,2},{1,2,3},{3,1,2,4}}
-		Static Table Boxes = { new Box(0,__BoxPosY,20,100,false),new Box(0,__BoxPosY,20,100,false),new Box(0,__BoxPosY,20,100,false),new Box(0,__BoxPosY,20,100,false)}
+		LocExtern Order "SubParty_Boxes_Order"
+		LocExtern Boxes "SubParty_Boxes_Boxes"
+		Order = Order || { {1},{1,2},{1,2,3},{3,1,2,4}}
+		Boxes = Boxes ||{ new Box(0,__BoxPosY,20,100,false),new Box(0,__BoxPosY,20,100,false),new Box(0,__BoxPosY,20,100,false),new Box(0,__BoxPosY,20,100,false)}
 		Int C  = lnk.Party.Count
 		Int M3 = 0
 		Int W := Screen.W Div C
-		Int Hover=0		
+		Int Hover=0				
 		Graphics.Scale(1,1)
 		If C==3
 			M3 = Screen.W % 3
@@ -230,7 +235,7 @@ Group SubParty
 					lvlup.Play()
 					RPGChar[Ch].Points.EXP.Have = 0
 					RPGChar[Ch].Stat.Level++
-					Grablevel(Ch,RPGChar[Ch].Stat.Level)
+					Self.Grablevel(Ch,RPGChar[Ch].Stat.Level)
 					Self.MiniWrt(RPGChar[Ch].Name,255,180,0)
 					Self.MiniWrt(" has gained a level",180,0,255)
 					Self.MiniPush()
@@ -247,8 +252,8 @@ Group SubParty
 			// Portrait
 			__White
 				If ch==HLChar
-					alf := math.abs(math.floor(xmath.sin(FPS.Ticks/50)*255))
-					//CSayF("Alpha: %03d / Tricks: %05d",alf,FPS.Ticks)
+					alf := math.abs(math.floor(xmath.sin(Sys.Ticks/50)*255))
+					//CSayF("Alpha: %03d / Tricks: %05d",alf,Sys.Ticks)
 					Graphics.SetAlpha(alf)
 				end
 			lnk.Party.Portrait(ch,B.X+40,Screen.H-40)
@@ -271,8 +276,8 @@ Group SubParty
 					Graphics.Rect(barx,B.Y+25,HBR,10)
 					Fnt.DarkText("HP",barx,B.Y+35,1,1)
 					Fnt.DarkText(HP.Have,barx+barwidth,B.Y+35,1,1)
-					//CSayF("Whizzy: %s",gv.gbool["CHEAT.WHIZZY"])
-					If gv.gbool["CHEAT.WHIZZY"]
+					//CSayF("Whizzy: %s",gbool["CHEAT.WHIZZY"])
+					If gbool["CHEAT.WHIZZY"]
 						HP.Have++
 						//Lua.error("We werken lekker toch niet!")
 					End
@@ -304,7 +309,7 @@ Group SubParty
 					Graphics.Rect(barx,B.Y+50,ABR,10)
 					Fnt.DarkText(N,barx,B.Y+60,1,1)
 					Fnt.DarkText(AP.Have,barx+barwidth,B.Y+60,1,1)
-					If gv.gbool.Cheat_Merlin
+					If gbool.Cheat_Merlin
 						AP.Have++
 					End
 				End
@@ -323,10 +328,12 @@ Group SubParty
 			End
 		End
 		If Mouse.ML && Hover>0 && (!nohover)
-			State.Call(Flow.Current,"PartyClick",sprintf("%d,\"%s\"",Hover,RPGParty[Hover]))
+			//State.Call(Sys.CurrentFlow,"PartyClick",sprintf("%d,\"%s\"",Hover,RPGParty[Hover]))
+			Sys.Call(Sys.CurrentFlow,"PartyClick",Hover,RPGParty[Hover])
 		End
 		If Mouse.MR && Hover>0 && (!nohover)
-			State.Call(Flow.Current,"PartyRightClick",sprintf("%d,\"%s\"",Hover,RPGParty[Hover]))
+			//State.Call(Sys.CurrentFlow,"PartyRightClick",sprintf("%d,\"%s\"",Hover,RPGParty[Hover]))
+			Sys.Call(Sys.CurrentFlow,"PartyClick",Hover,RPGParty[Hover])
 		End
 	End
 	
@@ -348,9 +355,11 @@ Group SubParty
 	End
 	
 	Void MiniPush()
+		MiniLines[0]=MiniLines[1]
 		MiniLines[1]=MiniLines[2]
-		MiniLines[2]=MiniLines[3]
-		MiniLines[3]=MiniCur
+		//MiniLines[2]=MiniLines[3]
+		//MiniLines[3]=MiniCur
+		MiniLines[2]=MiniCur
 		MiniCur=nil
 	End
 	
