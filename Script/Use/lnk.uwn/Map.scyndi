@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/lnk.uwn/Map.scyndi
 // 
-// 	  Version: 26.04.07 XV
+// 	  Version: 26.04.08 III
 // 	
 // 	  Copyright (C) 2021, 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -48,7 +48,9 @@ Module
 #use "Script/Use/Anyway"
 
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
 #use "Libs/SCI/Kthura"
+#use "Libs/SCI/Graphics"
 #use "Libs/SCI/InterVar"
 
 Global Table MapScript
@@ -318,7 +320,7 @@ End
 	End
 	
 	Int ObjGetInt(tag,string VarTag)
-		return Kthura.Obj[Tag][TagTag]
+		return Kthura.Obj[Tag][VarTag]
 		//CSayF("ObjGetInt(%s %s,%s)",Lua.type(tag),Lua.tostring(tag),VarTag)
 		//switch Lua.type(Tag)
 		//	case "string"
@@ -335,14 +337,15 @@ End
 	End
 	
 	Bool ObjGetBool(tag,string VarTag)
-		switch Lua.type(Tag)
-			case "string"
-				Return ISGet.Bool("FLOW_FIELD",sprintf("FlowField.Map.CurLayer.Obj(\"%s\").%s",tag,VarTag))
-			case "number"
-				Return ISGet.Bool("FLOW_FIELD",sprintf("FlowField.Map.CurLayer.Obj(%d).%s",tag,VarTag))
-			default
-				Lua.Error(sprintf("ObjGetBool(<%s>,\"%s\"): Illegal function call",Lua.type(tag),VarTag))
-		End
+		return Kthura.Obj[Tag][VarTag]
+		//switch Lua.type(Tag)
+		//	case "string"
+		//		Return ISGet.Bool("FLOW_FIELD",sprintf("FlowField.Map.CurLayer.Obj(\"%s\").%s",tag,VarTag))
+		//	case "number"
+		//		Return ISGet.Bool("FLOW_FIELD",sprintf("FlowField.Map.CurLayer.Obj(%d).%s",tag,VarTag))
+		//	default
+		//		Lua.Error(sprintf("ObjGetBool(<%s>,\"%s\"): Illegal function call",Lua.type(tag),VarTag))
+		//End
 	End
 	
 	Get Delegate GetObjBool
@@ -424,7 +427,8 @@ End
 	End
 	
 	Get String Arena
-		Return ISGET.String("FLOW_FIELD","FieldFlow.Map.KthuraMap.Meta.Arena")
+		//Return ISGET.String("FLOW_FIELD","FieldFlow.Map.KthuraMap.Meta.Arena")
+		Return Kthura.MetaData.Arena
 	End
 	
 	Void GoToSave()		
@@ -452,14 +456,18 @@ End
 	//	MCall("FieldFlow.Chapter.Start",i)
 	//End
 	
+	//Get Int MapLevel
+	//	Switch __Game
+	//		Case "Star Story II"
+	//			Lua.error("The game is not yet properly configured for Map.MapLevel")
+	//		Default
+	//			Return 0
+	//	End
+	//End
+	
 	Get Int MapLevel
-		Switch __Game
-			Case "Star Story II"
-				Lua.error("The game is not yet properly configured for Map.MapLevel")
-			Default
-				Return 0
-		End
-	End
+		Return Lua.tonumber(Kthura.MetaData.MapLevel)
+	End		
 	
 	
 	Get Bool AllowEncOff
@@ -478,9 +486,9 @@ End
 	End
 	
 	
-	Bool MapAllowEncOff(string m) 
-		return gbool["ALLOWENCOUNTEROFF_"..m] || (__Chapter>0 && Prefixed(m:upper(),"PRO_"))
-	End
+	//Bool MapAllowEncOff(string m) 
+	//	return gbool["ALLOWENCOUNTEROFF_"..m] || (__Chapter>0 && Prefixed(Upper(m),"PRO_"))
+	//End
 	
 	Void Pop(string spot,string wind="North", instant)
 		MCall("FieldFlow.FollowTheLeader.Pop",Spot,Wind,instant==true)
@@ -499,7 +507,10 @@ End
 	End
 	
 	Bool InZone(String Act,String Zone)
-		Return ISGET.Bool("FLOW_FIELD",sprintf("FlowField.Map.CurrentLayer.Obj(\"%s\").IsInZone(\"%s\")",Act,Zone))
+		//Return ISGET.Bool("FLOW_FIELD",sprintf("FlowField.Map.CurrentLayer.Obj(\"%s\").IsInZone(\"%s\")",Act,Zone))
+		a:=Kthura.Obj[Act]
+		z:=Kthura.Obj[Zone]
+		return a.x>=z.x && a.y>=z.y && a.x<=z.x+z.w && a.y<=z.y+z.h
 	End
 	
 	Var LabelEach(String Label)
@@ -524,37 +535,46 @@ End
 	
 	#region Camera
 	Get Int CamX
-		Return ISGET.Int("FLOW_FIELD","FlowField.Map.ScrollX")
+		//Return ISGET.Int("FLOW_FIELD","FlowField.Map.ScrollX")
+		Return gint.ScrollX
 	End
 	Get Int CamY
-		Return ISGET.Int("FLOW_FIELD","FlowField.Map.ScrollY")
+		//Return ISGET.Int("FLOW_FIELD","FlowField.Map.ScrollY")
+		Return gint.ScrollY
 	End
 	Set Int CamX
-		ISSET("Int","FLOW_FIELD","FlowField.Map.ScrollX",Value)
+		//ISSET("Int","FLOW_FIELD","FlowField.Map.ScrollX",Value)
+		gint.ScrollX=value
 	End
 	Set Int CamY
-		ISSET("Int","FLOW_FIELD","FlowField.Map.ScrollY",Value)
+		//ISSET("Int","FLOW_FIELD","FlowField.Map.ScrollY",Value)
+		gint.ScrollY=value
 	End
 	#endregion
 	
 	Bool Block(Int X, Int Y, pure)
-		return ISGET.Bool("FLOW_FIELD",sprintf("FlowField.Map.CurrentLayer.Blocked(%d,%d,%s)",X,Y,Lua.tostring(pure!=nil && pure!=false)))
+		//return ISGET.Bool("FLOW_FIELD",sprintf("FlowField.Map.CurrentLayer.Blocked(%d,%d,%s)",X,Y,Lua.tostring(pure!=nil && pure!=false)))
+		Return Kthura.Block(X,Y)
 	End
 	
 	Get Table Layers
-		return Split(ISGet.String("FLOW_FIELD","FlowField.Map.KthuraMap.StringLayers"),";")
+		//return Split(ISGet.String("FLOW_FIELD","FlowField.Map.KthuraMap.StringLayers"),";")
+		Return Kthura.Layers
 	End
 	
 	Get Table Tags
-		return Split(ISGet.String("FLOW_FIELD","FlowField.Map.CurLayer.TagList"),",")
+		//return Split(ISGet.String("FLOW_FIELD","FlowField.Map.CurLayer.TagList"),",")
+		Return Kthura.Tags
 	End
 	
 	Table LayTags(string Layer)
-		return Split(ISGet.String("FLOW_FIELD",sprintf("FlowField.Map.KthuraMap.Layer(\"%s\").TagList",Layer)),",")
+		//return Split(ISGet.String("FLOW_FIELD",sprintf("FlowField.Map.KthuraMap.Layer(\"%s\").TagList",Layer)),",")
+		Lua.error(sprintf("Map.Laytags(\"%s\"): Feature will have to be rewritten")) 
 	End
 	
 	Void XWalkTo(string Tag,a,b,c)
-		MCall("FlowField.Map.CurLayer.Obj('"..Tag.."').WalkTo",a,b,c)
+		//MCall("FlowField.Map.CurLayer.Obj('"..Tag.."').WalkTo",a,b,c)
+		Kthura.Obj[Tag].WalkTo(a,b,c)
 	End
 	
 	Void PWalkTo(a,b,c)
@@ -574,7 +594,7 @@ End
 			Graphics.Cls()
 			MCall("FlowField.DrawScreen","nil")
 			Graphics.Flip()
-			FPS.WaitMinTicks()
+			Sys.WaitMinTicks()
 			Events.Poll()
 		End
 	End
@@ -591,7 +611,7 @@ End
 		ddef idx
 			plua s
 			string key
-			s,key=inifnity
+			s,key=infinity
 			//Void f(para)
 			ddef f
 				para:=infinity
