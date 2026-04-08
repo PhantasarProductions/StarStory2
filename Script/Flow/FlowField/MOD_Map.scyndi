@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/MOD_Map.scyndi
 // 
-// 	  Version: 26.04.07 VII
+// 	  Version: 26.04.08 II
 // 	
 // 	  Copyright (C) 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -292,9 +292,10 @@ Module
 		LoadedMap = Upper(MapBundle)
 		CSayF("= Loading Kthura Map: %s",MapBundle)
 		//KthuraMap = Kthura.Load("Kthura/"..MapBundle)
-		Kthura.Load("Kthura/"..MapBundle)
+		Kthura.Load("SS2","Kthura/"..MapBundle)
+		Kthura.Pick("SS2")
+		Layer = Kthura.Layers[0]
 		Kthura.Remap()
-		Layer = Kthura.Layers[1]
 		gStr.MapTitle = Kthura.MetaData.Title
 		gbool.AllowAutoScroll = True
 	End
