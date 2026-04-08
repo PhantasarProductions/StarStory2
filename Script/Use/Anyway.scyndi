@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Anyway.scyndi
 // 
-// 	  Version: 26.04.07 I
+// 	  Version: 26.04.08
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -53,9 +53,9 @@ Module
 
 #macro __dev Any.Dev
 //#macro __Mouse Any.Mouse
-#macro __BoxText Lnk.BoxText
-#macro __MapText Lnk.BoxText.Map
-#macro __LMap Lnk.Map
+Extern __BoxText "Scyndi.Globals.Lnk.BoxText"
+Extern __MapText "Scyndi.Globals.Lnk.BoxText.Map"
+Extern __LMap    "Scyndi.Globals.Lnk.Map"
 
 Extern __Mouse "Scyndi.Globals.Any.Mouse"
 
