@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/FNC_LoadMap.scyndi
 // 
-// 	  Version: 26.04.08 I
+// 	  Version: 26.04.08 XIII
 // 	
 // 	  Copyright (C) 2021-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -45,23 +45,29 @@
 
 Module
 
+#use "Libs/Music"
+
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/JCR6"
+#use "Libs/SCI/Kthura"
 #use "Libs/SCI/InterVar"
 
+#use "Script/Use/Anyway"
 
+#accept FlowField
 
 
 Table LoadActions = {}
 
 Void LoadMapScript(string LM)
 	Static String Dir = "Script/MapScript/"
-	String F = Dir..LM..".lbc"
+	String F := Dir..LM..".lbc"
 	gstr.MSUpdate = false
 	gstr.MSDraw   = false
 	If !JCR6.EntryExists(F)
 		F = Dir.."None.lbc" 
 	End
-	State.Load("MAPSCRIPT",F)
+	Sys.LoadState("MAPSCRIPT",F)
 	FlowField.Map.MSUpdate = gbool.MSUpdate //ISGET.BOOL("MAPSCRIPT","MScript.HasUpdate")
 	FlowField.Map.MSDraw   = gbool.MSDraw   //ISGET.BOOL("MAPSCRIPT","MScript.HasDraw")
 	CSay("= MapScript '"..F.."' loaded")
@@ -101,7 +107,8 @@ Void LMAchCheck(string Whatever)
 End
 
 Void Remap()
-	FlowField.Map.KthuraMap.Remap()
+	///FlowField.Map.KthuraMap.Remap()
+	Kthura.Remap()
 	FlowField.ZoneAction.HideSecret("*")
 End
 
@@ -126,7 +133,7 @@ Init
 	// Music always the very last
 	LoadActions += LoadMapMusic	
 	LoadActions += LMAchCheck
-	Kthura.SetAutoVisible()
+	//Kthura.SetAutoVisible()
 End
 
 Global Void LoadMap(string mapbundle)
@@ -141,7 +148,7 @@ Global Void LoadMap(string mapbundle)
 			case "string" 
 				FlowField[f].CBLoadMap(mapbundle)
 			case "table"
-				plua ex = FlowField[f[1]][f[2]] or Flowfield[F[1]].CBLoadMap
+				ex := FlowField[f[1]][f[2]] || Flowfield[F[1]].CBLoadMap
 				ex(mapbundle,f[3])
 			case "function"
 				f(mapbundle)
@@ -149,8 +156,8 @@ Global Void LoadMap(string mapbundle)
 				Lua.error("Unknown action type!")
 		End		
 	End	
-	FlowField.Map.Layer = FlowField.Map.KthuraMap.Layers[1]
+	Kthura.CurrentLayer = Kthura.Layers[0]
 	Progress.Kill("LOADMAP")
-	CSayF("Combat monsters dropping shilders in stead of aurinas is: %s",Lua.tostring(gv.gbool.OnPhantasar))
+	CSayF("Combat monsters dropping shilders in stead of aurinas is: %s",Lua.tostring(gbool.OnPhantasar))
 End
 
