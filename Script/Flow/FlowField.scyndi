@@ -95,6 +95,9 @@ Init
 				Case "CLS" "CLA"
 					CSayF("  => Class")
 					_real[Ges3] = Lua.Scyndi.Class[Ges3]
+				Case "FNC" "FUN"
+					CSayF("  => Class")
+					_real[Ges3] = Lua.Scyndi.Globals[Ges3]
 				default
 					Lua.error("Unknown FlowField Type: "..GTyp)
 			End
