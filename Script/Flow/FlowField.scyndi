@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField.scyndi
 // 
-// 	  Version: 26.04.08
+// 	  Version: 26.04.08 II
 // 	
 // 	  Copyright (C) 2021, 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -80,7 +80,7 @@ Init
 		Table Gespleten := XSplit(File,"/")
 		String Gestript := Upper(Gespleten[len(Gespleten)-1])
 		Gestript = Replace(Gestript,".LBC","")
-		Ges3 := Mid(Gestript,5,Len(Gestript)-5)
+		Ges3 := Right(Gestript,Len(Gestript)-4)
 		GTyp := Left(Gestript,3)
 		If Prefixed(File,"#") || Suffixed(File,"#") || Suffixed(Upper(File),".NEIL")
 			CSayF("Skipping section %d/%d: %s => %s",idx+1,Aantal,File,Gestript)
