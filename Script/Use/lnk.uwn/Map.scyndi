@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/lnk.uwn/Map.scyndi
 // 
-// 	  Version: 26.04.08 III
+// 	  Version: 26.04.08 V
 // 	
 // 	  Copyright (C) 2021, 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -145,7 +145,7 @@ End
 		CSay("Setting AutoScroll To: "..lua.tostring(value))
 		//ISSET("BOOL","FLOW_FIELD","FlowField.Map.AllowAutoScroll",value)
 		//State.Call("FLOW_FIELD","FlowField.Map.SetAutoScroll",lua.tostring(value))
-		gbool.AllowAutoScroll
+		return gbool.AllowAutoScroll
 	End
 	
 	//Get Int ScrollX
@@ -286,7 +286,7 @@ End
 		Spawn("PLAYER1",a,b)
 	End
 	
-	Void $Script(String Func,Infinity)
+	Void _Script(String Func,Infinity)
 		
 		//State.Call("MAPSCRIPT","MScript."..Func,"\""..Lua.tostring(Args).."\"")
 		//State.Call("FLOW_FIELD","FlowField.Script.Run","\""..Func.."\",\""..Lua.tostring(Args).."\"")
