@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Anyway.scyndi
 // 
-// 	  Version: 26.04.07
+// 	  Version: 26.04.07 I
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -60,16 +60,16 @@ Module
 Extern __Mouse "Scyndi.Globals.Any.Mouse"
 
 
-#macro __Game "Star Story II"
+Extern __Game "'Star Story II'"
 
 
 #macro __Chapter gv.gint.Chapter
-#macro __PartyLevel gv.gint.PartyLevel
+Extern __PartyLevel "Scyndi.Globals.gint.PartyLevel"
 
 //#macro __skill gv.gint.skill
 Extern __skill "Scyndi.Globals.gint.skill"
 
-#macro __Cash Any.Aurina.Have
+Extern __Cash "Scyndi.Globals.Any.Aurina.Have"
 
 Extern __white   "Scyndi.Class.Graphics.Color(255,255,255)"
 Extern __skyblue "Scyndi.Class.Graphics.Color(  0,180,255)"
