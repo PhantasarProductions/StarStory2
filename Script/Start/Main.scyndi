@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 26.04.03
+// version: 26.04.09
 // 
 // End License
 
@@ -150,7 +150,7 @@ Init
 		Graphics.Color(255,255,255)
 		Graphics.Flip()
 		Events.Poll()
-		printf("%5d/%5d: Loading ",i,m)
+		csayf("%5d/%5d: Loading ",i,m)
 		switch LA.what
 			case wh_Image
 				cout("image ",LA.File," to ",LA.Tag)
