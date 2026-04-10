@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/MOD_Map.scyndi
 // 
-// 	  Version: 26.04.08 II
+// 	  Version: 26.04.10
 // 	
 // 	  Copyright (C) 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -169,11 +169,11 @@ Module
 		if !CurrentLayer.HasTag(FlowField.FollowTheleader.LeaderMapTag)
 			Return nil
 		End
-		Return CurrentLayer.Obj(FlowField.FollowTheleader.LeaderMapTag)
+		Return Kthura.Obj[FlowField.FollowTheleader.LeaderMapTag]
 	End
 	
 	Void ObjSet(TID,String Key,Value)
-		CurrentLayer.Obj(TID)[Key]=Value
+		Kthura.Obj[TID][Key]=Value
 	End
 	
 	Bool Walking()
