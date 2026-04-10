@@ -1,69 +1,92 @@
-// License Information:
-// src/Tricky Script/Script/Flow/FlowField/ZoneAction.neil
-// Version: 22.05.21
-// Copyright (C) 2021, 2022 Jeroen Petrus Broks
+// License:
+// 	  src/Code/Script/Flow/FlowField/CLS_ZoneAction.scyndi
 // 
-// ===========================
-// This file is part of a project related to the Phantasar Chronicles or another
-// series or saga which is property of Jeroen P. Broks.
-// This means that it may contain references to a story-line plus characters
-// which are property of Jeroen Broks. These references may only be distributed
-// along with an unmodified version of the game.
+// 	  Version: 26.04.10 XVIII
+// 	
+// 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
 // 
-// As soon as you remove or replace ALL references to the storyline or character
-// references, or any termology specifically set up for the Phantasar universe,
-// or any other univers a story of Jeroen P. Broks is set up for,
-// the restrictions of this file are removed and will automatically become
-// zLib licensed (see below).
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
 // 
-// Please note that doing so counts as a modification and must be marked as such
-// in accordance to the zLib license.
-// ===========================
-// zLib license terms:
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
-// in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-// misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-// End License Information
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+Module
+
+#use "Libs/LinkedList"
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Kthura"
+#use "Libs/SCI/SString"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Anyway"
+
+#accept FlowField
 
 bool KettingInitDone
 
+	//static readonly delegate assert = Lua.assert
+	//static readonly delegate error = Lua.error
+	//static readonly delegate tonumber = Lua.tonumber
+	static readonly delegate ZAXPand = Expand
+Extern ToNumber "tonumber"
+Extern Assert "assert"
+Extern Error "error"
 
 
-class _ZoneAction
+
+class ZoneAction
 
 	static table List
 	static table ListByLayer
-	static readonly delegate assert = Lua.assert
-	static readonly delegate error = Lua.error
-	static readonly delegate tonumber = Lua.tonumber
-	static readonly delegate ZAXPand = Expand
-
 
 	static void RoomChange(int inc,string exitpoint)
 		string cLay
 		var nLay
 		cLay = FlowField.Map.Layer
 		assert(prefixed(cLay,"#"),"Next/Prev only works for rooms prefixed with a #")
-		assert(#cLay==4,"Invalid Next/Prev length!")
+		assert(len(cLay)==4,"Invalid Next/Prev length!")
 		nLay = tonumber(right(cLay,3))
 		assert(nLay,"Numberic parsing error for Next/Prev ("..cLay..")")
 		//FlowField.Map.Kthura.Layer = sprintf("#%03d",nLay + inc)
 		for i=1,4
-			if FlowField.Map.CurLayer.HasTag("PLAYER"..i)
+			if Kthura.HasObj("PLAYER"..i)
 				Lnk.Map.Kill("PLAYER"..i,false)
 			end
 		end
-		FlowField.Map.Layer = sprintf("#%03d",nLay + inc)
+		Kthura.CurrentLayer = sprintf("#%03d",nLay + inc)
 		Lnk.Map.SpawnPlayer(exitpoint)
 	end
 	
@@ -75,68 +98,77 @@ class _ZoneAction
 	end
 	
 	static void NextRoom()
-		RoomChange( 1,"Start")
+		self.RoomChange( 1,"Start")
 	end
 	
 	static void PrevRoom()
-		RoomChange(-1,"Einde")
+		self.RoomChange(-1,"Einde")
 	end
 	
 	Static Void ShowSecret()
-		FlowField.Map.CurLayer.ShowByLabel("Secret")
+		Kthura.ShowByLabel("Secret")
 	End
 	
 	Static Void HideSecret(string L="")
-		Var Lay
+		//Var Lay
 		If L==""
-			Lay = FlowField.Map.CurLayer
+			//Lay = FlowField.Map.CurLayer
+			Kthura.HideByLabel("Secret")
 		ElseIf L=="*"
-			For IL in each(FlowField.Map.KthuraMap.Layers)
-				HideSecret(IL)				
+			For IL in Kthura.Layers.Each
+			//For IL in each(FlowField.Map.KthuraMap.Layers)
+				Self.HideSecret(IL)				
 			End
 			Return
 		Else
-			Lay = FlowField.Map.KthuraMap.Layer(L)
+			Old:=Kthura.CurrentLayer
+			Kthura.CurrentLayer=L
+			Kthura.HideByLabel("Secret")
+			Kthura.CurrentLayer=Old
+			//Lay = FlowField.Map.KthuraMap.Layer(L)
 		ENd
-		Lay.HideByLabel("Secret")
+		//Lay.HideByLabel("Secret")
 	End
 
 	
 	static void Reset()
 		self.AltNext = nil;
-		self.List = self.List or {}
-		self.List.Enter = self.List.Enter or new TLinkedList()
-		self.List.Leave = self.List.Leave or new TLinkedList()
-		self.List.Cycle = self.List.Cycle or new TLinkedList()
+		self.List = self.List ||{}
+		self.List.Enter = self.List.Enter || new TLinkedList()
+		self.List.Leave = self.List.Leave || new TLinkedList()
+		self.List.Cycle = self.List.Cycle || new TLinkedList()
 		for k,v in pairs(self.List) 
 			v.Clear()
 		end
-		//_ZoneAction.HideSecret("*")
+		//ZoneAction.HideSecret("*")
 		var vd
-		vd = new _ZoneAction("Enter","Next",_ZoneAction.NextRoom)
-		vd = new _ZoneAction("Enter","Prev",_ZoneAction.PrevRoom)
-		//vd = new _ZoneAction("Enter","Secret",_ZoneAction.ShowSecret)
-		//vd = new _ZoneAction("Leave","Secret",_ZoneAction.HideSecret)
+		vd = new ZoneAction("Enter","Next",ZoneAction.NextRoom)
+		vd = new ZoneAction("Enter","Prev",ZoneAction.PrevRoom)
+		//vd = new ZoneAction("Enter","Secret",ZoneAction.ShowSecret)
+		//vd = new ZoneAction("Leave","Secret",ZoneAction.HideSecret)
 	
 	end
 	
 	Static Void SetupByLayer()
-		Static Var LK = {"Enter","Leave","Cycle"}
+		Static Var LK = {[0]="Enter","Leave","Cycle"}
 		ListByLayer = {}
-		For L in each(FlowField.Map.KthuraMap.Layers)
+		Old:=Kthura.CurrentLayer
+		For L in Kthura.Layers.Each
 			ListByLayer[L] = {}
-			Var Lst = ListByLayer[L]
+			Lst := ListByLayer[L]
 			for LKI in Each(LK)
 				Lst[LKI] = new TLinkedList()
 				for ZAI in self.List[LKI].Each
-					Var Lay = FlowField.Map.KthuraMap.Layer(L)
-					if Lay.HasTag(ZAI.ActZone)
+					//Var Lay = FlowField.Map.KthuraMap.Layer(L)
+					Kthura.CurrentLayer=L
+					if Kthura.HasObj(ZAI.ActZone)
 						Lst[LKI].AddLast(ZAI)
 						CSayF("ZA_Layer> %s '%s' added for layer: %s",LKI,ZAI.ActZone,L) 
 					End
 				End
 			End
 		End
+		Kthura.CurrentLayer=Old
 	End
 			
 	
@@ -148,7 +180,7 @@ class _ZoneAction
 	
 	static void RejectReject()
 		for RR,RL in self.List.Enter.Each
-			if prefixed(RR.ActZone:upper(),"REJECT")
+			if prefixed(Upper(RR.ActZone),"REJECT")
 				CSayF("Removed %s in ZA Reject Zone",RR.ActZone)
 				RL.UnLink()
 			end
@@ -156,8 +188,8 @@ class _ZoneAction
 	end
 	
 	static void Create(string Event,string Zone,AAct,param)
-		var vd
-		vd = new _ZoneAction(Event,Zone,AAct,param)
+		//var vd
+		vd := new ZoneAction(Event,Zone,AAct,param)
 	end
 	
 	string ActMap
@@ -167,7 +199,8 @@ class _ZoneAction
 	var Act
 	
 	get string ActType
-		return type(self.Act)
+		locextern this "self"
+		return type(this.Act)
 	end
 	
 	bool WasInZone = false
@@ -189,18 +222,19 @@ class _ZoneAction
 	End
 	
 	static bool CheckAll()
-		if !FlowField.Map.CurLayer.HasTag(pLeader)
+		//if !FlowField.Map.CurLayer.HasTag(pLeader)
+		if !Kthura.HasObj(pLeader)
 			return false
 		end
 		bool ret = false
-		Var ToCheck = self.List
+		ToCheck := self.List
 		// If bylayonly
-			ToCheck = ListByLayer[FlowField.Map.Layer]
+			ToCheck = ListByLayer[Kthura.CurrentLayer]
 		// End
 		for Event,ZoneList in pairs(ToCheck)
 			for Zone,lnk in ZoneList.Each
-				if Zone.ActMap!=FlowField.Map.LoadedMap && Zone.ActMap!=""
-					CSayF("Map mismatch in zone action! '%s'!='%s'    (%s:%s:%s) --> Stopping chain!",Zone.ActMap,FlowField.Map.LoadedMap,Event,Zone.ActZone,tostring(Zone.Act))
+				if Zone.ActMap!=gstr.LoadedMap && Zone.ActMap!=""
+					CSayF("Map mismatch in zone action! '%s'!='%s'    (%s:%s:%s) --> Stopping chain!",Zone.ActMap,gstr.LoadedMap,Event,Zone.ActZone,tostring(Zone.Act))
 					return false
 					//lnk.UnLink()
 				elseif !FlowField.Map.Player
@@ -209,7 +243,7 @@ class _ZoneAction
 				else
 					//Zone.WordtInZone = FlowField.Map.Kthura.Actor.Player.IsInZone(Zone.ActZone)
 					Zone.WordtInZone = FlowField.Map.Player.IsInZone(Zone.ActZone)
-					if Zone.WordtInZone == self.CheckDels[Event].Wordt and Zone.WasInZone == self.CheckDels[Event].Was
+					if Zone.WordtInZone == self.CheckDels[Event].Wordt && Zone.WasInZone == self.CheckDels[Event].Was
 						switch Zone.ActType
 							case "function" "delegate"
 								Zone.Act(ZAXPand(Zone.ActParams))
@@ -243,8 +277,8 @@ class _ZoneAction
 		if Tab && Tab[T.."_ENTERSECRET"] && Tab[T.."_LEAVESECRET"]
 			Return
 		End
-		Var E = new _ZoneAction("Enter",T,EnterSecret,T)
-		Var L = new _ZoneAction("Leave",T,LeaveSecret,T)		
+		E := new ZoneAction("Enter",T,Self.EnterSecret,T)
+		L := new ZoneAction("Leave",T,Self.LeaveSecret,T)		
 		If Tab
 			Tab[T.."_ENTERSECRET"] = E
 			Tab[T.."_LEAVESECRET"] = L
@@ -252,18 +286,19 @@ class _ZoneAction
 	End
 	
 	Static Void AshleyScan(string Tag)
-		Static String ND = "There is something closeby. I wonder!"
-		Static Table T = {"There is a secret passage %s of here. I'm sure of it!","I see something suspicious to the %s. I wonder","I think we should check out the way %s",ND,ND,ND,"I think I just saw something interesting to the %s of here"}
-		Var P = Split(Tag,"_")
+		locExtern ND "'There is something closeby. I wonder!'"
+		locExtern T  "Scyndi_FlowField_ClassZoneAction_AshleyScan_T"
+		T = T || {[0]="There is a secret passage %s of here. I'm sure of it!","I see something suspicious to the %s. I wonder","I think we should check out the way %s",ND,ND,ND,"I think I just saw something interesting to the %s of here"}
+		P := XSplit(Tag,"_")
 		if math.random(1,10)>math.min(4,RPGChar.Ashley.Stat.END_Luck) || Done[sprintf("AshleyScan_%s_%s_%s",Lnk.Map.LoadedMap,Lnk.Map.Layer,Tag)]
 			CSayF("Request to make Ashley scan the area rejected")
 			Return
 		End
 		Lnk.Party.MiniWrt("Ashley: ",255,180,0)
-		If !P[2]
+		If !P[1]
 			Lnk.Party.MiniMsg(ND,0,255,0)
 		Else
-			Lnk.Party.MiniMsg(sprintf(T[math.random(1,#T)],P[2]),0,255,0)
+			Lnk.Party.MiniMsg(sprintf(T[math.random(0,len(T)-1)],P[1]),0,255,0)
 		End
 		RPGChar.Ashley.Points.EXP.Have += 18 div __skill
 	End
@@ -272,52 +307,57 @@ class _ZoneAction
 	
 	Static Void Auto()
 		CSay("Gathering automated zone-action zones")
-		Table D
-		D = {}
-		For L in each(FlowField.Map.KthuraMap.Layers)
-			Var Lay = FlowField.Map.KthuraMap.Layer(L)			
-			For T in each(LAY.TagListArray)
+		//Table D
+		D := {}
+		Old:=Kthura.CurrentLayer
+		//For L in each(FlowField.Map.KthuraMap.Layers)
+		For L in Kthura.Layers.Each
+			//Var Lay = FlowField.Map.KthuraMap.Layer(L)			
+			//For T in each(LAY.TagListArray)
+			Kthura.CurrentLayer=L
+			For T in Each(Kthura.TagList)
 				if prefixed(T,"ZA_") || prefixed(T,"ZAE_")
-					D[T] = D[T] || new _ZoneAction("Enter",T,T)
+					D[T] = D[T] || new ZoneAction("Enter",T,T)
 				elseif prefixed(T,"ZAL_") 
-					D[T] = D[T] || new _ZoneAction("Leave",T,T.."_Leave")
+					D[T] = D[T] || new ZoneAction("Leave",T,T.."_Leave")
 				elseif prefixed(T,"ZALE_") || prefixed(T,"ZAEL_")
-					D["L_"..T] = D["L_"..T] || new _ZoneAction("Leave",T,T.."_Leave")
-					D["E_"..T] = D["E_"..T] || new _ZoneAction("Leave",T,T)
+					D["L_"..T] = D["L_"..T] || new ZoneAction("Leave",T,T.."_Leave")
+					D["E_"..T] = D["E_"..T] || new ZoneAction("Leave",T,T)
 				elseif prefixed(T,"TO_") || Prefixed(T,"GOTO_") || prefixed(T,"GO_")
-					var P = split(T,"_")
-					assert(P[2],"ZoneAction automated layer relocation without layer data: "..T)
-					D[T] = D[T] || new _ZoneAction("Enter",T,Lnk.Map.GoToLayer,{P[2],P[3] || "Start"})
+					var P = xsplit(T,"_")
+					assert(P[1],"ZoneAction automated layer relocation without layer data: "..T)
+					D[T] = D[T] || new ZoneAction("Enter",T,Lnk.Map.GoToLayer,{P[1],P[2] || "Start"})
 				elseif prefixed(T,"TOMAP_") || prefixed(T,"GOTOMAP_") || prefixed(T,"MAP_") || prefixed(T,"GOMAP_") 
-					var P = split(T,"_")
-					assert(P[2],"ZoneAction automated map + layer relocation without map data: "..T)
-					assert(P[3],"ZoneAction automated map + layer relocation without layer data: "..T)
-					D[T] = D[T] || new _ZoneAction("Enter",T,Lnk.Map.GoToMap,P[2],{P[3],P[4] || "Start"})	
+					var P = xsplit(T,"_")
+					assert(P[1],"ZoneAction automated map + layer relocation without map data: "..T)
+					assert(P[2],"ZoneAction automated map + layer relocation without layer data: "..T)
+					D[T] = D[T] || new ZoneAction("Enter",T,Lnk.Map.GoToMap,P[1],{P[2],P[3] || "Start"})	
 				elseif prefixed(T,"SECRET")
-					NewSecret(T,L,D)
+					Self.NewSecret(T,L,D)
 				elseif prefixed(T,"ASHLEYSCAN")
-					D[T] = D[T] || new _ZoneAction("Enter",T,AshleyScan,T)
-				elseif T:upper()=="BOSS_ACTIVATE"
-					D[T] = D[T] || new _ZoneAction("Enter",T,FlowField.Boss.Regular,T)
+					D[T] = D[T] || new ZoneAction("Enter",T,self.AshleyScan,T)
+				elseif Upper(T)=="BOSS_ACTIVATE"
+					D[T] = D[T] || new ZoneAction("Enter",T,FlowField.Boss.Regular,T)
 				end
 			End
 		End
+		Kthura.CurrentLayer=Old
 	End
 		
 	
 	CONSTRUCTOR(string Event,string Zone,AAct,param)
 		self.InitCheckDels()
-		self.ActMap = FlowField.Map.LoadedMap
+		self.ActMap = gstr.LoadedMap
 		self.ActEvent = Event
 		self.ActZone = Zone
 		self.Act = AAct
 		If Lua.type(param)=="table"
 			self.ActParams=param
 		Else
-			self.ActParams = { param }
+			self.ActParams = { [0]=param }
 		End
 		self.List[Event].AddLast(self)
-		CSayF("%s:%s event created in zone %s",FlowField.Map.LoadedMap.."*"..Self.ActMap,Event,Zone)
+		CSayF("%s:%s event created in zone %s",gstr.LoadedMap.."*"..Self.ActMap,Event,Zone)
 	end
 
 	Static Void ShowList()
@@ -331,7 +371,7 @@ class _ZoneAction
 end
 
 init
-	_ZoneAction.Reset()
+	ZoneAction.Reset()
 end
 
-Return _ZoneAction
+//Return ZoneAction
