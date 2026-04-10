@@ -35,22 +35,30 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
+Module
+
 #use "libs/linkedlist"
 
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Kthura"
+#use "Libs/SCI/InterVar"
 
+plua Register = {}
 
-Module Class
-	Static Table Register 
+//Module Class
+Class Clickable
+//	Static Table Register 
 
 	Static Bool All(Int X,Int Y)
-		If !Register[FieldFlow.Map.Layer]
+		If !Register[Kthura.CurrentLayer]
 			Return False
 		End
-		for CLK in Register[FieldFlow.Map.Layer].Each
+		for CLK in Register[Kthura.CurrentLayer].Each
 			if Clk.Clicked(x, y)
 				//Map.WalkTo(CLK.walkx,CLK.Walky)
 				//FieldFlow.Map.CurLayer.Obj("PLAYER").WalkTo(CLK.walkx,CLK.Walky)
-				FieldFlow.Map.CurLayer.Obj(FieldFlow.FollowTheLeader.LeaderMapTag).WalkTo(CLK.walkx,CLK.Walky)
+				//FieldFlow.Map.CurLayer.Obj(FieldFlow.FollowTheLeader.LeaderMapTag).WalkTo(CLK.walkx,CLK.Walky)
+				Kthura.Obj[FieldFlow.FollowTheLeader.LeaderMapTag].WalkTo(CLK.walkx,CLK.Walky)
 				FieldFlow.Map.ArriveFunc=CLK.ArriveEvent 
 				FieldFlow.Map.ArriveParam=Clk.ArriveParam
 				FieldFlow.Map.GoToX=Clk.WalkX
@@ -63,26 +71,27 @@ Module Class
 	End
 	
 	Static Void Clear()
-		Table Kill={}
+		Kill:={}
 		For K,_ in pairs(Register)
 			Kill+=K
 		End
 		For K in Each(Kill)
 			Register[K]=nil
 		End
-		print(Lua.debug.traceback()) 
+		//print(Lua.debug.traceback()) 
 		CSay("Clickable list cleared")		
 	End
 	
 	Static Void Create(String _lay,String _tag,Int _wx,int _wy,_ae,String _ap="")
 		Register = Register || {}
-		Register[_Lay] = Register[_Lay] || new LinkedList() 
+		Register[_Lay] = Register[_Lay] || new TLinkedList() 
 		Register[_Lay].AddLast(Self(_tag,_wx,_wy,_ae,_ap))		
 	End
 	
 	Static Table Spot(Lay,String ObjTag,Same)
-		Table Ret = {}
-		Var O = Lay.Obj(ObjTag)
+		Ret := {}
+		//O := Lay.Obj(ObjTag)
+		O:=Kthura.Obj(ObjTag)
 		Ret.X = O.X
 		Ret.Y = O.Y
 		If !Same
@@ -98,7 +107,7 @@ Module Class
 	End
 	
 	Static Void ToBlack()
-		if gv.gbool.BeenInBlackBox
+		if gbool.BeenInBlackBox
 			Lnk.Party.MiniWrt("Returning to",120,120,120)
 		Else
 			Lnk.Party.MiniWrt("Going to",120,120,120)
@@ -110,59 +119,66 @@ Module Class
 	Static Void CBLoadMap(string MapBundle)
 		Bool TreasuresLoaded = False
 		CSay("Generate register of clickables")
-		Clear()
-		FlowField.Map.KthuraMap.ReMap()
-		For L in each(FlowField.Map.KthuraMap.Layers)
-			Var Lay = FlowField.Map.KthuraMap.Layer(L)
+		Self.Clear()
+		//FlowField.Map.KthuraMap.ReMap()
+		Kthura.Remap()
+		Old:=Kthura.CurrentLayer
+		//For L in each(FlowField.Map.KthuraMap.Layers)
+		for L in Kthura.Layer.Each
+			//Var Lay = FlowField.Map.KthuraMap.Layer(L)
 			//Table rItems = Map.LRItems
 			For T in each(LAY.TagListArray)
 				//Var O = Lay.Obj(T)
+				
+				// Leftover from Apollo Version
+				LocExtern Lay "nil"
+				
 				If prefixed(T,"NPC_MT_")
-					Var fuck = Spot(Lay,T)
-					Create(L,T,fuck.X,fuck.Y,lnk.Boxtext.Map,T)
+					fuck := Self.Spot(Lay,T)
+					Self.Create(L,T,fuck.X,fuck.Y,lnk.Boxtext.Map,T)
 					CSayF("= NPC_MT: %s",T)
 				ElseIf prefixed(T,"NPC_MTL_")
-					Var fuck = Spot(Lay,T)
-					Create(L,T,fuck.X,fuck.Y,lnk.Boxtext.MapLeader,T)
+					fuck := Self.Spot(Lay,T)
+					Self.Create(L,T,fuck.X,fuck.Y,lnk.Boxtext.MapLeader,T)
 					CSayF("= NPC_MTL: %s",T)
 				//Elseif T=="NPC_BlueSeal"
-				//	Var fuck = Spot(Lay,T)				
-				//	Create(L,T,fuck.X,fuck.Y,FieldFlow.BlueSeal.Open)
+				//	fuck := Self.Spot(Lay,T)				
+				//	Self.Create(L,T,fuck.X,fuck.Y,FieldFlow.BlueSeal.Open)
 				ElseIf prefixed(T,"NPC_")
-					Var fuck = Spot(Lay,T)
-					Create(L,T,fuck.X,fuck.Y,lnk.Map.Script,T) //,sprintf("\"%s\"",T))
+					fuck := Self.Spot(Lay,T)
+					Self.Create(L,T,fuck.X,fuck.Y,lnk.Map.Script,T) //,sprintf("\"%s\"",T))
 					CSayF("= NPC: %s",T)					
 				ElseIf Prefixed(T,"PSG_")
 					// Although StarStory2 works with transporter pads, I'll keep these in.
-					Var fuck = Spot(Lay,T)
-					Create(L,T,fuck.X,fuck.Y,FieldFlow.GoToSave,T) //,sprintf("\"%s\"",T))
+					fuck := Self.Spot(Lay,T)
+					Self.Create(L,T,fuck.X,fuck.Y,FieldFlow.GoToSave,T) //,sprintf("\"%s\"",T))
 					CSayF("= Savespot: %s",T)
 				ElseIf Prefixed(T,"PRC_")
 					// Although StarStory2 works with transporter pads, I'll keep these in.
-					Var fuck = Spot(Lay,T)
-					Create(L,T,fuck.X,fuck.Y,FieldFlow.Recovery,T) //,sprintf("\"%s\"",T))
+					fuck := Self.Spot(Lay,T)
+					Self.Create(L,T,fuck.X,fuck.Y,FieldFlow.Recovery,T) //,sprintf("\"%s\"",T))
 					CSayF("= Recovery Spot: %s",T)
 				ElseIf Prefixed(T,"TRANS_GENERAL_")
-					Var fuck = Spot(Lay,T,true)
-					Create(L,T,fuck.X,fuck.Y,BlueTrans,T)
+					fuck := Self.Spot(Lay,T,true)
+					Self.Create(L,T,fuck.X,fuck.Y,BlueTrans,T)
 				ElseIf Prefixed(T,"TRANS_RECOVER_")
-					Var fuck = Spot(Lay,T,true)
-					Create(L,T,fuck.X,fuck.Y,FieldFlow.Recovery,nil)
+					fuck := Self.Spot(Lay,T,true)
+					Self.Create(L,T,fuck.X,fuck.Y,FieldFlow.Recovery,nil)
 					//Lnk.Party.MiniMsg("You feel completely refreshed",0,255,0)
 				ElseIf Prefixed(T,"TRANS_RETURNONLY_")
-					Var fuck = Spot(Lay,T,true)
-					Create(L,T,fuck.X,fuck.Y,ToBlack,nil)
+					fuck := Self.Spot(Lay,T,true)
+					Self.Create(L,T,fuck.X,fuck.Y,ToBlack,nil)
 				ElseIf Prefixed(T,"RANDOMTREASURE_")
 					If !TreasuresLoaded
 						FlowField.Treasure.Load(MapBundle)
 						TreasuresLoaded=true
 					End
-					FlowField.Treasure.CreateRandomTreasure(T,L)
+					FlowField.Treasure.Self.CreateRandomTreasure(T,L)
 				// Random trasure TFT style. SS2 does this by its own methods
 				//ElseIf Prefixed(T,"RNDITEM_")
 				//	If Math.Random(1,__skill^2)==1 
 				//		Var S = Spot(Lay,T)
-				//		Create(L,T,S.X,S.Y,FieldFlow.Treasure.RandomItem,T)
+				//		Self.Create(L,T,S.X,S.Y,FieldFlow.Treasure.RandomItem,T)
 				//		CSayF("= Random Item: %s",T)
 				//	Else
 				//		Lay.Kill(T)
@@ -170,11 +186,11 @@ Module Class
 				//	End
 				
 				//ElseIf Prefixed(T,"PTE_")
-				//	Var fuck = Spot(Lay,T)
-				//	Create(L,T,fuck.X,fuck.Y,FlowField.TravelEmblem,T)
+				//	fuck := Self.Spot(Lay,T)
+				//	Self.Create(L,T,fuck.X,fuck.Y,FlowField.TravelEmblem,T)
 				//ElseIf Prefixed(T,"BLACKORB_")
-				//	Var fuck = Spot(Lay,T)
-				//	Create(L,T,fuck.X,fuck.Y,FlowField.BlackOrb,T)
+				//	fuck := Self.Spot(Lay,T)
+				//	Self.Create(L,T,fuck.X,fuck.Y,FlowField.BlackOrb,T)
 				ElseIf Prefixed(T,"CHEST_")
 					CSayF("= Chest: %s",T)
 					//if Lay.Obj(T).Data["NEWGAME+"]:upper()=="ONLY" && (!__newgameplus)
@@ -182,12 +198,12 @@ Module Class
 					//	CSayF("= Removed New Game+ Only chest: %s",T)
 					//Else
 						Var S = Spot(Lay,T)					
-						Create(L,T,S.X,S.Y,FieldFlow.Treasure.Chest,T)
+						Self.Create(L,T,S.X,S.Y,FieldFlow.Treasure.Chest,T)
 					//End
 				ElseIf Prefixed(T,"ARM_")
 					CSayF("= ARMS Chest: %s",T)
 					Var S = Spot(Lay,T)
-					Create(L,T,S.X,S.Y,Abl.Klahre.Obtain,T)	
+					Self.Create(L,T,S.X,S.Y,Abl.Klahre.Obtain,T)	
 					If Abl.Klahre.HasARM(T)
 						CSayF("==> Already opened")
 						Lay.Obj(T).Texture="GFX/Treasure/ARMS_Chest_Open.png"
@@ -197,6 +213,7 @@ Module Class
 				End
 			End
 		End
+		Kthura.CurrentLayer = Old
 	End
 	
 	ReadOnly String Tag
