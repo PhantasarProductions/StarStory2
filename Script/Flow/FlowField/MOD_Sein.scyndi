@@ -1,88 +1,111 @@
-// License Information:
-// src/Tricky Script/Script/Flow/FlowField/Sein.neil
-// Version: 23.04.10
-// Copyright (C) 2022, 2023 Jeroen Petrus Broks
+// License:
+// 	  src/Code/Script/Flow/FlowField/MOD_Sein.scyndi
 // 
-// ===========================
-// This file is part of a project related to the Phantasar Chronicles or another
-// series or saga which is property of Jeroen P. Broks.
-// This means that it may contain references to a story-line plus characters
-// which are property of Jeroen Broks. These references may only be distributed
-// along with an unmodified version of the game.
+// 	  Version: 26.04.10 XI
+// 	
+// 	  Copyright (C) 2022, 2023, 2026 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
 // 
-// As soon as you remove or replace ALL references to the storyline or character
-// references, or any termology specifically set up for the Phantasar universe,
-// or any other univers a story of Jeroen P. Broks is set up for,
-// the restrictions of this file are removed and will automatically become
-// zLib licensed (see below).
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
 // 
-// Please note that doing so counts as a modification and must be marked as such
-// in accordance to the zLib license.
-// ===========================
-// zLib license terms:
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
-// in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-// misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-// End License Information
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+
 Module
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/GINIE"
+#use "Libs/SCI/Kthura"
+#use "Libs/SCI/Medals"
+#use "Libs/SCI/SString"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Anyway"
+
 	Var Data
 	Var SLayers
 	
 	string N1(string N)
-		Return Right(N,#N-1)
+		Return Right(N,Len(N)-1)
 	End
 
 	Void SeinGeel(string Tag)
-		Lnk.Map.SetObj(Tag,"Texture","GFX/Textures/Medals/Sein/Geel.png")
+		//Lnk.Map.SetObj(Tag,"Texture","GFX/Textures/Medals/Sein/Geel.png")
+		Kthura.Obj[Tag].Texture = "GFX/Textures/Medals/Sein/Geel.png"
 	End
 	
 	Void CBLoadMap(string mapbundle)
 		CSayF("Checking sein: %s",mapbundle)
 		Data = GINIE.Load("Kthura/"..mapbundle.."/Sein","MAPSEIN")
-		print(Data.UnparseMe) // Debug only
-		SLayers = Data.ListCopy("LAYERS","LAYERS")
-		for i=1,#Slayers
+		//print(Data.Unparse) // Debug only
+		SLayers = Data.List("LAYERS","LAYERS")
+		for i=0,Len(Slayers)-1
 			//SLayers[i]=Replace(SLayers[i],"[HASH]","#")
 			if Prefixed(SLayers[i],"[HASH]")
-				Slayers[i]="#"..Right(SLayers[i],#SLayers[i]-6)
+				Slayers[i]="#"..Right(SLayers[i],len(SLayers[i])-6)
 			End
 		End
-		CSayF("= There are %d(%d) layers with at least one sein",#SLayers,Data.Count("LAYERS","LAYERS"))
+		CSayF("= There are %d(%d) layers with at least one sein",Len(SLayers),Len(Data.List("LAYERS","LAYERS")))
+		Old:=Kthura.CurrentLayer
 		For Lay in Each(SLayers)
 			CSayF("= Layer '%s' is being checked as sein layer",Lay)
-			For Sein in Data.ListEach(Lay,"Seinen")
-				String Cat = sprintf("::%s::%s::%s::","SEIN",Lay,Sein)
+			//For Sein in Data.ListEach(Lay,"Seinen")
+			For Sein in Each(Data.List(Lay,"Seinen"))
+				String Cat := sprintf("::%s::%s::%s::","SEIN",Lay,Sein)
 				CSayF("= Seinrec: %s",Cat)
 				Bool Success = True
 				Bool SowiesoRood = False
 				Int Rate = 0
 				Int RateNum = 0				
-				For Eis in Data.ListEach(Cat,"Requirements")
+				//For Eis in Data.ListEach(Cat,"Requirements")
+				For Eis in Each(Data.List(Cat,"Requirements"))
 					If Prefixed(Eis,"&")
-						SowiesoRood = SowiesoRood || (!gv.gbool[N1(eis)])
+						SowiesoRood = SowiesoRood || (!gbool[N1(eis)])
 						If SowiesoRood
 							Success = False
 						End
 					End
 					If (!SowiesoRood) && (!Prefixed(Eis,"&"))
-						Var S = Split(Eis," ")
-						if (#S<3)
+						Var S := XSplit(Eis," ")
+						if (Len(S)<3)
 							CSayF("Error in Sein (%s,%s)",Lay,Sein)
 							Lua.error("Invalid sein requirement! >> "..Eis)
 						End
-						int Chk = math.max(1,Lua.tonumber(S[3]) || 1)
+						int Chk := math.max(1,Lua.tonumber(S[2]) || 0)
 						Int Val = 0
-						Switch S[1]:upper()
+						Switch Upper(S[0])
 							Case "CYLE"
 								Val = Any.Caps.Cycle
 							Case "KLAHRE" 
@@ -94,7 +117,7 @@ Module
 							Case "ASHLEY"
 								Val = RPGChar.Ashley.Stat.Level
 							Case "ASLEYKILL" "ASHLEYKILLS" "ASHLEY_KILL" "ASHLEY_KILLS" 
-								Val = gv.gInt.AshleyKills
+								Val = gInt.AshleyKills
 							Case "LOWLEVEL" "LOWESTLEVEL" "LOWLVL" "LOLEVEL" "LOLVL" "MINLVL" "MINLV" "MINLEVEL" "LO" "LOW" 
 								int m = 2000000
 								Val = m
@@ -115,25 +138,25 @@ Module
 							Case "CYCLE" "CYCLES" "CYC"
 								Val = Any.Caps.Cycle
 							Default
-								switch Left(S[1],1)
+								switch Left(S[0],0)
 									case "$"
-										If S[3]==gv.gstr[N1(S[1])]
+										If S[2]==gstr[N1(S[0])]
 											Val=Chk
 										Else
 											SowiesoRood=True
 											Val=0
 										End
-										Lua.assert(S[2]=="=" || S[2]=="==","String can only be checked with == in sein requirement: "..Eis)
+										Lua.assert(S[1]=="=" || S[1]=="==","String can only be checked with == in sein requirement: "..Eis)
 									case "%"
-										Val = gv.gint[N1(S[1])]
+										Val = gint[N1(S[0])]
 									default
 										Lua.error("I do not understand sein requirement check "..Eis)
 								End
 						End
-						Int TRate = math.ceil((math.min(Val,Chk)/Chk)*100)
+						Int TRate := math.ceil((math.min(Val,Chk)/Chk)*100)
 						Rate += TRate
 						RateNum++
-						Switch S[2]
+						Switch S[1]
 							case "=" "=="
 								Success = Success && (Val==Chk)
 							Case "!="
@@ -147,27 +170,34 @@ Module
 							case "<="
 								Success = Success && (Val<=Chk)
 							default
-								Lua.error("Operator "..s[2].." not understood in sein requirement: "..eis)
+								Lua.error("Operator "..s[1].." not understood in sein requirement: "..eis)
 						End		
 					End
 				End				
 				// All demands checked? Then let's see how things are
-				var wSein = FlowField.Map.KthuraMap.Layer(Lay).Obj(Sein)
+				//var wSein = FlowField.Map.KthuraMap.Layer(Lay).Obj(Sein)
+				Kthura.CurrentLayer = Lay
+				wSein := Kthura.Obj[Sein]
 				CSayF("SeinCheck -- Success: %s;  Sowiesorood: %s",success,Sowiesorood)
-				If (Success && (!Sowiesorood)) || gv.gbool.SeinAlwaysOpen
+				If (Success && (!Sowiesorood)) || gbool.SeinAlwaysOpen
 					CSay("Sein check succesful")
 					wSein.Texture="GFX/Textures/Medals/Sein/Groen.png"
-					for bar in Data.ListEach(Cat,"Barriers")
+					//for bar in Data.ListEach(Cat,"Barriers")
+					for bar in Each(Data.List(Cat,"Barriers"))
 						CSayF("SEIN> Removing barrier: %s",bar)
-						if FlowField.Map.KthuraMap.Layer(Lay).HasTag(bar)
-							FlowField.Map.KthuraMap.Layer(Lay).Kill(bar)
+						//if FlowField.Map.KthuraMap.Layer(Lay).HasTag(bar)
+						//	FlowField.Map.KthuraMap.Layer(Lay).Kill(bar)
+						If Kthura.HasObj(bar)
+							Kthura.Kill(bar)
 						Else
-						CSayF("Okay, I see, that barrier was already removed")
+							CSayF("Okay, I see, that barrier was already removed")
 						end
 					end
-					for lab in Data.ListEach(Cat,"Labels")
+					//for lab in Data.ListEach(Cat,"Labels")
+					for lab in Each(Data.List(Cat,"Labels"))
 						CSayF("SEIN> Showing label: %s",lab)
-						FlowField.Map.KthuraMap.Layer(Lay).ShowByLabel(lab)
+						//FlowField.Map.KthuraMap.Layer(Lay).ShowByLabel(lab)
+						Kthura.ShowByLabel(lab)
 					End
 				Else
 					CSay("Sein check failed")
@@ -178,13 +208,16 @@ Module
 						CSayF("Sein is AMBER")
 						wSein.Texture="GFX/Textures/Medals/Sein/Geel.png"
 					End
-					For lab in Data.ListEach(Cat,"Labels")
+//					For lab in Data.ListEach(Cat,"Labels")
+					For lab in Each(Data.List(Cat,"Labels")) 
 						CSayF("SEIN> Hiding label: %s in layer (%s)",lab,lay)
-						FlowField.Map.KthuraMap.Layer(Lay).HideByLabel(lab)
+						//FlowField.Map.KthuraMap.Layer(Lay).HideByLabel(lab)
+						Kthura.HideByLabel(Lab)
 					End
 				End
 			End
 		End
+		Kthura.CurrentLayer = Old
 	End
 
-End
+//End
