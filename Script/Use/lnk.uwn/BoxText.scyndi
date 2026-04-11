@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/lnk.uwn/BoxText.scyndi
 // 
-// 	  Version: 26.04.12
+// 	  Version: 26.04.12 V
 // 	
 // 	  Copyright (C) 2020, 2021, 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -50,32 +50,34 @@ Module
 #use "Libs/SCI/Events"
 #use "Libs/SCI/InterVar"
 
+#use "Script/Use/Anyway"
+
 // Plua makes sure this function cannot be called outside this module! (Don't confuse with 'global plua')
 plua BTLoad()
-	Sys.LoadNew("BOXTEXT","Script/Subs/SubBoxText.lbc")	
+	Sys.LoadNewState("BOXTEXT","Script/Subs/SubBoxText.lbc")	
 end
 
-global void MapText(string ATag,string RF="FLOW_FIELD",int ANum=1)
+void _MapText(string ATag,string RF="FLOW_FIELD",int ANum=1)
 	static string AScen="MAPTEXT"
 	BTLoad()
 	//State.Call("BOXTEXT","FlowBoxText.Serial",sprintf("\"%s\", \"%s\", \"%s\", %d",AScen,ATag,RF,ANum or 1))
-	State.Call("BOXTEXT","FlowBoxText.Serial",AScen,ATag,RF,ANum || 1)
+	Sys.Call("BOXTEXT","FlowBoxText.Serial",AScen,ATag,RF,ANum || 1)
 end
 
-global void CharMapText(string ATag,string RF="FLOW_FIELD",int ANum=1)
+void _CharMapText(string ATag,string RF="FLOW_FIELD",int ANum=1)
 	static string AScen="MAPTEXT"
 	BTLoad()
 	//State.Call("BOXTEXT","FlowBoxText.Serial",sprintf("\"%s\", \"%s\", \"%s\", %d",AScen.."_"..Lnk.Map.Leader,ATag,RF,ANum or 1))
-	Sys.Call("BOXTEXT","FlowBoxText.Serial",,AScen.."_"..Lnk.Map.Leader,ATag,RF,ANum || 1)
+	Sys.Call("BOXTEXT","FlowBoxText.Serial",AScen.."_"..Lnk.Map.Leader,ATag,RF,ANum || 1)
 End
 
-global void MapTextLeader(string ATag,string RF="FLOW_FIELD",int ANum=1)
-	MapText(sprintf("%s_%s",ATag,lnk.Map.Leader),RF,ANum)
+void _MapTextLeader(string ATag,string RF="FLOW_FIELD",int ANum=1)
+	_MapText(sprintf("%s_%s",ATag,lnk.Map.Leader),RF,ANum)
 end
 
 //module	 
-	readonly delegate Map = MapText
-	readonly delegate MapLeader = MapTextLeader
+	Link Map = _MapText
+	Link MapLeader = _MapTextLeader
 	get string lang
 		//State.LoadNew("GV","Script/Subs/SubGV.Neil")
 		//return ISGET.Str("GV","gv.gstring["..chr(34).."LANG"..chr(34).."] or "..chr(34)..chr(34))
