@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/MOD_Script.scyndi
 // 
-// 	  Version: 26.04.11 III
+// 	  Version: 26.04.11 V
 // 	
 // 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -50,6 +50,8 @@ Module
 
 #use "Script/Use/Misc/AQS"
 
+#accept FlowField
+
 	Get Bool HasAQS
 		//Return FlowField.Map.KthuraMap.Meta.UseAQS:upper()=="YES"
 		return Upper(Kthura.MetaData.UseAQS)
@@ -90,7 +92,7 @@ Module
 		End
 		If HasNeil
 			CSay("= Loading Neil Map Script")
-			State.Load("MAPSCRIPT","Kthura/"..FlowField.Map.LoadedMap.."/MapScript.lbc")
+			Sys.Load("MAPSCRIPT","Kthura/"..FlowField.Map.LoadedMap.."/MapScript.lbc")
 		End
 		If HasAQS
 			CSay("= Executing AQS Chunk LOAD")
