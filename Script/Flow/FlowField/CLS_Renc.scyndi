@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/CLS_Renc.scyndi
 // 
-// 	  Version: 26.04.11 I
+// 	  Version: 26.04.11 XXIII
 // 	
 // 	  Copyright (C) 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -45,7 +45,17 @@
 
 #use "libs/xmath"
 
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Audio"
 #use "Libs/SCI/GINIE"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Kthura"
+#use "Libs/SCI/Graphics"
+
+#use "Script/Use/Anyway"
+
+#accept FlowField
+#accept FieldFlow
 
 Module 
 
@@ -95,11 +105,11 @@ Class Renc
 		if (smaxl=="")
 			smaxl = FlowField.Map.KthuraMap.MetaData["Foe_MaxLevel"..__skill]
 		end
-		Switch K:upper()		
+		Switch Upper(K)		
 			CASE "MINLEVEL"
 				Int R
-				If OwnLevels(F)					
-					R = Val(F,K,true)
+				If Self.OwnLevels(F)					
+					R = self.Val(F,K,true)
 				Else
 					R = Lua.tonumber(sminl) || 1
 					CSayF("=> From meta: %d",R)
@@ -107,14 +117,14 @@ Class Renc
 				Return Any.Caps.LevelRecalc(R)
 			CASE "MAXLEVEL"
 				Int R
-				If OwnLevels(F)
-					R = Val(F,K,true)
+				If self.OwnLevels(F)
+					R = self.Val(F,K,true)
 				Else
 					R = Lua.tonumber(smaxl) || 2
 					CSayF("=> From meta: %d>%d",R,Any.Caps.LevelRecalc(R))
 				End		
 				//Return Any.Caps.LevelRecalc(R)
-				int RC = Any.Caps.LevelRecalc(R)
+				int RC := Any.Caps.LevelRecalc(R)
 				CSayF("=> Returning %d (%d)",RC,R)
 				Return RC
 			Default
@@ -123,27 +133,28 @@ Class Renc
 	End
 	
 	Static Get Bool NoEncounters
-		Return #FoeList==0
+		Return Len(FoeList)==0
 	End
 	
 	Static Void CBLoadMap(String MapBundle)
 		CSay("= Configuring encounters!")
 		FoeList = {}
 		Stuff = GINIE.Load(sprintf("Kthura/%s/Foes",MapBundle),"MAPFOES")
-		For F in Stuff.ListEach("MAIN","LIST")
-			If Any.Caps.Cycle>=MinCycle(F)
-				Var NF = Self(F)
-				For i=1,Val(F,"RATE")					
+		For F in Each(Stuff.List("MAIN","LIST"))
+			If Any.Caps.Cycle>=Renc.MinCycle(F)
+				Var NF = New Renc(F)
+				For i=1,Renc.Val(F,"RATE")					
 					FoeList += NF
-					CSayF("= R: %d/%d",i,Val(F,"RATE"))
+					CSayF("= R: %d/%d",i,self.Val(F,"RATE"))
 				End
 			End
 		End
 		Layers={}
-		For L in each(FlowField.Map.KthuraMap.Layers)
+		//For L in each(FlowField.Map.KthuraMap.Layers)
+		For L in Kthura.Layers.Each
 			Layers[L]={}
 			Var Lay = Layers[L]
-			Lay.NOENCSTRING = FlowField.Layers.Data("NOENCOUNTERS",L):upper()
+			Lay.NOENCSTRING = Upper(FlowField.Layers.Data("NOENCOUNTERS",L))
 			Lay.NOENCOUNTERS = Lay.NOENCSTRING =="TRUE" || NoEncounters
 			Lay.MAX = 5
 			Lay.ENC = 5
@@ -153,7 +164,7 @@ Class Renc
 				Lay.ENC=0
 			End
 			CSayF("Set up encounters layer %s: Has(%s) Number: %d; CD: %d",L,Lua.tostring(!Lay.NOENCOUNTERS),LAY.ENC,LAY.CD)
-			CSayF("LayerData.NOENCOUNTERS = %s=>%s; NoEncounters = %s; FoeList Entries: %d",Lay.NOENCSTRING,Lay.NOENCSTRING=="TRUE", NoEncounters,#FoeList)
+			CSayF("LayerData.NOENCOUNTERS = %s=>%s; NoEncounters = %s; FoeList Entries: %d",Lay.NOENCSTRING,Lay.NOENCSTRING=="TRUE", NoEncounters,Len(FoeList))
 		End			
 	End
 
@@ -163,7 +174,8 @@ Class Renc
 	End
 	
 	Static Void StartRenc()
-		String L = FlowField.Map.Layer
+		locExtern ll "#"
+		String L = Kthura.CurrentLayer
 		String Tune = Flowfield.Map.kthuraMap.metadata.AltCombatMusic
 
 		Static Var Tab
@@ -179,7 +191,7 @@ Class Renc
 		OPartyCnt = Lnk.Party.Count
 		max = max || ({{1,2,3,4},{2,3,6,9},{3,6,9,9}})[__skill][lnk.party.count]
 		tab = tab || ({{1,1,1,2,2,3,1,1,2,3,4},{3,3,3,1,3,3,2,2,3,3,4,4,3,6,3,3,1,1,9},{3,3,3,6,6,9}})[__skill]
-		int num = tab[math.random(1,#tab)]
+		int num := tab[math.random(1,ll tab)]
 		num = math.min(num,max)
 
 		
@@ -199,8 +211,8 @@ Class Renc
 		Lnk.Combat.Music = Tune
 		
 		For i=1,num
-			Var F = FoeList[math.random(1,#FoeList)]
-			Int lvl = math.random(F.MinLevel,F.MaxLevel)
+			F := FoeList[math.random(0,Len(FoeList)-1)]
+			Int lvl := math.random(F.MinLevel,F.MaxLevel)
 			CSayF("About to add enemy '%s' at level %d (range %d-%d)",F.EnemyTag,lvl,F.MinLevel,F.MaxLevel)
 			Lnk.Combat.NewEnemy(F.EnemyTag,lvl)
 		End
@@ -211,18 +223,21 @@ Class Renc
 	End
 
 	Static Void UpdateGauge()
-		Static Var Back   = Image.LoadNew("GFX/Combat/RencMeter/Meter.png","RENC_METER")
-		Static Var Needle = Image.LoadNew("GFX/Combat/RencMeter/NEEDLE.png","RENC_METERNEEDLE")
-		Static Var GAlarm = Image.LoadNew("GFX/Combat/RencMeter/Alarm.png","RENC_ALARM")
+		Static Var Back   = LoadNewImage("GFX/Combat/RencMeter/Meter.png","RENC_METER")
+		Static Var Needle = LoadNewImage("GFX/Combat/RencMeter/NEEDLE.png","RENC_METERNEEDLE")
+		Static Var GAlarm = LoadNewImage("GFX/Combat/RencMeter/Alarm.png","RENC_ALARM")
 		Static Var AAlarm = Audio.Obtain("COMBALARM")
-		Static Int GaugeW=Back.W+10
-		String L = FlowField.Map.Layer
+		Extern GaugeW "SS2_FLOWFIELD_RENC_UPDATEGUAGE_GAUGEW"
+		GaugeW=GaugeW || Back.W+10
+		String L = Kthura.CurrentLayer
 		Static Int GaugeX=Screen.W
-		Static Int GaugeY=(Screen.H - 138)-Back.Height
+		//Static Int GaugeY=(Screen.H - 138)-Back.Height
+		Extern GaugeY "SS2_FLOWFIELD_RENC_UPDATEGUAGE_GAUGEY"
+		GaugeY=GaugeY || (Screen.H - 138)-Back.Height
 		Static Int OX
 		Static Int OY
 		Static String OL
-		Static Var Fnt = ImageFont.Obtain("MINITEXT")
+		Static Var Fnt = ObtainFont("MINITEXT")
 		if !FlowField.Map.CurLayer.HasTag(FlowField.FollowTheLeader.LeaderMapTag)
 			CSay("Player not found! I cannot workout RENC. Exiting RENC!")
 			Return
@@ -241,9 +256,10 @@ Class Renc
 		__White
 		Back.Draw(GaugeX,GaugeY)
 		__Yellow
-		Image.Rotate = 90 - math.floor( (Layers[L].CD/Layers[L].CDMAX) * 170 )
-		Needle.XDraw(GaugeX+33,GaugeY+33)
-		Image.Rotate = 0
+		ImageRotate := 90 - math.floor( (Layers[L].CD/Layers[L].CDMAX) * 170 )
+		//Needle.XDraw(GaugeX+33,GaugeY+33)
+		Needle.DrawR(GaugeX+33,GaugeY+33,ImageRotate)
+		//Image.Rotate = 0
 		
 		If Layers[L].NOENCOUNTERS
 			GaugeX = math.min(GaugeX+1,Screen.W+10)
@@ -261,17 +277,18 @@ Class Renc
 					__White
 					Back.Draw(GaugeX,GaugeY)
 					__Yellow
-					Image.Rotate = 90 - math.floor( (Layers[L].CD/Layers[L].CDMAX) * 170 )
-					Needle.XDraw(GaugeX+33,GaugeY+33)
-					Int Alpha = math.floor( math.abs( xmath.sin(i)*255 ) )
+					//Image.Rotate = 90 - math.floor( (Layers[L].CD/Layers[L].CDMAX) * 170 )
+					//Needle.XDraw(GaugeX+33,GaugeY+33)
+					Needle.DrawR(GaugeX+33,GaugeY+33,90 - math.floor( (Layers[L].CD/Layers[L].CDMAX) * 170 ))
+					Int Alpha := math.floor( math.abs( xmath.sin(i)*255 ) )
 					Graphics.Alpha(Alpha)
 					GAlarm.Draw(GaugeX+33,GaugeY+33)
 					Graphics.Alpha(255)
 					Graphics.Flip()
 					Events.Poll()
-					FPS.WaitMinTicks()
+					Sys.WaitMinTicks()
 				End
-				StartRenc()
+				Self.StartRenc()
 			End
 		End
 	End
@@ -279,9 +296,9 @@ Class Renc
 End
 
 Global Void CONSOLE_Renc()
-	Var R = FlowField.Renc
-	Var Lay = R.Layers[FlowField.Map.Layer]
-	CSayF("Layer: %s",FlowField.Map.Layer)
+	R := FlowField.Renc
+	Lay := R.Layers[Kthura.CurrentLayer]
+	CSayF("Layer: %s",Kthura.CurrentLayer)
 	//CSayF("Gauge: (%d,%d)", R.GaugeX,R.GaugeY)
 	CSayF("NoEnc: %s",Lay.NOENCOUNTERS)
 	CSayF("NmEnc: %d",Lay.ENC)
