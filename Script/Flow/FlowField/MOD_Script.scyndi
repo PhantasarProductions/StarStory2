@@ -44,23 +44,23 @@ Module
 		Return FlowField.Map.KthuraMap.Meta.UseNeil:upper()=="YES"
 	End
 	
-	Void RunAQS(string chunk,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z)
+	Void RunAQS(string chunk,Infinity)
 		Lua.assert(HasAQS,"Call to AQS done, while no AQS is present")
 		Lua.assert(AQS.HasChunk("BEHAVIOR",Chunk),"Behavior AQS to non-existent chunk: "..Chunk)
 		//CSayF("Calling behavior chunk: %s",Chunk)
-		AQS.Call("BEHAVIOR",Chunk,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z)
+		AQS.Call("BEHAVIOR",Chunk,Infinity)
 	End
 	
-	Void RunNeil(string func,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z)
+	Void RunNeil(string func,Infinity)
 		Lua.assert(HasNeil,"Call to AQS done, while no AQS is present")
-		State.Call("MAPSCRIPT",func,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z)
+		State.Call("MAPSCRIPT",func,Infinity)
 	End
 	
-	Void Run(string fc,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z)
+	Void Run(string fc,Infinity)
 		If HasAQS && AQS.HasChunk("BEHAVIOR",fc)
-			RunAQS(fc,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z)
+			RunAQS(fc,Infinity)
 		ElseIf HasNeil
-			RunNeil(fc,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z)
+			RunNeil(fc,Infinity)
 		Else
 			Lua.error("No way known to run: "..fc)
 		End
@@ -81,4 +81,4 @@ Module
 		End			
 	End
 
-End
+//End
