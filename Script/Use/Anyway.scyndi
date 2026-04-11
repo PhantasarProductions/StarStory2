@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Anyway.scyndi
 // 
-// 	  Version: 26.04.08
+// 	  Version: 26.04.12
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -101,6 +101,11 @@ Extern Loading "Scyndi.Globals.Lnk.Loading_h.ShowLoading"
 Extern CDLoading "Scyndi.Globals.Lnk.Loading_h.CD"
 Extern ODLoading "Scyndi.Globals.Lnk.Loading_h.OsD"
 Extern Progress "Scyndi.Globals.Lnk.Loading_h.Progress"
+
+Extern MapText "Scyndi.Globals.Lnk.BoxText._MapText"
+Extern CharMapText "Scyndi.Globals.Lnk.BoxText._CharMapText"
+Extern MapTextLeader "Scyndi.Globals.Lnk.BoxText._MapTextLeader"
+
 
 // Convert to statistician
 Extern RPGChar  "Scyndi.Globals.Cnv.RPG2Statistician.RPGChar"
