@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/MOD_Script.scyndi
 // 
-// 	  Version: 26.04.11
+// 	  Version: 26.04.11 III
 // 	
 // 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -45,12 +45,20 @@
 
 Module
 
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Kthura"
+
+#use "Script/Use/Misc/AQS"
+
 	Get Bool HasAQS
-		Return FlowField.Map.KthuraMap.Meta.UseAQS:upper()=="YES"
+		//Return FlowField.Map.KthuraMap.Meta.UseAQS:upper()=="YES"
+		return Upper(Kthura.MetaData.UseAQS)
 	End
 
 	Get Bool HasNeil
-		Return FlowField.Map.KthuraMap.Meta.UseNeil:upper()=="YES"
+		//Return FlowField.Map.KthuraMap.Meta.UseNeil:upper()=="YES"		
+		return Upper(Kthura.MetaData.UseNeil) == "YES"
+		// Please note! The Kthura maps still refer to Neil and it'll only cause needless bugs if I try to change that!
 	End
 	
 	Void RunAQS(string chunk,Infinity)
@@ -61,8 +69,8 @@ Module
 	End
 	
 	Void RunNeil(string func,Infinity)
-		Lua.assert(HasNeil,"Call to AQS done, while no AQS is present")
-		State.Call("MAPSCRIPT",func,Infinity)
+		Lua.assert(HasNeil,"Call to Scyndi Script done, while no Scyndi MapScript is present")
+		Sys.Call("MAPSCRIPT",func,Infinity)
 	End
 	
 	Void Run(string fc,Infinity)
@@ -82,7 +90,7 @@ Module
 		End
 		If HasNeil
 			CSay("= Loading Neil Map Script")
-			State.Load("MAPSCRIPT","Kthura/"..FlowField.Map.LoadedMap.."/MapScript.Neil")
+			State.Load("MAPSCRIPT","Kthura/"..FlowField.Map.LoadedMap.."/MapScript.lbc")
 		End
 		If HasAQS
 			CSay("= Executing AQS Chunk LOAD")
