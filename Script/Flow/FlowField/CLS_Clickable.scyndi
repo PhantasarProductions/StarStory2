@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/CLS_Clickable.scyndi
 // 
-// 	  Version: 26.04.10 XI
+// 	  Version: 26.04.11 I
 // 	
 // 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -98,7 +98,7 @@ Class Clickable
 	Static Void Create(String _lay,String _tag,Int _wx,int _wy,_ae,String _ap="")
 		Register = Register || {}
 		Register[_Lay] = Register[_Lay] || new TLinkedList() 
-		Register[_Lay].AddLast(Self(_tag,_wx,_wy,_ae,_ap))		
+		Register[_Lay].AddLast(New Clickable(_tag,_wx,_wy,_ae,_ap))		
 	End
 	
 	Static Table Spot(Lay,String ObjTag,Same)
@@ -161,7 +161,7 @@ Class Clickable
 				//	Self.Create(L,T,fuck.X,fuck.Y,FieldFlow.BlueSeal.Open)
 				ElseIf prefixed(T,"NPC_")
 					fuck := Self.Spot(Lay,T)
-					Self.Create(L,T,fuck.X,fuck.Y,lnk.Map.Script,T) //,sprintf("\"%s\"",T))
+					Self.Create(L,T,fuck.X,fuck.Y,lnk.Map._Script,T) //,sprintf("\"%s\"",T))
 					CSayF("= NPC: %s",T)					
 				ElseIf Prefixed(T,"PSG_")
 					// Although StarStory2 works with transporter pads, I'll keep these in.
