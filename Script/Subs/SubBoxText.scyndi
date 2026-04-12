@@ -78,6 +78,8 @@
 // End License Information
 // End License
 
+Script
+
 #use "Script/Use/Anyway"
 #use "script/use/misc/box"
 #use "libs/Scenario"
