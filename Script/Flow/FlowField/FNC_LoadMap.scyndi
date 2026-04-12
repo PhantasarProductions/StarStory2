@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/FNC_LoadMap.scyndi
 // 
-// 	  Version: 26.04.08 XIII
+// 	  Version: 26.04.12 I
 // 	
 // 	  Copyright (C) 2021-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -74,21 +74,21 @@ Void LoadMapScript(string LM)
 End
 
 Void LoadMapMusic(string LM)
-	If Prefixed(FlowField.Map.KthuraMap.Meta.Music,"*")
-		Switch FlowField.Map.KthuraMap.Meta.Music:upper()
+	If Prefixed(Kthura.MetaData.Music,"*")
+		Switch Upper(Kthura.MetaData.Music)
 			Case "*SCRIPT" "^*SCRIPT*"
 				//MapScript.MapMusic()
 				Lua.error("No scriptable music supported yet")
 			Default
-				Lua.error("Special case "..FlowField.Map.KthuraMap.Meta.Music.." for music not supported")
+				Lua.error("Special case "..Kthura.MetaData.Music.." for music not supported")
 		End
 		Return
 	End
-	String MusFile = FlowField.Map.KthuraMap.Meta.Music
-	If !Suffixed(MusFile:upper(),".OGG")
+	String MusFile = Kthura.MetaData.Music
+	If !Suffixed(Upper(MusFile),".OGG")
 		MusFile += ".ogg"
 	End
-	If !Prefixed(MusFile:upper(),"MUSIC/")
+	If !Prefixed(Upper(MusFile),"MUSIC/")
 		MusFile = "Music/"..MusFile
 	End
 	Music.Play(MusFile)
