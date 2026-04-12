@@ -15,10 +15,10 @@
 // 	  As soon as you remove or replace ALL references to the storyline or character
 // 	  references, or any termology specifically set up for the Phantasar universe,
 // 	  or any other univers a story of Jeroen P. Broks is set up for,
-// 	  the restrictions of this file are removed and will automatically become
+// 	  the restrictions of this file are removed && will automatically become
 // 	  zLib licensed (see below).
 // 
-// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  Please note that doing so counts as a modification && must be marked as such
 // 	  in accordance to the zLib license.
 // 	  ===========================
 // 
@@ -30,16 +30,16 @@
 // 	  arising from the use of this software.
 // 
 // 	  Permission is granted to anyone to use this software for any purpose,
-// 	  including commercial applications, and to alter it and redistribute it
+// 	  including commercial applications, && to alter it && redistribute it
 // 	  freely, subject to the following restrictions:
 // 	
-// 	  1. The origin of this software must not be misrepresented; you must not
+// 	  1. The origin of this software must !be misrepresented; you must not
 // 	     claim that you wrote the original software. If you use this software
 // 	     in a product, an acknowledgment in the product documentation would be
-// 	     appreciated but is not required.
-// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     appreciated but is !required.
+// 	  2. Altered source versions must be plainly marked as such, && must !be
 // 	     misrepresented as being the original software.
-// 	  3. This notice may not be removed or altered from any source distribution.
+// 	  3. This notice may !be removed or altered from any source distribution.
 // License Information:
 // src/Tricky Script/Script/Subs/SubBoxText.Neil
 // Version: 22.06.10
@@ -55,10 +55,10 @@
 // As soon as you remove or replace ALL references to the storyline or character
 // references, or any termology specifically set up for the Phantasar universe,
 // or any other univers a story of Jeroen P. Broks is set up for,
-// the restrictions of this file are removed and will automatically become
+// the restrictions of this file are removed && will automatically become
 // zLib licensed (see below).
 // 
-// Please note that doing so counts as a modification and must be marked as such
+// Please note that doing so counts as a modification && must be marked as such
 // in accordance to the zLib license.
 // ===========================
 // zLib license terms:
@@ -66,19 +66,24 @@
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
 // Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
+// including commercial applications, && to alter it && redistribute it
 // freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
+// 1. The origin of this software must !be misrepresented; you must not
 // claim that you wrote the original software. If you use this software
 // in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
+// appreciated but is !required.
+// 2. Altered source versions must be plainly marked as such, && must !be
 // misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
+// 3. This notice may !be removed or altered from any source distribution.
 // End License Information
 // End License
 
 Script
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/JCR6"
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Graphics"
 
 #use "Script/Use/Anyway"
 #use "script/use/misc/box"
@@ -102,11 +107,13 @@ void InitScenario()
 	
 	// Link JCR to the scenario library
 	//Scenario.JCR_Lines = table(string file)
-	table jl(string file)
+	//table jl(string file)
+	ddef jl
+		file:=infinity	
 		//string content
 		string content
 		content = JCR6.LoadString(file)
-		return split(content,"\n")
+		return xsplit(content,"\n")
 	end
 	Scenario.JCR_Lines = jl
 	
@@ -115,7 +122,7 @@ void InitScenario()
 		
 end
 
-// Although not TFT, let's keep those fucking letters in, as otherwise it will only cause more bugs than needed.
+// Although !TFT, let's keep those fucking letters in, as otherwise it will only cause more bugs than needed.
 Global Void TFT_LoadScen(string File,string Tag)
 	CSay("Loading: "..File.." to "..Tag)
 	var work = Scenario.LoadData(Trim("Scenario/"..__lang.."/"..File),Tag)
@@ -129,7 +136,7 @@ Global Void TFT_LoadScen(string File,string Tag)
 					rec.SoundFile = VFile
 					CSay("Vocal: Got sound for "..k.." #"..i.."\t"..VFile)
 				Else
-					CSay("Vocal: "..VFile.." not found!")
+					CSay("Vocal: "..VFile.." !found!")
 				End
 			End
 		End 
@@ -169,11 +176,13 @@ class TextBox
 	end
 
 	get int boxheight
-		return self.txtbox.h
+		locExtern me "self"
+		return me.txtbox.h
 	end
 	
 	get int boxy
-		return Screen.Height - self.boxheight
+		locExtern me "self"
+		return Screen.Height - me.boxheight
 	end
 	
 	CONSTRUCTOR(table initcrap)
@@ -186,7 +195,7 @@ class TextBox
 	end
 	
 	DESTRUCTOR
-		if not txtbox
+		if !txtbox
 			return
 		end
 		for ibox,ilnk in Box.List.Each
@@ -213,7 +222,7 @@ class TextBox
 	
 		//var LFont
 		
-		static var LFont = ImageFont.Obtain("BOXTEXT")
+		static var LFont = ObtainFont("BOXTEXT")
 		
 		self.txtbox.Draw()
 		
@@ -226,7 +235,7 @@ class TextBox
 		//__Ember
 		Graphics.Color(0,180,255)
 		//DarkText.Font(Font,self.Header,__BT_BoxText_MinX,self.boxy+10)
-		#if __BT_BoxTextDarkText
+		//#if __BT_BoxTextDarkText
 			If Header=="Klahre" 
 				LFont.DarkText("Klahr|'e",__BT_BoxText_MinX,boxy+10)
 			ElseIf Header=="Doctor"
@@ -236,19 +245,19 @@ class TextBox
 			Else
 				LFont.DarkText(Header,__BT_BoxText_MinX,boxy+10)
 			End
-		#else
-			LFont.Text(Header,__BT_BoxText_MinX,boxy+10)
-		#fi
+		//#else
+		//	LFont.Text(Header,__BT_BoxText_MinX,boxy+10)
+		//#fi
 		
 		__White
 		for i,l in ipairs(self.Lines)
 			int p
 			if i<self.SL
-				p = #l
+				p = len(l)-1
 			elseif i==self.SL
 				p = self.SP
 				self.SP++
-				if self.SP>=#l
+				if self.SP>len(l)
 					self.SP=1
 					self.SL++
 				end
@@ -278,30 +287,30 @@ class TextBox
 		//this = new TextBox
 		//TextBox.Current = this
 		//--	function RunBoxText(file,tag,idx,boxback)
-		//-- if not ReInit then 
+		//-- if !ReInit 
 		//--	Graphics_Init()  
 		//--	ReInit = true
 		//--	This prevents the Text Box to be drawn based on wrong settings.
 		//-- end  
 		CSayF("Generate('%s', '%s', %4d, '%s') -- START!",file, tag, idx, boxback)
 		f = TextBox.btdata[file]
-		if not f then 
+		if !f 
 			//CSay(Serialize("btdata",btdata))
-			error("Boxtext file '"..file.."' has not yet been loaded!") 
+			error("Boxtext file '"..file.."' has !yet been loaded!") 
 		end
-		tag = tag:upper()
+		tag = upper( tag )
 		t = f[tag]
-		if not t then 
+		if !t 
 			//CSay(Serialize("btdata",btdata))
-			error("Boxtext file '"..file.."' has no tag called '"..tag.."'") 
+			lua.error("Boxtext file '"..file.."' has no tag called '"..tag.."'") 
 		end
 		rec = t[idx]
-		if not rec then 
+		if !rec 
 			//CSay(Serialize("btdata",btdata))
-			error("Boxtext file '"..file.."' tag '"..tag.."' does not have a record #"..idx.." (max is "..#t..")") 
+			lua.error("Boxtext file '"..file.."' tag '"..tag.."' does !have a record #"..idx.." (max is "..#t..")") 
 		end
 		CSay("= Start sb_data")
-		//if rec.PicDir:upper()=="ERIC" and __EricIsYasathar
+		//if rec.PicDir:upper()=="ERIC" && __EricIsYasathar
 		//	rec.PicDir="Yasathar"
 		//end
 		sb_data = new TextBox( { ["Header"] = gv.Sub(rec.Header), ["PicDir"] = rec.PicDir, ["PicSpc"] = rec.PicSpc, ["Lines"] = {}, ["SL"] = 1, ["SP"]=1, ["AltTxtFont"] = rec.AltTxtFont, ["Voice"] = rec.SoundFile   } )
@@ -310,11 +319,11 @@ class TextBox
 		//local ak,txt,cline,spline
 		//local aw,word
 		//local continue
-		if rec.PicRef then
+		if rec.PicRef
 			// TODO: Proper Image loading
 			//width = width - Image.Width(rec.PicRef)   
 		end
-		if rec.AltTxtFont and rec.AltTxtFont!="" then
+		if rec.AltTxtFont && rec.AltTxtFont!=""
 			// CSay("Setting font: "..rec.AltTxtFont,fonts.BoxText[2])
 			CurrentFont = ImageFont.Load(rec.AltTxtFont)  
 			//error("No alternate font possibility yet! Code me, please!") //Image.Font(rec.AltTxtFont,fonts.BoxText[2])
@@ -329,7 +338,7 @@ class TextBox
 			table spline
 			cline = ""
 			//spline = split(Var.S(txt)," ")
-			spline = split(gv.SUB(txt)," ")
+			spline = xsplit(gv.SUB(txt)," ")
 			for aw,word in ipairs(spline)
 				if CurrentFont.TextWidth(cline..word)>width
 					mtable.insert(sb_data.Lines,cline)
@@ -344,14 +353,14 @@ class TextBox
 		CSay("= Config portrait!")
 		sb_data.width=width    
 		sb_data.PicRef=rec.PicRef
-		//-- if tonumber(LC('screen.margin.top')   )~=0 then origin[2] = 25; totalwidth=totalheight-25 end
-		// if tonumber(LC('screen.margin.right') )~=0 then sb_data.width=sb_data.width-25 end
-		// if tonumber(LC('screen.margin.left') )~=0 then sb_data.width=sb_data.width-25 end
+		//-- if tonumber(LC('screen.margin.top')   )~=0 origin[2] = 25; totalwidth=totalheight-25 end
+		// if tonumber(LC('screen.margin.right') )~=0 sb_data.width=sb_data.width-25 end
+		// if tonumber(LC('screen.margin.left') )~=0 sb_data.width=sb_data.width-25 end
 		//-- Voice acting, if available
 		CSay("= The Voice of Phantasar")
-		if sb_data.Voice and sb_data.Voice!="" and JCR6.EntryExists(sb_data.Voice) 		
+		if sb_data.Voice && sb_data.Voice!="" && JCR6.EntryExists(sb_data.Voice) 		
 			// This is all LAURA, but NALA must be handled differently, so let's comment this out... for now!
-			// if Audio.Playing('BOXTEXTCHANNEL')~=0 then Audio.Stop('BOXTEXTCHANNEL') end
+			// if Audio.Playing('BOXTEXTCHANNEL')~=0 Audio.Stop('BOXTEXTCHANNEL') end
 			// Audio.Load(sb_data.Voice,'BOXTEXTVOICE')
 			// Audio.Play("BOXTEXTVOICE","BOXTEXTCHANNEL")
 			if audioplaying
@@ -359,7 +368,8 @@ class TextBox
 			end
 			CSayF("Fading music from %d to 40",Music.MusicVolume)
 			Music.FadeTo(40)
-			static bool Toggle
+			//static bool Toggle
+			LocExtern Toggle "SS2_SUB_BOXTEXT_GENERATE_IF_VOICE_TOGGLE"
 			Toggle=!Toggle
 			audiowave = Audio.Load(sb_data.Voice,"BOXTEXT_AUDIO_"..Lua.tostring(Toggle))
 			audiochannel = audiowave.play()
@@ -373,7 +383,7 @@ class TextBox
 		do
 			CSay("Calculating box size")
 			//int h = math.max(150,(#sb_data.Lines*(__BT_BoxTextFontSize+3))+55)
-			int h = math.max(150,(#sb_data.Lines*35)+60) // Box Size
+			int h := math.max(150,(len(sb_data.Lines)*35)+60) // Box Size
 			CSayF("Lines: %d, FontSize: __BT_BoxTextFontSize",#sb_data.Lines)
 			// print(Serialize("sb_data.lines",sb_data.Lines))
 			CSayF("Creating a box that is %d pixels high",h)
@@ -396,23 +406,23 @@ group FlowBoxText
 	bool hasaudio
 	int channel
 	
-	void CONSTRUCTOR()
+	void StartFlowBoxText()
 		InitScenario()
 	end
 	
 	
 	void InitBTFlow(string AScen, string ATag, RF, ANum)
 		self.ReturnFlow = RF // or CurrentFlow()
-		self.Num = ANum or 1
+		self.Num = ANum || 1
 		self.Scen = AScen
-		self.Tag = ATag:upper()
+		self.Tag = Upper(ATag)
 		// GoToFlow("BOXTEXT")
 		TextBox.Generate(trim(AScen),trim(ATag),ANum,RF)
 	end
 	
 	bool Next()
 		self.Num++
-		if self.Num>#TextBox.btdata[trim(self.Scen)][trim(self.Tag)]
+		if self.Num>len(TextBox.btdata[trim(self.Scen)][trim(self.Tag)])
 			// GoToFlow(trim(replace(self.ReturnFlow,"FLOW_","")))
 			return false
 		else
@@ -425,10 +435,10 @@ group FlowBoxText
 		repeat
 			Graphics.Cls()
 			Events.Poll()
-			FPS.WaitMinTicks()
-			State.Call(FlowBoxText.ReturnFlow,"BoxText_Back","nil")
+			Sys.WaitMinTicks()
+			Sys.Call(FlowBoxText.ReturnFlow,"BoxText_Back","nil")
 			TextBox.Current.Show()
-			if TextBox.Current.SL>#TextBox.Current.Lines && ( Events.MouseHitLeft() or (TextBox.audioplaying and (!Audio.ChannelPlaying(Textbox.audiochannel))))
+			if TextBox.Current.SL>#TextBox.Current.Lines && ( Events.MouseHitLeft() or (TextBox.audioplaying && (!Audio.ChannelPlaying(Textbox.audiochannel))))
 				if !FlowBoxText.Next()
 					Music.FadeTo(100) // Make sure music volume is always back to max
 					Return
@@ -470,7 +480,7 @@ end
 //	Time.Update()
 
 	
-//	// Click and move on to the next, or return to the correct flow
+//	// Click && move on to the next, or return to the correct flow
 //	if Mouse.HitLeft or Keyboard.Name=="Enter" or Keyboard.Name=="Space"
 //		FlowBoxText.Next()
 //	end
@@ -486,4 +496,5 @@ end
 
 init
 	InitScenario()
+	StartFlowBoxText()
 end
