@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowNewGame.scyndi
 // 
-// 	  Version: 26.04.05 I
+// 	  Version: 26.04.12
 // 	
 // 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -87,7 +87,7 @@ Class NGS
 			Lnk.Map.GoToMap("Hawk","BRIDGE","Start",true,true)
 			Lnk.Schedule.Add(":OPENDOOR:")
 			//Lua.error("No script yet when all stages have been done!")
-			Sys.CurrentFlow="FLOW_FIELD"
+			Sys.CurrentFlow="FIELD"
 		End
 	End
 	
