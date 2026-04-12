@@ -1,0 +1,199 @@
+// License:
+// 	  src/Code/Script/Flow/FlowField/MOD_FollowTheLeader.scyndi
+// 
+// 	  Version: 26.04.13 III
+// 	
+// 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+Module
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Kthura"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Anyway"
+
+#accept FlowField
+	
+	Get Int Leader
+		If gInt.Leader<=0 || RPGParty[gint.Leader]==""
+			gInt.Leader=1
+		End
+		Return gInt.Leader
+	End
+	
+	Set Int Leader
+		gInt.Leader = math.min(4,math.max(1,Value))
+	End
+	
+	Get String LeaderTag
+		Return RPGParty[Leader]
+	End
+	
+	Set String LeaderTag
+		locExtern Eruit "return"
+		// Dirty way to void a bug in the Scyndi compiler
+		For i=1,4
+			If RPGParty[i]==Value
+				Leader = i
+				Eruit
+			End
+		End
+		CSayF("Warning! LeaderTag '%s' appears to refer to somebody who is NOT a party member!")
+	End
+	
+	Void LeaderScript(String Prefix)
+		string s := Prefix.."_"..LeaderTag
+		CSayF("Calling Leaderscript: %s",s)
+		FlowField.Script.Run(s)
+	End
+	
+	Get String LeaderMapTag
+		Return sPrintF("PLAYER%d",Leader)
+	End
+	
+	Get Var PlayTag
+		Static Var R 
+		if !R
+			//string idx(s,int key)
+			ddef idx
+				plua s
+				int key
+				s,key=infinity
+				return "PLAYER"..key
+			end
+			R = Lua.setmetatable({},{["__index"]=idx})
+		end
+		return R
+	end
+	
+	Bool SpawnNew(int n)
+		If n==1
+			Return Kthura.HasObj("PLAYER1")
+		End
+		If !Kthura.HasObj("PLAYER1")
+			Return False
+		End
+		If (!Kthura.HasObj("PLAYER"..n)) && RPGParty[n] && RPGParty[n]!=""
+			CSayF("Need follower on spot #%d > %s",n,RPGParty[n])
+			FlowField.Map.CurrentLayer.Spawn("PLAYER"..n,"PLAYER1")
+			//Var o = FlowField.Map.CurrentLayer.Obj(PlayTag[n])
+			o:=Kthura.Obj[PlayTag[n]]
+			o.Texture = sPrintF("GFX/Actors/%s.South.jpbf",RPGParty[n])
+			//Return True
+		End
+		Return True
+	End
+	
+	Void Pop(string spot,string wind,bool instant)
+		For i=1,4
+			If  RPGParty[i] && RPGParty[i]!=""
+				SpawnNew(i)
+				Var o = FlowField.Map.CurrentLayer.Obj(PlayTag[i])
+				o.StopWalking()
+				o.wind = wind
+				o.Texture = sPrintF("GFX/Actors/%s.%s.jpbf",RPGParty[i],Wind)
+				if Instant
+					o.X = FlowField.Map.CurrentLayer.Obj(spot.."_"..RPGParty[i]).X
+					o.Y = FlowField.Map.CurrentLayer.Obj(spot.."_"..RPGParty[i]).Y
+				Else
+					String Tg := spot.."_".. RPGParty[i]
+					o.WalkTo(Tg)
+				End
+			End
+		End
+	End
+	
+	Void iPop(string spot, string wind="South")
+		Pop(spot,wind,true)
+	End
+	
+	Void Run()
+		If !Kthura.HasObj("PLAYER1")			
+			Return
+		End
+		Int c = Lnk.Party.Count
+		If c==1
+			Return
+		End
+		Int Leider=Leader
+		//for f = Leader,c+leader
+		//	Leider = (f%c)
+		//	if Leider==0
+		//		leider=1
+		//	end
+		Repeat			
+			//Int Volger=(Leider%c)+1
+			Int Volger
+			Volger = Leider +1
+			If Volger>c
+				Volger = 1
+			End
+			if !(SpawnNew(Leader) && SpawnNew(Volger))
+				//Lnk.Party.MiniMsg(sprintf("Debug> Volger %d is er niet, of kon niet gespawnd worden!",Volger),255,0,0)
+				Return
+			End
+			//Lnk.Party.MiniMsg(sprintf("Debug> #%d volgt %d!",Volger,Leider)) // Debug only!
+			//Var OL = FlowField.Map.CurrentLayer.Obj(sprintf("PLAYER%d",Leider))
+			//Var OV = FlowField.Map.CurrentLayer.Obj(sprintf("PLAYER%d",Volger))
+			OL:=Kthura.Obj[sprintf("PLAYER%d",Leider)]
+			OV:=Kthura.Obj[sprintf("PLAYER%d",Volger)]
+			If (Volger!=Leader) && (!Ov.Walking)
+				Switch Upper(OL.Wind)
+					case "NORTH" 
+						OV.WalkTo(OL.X,OL.Y+30)
+					case "SOUTH"
+						OV.WalkTo(OL.X,OL.Y-32)
+					case "WEST" 
+						OV.WalkTo(OL.X+30,OL.Y)
+					case "EAST"
+						OV.WalkTo(OL.X-30,OL.Y)
+					Default
+				End
+			End
+			//Leider = (Leider%c)+1
+			Leider = Volger
+			//print(c,Leader,Leider,Volger,"Check",Leider==Volger , Leider==Leader,Leider==Volger || Leider==Leader) // DEBUG ONLY
+		//Until Leider==Volger || Leider==Leader
+		Until Leider==Leader
+		//End
+	End
+	
+//End
