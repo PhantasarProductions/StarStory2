@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Subs/SubBoxText.scyndi
 // 
-// 	  Version: 26.04.12 XXI
+// 	  Version: 26.04.12 XXXII
 // 	
 // 	  Copyright (C) 2020, 2021, 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -47,6 +47,7 @@ Script
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/JCR6"
 #use "Libs/SCI/Audio"
+#use "Libs/SCI/Events"
 #use "Libs/SCI/SString"
 #use "Libs/SCI/Graphics"
 #use "Libs/SCI/InterVar"
@@ -54,7 +55,7 @@ Script
 #use "Script/Use/Anyway"
 #use "script/use/misc/cbox"
 
-#ise "Libs/Music"
+#use "Libs/Music"
 #use "libs/Scenario_star"
 
 #define __BT_BoxTextDarkText
@@ -207,7 +208,7 @@ class TextBox
 			If Header=="Klahre" 
 				LFont.DarkText("Klahr|'e",__BT_BoxText_MinX,boxy+10)
 			ElseIf Header=="Doctor"
-				DoctorFont := ObtainFont"DOCTORTEXT")
+				DoctorFont := ObtainFont("DOCTORTEXT")
 				LFont.DarkText("Dr. Sal'pr'drita",__BT_BoxText_MinX,boxy+10)
 				Self.Font = DoctorFont
 			Else
@@ -297,7 +298,7 @@ class TextBox
 			//error("No alternate font possibility yet! Code me, please!") //Image.Font(rec.AltTxtFont,fonts.BoxText[2])
 		else
 			//CurrentFont = GetFont("BOXTEXT") //setfont("BoxTextContent")
-			CurrentFont = ObtainFont"BOXTEXT")
+			CurrentFont = ObtainFont("BOXTEXT")
 		end   
 		sb_data.Font = CurrentFont
 		CSay("= Textwrapping!")
@@ -408,7 +409,7 @@ group FlowBoxText
 			Sys.WaitMinTicks()
 			Sys.Call(FlowBoxText.ReturnFlow,"BoxText_Back","nil")
 			TextBox.Current.Show()
-			if TextBox.Current.SL>Len(TextBox.Current.Lines) && ( Events.MouseHitLeft() or (TextBox.audioplaying && (!Audio.ChannelPlaying(Textbox.audiochannel))))
+			if TextBox.Current.SL>Len(TextBox.Current.Lines) && ( Events.MouseHitLeft() || (TextBox.audioplaying && (!Audio.ChannelPlaying(Textbox.audiochannel))))
 				if !FlowBoxText.Next()
 					Music.FadeTo(100) // Make sure music volume is always back to max
 					Return
@@ -419,10 +420,10 @@ group FlowBoxText
 	end
 	
 	void Serial(string AScen, string ATag, RF, ANum)
-		InitBTFlow(AScen,ATag,RF,ANum)
+		self.InitBTFlow(AScen,ATag,RF,ANum)
 		CSay(tostring(Textbox.audioplaying))
 		CSay("Let's do it!")
-		Run()
+		self.Run()
 		Events.Flush()
 	end
 	
@@ -466,5 +467,5 @@ end
 
 init
 	InitScenario()
-	StartFlowBoxText()
+	FlowBoxText.StartFlowBoxText()
 end
