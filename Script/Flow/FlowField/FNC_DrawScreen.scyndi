@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/FNC_DrawScreen.scyndi
 // 
-// 	  Version: 26.04.12 III
+// 	  Version: 26.04.13 I
 // 	
 // 	  Copyright (C) 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -45,14 +45,17 @@
 
 Module
 
+#use "Libs/SCI/Kthura"
+#use "Libs/SCI/InterVar"
 #accept FlowField
 
 Global Void DrawScreen()
 	FlowField.Door.UpdateAll()
 	FlowField.Map.AutoScroll()
 	FlowField.Map.AutoTex()
-	FlowField.Map.KthuraMap.Draw(FlowField.Map.Layer,FlowField.Map.ScrollX,FlowField.Map.ScrollY)
-	If FlowField.Map.KthuraMap.Meta.CallbackPostDraw=="Yes"
+	//FlowField.Map.KthuraMap.Draw(FlowField.Map.Layer,FlowField.Map.ScrollX,FlowField.Map.ScrollY)
+	Kthura.Draw(gInt.ScrollX,gint.ScrollY)
+	If Kthura.MetaData.CallbackPostDraw=="Yes"
 		FlowField.Script.Run("PostDraw")
 	End
 	FlowField.Welcome.Draw()
