@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField.scyndi
 // 
-// 	  Version: 26.04.08 II
+// 	  Version: 26.04.12
 // 	
 // 	  Copyright (C) 2021, 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -96,7 +96,7 @@ Init
 					CSayF("  => Class")
 					_real[Ges3] = Lua.Scyndi.Class[Ges3]
 				Case "FNC" "FUN"
-					CSayF("  => Class")
+					CSayF("  => Function")
 					_real[Ges3] = Lua.Scyndi.Globals[Ges3]
 				default
 					Lua.error("Unknown FlowField Type: "..GTyp)
