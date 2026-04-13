@@ -1,9 +1,9 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/CLS_Renc.scyndi
 // 
-// 	  Version: 26.04.11 XXIII
+// 	  Version: 26.04.13 I
 // 	
-// 	  Copyright (C) 2022, 2023, 2026 Jeroen Petrus Broks
+// 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
 // 	
 // 	  ===========================
 // 	  This file is part of a project related to the Phantasar Chronicles or another
@@ -228,7 +228,7 @@ Class Renc
 		Static Var GAlarm = LoadNewImage("GFX/Combat/RencMeter/Alarm.png","RENC_ALARM")
 		Static Var AAlarm = Audio.Obtain("COMBALARM")
 		Extern GaugeW "SS2_FLOWFIELD_RENC_UPDATEGUAGE_GAUGEW"
-		GaugeW=GaugeW || Back.W+10
+		GaugeW=GaugeW || Back.Width+10
 		String L = Kthura.CurrentLayer
 		Static Int GaugeX=Screen.W
 		//Static Int GaugeY=(Screen.H - 138)-Back.Height
@@ -242,8 +242,8 @@ Class Renc
 			CSay("Player not found! I cannot workout RENC. Exiting RENC!")
 			Return
 		End
-		Int PX = FlowField.Map.OPlayer.X
-		Int PY = FlowField.Map.OPlayer.Y
+		Int PX = Kthura.Obj.PlayerX
+		Int PY = Kthura.Obj.PlayerY
 		Bool Moved = False
 		If (OL == FlowField.FollowTheLeader.LeaderMapTag) && (PX!=OX || OY!=PY) && Layers[L].ENC>0
 			Layers[L].CD = math.max(0,Layers[L].CD-Any.Luck.Roll(FlowField.FollowTheleader.LeaderTag,1,125,False))
