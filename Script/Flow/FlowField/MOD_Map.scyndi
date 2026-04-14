@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/MOD_Map.scyndi
 // 
-// 	  Version: 26.04.13
+// 	  Version: 26.04.14
 // 	
 // 	  Copyright (C) 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -46,6 +46,7 @@
 
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/Kthura"
+#use "Libs/SCI/SString"
 #use "Libs/SCI/InterVar"
 
 #use "Script/Use/Anyway"
@@ -86,6 +87,10 @@ Module
 	
 	Get Var CurLayer		
 		//Return KthuraMap.Layer(Layer)
+		ret:=XSplit(Lua.debug.traceback(),"\n")
+		For i,l in ipairs(ret)
+			PrintF("\x1b[%dm%s\x1b[37m\n",(i % 6)+91,l)
+		End
 		LUA.error("FlowField.Map.CurLayer was an Apollo Only feature and cannot be used by SCI!")
 		return nil
 	End
@@ -166,7 +171,7 @@ Module
 	End
 	
 	Get Var Player
-		if !CurrentLayer.HasTag(FlowField.FollowTheleader.LeaderMapTag)
+		if !Kthura.HasObj(FlowField.FollowTheleader.LeaderMapTag)
 			Return nil
 		End
 		Return Kthura.Obj[FlowField.FollowTheleader.LeaderMapTag]

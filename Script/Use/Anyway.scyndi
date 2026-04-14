@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Anyway.scyndi
 // 
-// 	  Version: 26.04.13
+// 	  Version: 26.04.14
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -99,7 +99,7 @@ End
 Extern Screen "Scyndi.Class.Graphics"
 Extern Loading "Scyndi.Globals.Lnk.Loading_h.ShowLoading"
 Extern CDLoading "Scyndi.Globals.Lnk.Loading_h.CD"
-Extern ODLoading "Scyndi.Globals.Lnk.Loading_h.OsD"
+Extern ODLoading "Scyndi.Globals.Lnk.Loading_h.OD"
 Extern Progress "Scyndi.Globals.Lnk.Loading_h.Progress"
 
 Extern MapText "Scyndi.Globals.Lnk.BoxText._MapText"

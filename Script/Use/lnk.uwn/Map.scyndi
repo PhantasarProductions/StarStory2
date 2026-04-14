@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/lnk.uwn/Map.scyndi
 // 
-// 	  Version: 26.04.13
+// 	  Version: 26.04.14
 // 	
 // 	  Copyright (C) 2021-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -117,9 +117,9 @@ End
 
 	ReadOnly Var Meta
 	
-	Get Delegate CSayF
-		return Lua.Neil.Globals.CSayF
-	End
+	//Get Delegate CSayF
+	//	return Lua.Neil.Globals.CSayF
+	//End
 	
 	Get String Layer
 		//Return ISGet.String("FLOW_FIELD","FlowField.Map.Layer")
@@ -272,11 +272,13 @@ End
 		Switch Lua.type(a)
 			Case "string"
 				CSayF("Spawning ActTag '%s' on spot '%s'",ActTag,a)
-				MCall("FlowField.Map.CurLayer.Spawn",ActTag,a)
+				//MCall("FlowField.Map.CurLayer.Spawn",ActTag,a)
+				Kthura.Spawn(ActTag,a)
 			Case "number"
 				assert(Lua.type(b)=="number","n::Illegal spawn function call")
 				CSayF("Spawning ActTag '%s' on coordinates (%4d,%4d)",ActTag,a,b)
-				MCall("FlowField.Map.CurLayer.Spawn",ActTag,a,b)
+				//MCall("FlowField.Map.CurLayer.Spawn",ActTag,a,b)
+				Kthura.Spawn(ActTag,a,b)
 			Default
 				Lua.error("t::Illegal spawn function call")			
 		End
