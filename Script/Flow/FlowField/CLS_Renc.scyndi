@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/CLS_Renc.scyndi
 // 
-// 	  Version: 26.04.13 I
+// 	  Version: 26.04.13 II
 // 	
 // 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -238,7 +238,7 @@ Class Renc
 		Static Int OY
 		Static String OL
 		Static Var Fnt = ObtainFont("MINITEXT")
-		if !FlowField.Map.CurLayer.HasTag(FlowField.FollowTheLeader.LeaderMapTag)
+		if !Kthura.HasObj(FlowField.FollowTheLeader.LeaderMapTag)
 			CSay("Player not found! I cannot workout RENC. Exiting RENC!")
 			Return
 		End
