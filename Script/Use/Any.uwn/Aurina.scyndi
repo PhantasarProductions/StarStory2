@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Use/Any.uwn/Aurina.neil
-// (c) Jeroen Broks, 2022, 2023, All Rights Reserved.
+// src/Code/Script/Use/Any.uwn/Aurina.scyndi
+// (c) Jeroen Broks, 2022, 2023, 2026, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,9 +33,18 @@
 // 
 // **********************************************
 // 
-// version: 23.09.24
-// End License Information
+// 
+// version: 26.04.14 V
+// 
+// End License
+
 Module
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Anyway"
 
 	Var Buzz = Audio.Obtain("BUZZ")
 	Var ChaChing = Audio.Obtain("CHACHING")
@@ -42,35 +52,35 @@ Module
 	const int miljard = 1000000000
 
 	get Int Have 
-		return gv.gint.AurinaHave
+		return gint.AurinaHave
 	end
 	
 	get Int HaveShilders 
-		return gv.gint.ShildersHave
+		return gint.ShildersHave
 	end
 	
 	Set Int Have
-		gv.gint.AurinaHave = math.min(self.MaxHave,value)
+		gint.AurinaHave = math.min(MaxHave,value)
 	End
 	Set Int HaveShilders
-		gv.gint.ShildersHave = math.min(self.MaxHave,value)
+		gint.ShildersHave = math.min(MaxHave,value)
 	End
 	
 	Get Int Rate
-		return math.max(1,gv.gint.AurinaRate)
+		return math.max(1,gint.AurinaRate)
 	End
 	
 	Set Int Rate
-		gv.gint.AurinaRate = math.min(Value,self.MaxRate)
+		gint.AurinaRate = math.min(Value,MaxRate)
 	End
 	
 	
 	Get Int RateShilders
-		return math.max(1,gv.gint.ShilderRate)
+		return math.max(1,gint.ShilderRate)
 	End
 	
 	Set Int RateShilders
-		gv.gint.ShilderRate = math.min(Value,self.MaxRate)
+		gint.ShilderRate = math.min(Value,MaxRate)
 	End
 	
 	Get Int MaxRate
@@ -82,20 +92,20 @@ Module
 	End
 	
 	Get Int SpentNeed
-		return math.max(3,gv.gint.AurinaSpentNeed)
+		return math.max(3,gint.AurinaSpentNeed)
 	End
 	Set Int SpentNeed
-		gv.gint.AurinaSpentNeed = math.min(Value,miljard)
+		gint.AurinaSpentNeed = math.min(Value,miljard)
 	End
 	
 	Get Int Spent
-		Return gv.gint.AurinaSpent
+		Return gint.AurinaSpent
 	End
 	
 	Set Int Spent
-		gv.gint.AurinaSpent = Value
+		gint.AurinaSpent = Value
 		while Spent>SpentNeed
-			gv.gint.AurinaSpent -= SpentNeed
+			gint.AurinaSpent -= SpentNeed
 			Switch __skill
 				Case 1
 					SpentNeed = math.ceil(SpentNeed * 1.25)
@@ -140,13 +150,13 @@ Module
 	End
 	
 	Get Int SpentShilders
-		Return gv.gint.ShildersSpent
+		Return gint.ShildersSpent
 	End
 	
 	Set Int SpentShilders
-		gv.gint.ShildersSpent = Value
+		gint.ShildersSpent = Value
 		while SpentShilders>SpentNeed
-			gv.gint.ShildersSpent -= SpentNeed
+			gint.ShildersSpent -= SpentNeed
 			Switch __skill
 				Case 1
 					SpentNeed = math.ceil(SpentNeed * 1.5)
@@ -194,8 +204,8 @@ Module
 	End
 	
 	Void PayShildersGv(int bedrag)
-		gv.gbool.PayShildersSucces=PayShilders(bedrag)
+		gbool.PayShildersSucces=PayShilders(bedrag)
 	end
 				
 	
-End
+//End
