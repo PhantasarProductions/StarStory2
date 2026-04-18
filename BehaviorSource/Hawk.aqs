@@ -56,7 +56,7 @@ Chunk Load
 
 
 Chunk ZA_Wendicka
-	call CSay,Game Start Event
+	call CSay,"Game Start Event"
 	call LHide,Bridge
 	call Kill,BridgeBlock
 ;Check up if this is the start of the game, or the coming together for the New Game+
