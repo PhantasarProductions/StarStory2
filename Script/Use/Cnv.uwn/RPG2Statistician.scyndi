@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Cnv.uwn/RPG2Statistician.scyndi
 // 
-// 	  Version: 26.04.13
+// 	  Version: 26.04.15
 // 	
 // 	  Copyright (C) 2026 Jeroen Petrus Broks
 // 	
@@ -50,7 +50,7 @@ Module
 
 //#use "Script/Use/Misc/Box_Class"
 
-plua _rpgstat = Statistician.CreateNew("TFT")
+plua _rpgstat = Statistician.CreateNew("SS2")
 plua _statsubs
 
 Get Var TrueRPG; return _rpgstat; End
