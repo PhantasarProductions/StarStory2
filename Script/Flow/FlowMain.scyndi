@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowMain.scyndi
 // 
-// 	  Version: 26.04.13
+// 	  Version: 26.04.18 I
 // 	
 // 	  Copyright (C) 2020-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -284,8 +284,8 @@ end
 
 void LoadGame()
 	Loading()
-	Sys.LoadState("SAVEGAME","Script/Flow/FlowSaveGame.lbc")
-	Sys.Call("FLOW_SAVEGAME","WantLoad","nil")
+	Sys.LoadState("FLOW_SAVEGAME","Script/Flow/FlowSaveGame.lbc")
+	Sys.Call("FLOW_SAVEGAME","ComeToLoad","nil")
 	Sys.CurrentFlow="SAVEGAME"
 end
 
