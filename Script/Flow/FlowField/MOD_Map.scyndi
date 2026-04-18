@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/MOD_Map.scyndi
 // 
-// 	  Version: 26.04.14
+// 	  Version: 26.04.14 IV
 // 	
 // 	  Copyright (C) 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -46,6 +46,7 @@
 
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/Kthura"
+#use "Libs/SCI/Events"
 #use "Libs/SCI/SString"
 #use "Libs/SCI/InterVar"
 
@@ -253,15 +254,17 @@ Module
 	End
 	
 	Void WalkClick(Int mX, Int mY)		
-		int x := mx + ScrollX
-		int y := my + ScrollY
-		CSayF("Request to walk to (%4d,%4d); Mouse(%4d,%4d); Scroll(%4d,%4d)",x,y,mx,my,ScrollX,ScrollY)
+		//int x := mx + ScrollX
+		//int y := my + ScrollY
+		x:=mX
+		y:=mY
+		CSayF("Request to walk to (%4d,%4d); Mouse(%4d,%4d) (%4d,%4d); Scroll(%4d,%4d)",x,y,mx,my,Events.MouseX,Events.MouseY,ScrollX,ScrollY)
 		if !Kthura.HasObj(FlowField.FollowTheLeader.LeaderMapTag)
 			CSay("But there is no player available now, so the request will be ignored!")
 			return
 		end				
 		if !Clickable.All(x,y)
-			CurLayer.Obj(FlowField.FollowTheLeader.LeaderMapTag).WalkTo(x,y)
+			Kthura.Obj[FlowField.FollowTheLeader.LeaderMapTag].WalkTo(x,y)
 			ArriveFunc = nil
 			ArriveParam = ""
 		End	
