@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Misc/AQS.scyndi
 // 
-// 	  Version: 26.04.13
+// 	  Version: 26.04.18 II
 // 	
 // 	  Copyright (C) 2026 Jeroen Petrus Broks
 // 	
@@ -41,7 +41,99 @@
 // 	     misrepresented as being the original software.
 // 	  3. This notice may not be removed or altered from any source distribution.
 // End License
+
+
 Module
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Bank"
+
+// AQS Main Instructions
+#macro MI_End 0
+#macro MI_Chunk 1
+#macro MI_sChunk 2
+#macro MI_csChunk 3
+#macro MI_DicSize 4
+#macro MI_DicEntry 5
+#macro MI_Instruction 6
+
+
+// AQS Chunk Instructions
+#macro CI_EndChunk 0
+#macro CI_Call 1
+#macro CI_Jump 2
+#macro CI_JumpTrue 3
+#macro CI_JumpFalse 4
+#macro CI_Check 5
+#macro CI_Done 6
+#macro CI_Exit 7
+
+
+// AQS Parameter Types
+#macro PT_Null 0
+#macro PT_Identifier 1
+#macro PT_String 2
+#macro PT_Integer 3
+#macro PT_Label 4
+#macro PT_iv_Boolean 5
+#macro PT_iv_Integer 6
+#macro PT_iv_String 7
+
+
+
+Class AQS_Param
+	ReadOnly Var Parent
+	ReadOnly Int Type
+	ReadOnly Var Value
+	Constructor(p,int t,v)
+		Parent=p
+		Type=t
+		Value=v
+	End
+End
+
+Class AQS_Instruction
+	ReadOnly Var Parent
+	ReadOnly Int Type
+	ReadOnly Var Params
+	Constructor(p,int t)
+		Parent=p
+		Type=t
+		Params={}
+	End
+End
+
+Class AQS_Chunk
+	ReadOnly Var Parent
+	ReadOnly Int Type
+	ReadOnly String State
+	ReadOnly String Func
+	ReadOnly Var Instructions
+	Constructor(p,int t,S,F)
+		Parent=p
+		Type=t
+		State=S
+		Func=F
+	End
+End
+
+Class AQS_VM
+	ReadOnly Var Dictionary
+	ReadOnly Var Chunks
+	ReadOnly String Src
+	Constructor(String S)
+		Src=S
+		Dictionary = {}
+		Chunks = {}
+	End
+End
+
+plua VMs
+
+Init
+	VMs={}
+End
+
+
 
 
 // PLACEHOLDER
@@ -52,8 +144,11 @@ End
 
 // PLACEHOLDER
 Void Call(String VM,String Chunk,Infinity)
+	CSayF("\x07AQS.Call(\"%s\",\"%s\")",VM,Chunk)
 End
 
 // PLACEHOLDER
 Void Load(String VM,String File)
+	CSayF("Loading: \"%s\" -> %s",File,VM)
+	
 End
