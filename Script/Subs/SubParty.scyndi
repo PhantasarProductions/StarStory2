@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Subs/SubParty.scyndi
 // 
-// 	  Version: 26.04.13
+// 	  Version: 26.04.15
 // 	
 // 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -186,7 +186,7 @@ Group SubParty
 		lnk.Ach.Show()
 		LocExtern Order "SubParty_Boxes_Order"
 		LocExtern Boxes "SubParty_Boxes_Boxes"
-		Order = Order || { {1},{1,2},{1,2,3},{3,1,2,4}}
+		Order = Order || { {[0]=1},{[0]=1,2},{[0]=1,2,3},{[0]=3,1,2,4}}
 		Boxes = Boxes ||{ new Box(0,__BoxPosY,20,100,false),new Box(0,__BoxPosY,20,100,false),new Box(0,__BoxPosY,20,100,false),new Box(0,__BoxPosY,20,100,false)}
 		Int C  = lnk.Party.Count
 		Int M3 = 0
