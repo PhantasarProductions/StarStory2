@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/MOD_Schedule.scyndi
 // 
-// 	  Version: 26.04.13
+// 	  Version: 26.04.18 II
 // 	
 // 	  Copyright (C) 2020-'22, 2026 Jeroen Petrus Broks
 // 	
@@ -49,6 +49,7 @@
 //#use "script/use/misc/minimessage"
 
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/Kthura"
 #use "Libs/SCI/SString"
 
 #use "Script/Use/Anyway"
@@ -132,7 +133,7 @@ Module
 			ElseIf prefixed(s,"SPAWNPOS:")
 				String sp := right(s,len(s)-9)
 				Table xy := XSPlit(sp,",")
-				FlowField.Map.CurLayer.Spawn("PLAYER1",Lua.tonumber(xy[1]),Lua.tonumber(xy[2]))
+				Kthura.Spawn("PLAYER1",Lua.tonumber(xy[0]),Lua.tonumber(xy[1]))
 			ElseIf prefixed(s,"MAPTEXT:")
 				__MapText(right(s,Len(s)-8))
 			ElseIf prefixed(s,"LAYER:")
