@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField.scyndi
 // 
-// 	  Version: 26.04.13
+// 	  Version: 26.04.14
 // 	
 // 	  Copyright (C) 2021, 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -68,7 +68,10 @@ QuickMeta FlowField
 	End
 End
 
-Global Get Var FieldFlow; return FlowField; End
+Global Var FieldFlow
+Init
+	FieldFlow= FlowField 
+End
 
 Init
 	Table Bundle = JCR6.Dir("Script/Flow/FlowField")
