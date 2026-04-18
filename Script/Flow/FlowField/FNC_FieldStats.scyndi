@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/FNC_FieldStats.scyndi
 // 
-// 	  Version: 26.04.14 IV
+// 	  Version: 26.04.14 VI
 // 	
 // 	  Copyright (C) 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -45,7 +45,9 @@
 Module
 
 #use "Libs/SCI/Medals"
+#use "Libs/SCI/Kthura"
 #use "Libs/SCI/Graphics"
+
 
 #use "Script/Use/Anyway"
 #accept FlowField
@@ -80,7 +82,7 @@ Global Void FieldStats()
 	C("Area:",FlowField.Map.Layer,prefixed(FlowField.Map.Layer,"#") && FlowField.Layers.Data("Title")=="")
 	C("Area:",sprintf("%s - %s",FlowField.Map.Layer,FlowField.Layers.Data("Title")),prefixed(FlowField.Map.Layer,"#") && FlowField.Layers.Data("Title")!="")
 	C("Area:",FlowField.Layers.Data("Title"),(!prefixed(FlowField.Map.Layer,"#")) && FlowField.Layers.Data("Title")!="")
-	W("Location:",FlowField.Map.KthuraMap.MetaData.Title)
+	W("Location:",Kthura.MetaData.Title)
 	C("Cycle:",Any.Caps.Cycle,Any.Caps.Cycle>=2)
 	__White
 End
