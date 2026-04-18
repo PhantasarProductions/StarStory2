@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Misc/AQS.scyndi
 // 
-// 	  Version: 26.04.18 IV
+// 	  Version: 26.04.18 XX
 // 	
 // 	  Copyright (C) 2026 Jeroen Petrus Broks
 // 	
@@ -44,6 +44,9 @@
 
 
 Module
+
+plua AQS_DEBUG = true
+
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/Bank"
 
@@ -78,6 +81,21 @@ Module
 #macro PT_iv_Integer 6
 #macro PT_iv_String 7
 
+
+Void Chat(Infinity)
+	If AQS_Debug
+		For it in Each{[0]=infinity}
+			printf("\x1b[32mAQS Debug:\t\x1b[93m%s\x1b[37m\n",it);			
+		End
+	End
+End	
+
+Void ChatF(String fmt,Infinity)
+	Chat(sprintf(fmt,Infinity))
+End
+		
+
+plua DBits = { [8]="ReadByte", [16]="ReadUInt16", [32]="ReadUInt32",[64]="ReadUInt64" }
 
 
 Class AQS_Param
@@ -120,6 +138,13 @@ Class AQS_VM
 	ReadOnly Var Dictionary
 	ReadOnly Var Chunks
 	ReadOnly String Src
+		
+	String GetString(BNK,int BS)
+		idx:=BNK[DBits[BS]]()
+		Lua.assert(Dictionary[idx],sprintf("Non-Existent dictionary entry: %d",idx))
+		return Dictionary[idx]
+	End
+	
 	Constructor(String S)
 		Src=S
 		Dictionary = {}
@@ -147,21 +172,81 @@ Void Call(String VM,String Chunk,Infinity)
 	CSayF("\x07AQS.Call(\"%s\",\"%s\")",VM,Chunk)
 End
 
-// PLACEHOLDER
-Void Load(String VM,String File)
+
+ 
+
+Var Load(String VM,String File)
+	VM=Upper(VM)
+	ret:=New AQS_VM(File)
+	BS:=8 // Bit size for dictionary
 	CSayF("Loading: \"%s\" -> %s",File,VM)
 	BT:=Bank.Load(File,"Load_AQS")
-	For chk in each{'AQS',26}
+	CSay(BT.Tag)
+	For chk in each{[0]='AQS',26}
+		CSayF("Check: %0x -> %s",chk,chr(chk))
 		Lua.assert(chk==BT.ReadByte(),"AQS header error")
 	End
 	Tag:=255
+	cChunk:=nil
 	Repeat
 		Tag=BT.ReadByte()
+		ChatF("Tag: %02x",Tag)
 		Switch Tag
+			Case MI_DicSize
+				BS=BT.ReadByte()
+				Lua.assert(DBits[BS],sprintf("Unknown directory bit size: %02d",BS))
+			Case MI_DicEntry
+				idx:=BT[DBits[BS]]()
+				Ret.Dictionary[idx] = BT.ReadString()
+				ChatF("Dictionary: [%02d] %08x -> %s",BS,idx,Ret.Dictionary[idx])
+			Case MI_CsChunk MI_sChunk
+				ch:=ret.GetString(BT,BS)
+				st:=ret.GetString(BT,BS)
+				fn:=ret.GetString(BT,BS)
+				ChatF("%x: sChunk %s -> %s::%s",Tag,ch,st,fn)
+				assert(!ret.Chunks[Upper(ch)],"Dupe chunk!")
+				ret.Chunks[Upper(ch)]=new AQS_Chunk(ret,Tag,st,fn)
+			Case MI_Chunk
+				ch:=ret.GetString(BT,BS)
+				st:=ret.GetString(BT,BS)
+				fn:=ret.GetString(BT,BS)
+				ChatF("%x:  Chunk %s -> %s::%s",Tag,ch,st,fn)				
+				ret.Chunks[Upper(ch)] = ret.Chunks[Upper(ch)] || new AQS_Chunk(ret,Tag,st,fn)
+				assert(ret.Chunks[Upper(ch)].Type==MI_Chunk,"Chunk mismatch!")
+				cChunk = ret.Chunks[Upper(ch)] 
+			Case MI_Instruction				
+				ic:=BT.ReadByte(BT)
+				assert(cChunk,sprintf("Instruction %d requires a chunk",ic))
+				ni:=New AQS_Instruction(cChunk,ic)
+				ps:=BT.ReadByte(BT)
+				ChatF("Instruction %d with %d parameters",ic,ps)
+				For i=1,ps
+					tp:=BT.ReadByte(BT)
+					np:=nil
+					Switch tp
+						case PT_Null
+							np=New AQS_Param(ni,tp,nil)
+						case PT_Integer 
+							np=New AQS_Param(ni,tp,BT.ReadInt32())
+						case PT_Label
+							np=New AQS_Param(ni,tp,BT.ReadUInt32())
+						case PT_String PT_Identifier
+							np=New AQS_Param(ni,PT_String,ret.GetString(BT,BS))
+						case PT_iv_Boolean PT_iv_Integer PT_iv_String
+							np=New AQS_Param(ni,tp,ret.GetString(BT,BS))
+						default
+							Lua.error(sprintf("Unknown parameter type: %d (%d)",tp,i))
+					End
+					Lua.assert(np,"Creation of new parameter failed")
+					ChatF("- Parameter %d -> %s",np.Type,np.Value)
+					ni.Params += np
+				End
 			Case MI_End
 				Break // Please note, break only affects the loop! Not the Switch. This is not C/C++ you know.
 			Default
-				Lua.error(sprintf("Unknown AQS global tag %02x/%03d",Tag,Tag))
+				Lua.error(sprintf("Unknown AQS global tag %02x/%03d on position %08x::%09d",Tag,Tag,BT.Position-1,BT.Position-1))
 		End
 	Forever
+	VMs[VM]=ret
+	return ret
 End
