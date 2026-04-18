@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/CLS_Renc.scyndi
 // 
-// 	  Version: 26.04.13 II
+// 	  Version: 26.04.14 II
 // 	
 // 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -242,8 +242,8 @@ Class Renc
 			CSay("Player not found! I cannot workout RENC. Exiting RENC!")
 			Return
 		End
-		Int PX = Kthura.Obj.PlayerX
-		Int PY = Kthura.Obj.PlayerY
+		Int PX = Kthura.Obj[FlowField.FollowTheleader.LeaderMapTag].X
+		Int PY = Kthura.Obj[FlowField.FollowTheleader.LeaderMapTag].Y
 		Bool Moved = False
 		If (OL == FlowField.FollowTheLeader.LeaderMapTag) && (PX!=OX || OY!=PY) && Layers[L].ENC>0
 			Layers[L].CD = math.max(0,Layers[L].CD-Any.Luck.Roll(FlowField.FollowTheleader.LeaderTag,1,125,False))
