@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/MOD_Time.scyndi
 // 
-// 	  Version: 26.04.14 II
+// 	  Version: 26.04.15
 // 	
 // 	  Copyright (C) 2022-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -84,6 +84,10 @@ Module
 			return sprintf("%d day; %d:%02d:%02d",Days,Hours,Minutes,Seconds)
 		end
 		return sprintf("%d days; %d:%02d:%02d",Days,Hours,Minutes,Seconds)
+	End
+	
+	Void SGTime()
+		gstr.SaveGameTime = Display
 	End
 	
 	Void Update()
