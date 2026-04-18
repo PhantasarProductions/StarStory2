@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/MOD_FollowTheLeader.scyndi
 // 
-// 	  Version: 26.04.13
+// 	  Version: 26.04.14
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -113,7 +113,7 @@ Module
 		End
 		If (!Kthura.HasObj("PLAYER"..n)) && RPGParty[n] && RPGParty[n]!=""
 			CSayF("Need follower on spot #%d > %s",n,RPGParty[n])
-			FlowField.Map.CurrentLayer.Spawn("PLAYER"..n,"PLAYER1")
+			Kthura.Spawn("PLAYER"..n,"PLAYER1")
 			//Var o = FlowField.Map.CurrentLayer.Obj(PlayTag[n])
 			o:=Kthura.Obj[PlayTag[n]]
 			o.Texture = sPrintF("GFX/Actors/%s.South.jpbf",RPGParty[n])
