@@ -161,14 +161,15 @@ End
 
 
 
-// PLACEHOLDER
+
 Bool HasChunk(String VM,String Chunk)
-	Return True
+	Return VMs[Upper(VM)][Upper(Chunk)]!=nil
 End	
 
 
 // PLACEHOLDER
 Void Call(String VM,String Chunk,Infinity)
+	Lua.assert(HasChunk(VM,Chunk),sprintf("AQS %s has no chunk named %s",VM,Chunk)
 	CSayF("\x07AQS.Call(\"%s\",\"%s\")",VM,Chunk)
 End
 
