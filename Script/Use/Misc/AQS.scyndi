@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Misc/AQS.scyndi
 // 
-// 	  Version: 26.04.18 II
+// 	  Version: 26.04.18 IV
 // 	
 // 	  Copyright (C) 2026 Jeroen Petrus Broks
 // 	
@@ -150,5 +150,18 @@ End
 // PLACEHOLDER
 Void Load(String VM,String File)
 	CSayF("Loading: \"%s\" -> %s",File,VM)
-	
+	BT:=Bank.Load(File,"Load_AQS")
+	For chk in each{'AQS',26}
+		Lua.assert(chk==BT.ReadByte(),"AQS header error")
+	End
+	Tag:=255
+	Repeat
+		Tag=BT.ReadByte()
+		Switch Tag
+			Case MI_End
+				Break // Please note, break only affects the loop! Not the Switch. This is not C/C++ you know.
+			Default
+				Lua.error(sprintf("Unknown AQS global tag %02x/%03d",Tag,Tag))
+		End
+	Forever
 End
