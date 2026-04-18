@@ -1,5 +1,5 @@
 # Operation SCI
-Status: Planned (no ETA yet)
+Status: In motion (no ETA yet)
 
 # STAR STORY II
 
