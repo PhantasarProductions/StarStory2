@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/MOD_FollowTheLeader.scyndi
 // 
-// 	  Version: 26.04.14
+// 	  Version: 26.04.19
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -126,13 +126,14 @@ Module
 		For i=1,4
 			If  RPGParty[i] && RPGParty[i]!=""
 				SpawnNew(i)
-				Var o = FlowField.Map.CurrentLayer.Obj(PlayTag[i])
+				//Var o = FlowField.Map.CurrentLayer.Obj(PlayTag[i])
+				o:=Kthura.Obj[PlayTag[i]]
 				o.StopWalking()
 				o.wind = wind
 				o.Texture = sPrintF("GFX/Actors/%s.%s.jpbf",RPGParty[i],Wind)
 				if Instant
-					o.X = FlowField.Map.CurrentLayer.Obj(spot.."_"..RPGParty[i]).X
-					o.Y = FlowField.Map.CurrentLayer.Obj(spot.."_"..RPGParty[i]).Y
+					o.X = Kthura.Obj[spot.."_"..RPGParty[i]].X
+					o.Y = Kthura.Obj[spot.."_"..RPGParty[i]].Y
 				Else
 					String Tg := spot.."_".. RPGParty[i]
 					o.WalkTo(Tg)
