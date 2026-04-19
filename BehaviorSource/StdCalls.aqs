@@ -46,8 +46,15 @@ CSCHUNK GoToMap,Lnk.Map.GoToMap
 CSCHUNK GoToLayer,Lnk.Map.GoToLayer
 CSChunk Hide,Lnk.Map.HideObj
 CSChunk Show,Lnk.Map.ShowObj
-CSChunk LHide,Lnk.Map.HideByLabel
-CsCHunk LShow,Lnk.Map.ShowByLabel
+
+; Old
+;CSChunk LHide,Lnk.Map.HideByLabel
+;CsCHunk LShow,Lnk.Map.ShowByLabel
+;New
+CsChunk LHide,Kthura.HideByLabel
+CsChunk LShow,Kthura.ShowByLabel
+
+
 ;CSChunk Pop,FlowField.FollowTheLeader.PartyPop
 CSChunk Pop,FlowField.FollowTheLeader.Pop
 CSChunk iPop,FlowField.FollowTheLeader.iPop
