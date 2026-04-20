@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 26.04.13
+// version: 26.04.20 I
 // 
 // End License
 
@@ -53,21 +53,21 @@ plua BTLoad()
 	Sys.LoadNewState("BOXTEXT","Script/Subs/SubBoxText.lbc")	
 end
 
-void _MapText(string ATag,string RF="FLOW_FIELD",int ANum=1)
+void _MapText(string ATag,string RF="FLOW_FIELD",int ANum=0)
 	static string AScen="MAPTEXT"
 	BTLoad()
 	//State.Call("BOXTEXT","FlowBoxText.Serial",sprintf("\"%s\", \"%s\", \"%s\", %d",AScen,ATag,RF,ANum or 1))
-	Sys.Call("BOXTEXT","FlowBoxText.Serial",AScen,ATag,RF,ANum || 1)
+	Sys.Call("BOXTEXT","FlowBoxText.Serial",AScen,ATag,RF,ANum || 0)
 end
 
-void _CharMapText(string ATag,string RF="FLOW_FIELD",int ANum=1)
+void _CharMapText(string ATag,string RF="FLOW_FIELD",int ANum=0)
 	static string AScen="MAPTEXT"
 	BTLoad()
 	//State.Call("BOXTEXT","FlowBoxText.Serial",sprintf("\"%s\", \"%s\", \"%s\", %d",AScen.."_"..Lnk.Map.Leader,ATag,RF,ANum or 1))
-	Sys.Call("BOXTEXT","FlowBoxText.Serial",AScen.."_"..Lnk.Map.Leader,ATag,RF,ANum || 1)
+	Sys.Call("BOXTEXT","FlowBoxText.Serial",AScen.."_"..Lnk.Map.Leader,ATag,RF,ANum || 0)
 End
 
-void _MapTextLeader(string ATag,string RF="FLOW_FIELD",int ANum=1)
+void _MapTextLeader(string ATag,string RF="FLOW_FIELD",int ANum=0)
 	_MapText(sprintf("%s_%s",ATag,lnk.Map.Leader),RF,ANum)
 end
 
@@ -91,7 +91,7 @@ end
 		BTLoad()
 		Events.Flush()
 //		State.Call("BOXTEXT","FlowBoxText.Serial",sprintf("\"%s\", \"%s\", \"%s\", %d",AScen,ATag,RF,ANum or 1))
-		Sys.Call("BOXTEXT","FlowBoxText.Serial",AScen,ATag,RF,ANum || 1)
+		Sys.Call("BOXTEXT","FlowBoxText.Serial",AScen,ATag,RF,ANum || 0)
 	end
 	
 	Void Tutor(string Tag,string RF="FLOW_FIELD")
