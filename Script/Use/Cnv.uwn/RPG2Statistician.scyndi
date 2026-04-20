@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Cnv.uwn/RPG2Statistician.scyndi
 // 
-// 	  Version: 26.04.15
+// 	  Version: 26.04.20
 // 	
 // 	  Copyright (C) 2026 Jeroen Petrus Broks
 // 	
@@ -104,7 +104,7 @@ QuickMeta _RPGParty
 	End
 End
 
-ReadOnly Table SubStat = {[0]="BASE","BUFF","PERMABUFF","EQUIP","END","MASTER"}
+ReadOnly Table SubStat = {[0]="BASE","BUFF","PERM","EQUI","END"}
 
 Int GetStat(ouwe,String Key)
 	this:=ouwe.this
