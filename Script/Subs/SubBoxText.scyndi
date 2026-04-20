@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Subs/SubBoxText.scyndi
 // 
-// 	  Version: 26.04.13
+// 	  Version: 26.04.20 V
 // 	
 // 	  Copyright (C) 2020-'22, 2026 Jeroen Petrus Broks
 // 	
@@ -122,8 +122,8 @@ class TextBox
 	string PicSpc
 	string PicRef	
 	table Lines
-	int SL
-	int SP
+	int SL = 0
+	int SP = 0
 	string AltTxtFont
 	string Voice
 	var Font
@@ -180,6 +180,7 @@ class TextBox
 		if Portraits[tag]=="Nope!"
 			return
 		elseif (!JCR6.EntryExists(file))
+			CSayF("Portrait 404: %s",file)
 			Portraits[tag] = "Nope!"
 		else
 			Portraits[tag] = Portraits[tag] || LoadImage(file,"Portret_"..tag)
@@ -226,9 +227,12 @@ class TextBox
 			elseif i==self.SL
 				p = self.SP
 				self.SP++
+				If (Events.MouseDownLeft)
+					self.SP+=2
+				End
 				if self.SP>len(l)
-					self.SP=1
-					self.SL++
+					self.SP=0
+					self.SL++											
 				end
 			else
 				p=0
@@ -236,9 +240,9 @@ class TextBox
 			if p>0
 				//DarkText.Font(Font,Left(l,p),__BT_BoxText_MinX,(self.boxy+35)+(i*21))
 				#if __BT_BoxTextDarkText
-					self.Font.DarkText(Left(l,p),__BT_BoxText_MinX,(self.boxy+35)+(i*__BT_BoxTextFontSize))
+					self.Font.DarkText(Left(l,p),__BT_BoxText_MinX,(self.boxy+35)+((i+1)*__BT_BoxTextFontSize))
 				#else
-					self.Font.Text(Left(l,p),__BT_BoxText_MinX,(self.boxy+35)+(i*__BT_BoxTextFontSize))
+					self.Font.Text(Left(l,p),__BT_BoxText_MinX,(self.boxy+35)+((i+1)*__BT_BoxTextFontSize))
 				#fi
 			end
 		end
@@ -282,7 +286,7 @@ class TextBox
 		//if rec.PicDir:upper()=="ERIC" && __EricIsYasathar
 		//	rec.PicDir="Yasathar"
 		//end
-		sb_data = new TextBox( { ["Header"] = gSub(rec.Header), ["PicDir"] = rec.PicDir, ["PicSpc"] = rec.PicSpc, ["Lines"] = {}, ["SL"] = 1, ["SP"]=1, ["AltTxtFont"] = rec.AltTxtFont, ["Voice"] = rec.SoundFile   } )
+		sb_data = new TextBox( { ["Header"] = gSub(rec.Header), ["PicDir"] = rec.PicDir, ["PicSpc"] = rec.PicSpc, ["Lines"] = {}, ["SL"] = 0, ["SP"]=1, ["AltTxtFont"] = rec.AltTxtFont, ["Voice"] = rec.SoundFile   } )
 		TextBox.Current = sb_data
 		width=Screen.Width-__BT_BoxTextTotalWidthMargin //-- standard width, this can be shortened by the portraits popping with the textbox. SW is the screen width, this need to be taken in order.
 		//local ak,txt,cline,spline
@@ -309,7 +313,7 @@ class TextBox
 			//spline = split(Var.S(txt)," ")
 			spline = xsplit(GSUB(txt)," ")
 			for aw,word in ipairs(spline)
-				if CurrentFont.TextWidth(cline..word)>width
+				if CurrentFont.Width(cline..word)>width
 					//mtable.insert(sb_data.Lines,cline)
 					sb_data.Lines+=cline
 					cline = ""
@@ -384,7 +388,7 @@ group FlowBoxText
 	
 	void InitBTFlow(string AScen, string ATag, RF, ANum)
 		self.ReturnFlow = RF // or CurrentFlow()
-		self.Num = ANum || 1
+		self.Num = ANum || 0
 		self.Scen = AScen
 		self.Tag = Upper(ATag)
 		// GoToFlow("BOXTEXT")
@@ -393,7 +397,7 @@ group FlowBoxText
 	
 	bool Next()
 		self.Num++
-		if self.Num>len(TextBox.btdata[trim(self.Scen)][trim(self.Tag)])
+		if self.Num>=len(TextBox.btdata[trim(self.Scen)][trim(self.Tag)])
 			// GoToFlow(trim(replace(self.ReturnFlow,"FLOW_","")))
 			return false
 		else
@@ -403,20 +407,21 @@ group FlowBoxText
 	end
 	
 	void Run()
-		repeat
+		Repeat
 			Graphics.Cls()
 			Events.Poll()
 			Sys.WaitMinTicks()
 			Sys.Call(FlowBoxText.ReturnFlow,"BoxText_Back","nil")
 			TextBox.Current.Show()
-			if TextBox.Current.SL>Len(TextBox.Current.Lines) && ( Events.MouseHitLeft() || (TextBox.audioplaying && (!Audio.ChannelPlaying(Textbox.audiochannel))))
+			if TextBox.Current.SL>=Len(TextBox.Current.Lines) && ( Events.MouseHitLeft || (TextBox.audioplaying && (!Audio.ChannelPlaying(Textbox.audiochannel))))
 				if !FlowBoxText.Next()
 					Music.FadeTo(100) // Make sure music volume is always back to max
 					Return
 				end
 			end
 			Graphics.Flip()
-		forever
+			WantQuit()
+		Forever
 	end
 	
 	void Serial(string AScen, string ATag, RF, ANum)
