@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Subs/SubParty.scyndi
 // 
-// 	  Version: 26.04.20 II
+// 	  Version: 26.04.20 III
 // 	
 // 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -112,7 +112,7 @@ Group SubParty
 								RPGChar[Tag].Stat["BUFF_"..st] = RPGChar[Tag].Stat["BUFF_"..st]
 								RPGChar[Tag].Stat["PERM_"..st] = RPGChar[Tag].Stat["PERM_"..st]
 								RPGChar[Tag].Stat["EQUI_"..st] = RPGChar[Tag].Stat["EQUI_"..st]
-								RPGChar[Tag].StatScript["END_"..st] = "SUM:"..Tag..".BASE_"..st..".BUFF_"..st..".PERM_"..st..".EQUI_"..st.."."
+								//RPGChar[Tag].StatScript["END_"..st] = "SUM:"..Tag..".BASE_"..st..".BUFF_"..st..".PERM_"..st..".EQUI_"..st.."."
 								RPGChar[Tag].Stat.Level=level
 								print("\t= "..st.." for "..tag.." is "..ins[1])								
 							end
