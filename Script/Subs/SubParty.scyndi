@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Subs/SubParty.scyndi
 // 
-// 	  Version: 26.04.15
+// 	  Version: 26.04.20 II
 // 	
 // 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -59,7 +59,7 @@ Script
 
 #macro __BoxPosY Screen.H - 138
 
-extern tonumber "tonumner"
+extern tonumber "tonumber"
 plua MiniFontForSubParty = ObtainFont("MINITEXT")
 	
 
@@ -146,14 +146,14 @@ Group SubParty
 				RPGChar[Ch].Points.AP.MaxCopy = "END_AP"
 				RPGChar[Ch].Points.EXP.Maximum = Any.Caps.ExpNeeded
 				RPGChar[ch].Data.Used="True"
-				For R in Each{"Status","Elements"}
+				For R in Each{[0]="Status","Elements"}
 					For RS in Each(Any.Resistance[R])
 						string st="Z"..left(R,1).."R_"..RS
 						RPGChar[Ch].Stat["BASE_"..st] = 3
 						RPGChar[Ch].Stat["BUFF_"..st] = 0
 						RPGChar[Ch].Stat["PERM_"..st] = 0
 						RPGChar[Ch].Stat["EQUI_"..st] = 0					
-						RPGChar[Ch].StatScript["END_"..st] = "SUM:"..Ch..".BASE_"..st..".BUFF_"..st..".PERM_"..st..".EQUI_"..st.."."
+						//RPGChar[Ch].StatScript["END_"..st] = "SUM:"..Ch..".BASE_"..st..".BUFF_"..st..".PERM_"..st..".EQUI_"..st.."."
 						If R=="Status" && RS!="None"
 							RPGChar[Ch].Stat["BASE_"..st] = Math.random(__skill,25*__skill)
 						End
@@ -163,7 +163,7 @@ Group SubParty
 				RPGChar[Ch].Stat["BUFF_Luck"] = 0
 				RPGChar[Ch].Stat["PERM_Luck"] = 0
 				RPGChar[Ch].Stat["EQUI_Luck"] = 0					
-				RPGChar[Ch].StatScript["END_Luck"] = "SUM:"..Ch..".BASE_Luck"..".BUFF_Luck"..".PERM_Luck"..".EQUI_Luck."
+				//RPGChar[Ch].StatScript["END_Luck"] = "SUM:"..Ch..".BASE_Luck"..".BUFF_Luck"..".PERM_Luck"..".EQUI_Luck."
 				Lnk.Party.LuckRoll(Ch)
 				For i=1,90 div __skill
 					RPGChar[ch].Data[sprintf("Jewel_%02d",i)]=""
@@ -299,10 +299,12 @@ Group SubParty
 							Lua.error("Klahre AP!")
 						case "Yorno" "Doctor" 
 							Graphics.Color(255,255,0)
-							N="NRGY"
+							//N="NRGY"
+							N="EP"
 						case "Ashley"
 							Graphics.Color(255,0,0)
-							N="RAGE"
+							//N="RAGE"
+							N="RG"
 						Default
 							Graphics.color(0,0,255)
 					End
