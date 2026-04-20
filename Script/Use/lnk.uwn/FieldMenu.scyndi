@@ -37,13 +37,13 @@
 Module
 	
 	Void Go(string ch,string situation)
-		State.Call("FLOW_FIELDMENU","SetFM","\""..ch.."\",\""..situation.."\"")
-		Flow.GoToFlow("FIELDMENU")
+		Sys.Call("FLOW_FIELDMENU","SetFM",ch,situation)
+		Sys.CurrentFlow="FIELDMENU"
 	End
 
-	Constructor
+	Init
 		Loading()
-		State.LoadNew("FLOW_FIELDMENU","Script/Flow/FlowFieldMenu.neil")
+		State.LoadNew("FLOW_FIELDMENU","Script/Flow/FlowFieldMenu.lbc")
 	End
 
-End
+//End
