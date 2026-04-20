@@ -73,11 +73,11 @@ Chunk ZA_Wendicka
 	call xWalkTo,PLAYER1,WT_Z_Wendicka
 	call xWalkTo,PLAYER3,WT_Z_Admiral
 ; Start Scenario
-	call MapText,START1
+	;call MapText,START1
 	call Show,PLAYER2
 ; Sue comes in
 	call xWalkTo,PLAYER2,WT_Z_Sue
-	call MapText,START2
+;	call MapText,START2
 ;Start the actual game!
 	:skipstart
 	call crch,Klahre
