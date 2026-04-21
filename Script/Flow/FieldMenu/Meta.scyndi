@@ -36,8 +36,10 @@
 // End License Information
 Module
 
+#use "Libs/SCI/GINIE"	
+
 	ReadOnly Var MetaData = GINIE.Load("Data/Character/MetaData.ini","CHARMETA")
-	ReadOnly Var Fnt = ImageFont.Obtain("BOXTEXT")
+	ReadOnly Var Fnt = ObtainFont("BOXTEXT")
 
 	Int Procent(int a)
 		Return math.max(0,math.min(100,a))
