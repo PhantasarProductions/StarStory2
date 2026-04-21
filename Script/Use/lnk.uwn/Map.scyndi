@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/lnk.uwn/Map.scyndi
 // 
-// 	  Version: 26.04.14
+// 	  Version: 26.04.20
 // 	
 // 	  Copyright (C) 2021-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -229,7 +229,7 @@ End
 	End
 	
 	Void GoToMap(string aMap,string aLayer,string SpawnPoint,noclose,noopen)
-		printf("\027[33mGoToMap\027[37m(\027[32m\"%s\"\027[37m,\027[32m\"%s\"027[37m,\027[32m\"%s\"\027[37m,\027[36m%s027[37m,\027[36m%s\027[37m)\027[0m\n",amap,alayer,spawnpoint,noclose,noopen)
+		printf("\027[33mGoToMap\027[37m(\027[32m\"%s\"\027[37m,\027[32m\"%s\"\027[37m,\027[32m\"%s\"\027[37m,\027[36m%s027[37m,\027[36m%s\027[37m)\027[0m\n",amap,alayer,spawnpoint,noclose,noopen)
 		if !noclose
 			CDLoading()
 		End
