@@ -190,7 +190,7 @@ global void MainFlow()
 		SitActive[FMSituation] = SitActive[FMSituation] || i
 		//__skyblue
 		__white
-		if SitActive[FMSituation]==i && (math.floor(FPS.Ticks/200)%2==0)
+		if SitActive[FMSituation]==i && (math.floor(Sys.Ticks/200)%2==0)
 			__black
 		end
 		ico.ICON = ico.ICON || ObtainImage("ICO_"..ico.ICONFILE)
