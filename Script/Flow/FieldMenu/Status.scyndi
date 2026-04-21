@@ -1,40 +1,56 @@
-// License Information:
-// src/Tricky Script/Script/Flow/FieldMenu/Status.neil
-// Version: 23.09.06
-// Copyright (C) 2022, 2023 Jeroen Petrus Broks
+// License:
+// 	  src/Code/Script/Flow/FieldMenu/Status.scyndi
 // 
-// ===========================
-// This file is part of a project related to the Phantasar Chronicles or another
-// series or saga which is property of Jeroen P. Broks.
-// This means that it may contain references to a story-line plus characters
-// which are property of Jeroen Broks. These references may only be distributed
-// along with an unmodified version of the game.
+// 	  Version: 26.04.21 X
+// 	
+// 	  Copyright (C) 2022, 2023, 2026 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
 // 
-// As soon as you remove or replace ALL references to the storyline or character
-// references, or any termology specifically set up for the Phantasar universe,
-// or any other univers a story of Jeroen P. Broks is set up for,
-// the restrictions of this file are removed and will automatically become
-// zLib licensed (see below).
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
 // 
-// Please note that doing so counts as a modification and must be marked as such
-// in accordance to the zLib license.
-// ===========================
-// zLib license terms:
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
-// in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-// misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-// End License Information
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
 Module
+
+	#use "Libs/SCI/Sys"
+	#use "Libs/SCI/Audio"
+	#use "Libs/SCI/Graphics"
+	
+	#use "Script/Use/Anyway"
+	
+	locExtern llen "#"
 	
 	Int JewelSlots(lvl)
 		number a = 100000
@@ -91,13 +107,13 @@ Module
 	End
 
 	Void Flow(uBox,string FMChar,string FMSituation)
-		Static Var Fnt = ImageFont.Obtain("BOXTEXT")
-		Static Var MiniText = ImageFont.Obtain("MINITEXT")
+		Static Var Fnt = ObtainFont("BOXTEXT")
+		Static Var MiniText = ObtainFont("MINITEXT")
 		Static Var Banner = {}
 		Static Var APN = { ["Yorno"]="Energy",["Doctor"]="Energy",["Ashley"]="Rage" }
-		Var Ch=RPGChar[FMChar]
+		Ch:=RPGChar[FMChar]
 		__White
-		Banner[FMChar] = Banner[FMChar] || Image.Load(sprintf("GFX/CharLogo/%s.png",FMChar),"CHARBANNER_"..FMChar)
+		Banner[FMChar] = Banner[FMChar] || LoadImage(sprintf("GFX/CharLogo/%s.png",FMChar),"CHARBANNER_"..FMChar)
 		Banner[FMChar].HotCenter()
 		Banner[FMChar].Draw(ubox.x+(ubox.w div 2),ubox.y+100)
 		if (prefixed(FMChar,"Z_"))
@@ -123,13 +139,14 @@ Module
 			end
 		End
 		__White
-		Fnt.Text("Luck",ubox.x+5,270+((#Any.Resistance.Stats)*30))
+		Fnt.Text("Luck",ubox.x+5,270+((llen Any.Resistance.Stats)*30))
 		__SkyBlue
-		Fnt.Text(Any.Resistance.Luck(FMChar),(ubox.x+ubox.w)-5,270+((#Any.Resistance.Stats)*30),1)
+		Fnt.Text(Any.Resistance.Luck(FMChar),(ubox.x+ubox.w)-5,270+((llen Any.Resistance.Stats)*30),1)
 		
-		int js = JewelSlots(Ch.Stat.Level)
-		const int jh = 12
-		static int jy = (ubox.y+ubox.h)-(6*jh)-5
+		int js := JewelSlots(Ch.Stat.Level)
+		//const int jh = 12
+		LocExtern jh "12"
+		int jy := (ubox.y+ubox.h)-(6*jh)-5
 		static int jscroll = 0
 		switch js
 			case 0
@@ -142,7 +159,7 @@ Module
 				MiniText.Text(sprintf("%d jewel slots",js),ubox.x+5,jy)
 		End
 		for i=1,4
-			int j = i+jscroll
+			int j := i+jscroll
 			string jn = "---" 
 			if Ch.Data[sprintf("Jewel_%02d",j)]!=""
 				jn = Any.IAA[Ch.Data[sprintf("Jewel_%02d",j)]].Title
@@ -174,17 +191,21 @@ Module
 			jscroll=math.max(jscroll,0)
 		end
 	End
-End
+//End
 
 Global Void CONSOLE_JewelSlots()
-	Var NU = NeilUse("Script/Flow/FieldMenu/Status")
+	NU := NeilUse("Script/Flow/FieldMenu/Status")
 	//for i=1,90 div __skill
 	int o = 0
 	for i=1,100000
-		int n = NU.JewelSlots(i)
+		int n := NU.JewelSlots(i)
 		if o!=n
 			csayf("Level %6d: > %02d",i,n)
 			o=n
 		end
 	end
 end
+
+Init
+	Sys.ConsoleLocal("JEWELS","CONSOLE_JewelSlots")
+End
