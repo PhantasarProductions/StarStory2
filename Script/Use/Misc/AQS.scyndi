@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Misc/AQS.scyndi
 // 
-// 	  Version: 26.04.19 XXIX
+// 	  Version: 26.04.20 III
 // 	
 // 	  Copyright (C) 2026 Jeroen Petrus Broks
 // 	
@@ -45,7 +45,7 @@
 
 Module
 
-plua AQS_DEBUG = true
+plua AQS_DEBUG = false
 
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/Bank"
@@ -214,16 +214,17 @@ Void Call(String VM,String Chunk,Infinity)
 			Case 3
 				if LastCheck
 					assert(cin.Params[0].Type==PT_Label,"Jump-True requires an address!")
-					inidx=cin.Params[0].Value
+					inidx=cin.Params[0].Value-1
 				end
 			Case 4
 				if !LastCheck
 					assert(cin.Params[0].Type==PT_Label,"Jump-False requires an address!")
-					inidx=cin.Params[0].Value
-				end
+					inidx=cin.Params[0].Value-1
+				end				
 			Case CI_Done
-				LastCheck=gbool[cin.Params[0].Value]
-				
+				LastCheck=Done[cin.Params[0].Value]
+			CAse CI_Exit
+				Return
 			Default; Lua.error(sprintf("Unknown AQS in-chunk instruction %02x::%03d",cin.Type,cin.Type))
 		End
 		inidx++
