@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/CLS_ZoneAction.scyndi
 // 
-// 	  Version: 26.04.13
+// 	  Version: 26.04.20
 // 	
 // 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -242,7 +242,7 @@ class ZoneAction
 					return false
 				else
 					//Zone.WordtInZone = FlowField.Map.Kthura.Actor.Player.IsInZone(Zone.ActZone)
-					Zone.WordtInZone = FlowField.Map.Player.IsInZone(Zone.ActZone)
+					Zone.WordtInZone = Kthura.HasObj(Zone.ActZone) && FlowField.Map.Player.IsInZone(Zone.ActZone)
 					if Zone.WordtInZone == self.CheckDels[Event].Wordt && Zone.WasInZone == self.CheckDels[Event].Was
 						switch Zone.ActType
 							case "function" "delegate"
