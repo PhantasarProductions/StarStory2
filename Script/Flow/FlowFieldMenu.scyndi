@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowFieldMenu.scyndi
 // 
-// 	  Version: 26.04.21 XI
+// 	  Version: 26.04.21 XIII
 // 	
 // 	  Copyright (C) 2020-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -67,8 +67,8 @@ readonly var   topbox = new Box(0,0,Screen.W,74,false)
 readonly var   lftbox = new Box(0,75,Screen.W/2,Screen.H-176-38,false)
 readonly var   rgtbox = new Box(Screen.W/2,75,Screen.W/2,Screen.H-176-38,false)
 readonly var   whlbox = new Box(0,75,Screen.W,Screen.H-176-38,false)
-readonly table  boxes = {topbox,lftbox,rgtbox,["LEFT"]=lftbox,["RIGHT"]=rgtbox}
-readonly table wboxes = {topbox,whlbox,["WHOLE"]=whlbox,["LEFT"]=lftbox,["RIGHT"]=rgtbox}
+readonly table  boxes = {[0]=topbox,lftbox,rgtbox,["LEFT"]=lftbox,["RIGHT"]=rgtbox}
+readonly table wboxes = {[0]=topbox,whlbox,["WHOLE"]=whlbox,["LEFT"]=lftbox,["RIGHT"]=rgtbox}
  
 
 
@@ -126,7 +126,7 @@ global void PartyClick(int i,string ch)
 				//	RPGChar[itmod.rcitem].Data[sprintf("INVITEM%d",itmod.rsitem)]=itmod.citem
 				//	itmod.citem=""
 				//end
-				Sys.CurrentFlow="FLOW_FIELD"
+				Sys.CurrentFlow="FIELD"
 			else
 				FMChar = ch
 			end
@@ -195,7 +195,7 @@ global void MainFlow()
 			__black
 		end
 		ico.ICON = ico.ICON || ObtainImage("ICO_"..ico.ICONFILE)
-		if Events.MouseHitLeft && my<topbox.h && mx>(i*iw)-ico.ICON.W && mx<(i*iw)+Ico.ICON.W
+		if Events.MouseHitLeft && my<topbox.h && mx>(i*iw)-ico.ICON.Width && mx<(i*iw)+Ico.ICON.Width
 			//Graphics.Rect(0,(i*iw)-15,Topbox.h,30) // debug only!
 			SitActive[FMSituation]=i
 		end
