@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/CLS_Clickable.scyndi
 // 
-// 	  Version: 26.04.14 II
+// 	  Version: 26.04.20 II
 // 	
 // 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -142,6 +142,9 @@ Class Clickable
 			//Var Lay = FlowField.Map.KthuraMap.Layer(L)
 			//Table rItems = Map.LRItems
 			//For T in each(LAY.TagListArray)
+			Kthura.CurrentLayer=L
+			Kthura.Remap()
+			CSayF("- Layer: %s (Tags: %d)",L,Len(Kthura.TagList))
 			For T in Each(Kthura.TagList)
 				//Var O = Lay.Obj(T)
 				
