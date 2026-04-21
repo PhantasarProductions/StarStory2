@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Subs/SubParty.scyndi
 // 
-// 	  Version: 26.04.20 III
+// 	  Version: 26.04.21
 // 	
 // 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -142,8 +142,8 @@ Group SubParty
 				Return
 			Default
 				RPGChar.Create(Ch)
-				RPGChar[Ch].Points.HP.MaxCopy = "END_HP"
-				RPGChar[Ch].Points.AP.MaxCopy = "END_AP"
+				//RPGChar[Ch].Points.HP.MaxCopy = "END_HP"
+				//RPGChar[Ch].Points.AP.MaxCopy = "END_AP"
 				RPGChar[Ch].Points.EXP.Maximum = Any.Caps.ExpNeeded
 				RPGChar[ch].Data.Used="True"
 				For R in Each{[0]="Status","Elements"}
@@ -335,7 +335,7 @@ Group SubParty
 		End
 		If Mouse.MR && Hover>0 && (!nohover)
 			//State.Call(Sys.CurrentFlow,"PartyRightClick",sprintf("%d,\"%s\"",Hover,RPGParty[Hover]))
-			Sys.Call(Sys.CurrentFlow,"PartyClick",Hover,RPGParty[Hover])
+			Sys.Call(Sys.CurrentFlow,"PartyRightClick",Hover,RPGParty[Hover])
 		End
 	End
 	
