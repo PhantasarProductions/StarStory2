@@ -1,7 +1,7 @@
 // License:
 // 	src/Code/Script/Use/Cnv.uwn/OldNeilUse.scyndi
 // 	Old Neil Use
-// 	version: 26.04.21 I
+// 	version: 26.04.21 II
 // 
 // 	Copyright (C) 2026 Jeroen P. Broks
 // 
@@ -28,5 +28,5 @@ Module NeilUse_03b09a5b4bf5bd417e01fd4f56dc556f
 Global Var OldNeilUse(String b)
 	Lua.Scyndi.Use(b)
 	sb:=StripDir(b)
-	return Lua.Scyndi.AllIdentifiers(sb)
+	return Lua.Scyndi.AllIdentifiers[sb]
 End
