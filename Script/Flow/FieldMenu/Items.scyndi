@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FieldMenu/Items.scyndi
 // 
-// 	  Version: 26.04.21
+// 	  Version: 26.04.21 XIX
 // 	
 // 	  Copyright (C) 2022-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -40,55 +40,23 @@
 // 	  2. Altered source versions must be plainly marked as such, and must not be
 // 	     misrepresented as being the original software.
 // 	  3. This notice may not be removed or altered from any source distribution.
-// License Information:
-// src/Tricky Script/Script/Flow/FieldMenu/Items.neil
-// Version: 23.01.26
-// Copyright (C) 2022, 2023 Jeroen Petrus Broks
-// 
-// ===========================
-// This file is part of a project related to the Phantasar Chronicles or another
-// series or saga which is property of Jeroen P. Broks.
-// This means that it may contain references to a story-line plus characters
-// which are property of Jeroen Broks. These references may only be distributed
-// along with an unmodified version of the game.
-// 
-// As soon as you remove or replace ALL references to the storyline or character
-// references, or any termology specifically set up for the Phantasar universe,
-// or any other univers a story of Jeroen P. Broks is set up for,
-// the restrictions of this file are removed and will automatically become
-// zLib licensed (see below).
-// 
-// Please note that doing so counts as a modification and must be marked as such
-// in accordance to the zLib license.
-// ===========================
-// zLib license terms:
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
-// in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-// misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-// End License Information
 // End License
 
 
 #use "Libs/FitText"
+#use "Libs/UseWhenNeeded"
 
-#use "Libs/Sys"
-#use "Libs/Graphics"
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
 
 #use "Script/Use/Anyway"
 
-#macro __IT IAA[Itg]
 
 Module
+
+LocExtern __IT "Scyndi.Any.IAA[Itg]"
+
 
 	Get Int MX
 		Return Any.Mouse.MX
@@ -112,20 +80,21 @@ Module
 	End
 	
 	Bool Allow_Combat_UserMenu(string ItemTag)
-		Var itm = Any.IAA[ItemTag]
+		itm := Any.IAA[ItemTag]
 		return itm.Item_Type=="Usable" || itm.Item_Type=="Consumable"
 	End
 	
 	Bool Allow_Shop(string ItemTag)
-		Var itm = Any.IAA[ItemTag]
+		itm := Any.IAA[ItemTag]
 		return itm.Sellable && itm.Shop_Price>0
 	End
 
 	Void Flow(uBox,string FMChar,string FMSituation)
 		Static Int ScrollY = 0
-		Static Int LinesOnScreen = (ubox.h div 30)-2
-		Static Int ScrollYMax = Any.Caps.InvSlots - LinesOnScreen
-		Static Var IAA = Any.IAA
+		Int LinesOnScreen := (ubox.h div 30)-2
+		Int ScrollYMax := Any.Caps.InvSlots - LinesOnScreen
+		//Static Var IAA = Any.IAA
+		LocExtern IAA "Scyndi.Globals.Any.IAA"
 		Int Hover=-1
 		Int X
 		Int EX
@@ -133,11 +102,11 @@ Module
 		ScrollY = math.min(ScrollY,ScrollYMax)
 		ScrollY = math.max(0,ScrollY)
 		For i=1,Any.Caps.InvSlots
-			Int sY   = (30*(i-ScrollY))
-			Int Y    = SY+ubox.y
-			Int BsX = 5
-			String ITg = IAA.Slot[i]
-			Int    INm = IAA.SlotNum[i]
+			Int sY   := (30*(i-ScrollY))
+			Int Y    := SY+ubox.y
+			Int BsX  := 5
+			String ITg := IAA.Slot[i]
+			Int    INm := IAA.SlotNum[i]
 			// DEBUG ONLY!
 			//if i==1
 			//	__white
@@ -166,8 +135,8 @@ Module
 					Graphics.Color(75,75,75)
 					Fnt.Text("----",X,Y)
 				Else			
-					Bool IsShop = Prefixed(FMSituation:upper(),"SHOP_")
-					If (IsShop && Self.Allow_Shop) || Self["Allow_"..FMSituation](ITg)
+					Bool IsShop := Prefixed(Upper(FMSituation),"SHOP_")
+					If (IsShop && Allow_Shop) || Items["Allow_"..FMSituation](ITg)
 						__White
 					Else
 						Graphics.Color(123,123,123)						
@@ -180,20 +149,20 @@ Module
 					If IsShop
 						Static Const Var Merchant = uwn("Script/Use/Merchant.uwn") 
 						__Ember
-						Fnt.Text(sprintf("%d %s",IAA[ITg].SellPrice,Left(Merchant[right(FMSituation,#FMSituation-5)].Currency,2)),ubox.x+(ubox.w div 2),Y,1)
+						Fnt.Text(sprintf("%d %s",IAA[ITg].SellPrice,Left(Merchant[right(FMSituation,Len(FMSituation)-5)].Currency,2)),ubox.x+(ubox.w div 2),Y,1)
 					End
 				End
 			End
 		End
 		If Hover>=0 && IAA.Slot[Hover]
-			String ITg = IAA.Slot[Hover]
+			String ITg := IAA.Slot[Hover]
 			Lua.assert(ITg!="",sprintf("Hovering slot #%d gives no an empty string",Hover))
 			//print("ITg = "..ITg)
 			//Var IT = IAA[Itg]
-			Int X=MX+10
-			Int Y=MY+15			
-			var Ex = __IT.ExplainTable
-			Int W=Fnt.TextWidth(__IT.Title)
+			Int X:=MX+10
+			Int Y:=MY+15			
+			Ex := __IT.ExplainTable
+			Int W:=Fnt.TextWidth(__IT.Title)
 			w = math.max(w,DFt.TextWidth(__IT.Desc))
 			For i,e in ipairs(EX)
 				W=math.max(W,DFt.TextWidth(e))
@@ -201,7 +170,7 @@ Module
 			W+=8
 			__Black
 			Graphics.Alpha(120)
-			Graphics.Rect(math.max(math.min(X-(W div 2),Screen.W-W),0),Y,W,50+(#EX*20))
+			Graphics.Rect(math.max(math.min(X-(W div 2),Screen.W-W),0),Y,W,50+(Len(EX)*20))
 			Graphics.Alpha(255)
 			__SkyBlue
 			FitText.Dark(Fnt,__IT.Title,X,Y,2)
@@ -212,7 +181,7 @@ Module
 				FitText.Dark(DFt,e,X,(Y+30)+(i*20),2)
 			End
 			If ML
-				UseItem(FMChar,Hover,ITg,FMSituation)
+				Lua.Scyndi.Globals.UseItem(FMChar,Hover,ITg,FMSituation)
 			End
 		End
 	End
