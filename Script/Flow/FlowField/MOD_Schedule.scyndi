@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/MOD_Schedule.scyndi
 // 
-// 	  Version: 26.04.18 II
+// 	  Version: 26.04.20
 // 	
 // 	  Copyright (C) 2020-'22, 2026 Jeroen Petrus Broks
 // 	
@@ -137,7 +137,9 @@ Module
 			ElseIf prefixed(s,"MAPTEXT:")
 				__MapText(right(s,Len(s)-8))
 			ElseIf prefixed(s,"LAYER:")
-				FlowField.Map.Layer=UPPER(right(s,len(s)-6))
+				Lay:=UPPER(right(s,len(s)-6))
+				CSayF("Schedule::Layer: %s::%s",Kthura.LastLoaded,Lay)
+				FlowField.Map.Layer=Lay
 			//ElseIf s=="SPAWN.GO"
 			//	Spawn.Go()
 			//ElseIf s=="SPAWN.RESET"
