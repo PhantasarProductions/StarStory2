@@ -35,7 +35,13 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
+
 #use "Libs/FitText"
+
+#use "Libs/Sys"
+#use "Libs/Graphics"
+
+#use "Script/Use/Anyway"
 
 #macro __IT IAA[Itg]
 
@@ -54,8 +60,8 @@ Module
 	End
 	
 
-	ReadOnly Var Fnt = ImageFont.Obtain("BOXTEXT")
-	ReadOnly Var DFt = ImageFont.Obtain("MINITEXT")
+	ReadOnly Var Fnt = ObtainFont("BOXTEXT")
+	ReadOnly Var DFt = ObtainFont("MINITEXT")
 	
 	Bool Allow_FIELD(string ItemTag)
 		// TODO: True usage in field
@@ -168,4 +174,4 @@ Module
 		End
 	End
 	
-End
+//End
