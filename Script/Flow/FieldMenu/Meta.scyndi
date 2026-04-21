@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FieldMenu/Meta.scyndi
 // 
-// 	  Version: 26.04.21 VIII
+// 	  Version: 26.04.21 XVIII
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -45,6 +45,7 @@
 
 Module
 
+#use "Libs/SCI/Sys"
 #use "Libs/SCI/GINIE"
 #use "Libs/SCI/Graphics"
 
@@ -52,7 +53,7 @@ Module
 
 LocExtern ll "#"
 
-ReadOnly Var MetaData = GINIE.Load("Data/Character/MetaData.ini","CHARMETA")
+ReadOnly Var MetaData = GINIE.Load("Data/Characters/MetaData.ini","CHARMETA")
 ReadOnly Var Fnt = ObtainFont("BOXTEXT")
 
 Int Procent(int a)
@@ -79,6 +80,7 @@ Void Flow(uBox,string FMChar,string FMSituation)
 		x=x||5
 		align=align||0
 		Fnt.Text(m,x+ubox.x,y,align)
+		//CSayF("Meta.Write(<ubox>, \"%s\", %d, %d): coordinates(%d,%d)",m,x,align,ubox.x+x,y)
 	End
 	
 	//Void WriteLn(string m,int x=5,int align=0)
@@ -86,6 +88,7 @@ Void Flow(uBox,string FMChar,string FMSituation)
 		String m
 		plua x
 		plua align
+		m,x,align=Infinity
 		Write(m,x || 5,align || 0)
 		y+=30
 	End
@@ -95,9 +98,10 @@ Void Flow(uBox,string FMChar,string FMSituation)
 		string m
 		int x
 		int y
-		int a = 0
-		m,x,y,a = infinity
-		Fnt.Text(m,x+ubox.x,y,a)
+		plua a 
+		//print("QT",infinity)
+		m,x,y,a = infinity		
+		Fnt.Text(m,x+ubox.x,y,a||0)
 	End
 		
 	Int X2:=ubox.w-10
@@ -112,18 +116,18 @@ Void Flow(uBox,string FMChar,string FMSituation)
 		Return
 	End
 	WriteLn("")
-	For i,s in iPairs(Any.Resistance.Elements)
+	For i,s in Pairs(Any.Resistance.Elements)
 		if s!="None"
 			Int iy=y+(i*30)
-			String SV := Any.Resistances.ERes(FMChar,s)
+			String SV := Any.Resistance.ERes(FMChar,s)
 			__White
 			QT(s,5,iy)
-			Any.Resistances.EResCol(FMChar,s)
+			Any.Resistance.EResCol(FMChar,s)
 			QT(SV,X2-5,iy,1)
 		end
 	End
 	y+=(30*(ll Any.Resistance.Elements))
-		For i,s in iPairs(Any.Resistance.Status)
+		For i,s in Pairs(Any.Resistance.Status)
 		if s!="None"
 			Int iy=y+(i*30)
 			String SV := SProcent(RPGChar[FMChar].Stat["END_ZSR_"..s])
