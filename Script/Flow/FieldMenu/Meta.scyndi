@@ -63,59 +63,58 @@ String SProcent(int a)
 	Return sprintf("%3d%%",Procent(a))
 End
 	
-	Int Y
+Int Y
 	
 	
 	
 
-	Void Flow(uBox,string FMChar,string FMSituation)
+Void Flow(uBox,string FMChar,string FMSituation)
 	
-		Void Write(string m,int x=5,int align=0)		
-			Fnt.Text(m,x+ubox.x,y,align)
-		End
-	
-		Void WriteLn(string m,int x=5,int align=0)
-			Write(m,x,align)
-			y+=30
-		End
-
-		Void QT(string m,int x,int y,int a=0)
-			Fnt.Text(m,x+ubox.x,y,a)
-		End
-		
-		Int X2:=ubox.w-10
-		Int X1:=ubox.w div 2
-		__White
-		Y=ubox.y+5
-		WriteLn(MetaData.Value(FMChar,"FName"))
-		WriteLn(sprintf("%s %s",MetaData.Value(FMChar,"Race"),MetaData.Value(FMChar,"Sex")))
-		WriteLn(sprintf("%s (Earth) years old",MetaData.Value(FMChar,"Age")))
-		WriteLn(MetaData.Value(FMChar,"Class"))
-		If prefixed(FMChar,"Z_")
-			Return
-		End
-		WriteLn("")
-		For i,s in iPairs(Any.Resistance.Elements)
-			if s!="None"
-				Int iy=y+(i*30)
-				String SV := Any.Resistances.ERes(FMChar,s)
-				__White
-				QT(s,5,iy)
-				Any.Resistances.EResCol(FMChar,s)
-				QT(SV,X2-5,iy,1)
-			end
-		End
-		y+=(30*(ll Any.Resistance.Elements))
-
-		For i,s in iPairs(Any.Resistance.Status)
-			if s!="None"
-				Int iy=y+(i*30)
-				String SV = SProcent(RPGChar[FMChar].Stat["END_ZSR_"..s])
-				__White
-				QT(s ,   5,iy)			
-				QT(SV,X2-5,iy,1)
-			End
-		End
-
+	Void Write(string m,int x=5,int align=0)		
+		Fnt.Text(m,x+ubox.x,y,align)
 	End
+	
+	Void WriteLn(string m,int x=5,int align=0)
+		Write(m,x,align)
+		y+=30
+	End
+
+	Void QT(string m,int x,int y,int a=0)
+		Fnt.Text(m,x+ubox.x,y,a)
+	End
+		
+	Int X2:=ubox.w-10
+	Int X1:=ubox.w div 2
+	__White
+	Y=ubox.y+5
+	WriteLn(MetaData.Value(FMChar,"FName"))
+	WriteLn(sprintf("%s %s",MetaData.Value(FMChar,"Race"),MetaData.Value(FMChar,"Sex")))
+	WriteLn(sprintf("%s (Earth) years old",MetaData.Value(FMChar,"Age")))
+	WriteLn(MetaData.Value(FMChar,"Class"))
+	If prefixed(FMChar,"Z_")
+		Return
+	End
+	WriteLn("")
+	For i,s in iPairs(Any.Resistance.Elements)
+		if s!="None"
+			Int iy=y+(i*30)
+			String SV := Any.Resistances.ERes(FMChar,s)
+			__White
+			QT(s,5,iy)
+			Any.Resistances.EResCol(FMChar,s)
+			QT(SV,X2-5,iy,1)
+		end
+	End
+	y+=(30*(ll Any.Resistance.Elements))
+		For i,s in iPairs(Any.Resistance.Status)
+		if s!="None"
+			Int iy=y+(i*30)
+			String SV := SProcent(RPGChar[FMChar].Stat["END_ZSR_"..s])
+			__White
+			QT(s ,   5,iy)			
+			QT(SV,X2-5,iy,1)
+		End
+	End
+
+End
 //End
