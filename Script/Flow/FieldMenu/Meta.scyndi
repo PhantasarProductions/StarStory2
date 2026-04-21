@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FieldMenu/Meta.scyndi
 // 
-// 	  Version: 26.04.21 III
+// 	  Version: 26.04.21 V
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -52,16 +52,16 @@ Module
 
 LocExtern ll "#"
 
-	ReadOnly Var MetaData = GINIE.Load("Data/Character/MetaData.ini","CHARMETA")
-	ReadOnly Var Fnt = ObtainFont("BOXTEXT")
+ReadOnly Var MetaData = GINIE.Load("Data/Character/MetaData.ini","CHARMETA")
+ReadOnly Var Fnt = ObtainFont("BOXTEXT")
 
-	Int Procent(int a)
-		Return math.max(0,math.min(100,a))
-	End
+Int Procent(int a)
+	Return math.max(0,math.min(100,a))
+End
 	
-	String SProcent(int a)
-		Return sprintf("%3d%%",Procent(a))
-	End
+String SProcent(int a)
+	Return sprintf("%3d%%",Procent(a))
+End
 	
 	Int Y
 	
@@ -98,7 +98,7 @@ LocExtern ll "#"
 		For i,s in iPairs(Any.Resistance.Elements)
 			if s!="None"
 				Int iy=y+(i*30)
-				String SV = Any.Resistances.ERes(FMChar,s)
+				String SV := Any.Resistances.ERes(FMChar,s)
 				__White
 				QT(s,5,iy)
 				Any.Resistances.EResCol(FMChar,s)
