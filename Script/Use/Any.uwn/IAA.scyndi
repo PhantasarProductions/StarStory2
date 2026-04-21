@@ -34,6 +34,9 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
+module IAA_fc23ca5588ce1273cb6a2773cd09f951
+
 // Item Action Ability
 
 Var Me
@@ -206,14 +209,18 @@ end
 
 
 Var GetIAA(String F)
-	string Rec="REC:"..F
+	string Rec:="REC:"..F
 	Lua.assert(F!="","Tagless item request")
-	Var Data = GINIE.LoadNew("Data/IAA/"..F..".INI",Rec)
-	Var GIndex(s,String Key)
-		Key = Key:upper()
+	Data := GINIE.LoadNew("Data/IAA/"..F..".INI",Rec)
+	//Var GIndex(s,String Key)
+	ddef GIndex
+		plua s
+		String Key
+		s,Key = Infinity
+		Key = Upper(Key)
 		Switch(Key)
 			Case "TAG"
-				return F:upper()
+				return Upper(F)
 			Case "GIVE"
 				Return Give(F)
 			case "CANGIVE"
@@ -226,7 +233,7 @@ Var GetIAA(String F)
 			Case "EXPLAIN"
 				Return Explanation(F)
 			Case "EXPLAINTABLE"
-				return Split(Explanation(F),"\n")
+				return XSplit(Explanation(F),"\n")
 			Case "SELLPRICE" "SELL_PRICE"
 				Int BuyPrice = ME[F].Shop_Price
 				Switch __Skill
@@ -252,7 +259,7 @@ Var GetIAA(String F)
 						return Data.Value(Rec,Key)
 					Case "INT" "NUMBER"
 						// Debug only!
-						//if Key:upper()=="X_EXPERIENCE"
+						//if Upper(Key)=="X_EXPERIENCE"
 						//	Lua.error("Value: "..DATA.Value(Rec,Key))
 						//end
 						return Lua.tonumber(DATA.Value(Rec,Key)) || 0
@@ -265,8 +272,13 @@ Var GetIAA(String F)
 				End
 		End
 	End
-	Void GNewIndex(s,String k,Value)
-		String Key = K:upper()
+	//Void GNewIndex(s,String k,Value)
+	ddef GNewIndex
+		plua s
+		String K
+		plua Value
+		s,k,Value = Infinity
+		String Key = upper(K)
 		Switch(Key)
 			case "GIVEN"
 				GData.Value("Given",F,Lua.tostring(Value))
@@ -285,7 +297,7 @@ global const int IAAEX_details = 2
 
 QuickMeta _module_IAA
 	index
-		Key = Key:upper()
+		Key = Upper(Key)
 		Switch Key
 			Case "HELLO"
 				// This can be used by a few routines to enforce this
@@ -309,6 +321,7 @@ End
 
 
 
+Global Var IAA
 Init
 	IAA_Data = {}
 	If GData.Value("ALGEMEEN","SETUP")!="SET"
@@ -320,6 +333,7 @@ Init
 		GData.Value("ALGEMEEN","SETUP","SET")
 	End
 	Me = _module_IAA
+	IAA = _module_AA
 End
 
-Return _module_IAA
+//Return _module_IAA
