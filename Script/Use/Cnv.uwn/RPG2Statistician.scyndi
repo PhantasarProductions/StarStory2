@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Cnv.uwn/RPG2Statistician.scyndi
 // 
-// 	  Version: 26.04.20
+// 	  Version: 26.04.20 IV
 // 	
 // 	  Copyright (C) 2026 Jeroen Petrus Broks
 // 	
@@ -108,12 +108,13 @@ ReadOnly Table SubStat = {[0]="BASE","BUFF","PERM","EQUI","END"}
 
 Int GetStat(ouwe,String Key)
 	this:=ouwe.this
-	if Prefixed(Key,"END_") && (Upper(Key)!="END_SPIRATARATE")
+	if Prefixed(Upper(Key),"END_") 
 		int r=0
 		for s in Each(SubStat)
 			//CSayF("DEBUG GETSTAT END: %s::%s >> %s::%s %d",Ouwe.Tag,Key,s,s!="END",r)
 			if s!="END" 
 				r+=GetStat(ouwe,s.."_"..Right(Key,Len(Key)-4))
+				//CSayF("DEBUG END: %s %d -> %d",Right(Key,Len(Key)-4),GetStat(ouwe,s.."_"..Right(Key,Len(Key)-4)),r)
 			end
 		end
 		return r
@@ -147,6 +148,10 @@ Class TFChar
 	ReadOnly Var SafeStat
 	Get Var Points;
 		ts.ChData.Points.HP.Maximum = ts.Stat.END_HP
+		if (ts.ChData.Points.HP.Maximum == 0)
+			ts.ChData.Points.HP.Maximum = 1
+			CSayF("\x07%s's Max HP is 0!",ts.Tag)
+		End
 		//CSayF("%s:>HP Auto -- %d -> %d",Tag,ts.Stat.END_HP,ts.ChData.Points.HP.Maximum) // DEBUG ONLY!
 		//CSayF("%s: Is Foe? -> %s",Tag,Prefixed(Tag,"FOE_"))
 		If !Prefixed(Tag,"FOE_")
