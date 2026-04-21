@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FieldMenu/Meta.scyndi
 // 
-// 	  Version: 26.04.21 V
+// 	  Version: 26.04.21 VII
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -70,16 +70,32 @@ Int Y
 
 Void Flow(uBox,string FMChar,string FMSituation)
 	
-	Void Write(string m,int x=5,int align=0)		
+	//Void Write(string m,int x=5,int align=0)
+	ddef Write
+		String m
+		plua x
+		plua align
+		m,x,align=infinity
+		x=x||5
+		align=align||0
 		Fnt.Text(m,x+ubox.x,y,align)
 	End
 	
-	Void WriteLn(string m,int x=5,int align=0)
-		Write(m,x,align)
+	//Void WriteLn(string m,int x=5,int align=0)
+	ddef WriteLn
+		String m
+		plua x
+		plua align
+		Write(m,x || 5,align || 0)
 		y+=30
 	End
 
-	Void QT(string m,int x,int y,int a=0)
+	ddef QT(string m,int x,int y,int a=0)
+		string m
+		int x
+		int y
+		int a = 0
+		m,x,y,a = infinity
 		Fnt.Text(m,x+ubox.x,y,a)
 	End
 		
