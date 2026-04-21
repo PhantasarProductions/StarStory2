@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Anyway.scyndi
 // 
-// 	  Version: 26.04.14
+// 	  Version: 26.04.21
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -106,6 +106,8 @@ Extern MapText "Scyndi.Globals.Lnk.BoxText._MapText"
 Extern CharMapText "Scyndi.Globals.Lnk.BoxText._CharMapText"
 Extern MapTextLeader "Scyndi.Globals.Lnk.BoxText._MapTextLeader"
 
+Extern NeilUse "Scyndi.Globals.Cnv.OldNeilUse"
+
 
 // Convert to statistician
 Extern RPGChar  "Scyndi.Globals.Cnv.RPG2Statistician.RPGChar"
@@ -116,6 +118,8 @@ Global Void WantQuit()
 		Sys.Quit()
 	End
 End
+
+
 
 //Init
 	//Print(ApolloState.Name.."> Script runs in '"..Any.Dev.Mode.."' mode!")
