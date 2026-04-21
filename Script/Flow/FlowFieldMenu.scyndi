@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowFieldMenu.scyndi
 // 
-// 	  Version: 26.04.21 I
+// 	  Version: 26.04.21 VII
 // 	
 // 	  Copyright (C) 2020-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -44,6 +44,9 @@
 
 
 Script
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Misc/CBox"
@@ -108,7 +111,7 @@ global void PartyClick(int i,string ch)
 	if i>0
 		if Prefixed(FMSituation,"COMBAT_")
 			if FMChar == ch
-				State.Call("FLOW_COMBAT","Stage_PlayerInput.ReturnCancel","nil")
+				Sys.Call("FLOW_COMBAT","Stage_PlayerInput.ReturnCancel","nil")
 			end
 		else 
 			if FMChar == ch
@@ -122,7 +125,7 @@ global void PartyClick(int i,string ch)
 				//	RPGChar[itmod.rcitem].Data[sprintf("INVITEM%d",itmod.rsitem)]=itmod.citem
 				//	itmod.citem=""
 				//end
-				Flow.Current="FLOW_FIELD"
+				Sys.CurrentFlow="FLOW_FIELD"
 			else
 				FMChar = ch
 			end
@@ -198,9 +201,9 @@ global void MainFlow()
 		Lua.assert(ico.ICON.Draw,"Draw method became 'nil' in "..Lua.tostring(ico.ICONFILE))
 		ico.ICON.Draw(i*iw,topbox.h div 2)
 		if SitActive[FMSituation]==i
-			static table kanten={"LEFT","RIGHT"}
-			static table whole={"WHOLE"}
-			var weach = kanten
+			static table kanten={[0]="LEFT","RIGHT"}
+			static table whole={[0]="WHOLE"}
+			weach := kanten
 			if ico.WHOLE
 				weach=whole
 			end
