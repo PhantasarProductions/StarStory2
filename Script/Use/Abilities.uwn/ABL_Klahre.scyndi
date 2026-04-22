@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 26.04.22 XXI
+// version: 26.04.22 XXII
 // 
 // End License
 
@@ -254,7 +254,7 @@ End
 		Int MX := Any.Mouse.MX
 		Int MY := Any.Mouse.MY
 		Int HX := 0-1
-		Int Hover := 0
+		Int Hover := 0-1
 		For _i,at in ipairs(TARM.List)
 			i := _i + 1
 			a := ARM[at]
