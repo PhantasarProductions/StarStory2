@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FieldMenu/Items.scyndi
 // 
-// 	  Version: 26.04.21 XIX
+// 	  Version: 26.04.22 III
 // 	
 // 	  Copyright (C) 2022-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -55,7 +55,7 @@
 
 Module
 
-LocExtern __IT "Scyndi.Any.IAA[Itg]"
+LocExtern __IT "Scyndi.Globals.Any.IAA[ITg]"
 
 
 	Get Int MX
@@ -155,17 +155,17 @@ LocExtern __IT "Scyndi.Any.IAA[Itg]"
 			End
 		End
 		If Hover>=0 && IAA.Slot[Hover]
-			String ITg := IAA.Slot[Hover]
+			ITg := IAA.Slot[Hover]
 			Lua.assert(ITg!="",sprintf("Hovering slot #%d gives no an empty string",Hover))
 			//print("ITg = "..ITg)
 			//Var IT = IAA[Itg]
 			Int X:=MX+10
 			Int Y:=MY+15			
 			Ex := __IT.ExplainTable
-			Int W:=Fnt.TextWidth(__IT.Title)
-			w = math.max(w,DFt.TextWidth(__IT.Desc))
+			Int W:=Fnt.Width(__IT.Title)
+			w = math.max(w,DFt.Width(__IT.Desc))
 			For i,e in ipairs(EX)
-				W=math.max(W,DFt.TextWidth(e))
+				W=math.max(W,DFt.Width(e))
 			End
 			W+=8
 			__Black
@@ -178,7 +178,7 @@ LocExtern __IT "Scyndi.Any.IAA[Itg]"
 			FitText.Dark(DFt,__IT.Desc,X,(Y+30),2)
 			__White
 			For i,e in ipairs(EX)
-				FitText.Dark(DFt,e,X,(Y+30)+(i*20),2)
+				FitText.Dark(DFt,e,X,(Y+30)+((i+1)*20),2)
 			End
 			If ML
 				Lua.Scyndi.Globals.UseItem(FMChar,Hover,ITg,FMSituation)
