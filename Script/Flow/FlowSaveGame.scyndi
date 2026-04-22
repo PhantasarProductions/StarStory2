@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowSaveGame.scyndi
 // 
-// 	  Version: 26.04.18 III
+// 	  Version: 26.04.22 I
 // 	
 // 	  Copyright (C) 2023-2026 Jeroen Petrus Broks
 // 	
@@ -296,6 +296,7 @@ Void Action_Save(int Spot)
 	S.Assign(sprintf("SaveGames/SG_%08d_%02d.jcr",Page,Spot))
 
 	CSay("Unparsing Variables")
+	gint.ARMSCounted = -1  
 	S.Text["Variables.ini"]=gsource
 
 	
