@@ -34,13 +34,14 @@
 // **********************************************
 // 
 // 
-// version: 26.04.22
+// version: 26.04.22 II
 // 
 // End License
 
 
 Module
 
+#use "Script/Use/Anyway"
 #use "Script/Use/Abilities.uwn/Use/Gadget"
 
 Table YAbl 
@@ -69,4 +70,4 @@ End
 	Init
 		Stuff = new Gadget("Yorno",YAbl)
 	End
-End
+//End
