@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Use/Abilities.uwn/Klahre.neil
-// (c) Jeroen Broks, 2022, 2023, All Rights Reserved.
+// src/Code/Script/Use/Abilities.uwn/ABL_Klahre.scyndi
+// (c) Jeroen Broks, 2022-2023, 2026, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,16 +33,36 @@
 // 
 // **********************************************
 // 
-// version: 23.09.10
-// End License Information
+// 
+// version: 26.04.22 XII
+// 
+// End License
+
+
 
 #use "libs/fittext"
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/GINIE"
+#use "Libs/SCI/Kthura"
+#use "Libs/SCI/Graphics"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Anyway"
+
+Module
+
 
 Class TARM
 	Static ReadOnly Var Stuff = GINIE.CreateNew("KLAHRE_ARMS")
 	Static Var _TrueList
 	Static Get Table List
-		_TrueList = _TrueList || Stuff.ListCopy("LISTS","ARMSGATHERED")
+		if (_TrueList) && Len(_TrueList)!=gint.ARMSCounted
+			CSayF("Reset Klahre's ARM list! %d!=%d",Len(_TrueList), gint.ARMSCounted)
+			_TrueList=nil
+			gint.ARMSCounted = Len(Stuff.List("LISTS","ARMSGATHERED"))
+		End
+		_TrueList = _TrueList || Stuff.List("LISTS","ARMSGATHERED")
 		Return _TrueList
 	End
 	
@@ -49,7 +70,7 @@ Class TARM
 	readonly var ARM
 	
 	get var PAmmo
-		return RPGChar.Klahre.Points[sprintf("ZZ_ARM_AMMO_%s",Tag:upper())]
+		return RPGChar.Klahre.Points[sprintf("ZZ_ARM_AMMO_%s",Upper(Tag))]
 	end
 	
 	get int AmmoMax
@@ -74,7 +95,7 @@ Class TARM
 	End
 	
 	Get Int XPower
-		Int Ret = Lua.tonumber(Stuff.Value(Tag,"XPower")) || 0
+		Int Ret := Lua.tonumber(Stuff.Value(Tag,"XPower")) || 0
 		//CSayF("XPOWER RETURNS %d",ret) // debug only
 		Return Ret
 	End
@@ -83,7 +104,7 @@ Class TARM
 	End
 	
 	Get Int XRepeat
-		Int Ret = Lua.tonumber(Stuff.Value(Tag,"XRepeat")) || 0
+		Int Ret := Lua.tonumber(Stuff.Value(Tag,"XRepeat")) || 0
 		Return Ret
 	End
 	Set Int XRepeat
@@ -116,7 +137,7 @@ Class TARM
 	End
 	
 	Constructor(string _Tag)
-		Tag = _Tag:upper()
+		Tag = Upper(_Tag)
 		ARM = any.iaa[Tag]		
 		AmmoMax = math.max(ARM.ARM_Init_Ammo,AmmoMax) 
 		Ammo = AmmoMax
@@ -124,9 +145,9 @@ Class TARM
 	End
 End
 
-Module
-	ReadOnly Var Fnt = ImageFont.Obtain("BOXTEXT")
-	ReadOnly Var DFt = ImageFont.Obtain("MINITEXT")
+//Module
+	ReadOnly Var Fnt = ObtainFont("BOXTEXT")
+	ReadOnly Var DFt = ObtainFont("MINITEXT")
 	ReadOnly Var ARM
 	ReadOnly Var ARM_MAP
 
@@ -139,7 +160,7 @@ Module
 	End
 	
 	Void Add(string _ARM)
-		_ARM = _ARM:upper()
+		_ARM = Upper(_ARM)
 		if (!Prefixed(_ARM,"ARM_"))
 			_ARM="ARM_".._ARM
 		End
@@ -150,29 +171,31 @@ Module
 		End
 		Stuff.Add("LISTS","ARMSGATHERED",_ARM)
 		TARM._TrueList = nil
+		gint.ARMSCounted = Len(Stuff.List("LISTS","ARMSGATHERED"))
 		CSay("Added")
 	End
 	
 	Void AllowRachel()
-		gv.gBool.AllowRachel = Stuff.Count("LISTS","ARMSGATHERED")>=15
-		CSayF("ARMS gathered: %02d! Rachel allowed: %s",Stuff.Count("LISTS","ARMSGATHERED"),Lua.tostring(gv.gBool.AllowRachel))		
+		gBool.AllowRachel = Len(Stuff.List("LISTS","ARMSGATHERED"))>=15
+		CSayF("ARMS gathered: %02d! Rachel allowed: %s",Len(Stuff.List("LISTS","ARMSGATHERED")),Lua.tostring(gBool.AllowRachel) )		
 	End
 			
 	
-	Link GetARMEXP = gv.gint.KLAHRE_ARM_EXPERIENCE
+	Link GetARMEXP = gint.KLAHRE_ARM_EXPERIENCE
 	
 	// Difference is that this function makes Klahre announce it to the player
 	// And reject the ARM if the leader is not Klahre
 	Void Obtain(string _ARM)
-		String Lead = Lua.Neil.Globals.FlowField.FollowTheLeader.LeaderTag
+		String Lead = Lua.Scyndi.Globals.FlowField.FollowTheLeader.LeaderTag
 		If HasARM(_ARM)
 			Lnk.BoxText.Serial("ARM","ALREADY_HAVE")
 		ElseIf Lead=="Klahre"
-			gv.gstr.ARMOBTAINED = any.IAA[_ARM].TITLE
+			gstr.ARMOBTAINED = any.IAA[_ARM].TITLE
 			Lnk.BoxText.Serial("ARM","YES")
-			Self.GetARMEXP += 25
-			RPGChar.Klahre.Points.EXP.Have += Self.GetARMEXP
-			Lua.Neil.Globals.FlowField.Map.CurLayer.Obj(_ARM).Texture="GFX/Treasure/ARMS_Chest_Open.png"
+			GetARMEXP += 25
+			RPGChar.Klahre.Points.EXP.Have += GetARMEXP
+			//Lua.Neil.Globals.FlowField.Map.CurLayer.Obj(_ARM).Texture="GFX/Treasure/ARMS_Chest_Open.png"
+			Kthura.Obj[_ARM].Texture = "GFX/Treasure/ARMS_Chest_Open.png"
 			Add(_ARM)
 			TARM._TrueList = nil
 		Else
@@ -190,7 +213,7 @@ Module
 			a.AmmoMax+=3-__skill
 			a.Hit+=12 div __skill			
 		End
-		Self.GetARMEXP += 50
+		GetARMEXP += 50
 		RPGChar.Klahre.Points.EXP.Have += Self.GetARMEXP
 		Stuff.Add("LISTS","ARMSGATHERED","ARM_ARKSMASH")
 		TARM._TrueList = nil
@@ -218,17 +241,17 @@ Module
 		
 
 	Void View(ubox,upgrading)
-		Int BX = ubox.x+5
-		Int BY = ubox.Y+5
-		Int EX = (ubox.x+ubox.w)-10
-		Int EY = (ubox.y+ubox.h)-10
-		Int MX = Any.Mouse.MX
-		Int MY = Any.Mouse.MY
-		Int HX = 0
-		Int Hover = 0
+		Int BX := ubox.x+5
+		Int BY := ubox.Y+5
+		Int EX := (ubox.x+ubox.w)-10
+		Int EY := (ubox.y+ubox.h)-10
+		Int MX := Any.Mouse.MX
+		Int MY := Any.Mouse.MY
+		Int HX := 0
+		Int Hover := 0
 		For i,at in ipairs(TARM.List)
-			var a = ARM[at]
-			int IY = BY+(i*30)
+			a := ARM[at]
+			int IY := BY+(i*30)
 			If MY>IY && MX>BX && MX<EX && MY<IY+30
 				Hover = i
 			End
@@ -238,23 +261,23 @@ Module
 			fnt.Dark(sprintf("%2d/%2d",a.Ammo,a.AmmoMax),EX-HX,IY,1)
 		End
 		If Hover>0
-			Var AR = ARM[TARM.List[Hover]]			
-			String ITg = AR.Tag 
-			Var IT = any.iaa[ITg]
+			AR := ARM[TARM.List[Hover]]			
+			String ITg := AR.Tag 
+			IT := any.iaa[ITg]
 			//Lua.assert(ITg!="",sprintf("Hovering slot #%d gives no an empty string",Hover))
 			Int X=MX+10
 			Int Y=MY+15
-			var Ex = IT.ExplainTable
-			String Updates = sprintf("Extra Power: %d; Repeat: %d; Hit: %03d%%",AR.XPower,AR.XRepeat,AR.Hit)
-			Int W=math.max(Fnt.TextWidth(IT.Title),DFt.TextWidth(Updates))			
-			w = math.max(Dft.TextWidth(IT.Desc),w)
+			Ex := IT.ExplainTable
+			String Updates := sprintf("Extra Power: %d; Repeat: %d; Hit: %03d%%",AR.XPower,AR.XRepeat,AR.Hit)
+			Int W:=math.max(Fnt.TextWidth(IT.Title),DFt.TextWidth(Updates))			
+			w = math.max(Dft.Width(IT.Desc),w)
 			For i,e in ipairs(EX)
-				W=math.max(W,DFt.TextWidth(e))
+				W=math.max(W,DFt.Width(e))
 			End			
 			W+=8
 			__Black
 			Graphics.Alpha(120)
-			Graphics.Rect(math.max(math.min(X-(W div 2),Screen.W-W),0),Y,W,50+((#EX+1)*20))
+			Graphics.Rect(math.max(math.min(X-(W div 2),Screen.W-W),0),Y,W,50+((Len(EX)+1)*20))
 			Graphics.Alpha(255)
 			__SkyBlue
 			FitText.Dark(Fnt,IT.Title,X,Y,2)
@@ -264,7 +287,7 @@ Module
 			FitText.Dark(Dft,Updates,X,(Y+60),2)
 			__White
 			For i,e in ipairs(EX)
-				FitText.Dark(DFt,e,X,(Y+60)+(i*20),2)
+				FitText.Dark(DFt,e,X,(Y+60)+((i+1)*20),2)
 			End
 			If ML
 				//UseItem(FMChar,Hover,ITg)
@@ -273,7 +296,7 @@ Module
 		End
 	End
 	
-	Constructor
+	Init
 		Lnk.BoxText.Load("ARM","ARM")
 		Add("Dart")
 		Add("HealingSpray")
@@ -285,4 +308,4 @@ Module
 		End
 		ARM = Lua.setmetatable({},{["__index"] = MIDX})
 	End
-End
+//End
