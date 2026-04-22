@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Abilities.uwn/Use/Gadget.scyndi
 // 
-// 	  Version: 26.04.22
+// 	  Version: 26.04.22 XIX
 // 	
 // 	  Copyright (C) 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -44,10 +44,15 @@
 
 Module Gadget_18cf19d3ab06f8685fefb0b5f2b82e79
 
+#use "Libs/FitText"
 #use "Libs/LinkedList"
 
 #use "Libs/SCI/Sys"
+#use "libs/SCI/GINIE"
+#use "libs/SCI/Events"
 #use "Libs/SCI/Graphics"
+
+#use "Script/Use/Anyway"
 
 plua Gadget_18cf19d3ab06f8685fefb0b5f2b82e79_Pics
 
@@ -81,7 +86,7 @@ Class Gadget_Item
 		If Upper(ATag)=="ZTRANSFER"
 			Return RPGParty[3]=="Doctor"
 		End
-		Return Parent.Stuff.Value("Unlocked",atag):upper()=="TRUE"
+		Return Upper(Parent.Stuff.Value("Unlocked",atag))=="TRUE"
 	End
 	Set Bool Unlocked
 		Parent.Stuff.Value("Unlocked",atag,Upper(tostring(value)))
@@ -90,7 +95,7 @@ Class Gadget_Item
 		Return Abl.Name
 	End
 	Get Int EP_Cost
-		String T = "APCOST_"..Exe
+		String T := "APCOST_"..Exe
 		If Upper(Parent.Stuff.Value("EP_Cut",atag))=="TRUE"
 			Switch __Skill
 				case 1
@@ -111,7 +116,7 @@ Class Gadget_Item
 		Return Abl.AllowPowerUp_Spread
 	End
 	Get Bool Spread
-		Return AllowSpread && upper(arent.Stuff.Value("Spread",atag))=="TRUE"
+		Return AllowSpread && upper(Parent.Stuff.Value("Spread",atag))=="TRUE"
 	End
 	Bool SelectedSpread = False
 	
@@ -219,15 +224,15 @@ Class Gadget
 			Int Y:=MY+15
 			Ex := IT.ExplainTable
 			//String Updates = sprintf("Extra Power: %d; Repeat: %d; Hit: %03d%%",AR.XPower,AR.XRepeat,AR.Hit)
-			Int W:=math.max(Fnt.TextWidth(IT.Title),0)			
-			w = math.max(Dft.TextWidth(IT.Desc),w)
+			Int W:=math.max(Fnt.Width(IT.Title),0)			
+			w = math.max(Dft.Width(IT.Desc),w)
 			For i,e in ipairs(EX)
-				W=math.max(W,DFt.TextWidth(e))
+				W=math.max(W,DFt.Width(e))
 			End			
 			W+=8
 			__Black
 			Graphics.Alpha(120)
-			Graphics.Rect(math.max(math.min(X-(W div 2),Screen.W-W),0),Y,W,50+(#EX*20))
+			Graphics.Rect(math.max(math.min(X-(W div 2),Screen.W-W),0),Y,W,50+(Len(EX)*20))
 			Graphics.Alpha(255)
 			__SkyBlue
 			FitText.Dark(Fnt,IT.Title,X,Y,2)
@@ -253,11 +258,11 @@ Class Gadget
 	
 		
 	Void ShowItem(ubox,Situation)
-		Int BX = ubox.x + 10
-		Int BY = ubox.y + 10
-		Int EX = BX + (ubox.w-20)
-		Int EY = BY + (ubox.h-20)
-		int BW = EX-BX
+		Int BX := ubox.x + 10
+		Int BY := ubox.y + 10
+		Int EX := BX + (ubox.w-20)
+		Int EY := BY + (ubox.h-20)
+		int BW := EX-BX
 		If Any.Mouse.MR || math.abs(os.time()-TS)>5 || (!SelectedItem)
 			CSayF("Unselect. Any of these was true: MR%sTM%s(%d);SINil%s",Any.Mouse.MR , math.abs(os.time()-TS)>5,math.abs(os.time()-TS), (!SelectedItem))
 			SelectedItem=nil
@@ -269,32 +274,32 @@ Class Gadget
 		__Yellow
 		Fnt.Text(""..SelectedItem.EP_Cost,EX,BY,1)
 		If SelectedItem.AllowSpread
-			Var Pic = GPU_Pic[sprintf("Spread_%s",SelectedItem.Spread)]
-			int ix = BX
-			int iy = BY+60
+			Pic    := GPU_Pic[sprintf("Spread_%s",SelectedItem.Spread)]
+			int ix := BX
+			int iy := BY+60
 			if MX>ix && MY>iy && ML && MX<ix+Pic.Width && MY<iy+Pic.Height && SelectedItem.Spread
 				SelectedItem.SelectedSpread=!SelectedItem.SelectedSpread
 				Events.Flush()
 			End
-			QC(SelectedItem.SelectedSpread)
+			self.QC(SelectedItem.SelectedSpread)
 			Pic.Draw(BX,BY+60)
 		End
 		If SelectedItem.AllowDouble
-			var Pic = GPU_Pic[sprintf("2x Power_%s",SelectedItem.Double)]
-			int ix = BX+(ubox.w div 2)
-			int iy = BY+60
+			Pic    := GPU_Pic[sprintf("2x Power_%s",SelectedItem.Double)]
+			int ix := BX+(ubox.w div 2)
+			int iy := BY+60
 			if MX>ix && MY>iy && ML && MX<ix+Pic.Width && MY<iy+Pic.Height && SelectedItem.Double
 				SelectedItem.SelectedDouble=!SelectedItem.SelectedDouble
 				Events.Flush()
 			End
-			QC(SelectedItem.SelectedDouble)
+			self.QC(SelectedItem.SelectedDouble)
 			Pic.Draw(ix,iy)
 		End
 		For i=1,SelectedItem.AllowXCards
-			int i2 = i-1
-			int ix = BX+((i2 div 15)*(BW div 2))
-			int iy = BY+120+((i2 % 15)*30)
-			var Pic = GPU_Pic[sprintf("+%02d Cards_%s",i,SelectedItem.XCards>=i)]
+			int i2 := i-1
+			int ix := BX+((i2 div 15)*(BW div 2))
+			int iy := BY+120+((i2 % 15)*30)
+			Pic    := GPU_Pic[sprintf("+%02d Cards_%s",i,SelectedItem.XCards>=i)]
 			if MX>ix && MY>iy && ML && MX<ix+Pic.Width && MY<iy+Pic.Height && SelectedItem.XCards>=i
 				if SelectedItem.SelectedXCards==i
 					SelectedItem.SelectedXCards=0
@@ -304,16 +309,16 @@ Class Gadget
 				//S_CRD = i
 				Events.Flush()
 			End
-			QC(SelectedItem.SelectedXCards==i)
+			self.QC(SelectedItem.SelectedXCards==i)
 			Pic.Draw(ix,iy)
 		End
 		// Okay
 		__White
-		Int CanX = BX+10
+		Int CanX := BX+10
 		if prefixed(Situation:upper(),"COMBAT")
 			Static Var Okay = GPU_Pic["Okay_True"]
-			Int OkX = BX
-			Int OkY = EY - Okay.Height
+			Int OkX := BX
+			Int OkY := EY - Okay.Height
 			Okay.Draw(OkX,OkY)
 			CanX += Okay.Width + 10
 			if ML && MX>OkX && MY>OkY && MX<OkX+Okay.Width && MY<EY
@@ -329,7 +334,7 @@ Class Gadget
 		__White
 		// Cancel
 		Static Var Cancel = GPU_Pic["Cancel_True"]
-		Int CanY = EY - Cancel.Height
+		Int CanY := EY - Cancel.Height
 		Cancel.Draw(CanX,CanY)
 		//CSayF("%s/%d/%d",ML,MX,MY) // debug only
 		if ML && MX>CanX && MY>CanY && MX<CanX+Cancel.Width && MY<EY
@@ -340,17 +345,17 @@ Class Gadget
 	
 	Void Show(ubox,Situation)
 		If SelectedItem
-			ShowItem(ubox,situation)
+			self.ShowItem(ubox,situation)
 		Else
-			ShowAll(ubox,situation)
+			self.ShowAll(ubox,situation)
 		End
 	End
 	
 	
-	Constructor(string _T,Table A)
+	Constructor(string _T,A)
 		Tag = _T
-		Stuff = GINIE.CreateNew(sprintf("%s_GADGET",_T:upper()))
-		Items = New LinkedList()
+		Stuff = GINIE.CreateNew(sprintf("%s_GADGET",Upper(_T)))
+		Items = New TLinkedList()
 		For k,v in sPairs(A)
 			Items.AddLast(new Gadget_Item(Self,k,v))
 		End
