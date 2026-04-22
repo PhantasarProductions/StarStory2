@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/CLS_Renc.scyndi
 // 
-// 	  Version: 26.04.22 I
+// 	  Version: 26.04.22 II
 // 	
 // 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -202,7 +202,7 @@ Class Renc
 		Layers[L].CD=Layers[L].CDMAX
 		LAYERS[L].ENC--
 		
-		string arena = FieldFlow.Map.KthuraMap.Meta.Arena
+		string arena = Kthura.MetaData.Arena
 		//if not suffixed(arena,".png") then arena = arena..".png" end
 		num = math.min(num,max)
 		
