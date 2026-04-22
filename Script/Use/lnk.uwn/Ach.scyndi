@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/lnk.uwn/Ach.scyndi
 // 
-// 	  Version: 26.04.13
+// 	  Version: 26.04.22 II
 // 	
 // 	  Copyright (C) 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -61,9 +61,19 @@ Void DC(string A)
 #fi
 End
 
+// Alt Medal Rate Score
+//                33484
+Extern AMR_Score "40000"
+
 Init
 	Medals.Game="SS2"
 	CSayF("Medal Full Score: %d",Medals.FullScore)
+End
+
+Get number Rate
+	ret := Medals.FullScore / AMR_Score
+	ret = math.min(100,ret*100)
+	return ret
 End
 
 Var AStuff = GINIE.LoadNew("Data/General/Achievements.ini","ACHIEVEMENTS_DATA")
