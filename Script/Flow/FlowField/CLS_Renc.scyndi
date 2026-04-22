@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/CLS_Renc.scyndi
 // 
-// 	  Version: 26.04.14 II
+// 	  Version: 26.04.22 I
 // 	
 // 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -84,7 +84,7 @@ Class Renc
 	Static Var Layers
 
 	Static Bool OwnLevels(string F)
-		Return Stuff.Value("FOE:"..F,"UseOwnlevels"):upper()=="TRUE"
+		Return Upper(Stuff.Value("FOE:"..F,"UseOwnlevels"))=="TRUE"
 	End
 
 	Static Int MinCycle(string F)
@@ -97,13 +97,13 @@ Class Renc
 			return Lua.tonumber(Stuff.Value("FOE:"..F,K..__skill)) || 0
 		End
 		CSayF("Value(%s,%s)",F,K)
-		string sminl = FlowField.Map.KthuraMap.MetaData["Foe_Minlevel"..__skill]
-		string smaxl = FlowField.Map.KthuraMap.MetaData["Foe_Maxlevel"..__skill]
+		string sminl = Kthura.MetaData["Foe_Minlevel"..__skill]
+		string smaxl = Kthura.MetaData["Foe_Maxlevel"..__skill]
 		if (sminl=="")
-			sminl = FlowField.Map.KthuraMap.MetaData["Foe_MinLevel"..__skill]
+			sminl = Kthura.MetaData["Foe_MinLevel"..__skill]
 		end
 		if (smaxl=="")
-			smaxl = FlowField.Map.KthuraMap.MetaData["Foe_MaxLevel"..__skill]
+			smaxl = Kthura.MetaData["Foe_MaxLevel"..__skill]
 		end
 		Switch Upper(K)		
 			CASE "MINLEVEL"
@@ -150,7 +150,7 @@ Class Renc
 			End
 		End
 		Layers={}
-		//For L in each(FlowField.Map.KthuraMap.Layers)
+		//For L in each(Kthura.Layers)
 		For L in Kthura.Layers.Each
 			Layers[L]={}
 			Var Lay = Layers[L]
@@ -176,7 +176,7 @@ Class Renc
 	Static Void StartRenc()
 		locExtern ll "#"
 		String L = Kthura.CurrentLayer
-		String Tune = Flowfield.Map.kthuraMap.metadata.AltCombatMusic
+		String Tune = Kthura.metadata.AltCombatMusic
 
 		Static Var Tab
 		Static Var Max
@@ -207,7 +207,7 @@ Class Renc
 		num = math.min(num,max)
 		
 		Lnk.Combat.PrepareCombat(Tune=="*NOCHANGE*")
-		Lnk.Combat.Arena = FlowField.Map.KthuraMap.MetaData.Arena
+		Lnk.Combat.Arena = Kthura.MetaData.Arena
 		Lnk.Combat.Music = Tune
 		
 		For i=1,num
