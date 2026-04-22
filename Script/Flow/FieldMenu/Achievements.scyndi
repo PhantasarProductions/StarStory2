@@ -39,4 +39,4 @@ Module
 		//Lnk.Ach.ShowAll(uBox.x || 5,uBox.y || 5,uBox.w || (Screen.W-10),uBox.h || (Screen.H-138))
 		Lnk.Ach.ShowAll(uBox.x ,uBox.y ,uBox.w ,uBox.h)
 	End
-End
+//End
