@@ -36,8 +36,8 @@
 // End License Information
 Module
 
-	Var TreasureData
-	Var Treasures
+Var TreasureData
+Var Treasures
 	
 	Int V(string s)
 		Return Lua.tonumber(s) || 0
@@ -138,4 +138,3 @@ Module
 		CSayF("Random treasure '%s' in layer '%s' created: %s (%04d,%04d)",T,Layer,O.Data.Treasure,O.X,O.Y)
 	End
 
-End
