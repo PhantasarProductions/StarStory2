@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/FNC_FieldStats.scyndi
 // 
-// 	  Version: 26.04.14 VI
+// 	  Version: 26.04.22 II
 // 	
 // 	  Copyright (C) 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -75,8 +75,9 @@ Void C(string f, string v,bool c)
 End
 
 Global Void FieldStats()
-	W("Time:",FlowField.Time.Display,0)	 
+	//W("Time:",FlowField.Time.Display,0)	 
 	//W("Medal Rating:",sprintf("%03d%%",math.min(100,math.floor(Medals.AltPercent))))
+	W("Medal Rating:",sprintf("%05.2f%%",Lnk.Ach.Rate),0)
 	C("Aurinas:",Any.Aurina.Have,Any.Aurina.Have>0)
 	C("Shilders:",Any.Aurina.HaveShilders,Any.Aurina.HaveShilders>0)
 	C("Area:",FlowField.Map.Layer,prefixed(FlowField.Map.Layer,"#") && FlowField.Layers.Data("Title")=="")
