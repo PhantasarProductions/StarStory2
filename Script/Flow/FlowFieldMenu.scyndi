@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowFieldMenu.scyndi
 // 
-// 	  Version: 26.04.21 XIII
+// 	  Version: 26.04.22 I
 // 	
 // 	  Copyright (C) 2020-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -170,7 +170,7 @@ global void MainFlow()
 	//__Dev.ToConsole()
 	
 	// Boxes	
-	if (Situations[FMSituation][SitActive[FMSituation] || 1] || {}).WHOLE
+	if (Situations[FMSituation][(SitActive[FMSituation] || 1)-1] || {}).WHOLE
 		for b in each(WBoxes)
 			b.Draw()
 		end
