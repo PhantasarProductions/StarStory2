@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/MOD_Treasure.scyndi
 // 
-// 	  Version: 26.04.22 II
+// 	  Version: 26.04.22 III
 // 	
 // 	  Copyright (C) 2022-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -44,6 +44,8 @@
 
 Module
 
+#use "Libs/SCI/Kthura"
+
 Var TreasureData
 Var Treasures
 	
@@ -60,89 +62,93 @@ Int V2(string item,string key)
 	Return ret 
 End
 	
-	Void Load(string MapBundle)
-		CSayF("Loading trasure data for %s",MapBundle)
-		TreasureData = GINIE.Load("Kthura/"..MapBundle.."/Treasures","TREASURES")
-		Treasures = {}
-		For tr in TreasureData.ListEach("Main","List")
-			Int Rate := V2(tr,"Rate")
-			Int MinCycle := V2(tr,"MinCycle")
-			CSayF("Item '%s', Rate: %d, Minimal cycle: %d!",tr,rate,mincycle)
-			If Rate>0 && MinCycle<=Any.Caps.Cycle
-				For cnt=1,Rate
-					Treasures += tr
-				End
+Void Load(string MapBundle)
+	CSayF("Loading trasure data for %s",MapBundle)
+	TreasureData = GINIE.Load("Kthura/"..MapBundle.."/Treasures","TREASURES")
+	Treasures = {}
+	For tr in TreasureData.ListEach("Main","List")
+		Int Rate := V2(tr,"Rate")
+		Int MinCycle := V2(tr,"MinCycle")
+		CSayF("Item '%s', Rate: %d, Minimal cycle: %d!",tr,rate,mincycle)
+		If Rate>0 && MinCycle<=Any.Caps.Cycle
+			For cnt=1,Rate
+				Treasures += tr
 			End
 		End
-		Lua.assert(Len(Treasures)>0,"No treasures")
 	End
+	Lua.assert(Len(Treasures)>0,"No treasures")
+End
 
-	Void RandomTreasure(string tag)
-		// Placeholder
-		//CSayF("Request to pick up random treasure '%s' received!",tag)
-		String iTag = FlowField.Map.CurLayer.Obj(Tag).Data.Treasure
-		If Any.IAA.Give(iTag)
-			Lnk.Party.MiniMsg(sprintf("%s obtained",Any.IAA[iTag].Title),0,180,255)
-			Lnk.Map.Kill(Tag)
-		Else
-			Lnk.Party.MiniMsg(sprintf("Failed to pick up %s!",Any.IAA[iTag].Title),255,0,0)
-		End	
-	End
+Void RandomTreasure(string tag)
+	// Placeholder
+	//CSayF("Request to pick up random treasure '%s' received!",tag)
+	//String iTag = FlowField.Map.CurLayer.Obj(Tag).Data.Treasure
+	String iTag = Kthura.Obj[Tag].Data.Treasure
+	If Any.IAA.Give(iTag)
+		Lnk.Party.MiniMsg(sprintf("%s obtained",Any.IAA[iTag].Title),0,180,255)
+		Lnk.Map.Kill(Tag)
+	Else
+		Lnk.Party.MiniMsg(sprintf("Failed to pick up %s!",Any.IAA[iTag].Title),255,0,0)
+	End	
+End
 	
-	Void Chest(string tag)
-		// TODO: Check Sein (if applicable)
-		String it = TreasureData.Value(Tag,"ITEM")
-		if prefixed(it,"CASH:")
-			Int Cash := Lua.tonumber(right(it,len(it)-5))||(5-__skill)
-			Any.Aurina.ChaChing.Play()
-			Lnk.Party.MiniWrt(sprintf("%d aurinas ",cash),0,180,255)
-			Lnk.Party.MiniMsg("obtained",255,255,0)
-			Any.Aurina.Have+=cash
-			Lnk.Map.Kill(Tag,true)
-			Return
-		elseif prefixed(it,"SHIL:")
-			Int Cash = Lua.tonumber(right(it,len(it)-5))||(5-__skill)
-			Any.Aurina.ChaChing.Play()
-			Lnk.Party.MiniWrt(sprintf("%d shilders ",cash),0,180,255)
-			Lnk.Party.MiniMsg("obtained",255,255,0)
-			Any.Aurina.HaveShilders+=cash
-			Lnk.Map.Kill(Tag,true)
-			Return
-		End
-		Var itm = any.iaa[it]
-		if (!Itm.Give)
-			Any.Aurina.Buzz.Play()
-			Lnk.Party.MiniMsg("You are carrying too many things",255,0,0)
-		Else
-			Lnk.Party.MiniWrt(Itm.Title,0,255,0)
-			Lnk.Party.MiniMsg(" obtained",255,255,0)
-			Lnk.Map.Kill(Tag,true)
-		End
+Void Chest(string tag)
+	// TODO: Check Sein (if applicable)
+	String it := TreasureData.Value(Tag,"ITEM")
+	if prefixed(it,"CASH:")
+		Int Cash := Lua.tonumber(right(it,len(it)-5))||(5-__skill)
+		Any.Aurina.ChaChing.Play()
+		Lnk.Party.MiniWrt(sprintf("%d aurinas ",cash),0,180,255)
+		Lnk.Party.MiniMsg("obtained",255,255,0)
+		Any.Aurina.Have+=cash
+		Lnk.Map.Kill(Tag,true)
+		Return
+	elseif prefixed(it,"SHIL:")
+		Int Cash = Lua.tonumber(right(it,len(it)-5))||(5-__skill)
+		Any.Aurina.ChaChing.Play()
+		Lnk.Party.MiniWrt(sprintf("%d shilders ",cash),0,180,255)
+		Lnk.Party.MiniMsg("obtained",255,255,0)
+		Any.Aurina.HaveShilders+=cash
+		Lnk.Map.Kill(Tag,true)
+		Return
 	End
+	itm := any.iaa[it]
+	If (!Itm.Give)
+		Any.Aurina.Buzz.Play()
+		Lnk.Party.MiniMsg("You are carrying too many things",255,0,0)
+	Else
+		Lnk.Party.MiniWrt(Itm.Title,0,255,0)
+		Lnk.Party.MiniMsg(" obtained",255,255,0)
+		Lnk.Map.Kill(Tag,true)
+	End
+End
 	
-	void CreateRandomTreasure(string T,string Layer)
-		Static Int Cnt = 0
-		If math.random(1,(__skill+1)^2)!=1
-			CSayF("Random treasure '%s' in layer '%s' rejected",T,Layer)
-			Return
-		End
-		Var Lay = FlowField.Map.KthuraMap.Layer(Layer)
-		String Tag
-		Repeat
-			Tag = sprintf("PAKSCHAT_%0X",cnt)
-			Cnt++
-			Cnt=math.max(0,Cnt) // Should not be needed as more than 2 billion treasures is what it takes to make this needed, which leads me to the question if you haven't been playing for too long.			
-		LoopWhile Lay.HasTag(Tag)
-		Var P = Lay.Obj(T)
-		Var O = Lay.NewObj("Obstacle",Tag)
-		O.X = P.X
-		O.Y = P.Y
-		O.Visible = P.Visible
-		O.Alpha=255
-		O.Texture = "GFX/Treasure/Bag.png"
-		O.Label = P.Label
-		O.Data.Treasure = Treasures[math.random(1,#Treasures)]
-		FlowField.Clickable.Create(Layer,Tag,O.X,O.Y,RandomTreasure,Tag)
-		CSayF("Random treasure '%s' in layer '%s' created: %s (%04d,%04d)",T,Layer,O.Data.Treasure,O.X,O.Y)
+void CreateRandomTreasure(string T,string Layer)
+	Static Int Cnt = 0
+	If math.random(1,(__skill+1)^2)!=1
+		CSayF("Random treasure '%s' in layer '%s' rejected",T,Layer)
+		Return
 	End
+	//Var Lay = FlowField.Map.KthuraMap.Layer(Layer)
+	OLay:=Kthura.CurrentLayer
+	Kthura.CurrentLayer=Layer
+	String Tag
+	Repeat
+		Tag = sprintf("PAKSCHAT_%0X",cnt)
+		Cnt++
+		Cnt=math.max(0,Cnt) // Should not be needed as more than 2 billion treasures is what it takes to make this needed, which leads me to the question if you haven't been playing for too long.			
+	LoopWhile Kthura.HasObj(Tag)
+	P := Kthura.Obj[T]
+	O := Kthura.NewObj("Obstacle",Tag)
+	O.X = P.X
+	O.Y = P.Y
+	O.Visible = P.Visible
+	O.Alpha=255
+	O.Texture = "GFX/Treasure/Bag.png"
+	O.Label = P.Label
+	O.Data.Treasure = Treasures[math.random(0,Len(Treasures)-1]
+	FlowField.Clickable.Create(Layer,Tag,O.X,O.Y,RandomTreasure,Tag)
+	CSayF("Random treasure '%s' in layer '%s' created: %s (%04d,%04d)",T,Layer,O.Data.Treasure,O.X,O.Y)
+	Kthura.CurrentLayer=OLay
+End
 
