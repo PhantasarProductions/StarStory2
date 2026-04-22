@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Anyway.scyndi
 // 
-// 	  Version: 26.04.21
+// 	  Version: 26.04.23
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -107,6 +107,8 @@ Extern CharMapText "Scyndi.Globals.Lnk.BoxText._CharMapText"
 Extern MapTextLeader "Scyndi.Globals.Lnk.BoxText._MapTextLeader"
 
 Extern NeilUse "Scyndi.Globals.Cnv.OldNeilUse"
+
+Extern ISSet "Scyndi.Globals.Cnv.ISTrans.Src_ISSet"
 
 
 // Convert to statistician
