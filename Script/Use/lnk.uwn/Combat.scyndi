@@ -35,9 +35,12 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
-var _Music = Music
 
 Module
+
+	#use "Script/Use/Anyway"
+
+	var _Music = Music
 
 	Set String Arena 
 		ISSET("String","FLOW_COMBAT","FlowCombat.Start.Arena",Value)
@@ -60,7 +63,8 @@ Module
 	End
 	
 	Void NewEnemy(string Foe,Int Level,X,Y)
-		State.Call("FLOW_COMBAT","FlowCombat.Start.NewEnemy",sprintf("\"%s\",%d,%d,%d",Foe,Level,X || -1,Y || -1))
+		//State.Call("FLOW_COMBAT","FlowCombat.Start.NewEnemy",sprintf("\"%s\",%d,%d,%d",Foe,Level,X || -1,Y || -1))
+		Sys.Call("FLOW_COMBAT","FlowCombat.Start.NewEnemy",Foe,Level,X || -1,Y || -1)
 	End
 
 	Void PrepareCombat(nomusicchange)
@@ -75,15 +79,15 @@ Module
 		Loading()
 		
 		
-		State.LoadNew("FLOW_COMBAT","Script/Flow/FlowCombat.neil")
-		State.Call("FLOW_COMBAT","FlowCombat.Start.StartPreparation","nil")
+		Sys.LoadNewState("FLOW_COMBAT","Script/Flow/FlowCombat.lbc")
+		Sys.Call("FLOW_COMBAT","FlowCombat.Start.StartPreparation")
 		Wipe="Respawn" 
 	End
 	
 	Void Start()
-		State.Call("FLOW_COMBAT","FlowCombat.Start.Start","nil")
-		Flow.Current="FLOW_COMBAT"		
+		Sys.Call("FLOW_COMBAT","FlowCombat.Start.Start")
+		Flow.Current="COMBAT"		
 		ODLoading("FLOW_COMBAT")
 	End
 
-End
+//End
