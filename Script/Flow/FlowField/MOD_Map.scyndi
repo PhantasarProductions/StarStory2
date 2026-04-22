@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/MOD_Map.scyndi
 // 
-// 	  Version: 26.04.14 IV
+// 	  Version: 26.04.22
 // 	
 // 	  Copyright (C) 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -274,7 +274,7 @@ Module
 		if !Kthura.HasObj(FlowField.FollowTheLeader.LeaderMapTag)
 			Return
 		End		
-		CurLayer.Obj(FlowField.FollowTheLeader.LeaderMapTag).StopWalking()
+		Kthura.Obj[FlowField.FollowTheLeader.LeaderMapTag].StopWalking()
 		ArriveFunc = nil
 		ArriveParam = ""
 	End
