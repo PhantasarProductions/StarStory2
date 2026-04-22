@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Subs/SubParty.scyndi
 // 
-// 	  Version: 26.04.21 I
+// 	  Version: 26.04.22
 // 	
 // 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -370,7 +370,8 @@ Group SubParty
 		LocExtern Fnt "MiniFontForSubParty"
 		Static Int SY = Screen.H-37
 		For i,l In Pairs(MiniLines)
-			Int Y:=SY+((i-1)*12)
+			//Int Y:=SY+((i-1)*12)
+			Int Y:=SY+(i*12)
 			For B in Each(l)
 				Graphics.Color(b.r,b.g,b.b)
 				Fnt.Text(b.msg,b.x,y)
