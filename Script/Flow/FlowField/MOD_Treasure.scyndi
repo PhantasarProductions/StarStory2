@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/MOD_Treasure.scyndi
 // 
-// 	  Version: 26.04.22 III
+// 	  Version: 26.04.22 XI
 // 	
 // 	  Copyright (C) 2022-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -44,7 +44,13 @@
 
 Module
 
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/GINIE"
 #use "Libs/SCI/Kthura"
+
+#use "Script/Use/Anyway"
+
+#accept FlowField
 
 Var TreasureData
 Var Treasures
@@ -83,7 +89,7 @@ Void RandomTreasure(string tag)
 	// Placeholder
 	//CSayF("Request to pick up random treasure '%s' received!",tag)
 	//String iTag = FlowField.Map.CurLayer.Obj(Tag).Data.Treasure
-	String iTag = Kthura.Obj[Tag].Data.Treasure
+	String iTag := Kthura.Obj[Tag].Data.Treasure
 	If Any.IAA.Give(iTag)
 		Lnk.Party.MiniMsg(sprintf("%s obtained",Any.IAA[iTag].Title),0,180,255)
 		Lnk.Map.Kill(Tag)
@@ -104,7 +110,7 @@ Void Chest(string tag)
 		Lnk.Map.Kill(Tag,true)
 		Return
 	elseif prefixed(it,"SHIL:")
-		Int Cash = Lua.tonumber(right(it,len(it)-5))||(5-__skill)
+		Int Cash := Lua.tonumber(right(it,len(it)-5))||(5-__skill)
 		Any.Aurina.ChaChing.Play()
 		Lnk.Party.MiniWrt(sprintf("%d shilders ",cash),0,180,255)
 		Lnk.Party.MiniMsg("obtained",255,255,0)
@@ -146,7 +152,7 @@ void CreateRandomTreasure(string T,string Layer)
 	O.Alpha=255
 	O.Texture = "GFX/Treasure/Bag.png"
 	O.Label = P.Label
-	O.Data.Treasure = Treasures[math.random(0,Len(Treasures)-1]
+	O.Data.Treasure = Treasures[math.random(0,Len(Treasures)-1)]
 	FlowField.Clickable.Create(Layer,Tag,O.X,O.Y,RandomTreasure,Tag)
 	CSayF("Random treasure '%s' in layer '%s' created: %s (%04d,%04d)",T,Layer,O.Data.Treasure,O.X,O.Y)
 	Kthura.CurrentLayer=OLay
