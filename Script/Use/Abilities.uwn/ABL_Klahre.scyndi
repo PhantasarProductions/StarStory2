@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 26.04.22 XII
+// version: 26.04.22 XX
 // 
 // End License
 
@@ -156,7 +156,13 @@ End
 	End
 	
 	Bool HasArm(string _ARM)
-		return Stuff.ListHas("LISTS","ARMSGATHERED",_ARM,true)
+		//return Stuff.ListHas("LISTS","ARMSGATHERED",_ARM,true)
+		for A in Each(Stuff.List("LISTS","ARMSGATHERED"))
+			if A==_ARM
+				return true
+			end
+		end
+		return False
 	End
 	
 	Void Add(string _ARM)
@@ -214,7 +220,7 @@ End
 			a.Hit+=12 div __skill			
 		End
 		GetARMEXP += 50
-		RPGChar.Klahre.Points.EXP.Have += Self.GetARMEXP
+		RPGChar.Klahre.Points.EXP.Have += GetARMEXP
 		Stuff.Add("LISTS","ARMSGATHERED","ARM_ARKSMASH")
 		TARM._TrueList = nil
 		//ARM_MAP.ARM_ARKSMASH || new TARM("ARM_ARKSMASH")
@@ -247,20 +253,21 @@ End
 		Int EY := (ubox.y+ubox.h)-10
 		Int MX := Any.Mouse.MX
 		Int MY := Any.Mouse.MY
-		Int HX := 0
+		Int HX := 0-1
 		Int Hover := 0
-		For i,at in ipairs(TARM.List)
+		For _i,at in ipairs(TARM.List)
+			i := _i + 1
 			a := ARM[at]
 			int IY := BY+(i*30)
 			If MY>IY && MX>BX && MX<EX && MY<IY+30
-				Hover = i
+				Hover = _i
 			End
 			__White
 			fnt.Dark(a.ARM.Title,BX+HX,IY)
 			__SkyBlue
 			fnt.Dark(sprintf("%2d/%2d",a.Ammo,a.AmmoMax),EX-HX,IY,1)
 		End
-		If Hover>0
+		If Hover>=0
 			AR := ARM[TARM.List[Hover]]			
 			String ITg := AR.Tag 
 			IT := any.iaa[ITg]
@@ -269,7 +276,7 @@ End
 			Int Y=MY+15
 			Ex := IT.ExplainTable
 			String Updates := sprintf("Extra Power: %d; Repeat: %d; Hit: %03d%%",AR.XPower,AR.XRepeat,AR.Hit)
-			Int W:=math.max(Fnt.TextWidth(IT.Title),DFt.TextWidth(Updates))			
+			Int W:=math.max(Fnt.Width(IT.Title),DFt.Width(Updates))			
 			w = math.max(Dft.Width(IT.Desc),w)
 			For i,e in ipairs(EX)
 				W=math.max(W,DFt.Width(e))
@@ -301,8 +308,12 @@ End
 		Add("Dart")
 		Add("HealingSpray")
 		ARM_MAP = {}
-		Var MIDX(S,string key)
-			key=key:upper()
+		//Var MIDX(S,string key)
+		ddef MIDX
+			plua s
+			string key
+			s,key=infinity
+			key=Upper(key)
 			ARM_MAP[key] = ARM_MAP[Key] || new TARM(key)
 			Return ARM_MAP[key]
 		End
