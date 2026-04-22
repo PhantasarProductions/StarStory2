@@ -1,39 +1,52 @@
-// License Information:
-// src/Tricky Script/Script/Use/Any.uwn/IAA.neil
-// Version: 23.01.26
-// Copyright (C) 2022, 2023 Jeroen Petrus Broks
+// License:
+// 	  src/Code/Script/Use/Any.uwn/IAA.scyndi
 // 
-// ===========================
-// This file is part of a project related to the Phantasar Chronicles or another
-// series or saga which is property of Jeroen P. Broks.
-// This means that it may contain references to a story-line plus characters
-// which are property of Jeroen Broks. These references may only be distributed
-// along with an unmodified version of the game.
+// 	  Version: 26.04.22 XV
+// 	
+// 	  Copyright (C) 2022, 2023, 2026 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
 // 
-// As soon as you remove or replace ALL references to the storyline or character
-// references, or any termology specifically set up for the Phantasar universe,
-// or any other univers a story of Jeroen P. Broks is set up for,
-// the restrictions of this file are removed and will automatically become
-// zLib licensed (see below).
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
 // 
-// Please note that doing so counts as a modification and must be marked as such
-// in accordance to the zLib license.
-// ===========================
-// zLib license terms:
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
-// in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-// misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-// End License Information
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/GINIE"
+#use "Libs/SCI/SString"
+
+#use "Script/Use/Anyway"
 
 module IAA_fc23ca5588ce1273cb6a2773cd09f951
 
@@ -53,9 +66,9 @@ QuickMeta ItemSlot
 	index
 		Lua.assert(Lua.type(key)=="number","Item slot index must be a number!")
 		Lua.assert(key>=1 && key<=Any.Caps.InvItemSlots,sprintf("Item slot #%d is out of bounds",key))
-		string slottag = sprintf("SLOT%03d",key)
-		string itm = GData.Value(slottag,"Item")
-		int num = Lua.tonumber(GData.Value(slottag,"Numb")) || 0
+		string slottag := sprintf("SLOT%03d",key)
+		string itm := GData.Value(slottag,"Item")
+		int num := Lua.tonumber(GData.Value(slottag,"Numb")) || 0
 		//return itm,num
 		return Itm
 	end
@@ -85,7 +98,7 @@ QuickMeta ItemNum
 		Lua.assert(key>=1 && key<=Any.Caps.InvItemSlots,sprintf("Item slot #%d is out of bounds",key))
 		string slottag = sprintf("SLOT%03d",key)
 		//string itm = GData.Value(slottag,"Item")
-		int num = Lua.tonumber(GData.Value(slottag,"Numb")) || 0
+		int num := Lua.tonumber(GData.Value(slottag,"Numb")) || 0
 		return num
 	end
 	newindex
@@ -98,7 +111,7 @@ QuickMeta ItemNum
 End
 
 Bool Give(String Item,Int N=1,CheckOnly)
-	Item=Item:upper()
+	Item=Upper(Item)
 	int i=0
 	Repeat
 		i++
@@ -127,7 +140,7 @@ Bool Give(String Item,Int N=1,CheckOnly)
 End
 
 string Explanation(string itg,int t=2)
-	Var It = Me[itg]
+	It := Me[itg]
 	switch t
 		case 0
 			return sprintf("%s\n$s",Explanation(1),Explanation(2))
@@ -136,7 +149,7 @@ string Explanation(string itg,int t=2)
 		case 2
 			string ret = ""
 			if IT.Type=="Item"
-				String T = IT.Item_Type
+				String T := IT.Item_Type
 				If T==""
 					T = "Consumable"
 				End
@@ -235,7 +248,7 @@ Var GetIAA(String F)
 			Case "EXPLAINTABLE"
 				return XSplit(Explanation(F),"\n")
 			Case "SELLPRICE" "SELL_PRICE"
-				Int BuyPrice = ME[F].Shop_Price
+				Int BuyPrice := ME[F].Shop_Price
 				Switch __Skill
 					Case 1
 						Return BuyPrice
@@ -249,12 +262,14 @@ Var GetIAA(String F)
 			Case "NAME"
 				return Data.Value(Rec,"Title")
 			Case "HASFIELD"
-				Bool Chk(string F)
-					Return IAA_Class.Value("CLASS",F):upper()!=""
+				//Bool Chk(string F)
+				ddef Chk
+					String F:=Infinity
+					Return Upper(IAA_Class.Value("CLASS",F))!=""
 				End
 				Return Chk
 			Default
-				Switch IAA_Class.Value("CLASS",Key):upper()
+				Switch Upper(IAA_Class.Value("CLASS",Key))
 					Case "STRING"
 						return Data.Value(Rec,Key)
 					Case "INT" "NUMBER"
@@ -264,7 +279,7 @@ Var GetIAA(String F)
 						//end
 						return Lua.tonumber(DATA.Value(Rec,Key)) || 0
 					Case "BOOLEAN"
-						return Data.Value(Rec,Key):upper()=="TRUE"
+						return Upper(Data.Value(Rec,Key))=="TRUE"
 					Case ""
 						Lua.error("IAA record does not have field: "..key)
 					Default
@@ -278,7 +293,7 @@ Var GetIAA(String F)
 		String K
 		plua Value
 		s,k,Value = Infinity
-		String Key = upper(K)
+		String Key := upper(K)
 		Switch(Key)
 			case "GIVEN"
 				GData.Value("Given",F,Lua.tostring(Value))
@@ -297,6 +312,10 @@ global const int IAAEX_details = 2
 
 QuickMeta _module_IAA
 	index
+		If !Key
+			print("\x1b[37m"..Lua.debug.traceback())
+			lua.error("IAA got nil for key")
+		End
 		Key = Upper(Key)
 		Switch Key
 			Case "HELLO"
@@ -332,8 +351,8 @@ Init
 		ItemSlot[2]=6 div __skill
 		GData.Value("ALGEMEEN","SETUP","SET")
 	End
-	Me = _module_IAA
-	IAA = _module_AA
+	Me  = _module_IAA
+	IAA = _module_IAA
 End
 
 //Return _module_IAA
