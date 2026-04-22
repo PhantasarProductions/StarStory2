@@ -40,4 +40,4 @@ Module
 			Abl[FMChar].View(ubox,FMSituation)
 		End
 	End
-End
+//End
