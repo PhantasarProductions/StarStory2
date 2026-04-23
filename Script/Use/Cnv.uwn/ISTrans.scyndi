@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Cnv.uwn/ISTrans.scyndi
 // 
-// 	  Version: 26.04.23 I
+// 	  Version: 26.04.23 IV
 // 	
 // 	  Copyright (C) 2026 Jeroen Petrus Broks
 // 	
@@ -44,6 +44,7 @@
 Module
 
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/SString"
 
 void SRC_ISSET(String T,String State,String Key,Value)
 	// T is ignored, as the system can handle all this automatically, but as this is only an Apollo conversion function, this would have to do.
@@ -51,5 +52,31 @@ void SRC_ISSET(String T,String State,String Key,Value)
 End
 
 Void TAR_ISSet(String Key,Value)
-	Lua.Scyndi.AllIdentifiers[Key] = Value
+	scr:="Scyndi.AllIdentifiers."..key
+	scr+=" = "
+	switch Lua.type(value)
+		case "number" "boolean"
+			scr += Lua.tostring(value)
+		case "string"
+			scr += "\""
+			scr += Value
+			scr += "\""
+		default
+			Lua.error(sprintf("I cannot transfer value %s into %s",value,key))
+			return
+	End
+	plua f
+	plua e
+	f,e = Lua.load(scr)
+	if (!f) 
+		Lua.error("Gransfer error: "..e)
+	end
+	f()
+	//sv:=XSplit(Key,".")
+	//switch len(sv)
+	//	case 1
+	//		Lua.Scyndi.AllIdentifiers[Key] = Value
+	//	case 2
+//			Lua.Scyndi.AllIdentifiers[sv[0]][sv[1]] = Value
+	//end
 End
