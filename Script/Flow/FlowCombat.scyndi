@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat.scyndi
 // 
-// 	  Version: 26.04.23 I
+// 	  Version: 26.04.23 II
 // 	
 // 	  Copyright (C) 2021-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -91,14 +91,14 @@ End
 Init
 	Screen.NewAlt(_ASW,_ASH,"COMBAT")
 	Bundle := JCR6.Dir("Script/Flow/FlowCombat")
-	int Aantal = Len(Bundle)
+	int Aantal := Len(Bundle)
 	Progress.Create("LOADCOMBAT",Aantal,255,0,0)
 	CSayF("Loading %d combat sub-modules!",len(Bundle))
 	For idx,File in iPairs(Bundle)
 		Progress.LOADCOMBAT=idx
 		Loading()
-		Table Gespleten = XSplit(File,"/")
-		String Gestript = Upper(Gespleten[Len(Gespleten)-1])
+		Gespleten := XSplit(File,"/")
+		String Gestript := Upper(Gespleten[Len(Gespleten)-1])
 		Gestript = Replace(Gestript,".LBC","")
 		If Prefixed(File,"#") || Suffixed(File,"#")
 			CSayF("Skipping section %d/%d: %s => %s",idx+1,Aantal,File,Gestript)
