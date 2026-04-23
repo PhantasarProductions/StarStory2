@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/Start.scyndi
 // 
-// 	  Version: 26.04.23 II
+// 	  Version: 26.04.23 X
 // 	
 // 	  Copyright (C) 2022/2023, 2026 Jeroen Petrus Broks
 // 	
@@ -51,8 +51,13 @@
 
 #use "Script/Use/Anyway"
 
-#accept FlowCombat
+
 #accept Foe
+#accept Hero
+#accept EXPRate
+#accept Fighter
+#accept FlowCombat
+#accept EXPBaseRate
 
 Module
 
@@ -62,8 +67,8 @@ Table Enemies
 String Wipe
 Bool OpenDoor
 		
-LocExtern _ASW "Lua.Class.Graphics.W"
-LocExtern _ASH "Lua.Class.Graphics.H"
+LocExtern _ASW "Scyndi.Class.Graphics.W"
+LocExtern _ASH "Scyndi.Class.Graphics.H"
 
 Void NewEnemy(String Foe,Int Level,Int X,Int Y)
 	Int Enem := Len(Enemies)+1
@@ -76,7 +81,7 @@ Void NewEnemy(String Foe,Int Level,Int X,Int Y)
 		Int H := (_ASH div 2)
 		Y = H + (H div 4) + ((H div 5)*PY)  
 	End
-	Var NF = {["Foe"]=Foe,["Level"]=math.min(100000,math.max(1,Level)),["X"]=X,["Y"]=Y}
+	NF := {["Foe"]=Foe,["Level"]=math.min(100000,math.max(1,Level)),["X"]=X,["Y"]=Y}
 	Enemies += NF
 	CSayF("Enemy added: %s, level %d --> (%04d,%04d)",NF.Foe,NF.Level,NF.X,NF.Y)
 End
