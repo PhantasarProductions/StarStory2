@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat.scyndi
 // 
-// 	  Version: 26.04.23 II
+// 	  Version: 26.04.23 VI
 // 	
 // 	  Copyright (C) 2021-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -48,6 +48,7 @@ Script
 #use "Libs/SCI/JCR6"
 #use "Libs/SCI/SString"
 #use "Libs/SCI/Graphics"
+#use "Libs/SCI/InterVar"
 
 #use "Script/Use/Anyway"
 //#use "Script/Use/Misc/MiniMessage"
@@ -62,7 +63,7 @@ global Const int _ASH = Graphics.H //___ASH
 
 global readonly var Party = Lnk.Party
 global readonly var MiniMessage = Lnk.Party.MiniMsg
-global readonly var Dev = Any.Dev
+//global readonly var Dev = Any.Dev
 
 Table _real = {}
 global Const Number EXPBaseRate = ({1.25,1,0.75})[__skill]
@@ -89,7 +90,7 @@ End
 
 
 Init
-	Screen.NewAlt(_ASW,_ASH,"COMBAT")
+	//Screen.NewAlt(_ASW,_ASH,"COMBAT")
 	Bundle := JCR6.Dir("Script/Flow/FlowCombat")
 	int Aantal := Len(Bundle)
 	Progress.Create("LOADCOMBAT",Aantal,255,0,0)
