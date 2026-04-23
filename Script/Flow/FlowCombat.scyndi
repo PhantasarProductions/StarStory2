@@ -1,0 +1,131 @@
+// License:
+// **********************************************
+// 
+// src/Code/Script/Flow/FlowCombat.scyndi
+// (c) Jeroen Broks, 2021-'23, 2026, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// 
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// 
+// version: 26.04.23
+// 
+// End License
+
+Script
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/JCR6"
+#use "Libs/SCI/SString"
+#use "Libs/SCI/Graphics"
+
+#use "Script/Use/Anyway"
+//#use "Script/Use/Misc/MiniMessage"
+#use "libs/LinkedList"
+
+//#macro ___ASW 1200
+//#macro ___ASH 1000
+
+global Const int _ASW = Graphics.W //___ASW
+global Const int _ASH = Graphics.H //___ASH
+
+
+global readonly var Party = Lnk.Party
+global readonly var MiniMessage = Lnk.Party.MiniMsg
+global readonly var Dev = Any.Dev
+
+Table _real = {}
+global Const Number EXPBaseRate = ({1.25,1,0.75})[__skill]
+Global Table EXPRate = {}
+
+Global String VicQ = "PERFECT"
+Global String LastAction = ""
+
+QuickMeta FlowCombat
+	Index
+		plua k = Upper(Key)
+		If !_real[k]
+			Lua.error("No FlowCombat field named: "..Key)
+		End
+		return _real[k]		
+	End
+	NewIndex
+		Lua.error("Sorry! All fields of FlowField are ReadOnly!")
+	End
+End
+
+//Global Const Var CombatFlow = FlowCombat 
+
+
+
+Init
+	Screen.NewAlt(_ASW,_ASH,"COMBAT")
+	Bundle := JCR6.Dir("Script/Flow/FlowCombat")
+	int Aantal = Len(Bundle)
+	Progress.Create("LOADCOMBAT",Aantal,255,0,0)
+	CSayF("Loading %d combat sub-modules!",#Bundle)
+	For idx,File in iPairs(Bundle)
+		Progress.LOADCOMBAT=idx
+		Loading()
+		Table Gespleten = XSplit(File,"/")
+		String Gestript = Upper(Gespleten[Len(Gespleten)-1])
+		Gestript = Replace(Gestript,".LBC","")
+		If Prefixed(File,"#") || Suffixed(File,"#")
+			CSayF("Skipping section %d/%d: %s => %s",idx,Aantal,File,Gestript)
+		Else
+			CSayF(" Loading section %d/%d: %s => %s",idx,Aantal,File,Gestript)
+			_real[Gestript] = NeilUse(Replace(Upper(File),".LBC",""),"FLOWCOMBAT."..Gestript)
+		End
+	End	
+	Progress.Kill("LOADCOMBAT")
+	//BoxText.Load("LEARNABILITY","COMBAT/LEARN")
+End
+
+Global Void BoxText_Back()
+	FlowCombat.DrawScreen()
+End	
+
+Global Void PartyClick()
+End
+
+Global Void MainFlow()
+	__White
+	WantQuit()
+	//Dev.ToConsole()
+	FlowCombat.DrawScreen()
+	FlowCombat.AAA_Stage.Current.Update()
+	If !Lua.Scyndi.Globals.Stage.Current.DontCheckForVictory
+	//	if !FlowCombat.Wiped.Check()
+			FlowCombat.Victory.Check()
+			FlowCombat.Wiped.Check()
+	//	End
+	End
+	Party.Boxes(FlowCombat.AAA_Stage.Current.FlashChar)
+	//Party.Boxes() // Don't forget to dummy this and undummy the other when Stage is present.
+End
