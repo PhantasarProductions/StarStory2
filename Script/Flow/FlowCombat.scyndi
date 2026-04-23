@@ -89,7 +89,7 @@ Init
 	Bundle := JCR6.Dir("Script/Flow/FlowCombat")
 	int Aantal = Len(Bundle)
 	Progress.Create("LOADCOMBAT",Aantal,255,0,0)
-	CSayF("Loading %d combat sub-modules!",#Bundle)
+	CSayF("Loading %d combat sub-modules!",len(Bundle))
 	For idx,File in iPairs(Bundle)
 		Progress.LOADCOMBAT=idx
 		Loading()
@@ -97,9 +97,9 @@ Init
 		String Gestript = Upper(Gespleten[Len(Gespleten)-1])
 		Gestript = Replace(Gestript,".LBC","")
 		If Prefixed(File,"#") || Suffixed(File,"#")
-			CSayF("Skipping section %d/%d: %s => %s",idx,Aantal,File,Gestript)
+			CSayF("Skipping section %d/%d: %s => %s",idx+1,Aantal,File,Gestript)
 		Else
-			CSayF(" Loading section %d/%d: %s => %s",idx,Aantal,File,Gestript)
+			CSayF(" Loading section %d/%d: %s => %s",idx+1,Aantal,File,Gestript)
 			_real[Gestript] = NeilUse(Replace(Upper(File),".LBC",""),"FLOWCOMBAT."..Gestript)
 		End
 	End	
