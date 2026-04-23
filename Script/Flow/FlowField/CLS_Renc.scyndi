@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/CLS_Renc.scyndi
 // 
-// 	  Version: 26.04.22 II
+// 	  Version: 26.04.23 I
 // 	
 // 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -158,7 +158,7 @@ Class Renc
 			Lay.NOENCOUNTERS = Lay.NOENCSTRING =="TRUE" || NoEncounters
 			Lay.MAX = 5
 			Lay.ENC = 5
-			Lay.CDMAX = 24000 div __skill
+			Lay.CDMAX = 48000 div __skill
 			Lay.CD    = Lay.CDMAX
 			If NoEncounters
 				Lay.ENC=0

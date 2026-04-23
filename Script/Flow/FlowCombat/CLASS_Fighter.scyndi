@@ -1,48 +1,77 @@
-// License Information:
-// **********************************************
+// License:
+// 	  src/Code/Script/Flow/FlowCombat/CLASS_Fighter.scyndi
 // 
-// src/Tricky Script/Script/Flow/FlowCombat/CLASS_Fighter.neil
-// (c) Jeroen Broks, 2022, 2023, All Rights Reserved.
+// 	  Version: 26.04.23 XXIV
+// 	
+// 	  Copyright (C) 2022-'23, 2026 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
 // 
-// This file contains material that is related
-// to a storyline that is which is strictly
-// copyrighted to Jeroen Broks.
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
 // 
-// This file may only be used in an unmodified
-// form with an unmodified version of the
-// software this file belongs to.
-// 
-// You may use this file for your study to see
-// how I solved certain things in the creation
-// of this project to see if you find valuable
-// leads for the creation of your own.
-// 
-// Mostly this file comes along with a project
-// that is for most part released under an
-// open source license and that means that if
-// you use that code with this file removed
-// from it, you can use it under that license.
-// Please check out the other files to find out
-// which license applies.
-// This file comes 'as-is' and in no possible
-// way the author can be held responsible of
-// any form of damages that may occur due to
-// the usage of this file
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
 // 
 // 
-// **********************************************
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
 // 
-// version: 23.09.03
-// End License Information
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
 
 
 Module F_d3fc66994bae3626ac6fc1d8987fb3b9ce9864a56e19d189e234ef04f2050996
 
 #use "Libs/Fittext"
+#use "Libs/UseWhenNeeded"
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Graphics"
+
 
 #use "Script/Use/Anyway"
 
+#accept Stage
+#accept FlowCombat
+
+locExtern Me "self"
+
 Class Fighter
+
+#region Draw and Pose
+	
+	Abstract Void Draw()
+	Abstract Bool Pose(Action)
+	
+#endregion
+
+	Abstract Int EleRes(string elem)
+
+
 
 #region Tags and stuff
 
@@ -58,33 +87,43 @@ Class Fighter
 	Table StatusChanges
 	Table TrueStatusChanges
 	
-	Void InitStatusChanges(Initial)
+	//Void InitStatusChanges(Initial)
+	Static Void FInitStatusChanges(MF,Initial)
 		Static Var Func = {[true]="Cause", [false]="Cure"}
-		TrueStatusChanges = {}
+		MF.TrueStatusChanges = {}
 		If Initial
 			for S in Each(Initial)
-				TrueStatusChanges[S:upper()] = true
+				MF.TrueStatusChanges[Upper(s)] = true
 			End
 		End
 		
-		void S(SF,string K,V)
-			Bool Value = V!=nil && v!=false
-			Bool Was   = TrueStatusChanges[K]!=nil && TrueStatusChanges[K]!=false
-			K = K:upper()
-			TrueStatusChanges[K]=Value//TrueStatusChanges[K] || True
+		//void S(SF,string K,V)
+		ddef S
+			plua SF
+			string K
+			plua V
+			SF,K,V = Infinity
+			Bool Value := V!=nil && v!=false
+			Bool Was   := MF.TrueStatusChanges[K]!=nil && MF.TrueStatusChanges[K]!=false
+			K = Upper(K)
+			MF.TrueStatusChanges[K]=Value//TrueStatusChanges[K] || True
 			If Value!=Was
-				StChange[K][Func[Value]](Self,K)
+				StChange[K][Func[Value]](MF,K)
 			End
 		End
 		
-		Var G(SF,string k)
-			If TrueStatusChanges[K:upper()]
+		//Var G(SF,string k)
+		ddef G
+			plua SF
+			String K
+			SF,K = Infinity
+			If MF.TrueStatusChanges[Upper(K)]
 				return StChange[K]
 			else
 				Return Nil
 			End
 		End
-		StatusChanges = Lua.setmetatable({},{["__index"]=G, ["__newindex"]=S})
+		MF.StatusChanges = SetMetaTable({},{["__index"]=G, ["__newindex"]=S})
 	End
 	
 	
@@ -106,7 +145,7 @@ Class Fighter
 	Static Table ByTeam = {}
 	
 	Static Table GetTags(string Team="*")
-		Table Ret = {}
+		Ret := {}
 		For Tag,Dat in sPairs(ByTag)
 			If Team=="*" || Team==Dat.Team
 				Ret += Tag
@@ -148,25 +187,29 @@ Class Fighter
 	Int _W
 	Int _H
 	
-	Get Int W
-		Return _W
-	End
+	//Get Int W
+	//	Return _W
+	//End
 	
-	Get Int H
-		Return _H
-	End
+	//Get Int H
+	//	Return _H
+	//End
 	
 	
-	Get Int X
-		Return _X
-	End
+	//Get Int X
+	//	Return _X
+	//End
 	
-	Get Int Y
-		Return _Y
-	End
+	//Get Int Y
+	//	Return _Y
+	//End
 
-	Final Var TrueCoords()
-		Return Screen.AltRectData("COMBAT",X,Y,W,H)
+	//Final 
+	Var TrueCoords(IgnoreMe,NX,NY)
+		//Return Screen.AltRectData("COMBAT",X,Y,W,H)
+		_X = NX || _X
+		_Y = NY || _Y
+		Return _X,_Y,_W,_H
 	End
 	
 	
@@ -175,7 +218,7 @@ Class Fighter
 		Int RY
 		Int RW
 		Int RH
-		RX,RY,RW,RH = TrueCoords()
+		RX,RY,RW,RH = Me.TrueCoords()
 		Return RX
 	End
 		
@@ -184,7 +227,7 @@ Class Fighter
 		Int RY
 		Int RW
 		Int RH
-		RX,RY,RW,RH = TrueCoords()
+		RX,RY,RW,RH = Me.TrueCoords()
 		Return RY
 	End
 	
@@ -193,7 +236,7 @@ Class Fighter
 		Int RY
 		Int RW
 		Int RH
-		RX,RY,RW,RH = TrueCoords()
+		RX,RY,RW,RH = Me.TrueCoords()
 		Return RW
 	End
 	
@@ -202,36 +245,32 @@ Class Fighter
 		Int RY
 		Int RW
 		Int RH
-		RX,RY,RW,RH = TrueCoords()
+		RX,RY,RW,RH = Me.TrueCoords()
 		Return RH
 	End
 
 	Set Int TX
 		Int RX
 		Int RY
-		RX,RY = Screen.TrueCoords("COMBAT",Value,0)
-		X = RX
+		RX,RY = Me.TrueCoords("COMBAT",Value,0)
+		Me.X = RX
 	End
 	Set Int TY
 		Int RX
 		Int RY
-		RX,RY = Screen.TrueCoords("COMBAT",0,Value)
-		Y = RY
+		RX,RY = Me.TrueCoords("COMBAT",0,Value)
+		Me.Y = RY
 	End
 #endregion
 
-#region Draw and Pose
-	
-	Abstract Void Draw()
-	Abstract Bool Pose(Action)
-	
-#endregion
 
-#region StatusChanges	
-	Final Var EachStatusChange()
+#region StatusChanges
+	// Final
+	Var EachStatusChange()
 		TrueStatusChanges = TrueStatusChanges || {}
-		Static Var Tabel 
-		Int i = 0
+		//Static Var Tabel
+		LocExtern Tabel "d3fc66994bae3626ac6fc1d8987fb3b9ce9864a56e19d189e234ef04f2050996_Tabel_for_EachStatusChange"
+		Int i = 0-1
 		Tabel = Tabel || {}
 		
 		For k,v in pairs(TrueStatusChanges)
@@ -241,10 +280,10 @@ Class Fighter
 			end
 		End
 		Tabel[i+1]=nil
-		i=0
-		Var Ret()			
+		i=0-1
+		ddef Ret			
 			i++
-			if i>#Tabel
+			if i>=len(Tabel)
 				return nil,nil
 			end
 			if !Tabel[i]
@@ -291,7 +330,6 @@ Class Fighter
 		Return Char.Name
 	End
 	
-	Abstract Int EleRes(string elem)
 #endregion
 
 #region Targetable
@@ -307,7 +345,7 @@ Class Fighter
 	End
 	
 	Void TOverview()
-		Static var f = ImageFont.Obtain("MINITEXT")		
+		Static var f = ObtainFont("MINITEXT")		
 		int y=20
 		for k,v in spairs(FlowCombat.PlayerInputTarget.Targeted)
 			f.DarkText(sprintf("%20s => %5s (Can be targeted: %5s)",k,v,ByTag[k].TargettableByHero),3,y)
@@ -316,8 +354,8 @@ Class Fighter
 	End
 	
 	Get Bool IsTargeted
-		//ImageFont.Obtain("MINITEXT").Text(sprintf("Stage.Current: %s; PlayerInputTarget: %s; Targeted: %s",Stage.Current,FlowCombat.PlayerInputTarget,FlowCombat.PlayerInputTarget.Targeted),3,3) // Debug only!
-		//ImageFont.Obtain("MINITEXT").Text(sprintf("Stage: %s; CanTarget: %s; Has List: %s",Stage.Current.RegName,Stage.Current.TargetMode,FlowCombat.PlayerInputTarget.Targeted!=nil),2,5)
+		//ObtainFont("MINITEXT").Text(sprintf("Stage.Current: %s; PlayerInputTarget: %s; Targeted: %s",Stage.Current,FlowCombat.PlayerInputTarget,FlowCombat.PlayerInputTarget.Targeted),3,3) // Debug only!
+		//ObtainFont("MINITEXT").Text(sprintf("Stage: %s; CanTarget: %s; Has List: %s",Stage.Current.RegName,Stage.Current.TargetMode,FlowCombat.PlayerInputTarget.Targeted!=nil),2,5)
 		if (!Stage.Current.TargetMode) || (!FlowCombat.PlayerInputTarget.Targeted)
 			Return False
 		End
@@ -338,33 +376,38 @@ Class Fighter
 
 // First upper rest lower
 	Static String FURL(string s)
-		Switch s:upper()
+		Switch Upper(s)
 			Case "HP" "AP" "EXP" 
-				return s:upper()
+				return Upper(s)
 			Default
-				Return (Left(s,1):upper())..(Right(s,#s-1):lower())
+				Return (Upper(Left(s,1)))..lower(Right(s,len(s)-1)) 
 		End
 	End
 
-	Void SetUp(string _Tag,string _Team)
-		CharTag  = _Tag
-		Team = _Team
-		ByTag[Tag] = Self
-		ByTeam[Team][Tag] = Self
-		StatusChanges = {}
+	//Void SetUp(string _Tag,string _Team)
+	Static Void FSetup(S,string _Tag,string _Team)
+		S.CharTag  = _Tag
+		S.Team = _Team
+		ByTag[_Tag] = S
+		ByTeam[S.Team][_Tag] = S
+		S.StatusChanges = {}
 		
-		Int _stat_index(s,string Key)
-			return Char.Stat["END_"..FURL(Key)]
+		//Int _stat_index(s,string Key)
+		ddef _stat_index
+			plua a
+			string Key
+			a,Key = infinity
+			return S.Char.Stat["END_"..self.FURL(Key)]
 			//return Char.Stat["END_"..Key]
 		End
-		EndStats = Lua.setmetatable({},{["__index"]=_stat_index})
+		S.EndStats = Lua.setmetatable({},{["__index"]=_stat_index})
 		CSayF("Created fighter '%s' for team: %s",_Tag,_Team)
 	End
 #endregion
 
 
 	Static Void DrawAll(Bool AllowTarget)
-		Static Var Fnt = ImageFont.Obtain("MINITEXT")
+		Static Var Fnt = ObtainFont("MINITEXT")
 		For FTag,FDat in Pairs(ByTag)
 			If FDat.DrawThis
 				__White
@@ -390,7 +433,7 @@ Class Fighter
 				//FitText.Dark(fnt,fdat.TargetName,Fdat.X,NY)
 				fnt.DarkText(fdat.TargetName,Fdat.X,NY)
 				if Fdat.ShowHPBar
-					Int W = fnt.TextWidth(fdat.TargetName)
+					Int W := fnt.Width(fdat.TargetName)
 					Graphics.Color(80,80,80)
 					Graphics.Rect(Fdat.X,BY,W,10)
 					Number Breuk = Fdat.HP/Fdat.HPMax

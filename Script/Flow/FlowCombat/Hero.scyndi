@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/Hero.scyndi
 // 
-// 	  Version: 26.04.23 III
+// 	  Version: 26.04.23 XX
 // 	
 // 	  Copyright (C) 2022-2023, 2026 Jeroen Petrus Broks
 // 	
@@ -45,38 +45,61 @@
 
 Module Hero_3cbfcff0de70e2f165d73039e16e08d1
 
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/JCR6"
+#use "Libs/SCI/Graphics"
+#use "Libs/SCI/InterVar"
+
 #use "Script/Use/Anyway"
+
+#accept Fighter
+
+LocExtern Me "self"
 
 Class Hero Extends Fighter
 
 	Const Bool Gone = False
 	
 	Static ReadOnly Number GuardModifier = ({0,0.50,0.95})[__skill]
+		
+	String CharTag
+	String Team
+	
+	Table StatusChanges
+	Table TrueStatusChanges
+	
+	Var EndStats
+
 	
 	Int _MTX
 	Int _MTY
 	Int _ACX
 	Int _ACY
 	
+	Int _X
+	Int _Y
+	Int _W
+	Int _H
+	
 	String OldPose="???"
 	Get Int Frame		
-		if OldPose!=Self.UsePose
-			Self._PoseFrame=0
-			CSayF("%s> Frame reset due to pose change! %s => %s",Self.CharTag,OldPose,Self.UsePose)
-			OldPose=Self.UsePose
+		if OldPose!=Me.UsePose
+			Me._PoseFrame=0
+			CSayF("%s> Frame reset due to pose change! %s => %s",Me.CharTag,OldPose,Me.UsePose)
+			OldPose=Me.UsePose
 		End
-		Return math.min(Self._PoseFrame,Self.Img.Frames-1)
+		Return math.min(Me._PoseFrame,Me.Img.Frames-1)
 	End
 	
 	
 	
 	Get Bool Damned
 		// TODO: Make this react to the undead status
-		Return Self.TrueStatusChanges.DAMNED!=nil && Self.TrueStatusChanges.DAMNED!=false
+		Return Me.TrueStatusChanges.DAMNED!=nil && Me.TrueStatusChanges.DAMNED!=false
 	End
 	
 	Int EleRes(string ele)
-		switch ele:upper()
+		switch Upper(ele)
 			case "HEALING"
 				if Damned
 					Return 1
@@ -108,18 +131,18 @@ Class Hero Extends Fighter
 		Return Self.Tag=="Ashley"
 	End
 
-	Static Int PNum(string CharTag)
+	Static Int PNum(string _CharTag)
 		for i=1,4
-			if RPGParty[i]==CharTag
+			if RPGParty[i]==_CharTag
 				Return i
 			End
 		end
-		Lua.error("Hero "..CharTag.." not in party!")
+		Lua.error("Hero ".._CharTag.." not in party!")
 	End
 	
 	get String UsePoseFile
-		string png  := sprintf("GFX/Combat/Heroes/%s.%s.png",Self.Tag,UsePose)
-		string jpbf := sprintf("GFX/Combat/Heroes/%s.%s.jpbf",Self.Tag,UsePose)
+		string png  := sprintf("GFX/Combat/Heroes/%s.%s.png",Me.Tag,UsePose)
+		string jpbf := sprintf("GFX/Combat/Heroes/%s.%s.jpbf",Me.Tag,UsePose)
 		if JCR6.DirExists(jpbf)
 			Return jpbf
 		elseif JCR6.EntryExists(png)
@@ -130,11 +153,11 @@ Class Hero Extends Fighter
 			
 	
 	Get Var Img
-		If Self.HP<=0
-			ImgTable.Dead = ImgTable.Dead ||Image.LoadNew(sprintf("GFX/Combat/Heroes/%s.Dead.png",Self.Tag),sprintf("COMBAT_%s_DEAD",Self.Tag))
+		If Me.HP<=0
+			ImgTable.Dead = ImgTable.Dead ||LoadNewImage(sprintf("GFX/Combat/Heroes/%s.Dead.png",Me.Tag),sprintf("COMBAT_%s_DEAD",Me.Tag))
 			return ImgTable.Dead
 		End
-		ImgTable[UsePose] = ImgTable[UsePose] || Image.LoadNew(UsePoseFile,sprintf("COMBAT_%s_%s",Self.Tag,UsePose))
+		ImgTable[UsePose] = ImgTable[UsePose] || LoadNewImage(UsePoseFile,sprintf("COMBAT_%s_%s",Me.Tag,UsePose))
 		Return ImgTable[UsePose]
 	End
 	
@@ -200,8 +223,8 @@ Class Hero Extends Fighter
 		NH.CharTag=_Tag
 		Fighter.ByTag[NH.CharTag] = NH
 		Fighter.ByTeam.Hero[NH.CharTag] = NH
-		NH._X = HW + (DW*PNum(_TAG))
-		NH._Y = HH + (DH*PNum(_TAG))
+		NH._X = HW + (DW*self.PNum(_TAG))
+		NH._Y = HH + (DH*self.PNum(_TAG))
 		NH._W = 32
 		NH._H = 64
 		NH.ImgTable = {}
@@ -213,7 +236,9 @@ Class Hero Extends Fighter
 		If __skill!=3 || (!Done["INITBATTLESKILL3_".._TAG])
 			RPGChar[_Tag].Points.Ammo.Have = RPGChar[_Tag].Points.Ammo.Maximum
 		End
-		NH.SetUp(NH.CharTag,"Hero")
-		NH.InitStatusChanges()
+		//NH.SetUp(NH.CharTag,"Hero")
+		Fighter.FSetUp(NH,NH.CharTag,"Hero")
+		Fighter.FInitStatusChanges(NH)
 	End
 End	
+

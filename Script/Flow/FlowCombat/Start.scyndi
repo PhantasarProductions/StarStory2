@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/Start.scyndi
 // 
-// 	  Version: 26.04.23 X
+// 	  Version: 26.04.23 XI
 // 	
 // 	  Copyright (C) 2022/2023, 2026 Jeroen Petrus Broks
 // 	
@@ -115,8 +115,8 @@ Void Start()
 	Fighter.ClearAll()
 	// Compile Heroes
 	For i=1,Lnk.Party.Count
-		Hero.Compile(RPGChar[i])
-		EXPRate[RPGChar[i]]=EXPBaseRate
+		Hero.Compile(RPGParty[i])
+		EXPRate[RPGParty[i]]=EXPBaseRate
 	End
 	
 	For i,f in ipairs(Enemies)
