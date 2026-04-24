@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/Foe.scyndi
 // 
-// 	  Version: 26.04.23 XXVI
+// 	  Version: 26.04.24 IV
 // 	
 // 	  Copyright (C) 2022-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -74,6 +74,12 @@ Class Foe Extends Fighter
 	String Letter
 	Table Drops
 	Table Steal
+	
+	String CharTag
+	Int _W
+	Int _H
+	Int _X
+	Int _Y
 	
 	Var ImgNor
 	Var ImgNeg
@@ -318,8 +324,10 @@ Class Foe Extends Fighter
 					end
 				end			
 				//RPGChar.ScriptStat(Foe.Tag,"END_"..ckey,"Script/CharStats/General.lua","CALC_"..ckey)
-				RPGChar[NF.Tag].StatScript["END_"..ckey] = formscript
-				CSayF("Scripting stat %s for %s with script '%s' (%d=>%d)",ckey,nf.tag,formscript,C.Stat["BASE_"..ckey],C.Stat["END_"..ckey])
+				
+				// Next two lines are old!
+				//RPGChar[NF.Tag].StatScript["END_"..ckey] = formscript
+				//CSayF("Scripting stat %s for %s with script '%s' (%d=>%d)",ckey,nf.tag,formscript,C.Stat["BASE_"..ckey],C.Stat["END_"..ckey])
 			end
 		End
 		
@@ -327,7 +335,7 @@ Class Foe Extends Fighter
 		NFS["BASE_Luck"] = math.random(0,__skill+1)
 		NFS["POWERUP_Luck"] = 0
 		NFS["BUFF_LUCK"] = 0		
-		RPGChar[NF.Tag].StatScript["END_Luck"] = "SUM:"..NF.Tag..".BASE_Luck.POWERUP_Luck.BUFF_Luck"
+		//RPGChar[NF.Tag].StatScript["END_Luck"] = "SUM:"..NF.Tag..".BASE_Luck.POWERUP_Luck.BUFF_Luck"
 		
 		// HP
 		SHP := RPGChar[NF.Tag].Points.HP
