@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/DrawScreen.scyndi
 // 
-// 	  Version: 26.04.24 I
+// 	  Version: 26.04.24 IV
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -45,8 +45,11 @@
 
 Module DS_f626a02aa7049d51854de97ad35243d1
 
+#accept TCM
 #accept Fighter
 #accept FlowCombat
+
+#use "Script/Use/Anyway"
 
 //Void _DS()
 Global Void DrawScreen()
@@ -61,7 +64,7 @@ End
 
 Global Void PRGL()
 	DrawScreen()
-	Party.Boxes()
+	Lnk.Party.Boxes()
 End
 
 //Return _DS
