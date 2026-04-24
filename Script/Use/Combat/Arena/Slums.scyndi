@@ -1,41 +1,58 @@
-// License Information:
-// **********************************************
+// License:
+// 	  src/Code/Script/Use/Combat/Arena/Slums.scyndi
 // 
-// src/Tricky Script/Script/Use/Combat/Arena/Slums.neil
-// (c) Jeroen Broks, 2022, All Rights Reserved.
+// 	  Version: 26.04.24 VII
+// 	
+// 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
 // 
-// This file contains material that is related
-// to a storyline that is which is strictly
-// copyrighted to Jeroen Broks.
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
 // 
-// This file may only be used in an unmodified
-// form with an unmodified version of the
-// software this file belongs to.
-// 
-// You may use this file for your study to see
-// how I solved certain things in the creation
-// of this project to see if you find valuable
-// leads for the creation of your own.
-// 
-// Mostly this file comes along with a project
-// that is for most part released under an
-// open source license and that means that if
-// you use that code with this file removed
-// from it, you can use it under that license.
-// Please check out the other files to find out
-// which license applies.
-// This file comes 'as-is' and in no possible
-// way the author can be held responsible of
-// any form of damages that may occur due to
-// the usage of this file
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
 // 
 // 
-// **********************************************
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
 // 
-// version: 22.04.30
-// End License Information
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+
+
 
 Module Arena_Slums
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/JCR6"
+#use "Libs/SCI/Graphics"
+
+#use "Script/Use/Anyway"
+
 
 Var Tex
 Int JunkNum
@@ -48,21 +65,24 @@ End
 
 Var LoadTex(string Tag)
 	Tag = Upper(Tag)
-	Return Image.LoadNew(Tex[Tag],"ARENA_SLUMS_"..Tag)
+	CSayF("Tag %s -> %s",Tag,Tex[Tag])
+	Return LoadNewImage(Tex[Tag],"ARENA_SLUMS_"..Tag)
 End
 
 Init
 	ATex("METAL","GFX/TextureS/Metal/metal027.png")
 	ATex("FLOOR","GFX/TextureS/MetalFloor/Metal Floor.png")
-	For i,a in ipairs(JCR6.GetDir("GFX/TEXTURES/JUNK/"))
+	For _i,a in ipairs(JCR6.Dir("GFX/TEXTURES/JUNK/"))
+		i:=_i+1
 		ATex("JUNK_"..i,a)
 		JunkNum = math.max(i,JunkNum)
 	End
+	CSayF("JunkNum = %d",JunkNum)
 	CSayF("Slums arena loaded!")
 End
 
 
-Module
+//Module
 
 	Get Int HH 
 		Return Screen.Height div 2
@@ -87,14 +107,18 @@ Module
 		TexMetal = nil
 		TexFloor = nil
 		TexJunk  = nil
-		Image.KillByPrefix("ARENA_SLUMS_")
+		//Image.KillByPrefix("ARENA_SLUMS_")
+		for _,T in pairs(Tex)
+			//Graphics.Kill(T)
+			Lua.Graphics.KillImage(T)
+		End
 	End
 	
 	Void NewBattle()
 		Int N = math.random(20,100)
 		Junk = {}
 		For i=1,N
-			Junk += {["Tex"]=TexJunk[math.random(1,#TexJunk)], ["X"]=math.random(0,screen.w),["Y"]=math.random(HH,HH+100)}			
+			Junk += {["Tex"]=TexJunk[math.random(1,JunkNum)], ["X"]=math.random(0,screen.w),["Y"]=math.random(HH,HH+100)}			
 		End
 	End
 	
@@ -106,4 +130,4 @@ Module
 		End
 	End
 	
-End
+//End
