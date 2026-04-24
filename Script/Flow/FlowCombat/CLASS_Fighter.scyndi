@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/CLASS_Fighter.scyndi
 // 
-// 	  Version: 26.04.23 XXIV
+// 	  Version: 26.04.24 I
 // 	
 // 	  Copyright (C) 2022-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -363,13 +363,7 @@ Class Fighter
 		Return FlowCombat.PlayerInputTarget.Targeted[CharTag]
 	End
 	
-	Get Bool ShowHPBar
-		Return True
-	End
 	
-	Get String TargetName
-		Return sprintf("Lv %06d. %s",RPGChar[CharTag].Stats.Level,RPGChar[CharTag].Name)
-	End
 #endregion
 
 #region Start Up

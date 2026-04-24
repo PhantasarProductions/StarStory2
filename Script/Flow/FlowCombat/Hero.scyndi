@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/Hero.scyndi
 // 
-// 	  Version: 26.04.23 XX
+// 	  Version: 26.04.24 I
 // 	
 // 	  Copyright (C) 2022-2023, 2026 Jeroen Petrus Broks
 // 	
@@ -190,6 +190,16 @@ Class Hero Extends Fighter
 	Get Int H
 		Return Self._H*2
 	End
+	
+	Get Bool ShowHPBar
+		Return True
+	End
+	
+	Get String TargetName
+		Return sprintf("Lv %06d. %s",RPGChar[CharTag].Stats.Level,RPGChar[CharTag].Name)
+	End
+
+
 	
 	Void Draw()
 		//ImgTable[UsePose]
