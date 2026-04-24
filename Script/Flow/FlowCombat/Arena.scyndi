@@ -1,5 +1,5 @@
 // License Information:
-// src/Tricky Script/Script/Flow/FlowCombat/Arena.neil
+// src/Tricky Script/Script/Flow/FlowCombat/ArenaScript.neil
 // Version: 22.05.21
 // Copyright (C) 2022 Jeroen Petrus Broks
 // 
@@ -35,30 +35,30 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 Module
-	Var Arena
+	Var ArenaScript
 	String Loaded
 	
 	Void Load(string LAF)
 		LAF=LAF:upper()
 		If Loaded!=LAF
 			Loaded = LAF
-			if Arena
-				Arena.Unload()
+			if ArenaScript
+				ArenaScript.Unload()
 			End
 			if suffixed(LAF,".PNG")
-				Arena = NeilUse("Script/Use/Combat/Arena/JustPicture")
-				Arena.LoadPic(LAF)
+				ArenaScript = NeilUse("Script/Use/Combat/ArenaScript/JustPicture")
+				ArenaScript.LoadPic(LAF)
 			Else
-				Arena = NeilUse("Script/Use/Combat/Arena/"..LAF)
-				Arena.Load()
+				ArenaScript = NeilUse("Script/Use/Combat/ArenaScript/"..LAF)
+				ArenaScript.Load()
 			End
 		End
-		Lua.assert(Arena,sprintf("Somehow the arena (%s) was NOT loaded!",LAF))
-		Arena.NewBattle()
+		Lua.assert(ArenaScript,sprintf("Somehow the ArenaScript (%s) was NOT loaded!",LAF))
+		ArenaScript.NewBattle()
 	End
 	
 	Void Draw()
-		Arena.Draw()
+		ArenaScript.Draw()
 	End
 
 End
