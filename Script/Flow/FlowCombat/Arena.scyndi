@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/Arena.scyndi
 // 
-// 	  Version: 26.04.24 I
+// 	  Version: 26.04.24 III
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -60,13 +60,13 @@ Void Load(string LAF)
 			ArenaScript.Unload()
 		End
 		if suffixed(LAF,".PNG")
-			Lua.Scyndi.Use("Script/Use/Combat/ArenaScript/JustPicture")
+			Lua.Scyndi.Use("Script/Use/Combat/Arena/JustPicture")
 			ArenaScript = Lua.Scyndi.Class.JustPicture
 			//ArenaScript = NeilUse("Script/Use/Combat/ArenaScript/JustPicture")
 			ArenaScript.LoadPic(LAF)
 		Else
 			//ArenaScript = NeilUse("Script/Use/Combat/ArenaScript/"..LAF)
-			Lua.Scyndi.Use("Script/Use/Combat/ArenaScript/"..LAF)
+			Lua.Scyndi.Use("Script/Use/Combat/Arena/"..LAF)
 			ArenaScript = Lua.Scyndi.Class["Arena_"..LAF]
 			ArenaScript.Load()
 		End
