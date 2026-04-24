@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/Foe.scyndi
 // 
-// 	  Version: 26.04.24 IV
+// 	  Version: 26.04.24 XI
 // 	
 // 	  Copyright (C) 2022-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -75,7 +75,11 @@ Class Foe Extends Fighter
 	Table Drops
 	Table Steal
 	
+	Var StatusChanges
+	Var TrueStatusChanges
+	Var EndStats
 	String CharTag
+	String Team
 	Int _W
 	Int _H
 	Int _X
@@ -403,10 +407,10 @@ Class Foe Extends Fighter
 		NF.Steal = {}
 		For it in Each(NF.RawData.ListCopy("ITEMS","LIST"))
 			String itt  := "Item:"..it
-			Int DMinLvl := NF.RawData.NValue(itt,"DropMinLevel"..__skill)
-			int DRate   := NF.RawData.NValue(itt,"DropRate" ..   __skill)
-			Int SMinLvl := NF.RawData.NValue(itt,"StealMinLevel"..__skill)
-			int SRate   := NF.RawData.NValue(itt,"StealRate" ..   __skill)
+			Int DMinLvl := NF.RawData.IntValue(itt,"DropMinLevel"..__skill)
+			int DRate   := NF.RawData.IntValue(itt,"DropRate" ..   __skill)
+			Int SMinLvl := NF.RawData.IntValue(itt,"StealMinLevel"..__skill)
+			int SRate   := NF.RawData.intValue(itt,"StealRate" ..   __skill)
 			if DMinLvl!=0 && DMinLvl<=Level
 				For i=1,DRate
 					NF.Drops +=it
@@ -426,8 +430,8 @@ Class Foe Extends Fighter
 		
 		// This is to make it possible enemies start with certain statuses
 		Var InitialStatus = {}
-		NF.SetUp(NF.CharTag,"Foe")
-		NF.InitStatusChanges(InitialStatus)
+		Fighter.FSetUp(NF,NF.CharTag,"Foe")
+		Fighter.FInitStatusChanges(NF,InitialStatus)
 	End
 	
 	Static Void RemoveAll()
