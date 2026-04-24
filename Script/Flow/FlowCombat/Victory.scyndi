@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/Victory.scyndi
 // 
-// 	  Version: 26.04.24
+// 	  Version: 26.04.24 XIV
 // 	
 // 	  Copyright (C) 2021-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -45,6 +45,20 @@
 
 Module Victory_We_Are_The_Champions
 
+#use "Libs/Music"
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
+#use "Libs/SCI/Intervar"
+
+#use "Script/Use/Anyway"
+
+#accept Foe
+#accept Stage
+#accept FlowCombat
+
 Class Stage_Victory extends Stage
 
 	Static Var Vic
@@ -55,32 +69,32 @@ Class Stage_Victory extends Stage
 	Const Number ScaleInc = 0.016
 	
 	Static Void Shout()
-	#if ThereAreVocals
+	//#if ThereAreVocals
 		// Vocals/Combat/Hero/Jake/Victory/Boss.ogg
-		String Ch		
-		Switch LastAction
-			case ""
-				Return
-			Case "Jake_Human" "Jake_Fairy"
-				Ch = "Jake"
-			Default
-				Ch = LastAction
-		End
-		String FL = sPrintF("Vocals/Combat/Hero/%s/Victory/%s.ogg",Ch,VicQ)
-		CSayF("= Shout: %s",FL)
-		If JCR6.HasEntry(FL)
-			Audio.LoadNew(FL,sprintF("VICTORYQUOTE_%s_%s",Ch,VicQ)).Play()
-		End	
-		If VicQ=="BOSS"
-			For _,d in pairs(Fighter.ByTag)
-				If d.Team=="Hero"
-					d.Sage = "VICTORY"
-				End
-			End
-		Else
-			Fighter.ByTag[LastAction].Stage = "VICTORY"
-		End
-	#fi
+	//	String Ch		
+	//	Switch LastAction
+	//		case ""
+	//			Return
+	//		Case "Jake_Human" "Jake_Fairy"
+	//			Ch = "Jake"
+	//		Default
+	//			Ch = LastAction
+	//	End
+	//	String FL := sPrintF("Vocals/Combat/Hero/%s/Victory/%s.ogg",Ch,VicQ)
+	//	CSayF("= Shout: %s",FL)
+	//	If JCR6.HasEntry(FL)
+	//		Audio.LoadNew(FL,sprintF("VICTORYQUOTE_%s_%s",Ch,VicQ)).Play()
+	//	End	
+	//	If VicQ=="BOSS"
+	//		For _,d in pairs(Fighter.ByTag)
+	//			If d.Team=="Hero"
+	//				d.Sage = "VICTORY"
+	//			End
+	//		End
+	//	Else
+	//		Fighter.ByTag[LastAction].Stage = "VICTORY"
+	//	End
+	//#fi
 	End
 	
 	
@@ -101,17 +115,17 @@ Class Stage_Victory extends Stage
 			CSay("Party wins, initiating victory stage")
 			Stage.Current="VICTORY"
 			Banner.HotCenter()
-			If Music.Available
-				If !Prefixed(FlowCombat.Start.Music:upper(),"*NOCHANGE")
+			//If Music.Available
+				If !Prefixed(Upper(FlowCombat.Start.Music),"*NOCHANGE")
 					Music.Stop()
 					VicTune.Play()
 					CSay("= Victory tune")
 				End
-			End
+			//End
 			BanScale=0
-			Shout()
+			//Shout()
 			//Master.AllInc("Feenalaria","FeenalariaPoints")
-			gv.gint.Combat_Victories++
+			gint.Combat_Victories++
 		End
 	End
 	
@@ -137,9 +151,9 @@ Class Stage_Victory extends Stage
 		//If BanScale>=1
 		if math.abs(os.time()-CheckStamp)>YWTime
 			CDLoading()
-			ResetBuffs()
+			Self.ResetBuffs()
 			Foe.RemoveAll()
-			Flow.Current="FIELD"
+			Sys.CurrentFlow="FIELD"
 			Lnk.Ach.Auto()
 			For i=1,4
 				string tag=RPGParty[i]
@@ -164,7 +178,7 @@ Class Stage_Victory extends Stage
 			end
 			Repeat
 				Events.Poll()
-				FPS.WaitMinTicks()
+				Sys.WaitMinTicks()
 			Until math.abs(os.time()-CheckStamp)>TotalTime
 			If !Prefixed(FlowCombat.Start.Music:upper(),"*NOCHANGE")
 				Music.Pop()
@@ -185,7 +199,7 @@ Class Stage_Victory extends Stage
 
 End
 
-Global Victory
+Global Var Victory
 
 Init
 	NIKS(Lnk.Map) // Force LNK.MAP to compile while loading. Saves waiting times after first battle. That it would lead to longer load time before the first battle, no one will bother (I hope)
