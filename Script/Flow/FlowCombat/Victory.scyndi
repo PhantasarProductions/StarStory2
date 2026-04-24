@@ -1,44 +1,55 @@
-// License Information:
-// src/Tricky Script/Script/Flow/FlowCombat/Victory.neil
-// Version: 23.09.07
-// Copyright (C) 2021, 2022, 2023 Jeroen Petrus Broks
+// License:
+// 	  src/Code/Script/Flow/FlowCombat/Victory.scyndi
 // 
-// ===========================
-// This file is part of a project related to the Phantasar Chronicles or another
-// series or saga which is property of Jeroen P. Broks.
-// This means that it may contain references to a story-line plus characters
-// which are property of Jeroen Broks. These references may only be distributed
-// along with an unmodified version of the game.
+// 	  Version: 26.04.24
+// 	
+// 	  Copyright (C) 2021-'23, 2026 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
 // 
-// As soon as you remove or replace ALL references to the storyline or character
-// references, or any termology specifically set up for the Phantasar universe,
-// or any other univers a story of Jeroen P. Broks is set up for,
-// the restrictions of this file are removed and will automatically become
-// zLib licensed (see below).
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
 // 
-// Please note that doing so counts as a modification and must be marked as such
-// in accordance to the zLib license.
-// ===========================
-// zLib license terms:
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
-// in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-// misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-// End License Information
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+
+Module Victory_We_Are_The_Champions
+
 Class Stage_Victory extends Stage
 
 	Static Var Vic
 	Static Var VicTune = Audio.LoadNew("Music/Combat/Victory/Victory.ogg","VIC_TUNE")
-	Static Var Banner  = Image.LoadNew("GFX/Combat/End/YouWin.png","VIC_YOUWIN")
+	Static Var Banner  = LoadNewImage("GFX/Combat/End/YouWin.png","VIC_YOUWIN")
 	
 	Static Number BanScale
 	Const Number ScaleInc = 0.016
@@ -163,27 +174,7 @@ Class Stage_Victory extends Stage
 		plua vit
 		plua hp
 		String tag		
-		#if UseVitality
-		For i=1,4
-			tag=RPGParty[i]
-			if tag!=""				
-				vit = RPGChar[Tag].Points.VIT
-				hp  = RPGChar[Tag].Points.HP
-				if hp.Have==0
-					hp.Have=1
-					exprate[tag] = 0
-				end
-				Int Maxi = hp.Maximum
-				If Tag=="Marrilona" && gv.gBool.MarFeena_Curse
-					Maxi = gv.gInt.MarFeena_HP
-				End
-				if vit.Have>0 && hp.Have<Maxi
-					hp.Have +=  math.ceil(hp.Maximum/(200/__skill))
-					vit.Have = vit.Have - 1
-				end
-			End
-		End
-		#fi
+		
 	End
 
 	Void Draw()
@@ -194,10 +185,13 @@ Class Stage_Victory extends Stage
 
 End
 
+Global Victory
+
 Init
 	NIKS(Lnk.Map) // Force LNK.MAP to compile while loading. Saves waiting times after first battle. That it would lead to longer load time before the first battle, no one will bother (I hope)
+	Victory = Stage_Victory
 	Stage_Victory.Vic = new Stage_Victory()
 	Stage.Register("VICTORY",Stage_Victory.Vic)
 End
 
-Return Stage_Victory
+//Return Stage_Victory
