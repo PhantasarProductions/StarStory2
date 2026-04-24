@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/Hero.scyndi
 // 
-// 	  Version: 26.04.24 I
+// 	  Version: 26.04.24 VII
 // 	
 // 	  Copyright (C) 2022-2023, 2026 Jeroen Petrus Broks
 // 	
@@ -64,6 +64,7 @@ Class Hero Extends Fighter
 		
 	String CharTag
 	String Team
+	Get String Tag; Return CharTag; End
 	
 	Table StatusChanges
 	Table TrueStatusChanges
@@ -128,7 +129,7 @@ Class Hero Extends Fighter
 	Var ImgTable
 	
 	Get Bool AllowMoveOnAttack
-		Return Self.Tag=="Ashley"
+		Return Me.Tag=="Ashley"
 	End
 
 	Static Int PNum(string _CharTag)
@@ -184,11 +185,11 @@ Class Hero Extends Fighter
 	End
 	
 	Get Int W
-		Return Self._W*2
+		Return Me._W*2
 	End
 	
 	Get Int H
-		Return Self._H*2
+		Return Me._H*2
 	End
 	
 	Get Bool ShowHPBar
@@ -199,11 +200,40 @@ Class Hero Extends Fighter
 		Return sprintf("Lv %06d. %s",RPGChar[CharTag].Stats.Level,RPGChar[CharTag].Name)
 	End
 
+	Var EachStatusChange()
+		TrueStatusChanges = TrueStatusChanges || {}
+		//Static Var Tabel
+		LocExtern Tabel "d3fc66994bae3626ac6fc1d8987fb3b9ce9864a56e19d189e234ef04f2050996_Tabel_for_EachStatusChange"
+		Int i = 0-1
+		Tabel = Tabel || {}
+		
+		For k,v in pairs(TrueStatusChanges)
+			If v
+				i++
+				Tabel[i]=k
+			end
+		End
+		Tabel[i+1]=nil
+		i=0-1
+		ddef Ret			
+			i++
+			if i>=len(Tabel)
+				return nil,nil
+			end
+			if !Tabel[i]
+				return nil,nil
+			end
+			return Tabel[i],StatusChanges[Tabel[i]]
+		End
+		Return Ret
+	End
+
 
 	
 	Void Draw()
 		//ImgTable[UsePose]
-		Img.AltStretch("COMBAT",X-(W div 2),Y-H,W,H,Frame)
+		//Img.AltStretch("COMBAT",X-(W div 2),Y-H,W,H,Frame)
+		Img.Stretch(X-(W div 2),Y-H,W,H,Frame)
 	End
 	
 	Int _PoseFrame=0

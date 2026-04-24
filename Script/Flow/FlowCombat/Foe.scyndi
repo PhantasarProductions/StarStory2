@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/Foe.scyndi
 // 
-// 	  Version: 26.04.24 XI
+// 	  Version: 26.04.24 XIX
 // 	
 // 	  Copyright (C) 2022-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -61,6 +61,8 @@ Module Foe_146194267
 #accept CharMsg
 #accept Fighter
 
+LocExtern Me "self"
+
 Class Foe Extends Fighter
 
 	Static ReadOnly Number GuardModifier = ({0.95,0.50,0})[__skill]
@@ -96,21 +98,56 @@ Class Foe Extends Fighter
 	Var ActionsRaw
 	Var Actions
 	
+	Get Int X; Return _X; End
+	Get Int Y; Return _Y; End
+	Set Int X; _X=Value; End
+	Set Int Y; _Y=Value; End
+	
+	
 	Bool Gone = False
+	
+		Var EachStatusChange()
+		TrueStatusChanges = TrueStatusChanges || {}
+		//Static Var Tabel
+		LocExtern Tabel "d3fc66994bae3626ac6fc1d8987fb3b9ce9864a56e19d189e234ef04f2050996_Tabel_for_EachStatusChange"
+		Int i = 0-1
+		Tabel = Tabel || {}
+		
+		For k,v in pairs(TrueStatusChanges)
+			If v
+				i++
+				Tabel[i]=k
+			end
+		End
+		Tabel[i+1]=nil
+		i=0-1
+		ddef Ret			
+			i++
+			if i>=len(Tabel)
+				return nil,nil
+			end
+			if !Tabel[i]
+				return nil,nil
+			end
+			return Tabel[i],StatusChanges[Tabel[i]]
+		End
+		Return Ret
+	End
+
 	
 	Get Int W
 		if Humanoid
-			Return Self._W*2
+			Return Me._W*2
 		Else
-			Return Self._W
+			Return Me._W
 		End
 	End
 	
 	Get Int H
 		if Humanoid
-			Return Self._H*2
+			Return Me._H*2
 		Else
-			Return Self._H
+			Return Me._H
 		End
 	End
 	
@@ -198,7 +235,8 @@ Class Foe Extends Fighter
 			CSayF("Total kills: %d",gInt.Kills)
 		End	
 		//CSayF("=> Killed foe disappearing: %d/%d=>%d",H,KillH,H2) 
-		ImgNor.AltStretch("COMBAT",Self.X-(W div 2),self.Y-H2,W,H2)
+		//ImgNor.AltStretch("COMBAT",Me.X-(W div 2),self.Y-H2,W,H2)
+		ImgNor.Stretch(Me.X-(W div 2),Me.Y-H2,W,H2)
 		KillH++
 		Gone = Gone || KillH>=H
 	End
@@ -211,7 +249,8 @@ Class Foe Extends Fighter
 		If self.HP<=0
 			Self.KillDraw()
 		Else
-			Imgs[Neg].AltStretch("COMBAT",Self.X-(W div 2),self.Y-H,W,H)
+			//Imgs[Neg].AltStretch("COMBAT",Me.X-(W div 2),self.Y-H,W,H)
+			Imgs[Neg].Stretch(Me.X-(W div 2),self.Y-H,W,H)
 		End
 	End
 	
@@ -258,7 +297,7 @@ Class Foe Extends Fighter
 		Return XSplit(Description,"\n")
 	End
 	
-	Static Void Compile(int idx, string f, int level, int x, int Y)
+	Static Void Compile(int idx, string f, int level, int xc, int Yc)
 		Var NF = new Foe()		
 		NF.File = F
 		CSayF("Compiling foe %s on spot %d",f,idx)
@@ -381,8 +420,8 @@ Class Foe Extends Fighter
 		NF.Humanoid = Upper(NF.RawData.Value("META","HUMANOID"))=="TRUE"
 		
 		// Positions
-		NF._X = X
-		NF._Y = Y
+		NF._X = XC
+		NF._Y = YC
 		if Upper(f)=="BOSS/BLOEMSCHOEN"
 			NF._X = screen.w div 3
 			NF._Y = screen.h - 130
