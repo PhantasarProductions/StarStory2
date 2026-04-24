@@ -34,7 +34,12 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
-Bool __defeated(string gr)
+
+Module Defeated_Check_Module_Scyndi_Scorpio
+
+#accept Fighter
+
+Global Bool Defeated(string gr)
 	Bool ret = true
 	For t,dat in pairs(Fighter.ByTag)
 		If dat.Team==gr
@@ -46,4 +51,4 @@ Bool __defeated(string gr)
 	Return ret
 End
 
-Return __defeated
+//Return __defeated
