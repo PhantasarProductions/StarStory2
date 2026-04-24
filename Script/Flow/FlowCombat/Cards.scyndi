@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/Cards.scyndi
 // 
-// 	  Version: 26.04.24 XV
+// 	  Version: 26.04.24 XVI
 // 	
 // 	  Copyright (C) 2021-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -167,7 +167,7 @@ Class Cards
 	End
 	
 	Static Void DrawCards()
-		Graphics.SetScale(1,1)
+		Graphics.Scale(1,1)
 		Graphics.Alpha(255)
 		__White
 		For i=25,1,-1
