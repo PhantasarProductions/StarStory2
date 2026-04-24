@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/AAA_Stage.scyndi
 // 
-// 	  Version: 26.04.23 XVI
+// 	  Version: 26.04.24 II
 // 	
 // 	  Copyright (C) 2021-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -101,9 +101,10 @@ End
 Class Stage_IDLE extends Stage
 
 	string RegName
+	Bool DontCheckForVictory = False
 
 	Get Var Fighter
-		Return Lua.Neil.Globals.Fighter
+		Return Lua.Scyndi.Globals.Fighter
 	End
 	
 	Get Var Cards
@@ -113,6 +114,8 @@ Class Stage_IDLE extends Stage
 	Get Var FirstCard
 		Return FlowCombat.Cards[1]
 	End
+	
+	Void Draw(); End
 	
 	Void CardCheck()		
 		For FTag,FDat in PAIRS(Fighter.ByTag)
@@ -232,6 +235,8 @@ End
 Class Stage_Wait extends Stage
 	Int Time
 	string RegName
+	Bool DontCheckForVictory = False
+	Void Draw(); End
 	Void Update()
 		Time = (Time+1) % 200
 		//CSayF("Wait time: %03d",Time)
