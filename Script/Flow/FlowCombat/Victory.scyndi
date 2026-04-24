@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/Victory.scyndi
 // 
-// 	  Version: 26.04.24 XIV
+// 	  Version: 26.04.24 XV
 // 	
 // 	  Copyright (C) 2021-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -60,6 +60,8 @@ Module Victory_We_Are_The_Champions
 #accept FlowCombat
 
 Class Stage_Victory extends Stage
+
+	String RegName
 
 	Static Var Vic
 	Static Var VicTune = Audio.LoadNew("Music/Combat/Victory/Victory.ogg","VIC_TUNE")
