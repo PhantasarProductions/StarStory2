@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Use/Combat/PIMI.uwn/Klahre.neil
-// (c) Jeroen Broks, 2022, 2023, All Rights Reserved.
+// src/Code/Script/Use/Combat/PIMI.uwn/Klahre.scyndi
+// (c) Jeroen Broks, 2022/2023, 2026, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,9 +33,18 @@
 // 
 // **********************************************
 // 
-// version: 23.09.01
-// End License Information
-Var Ret = new LinkedList()
+// 
+// version: 26.04.25 I
+// 
+// End License
+
+
+Module Klahre_For_PIMI
+
+#use "Script/Use/Anyway"
+
+Global Var PIMI_Klahre = new TLinkedList()
+locExtern ret "Scyndi.Globals.PIMI_Klahre"
 
 
 group kit_uBox
@@ -44,14 +54,17 @@ group kit_uBox
 	const int H = Screen.H - 380
 end
 
-Class __PIMI_ARMS Extends Stage
+Class __PIMI_ARMS //Extends Stage
 	Static var Card
 	Static var ch
+	String RegName
 
 
 	static var SelItem
 	
 	static var M = Any.Mouse
+	
+	ReadOnly Delegate ComeToMe = NIKS
 	
 	void Draw()
 		__Black
@@ -108,6 +121,7 @@ End
 
 
 Init
+	CSay("Setting up Klahre's Player Input Menu Items (PIMI)")
 	Ret.AddLast(new PIMI("Shoot",Shoot,HasAmmo,true))
 	Ret.AddLast(new PIMI("Reload",Reload,HasNoAmmo,true))
 	Ret.AddLast(new PIMI("ARMS",ARMS))
