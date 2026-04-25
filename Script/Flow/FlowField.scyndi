@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField.scyndi
 // 
-// 	  Version: 26.04.14
+// 	  Version: 26.04.25
 // 	
 // 	  Copyright (C) 2021, 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -78,7 +78,7 @@ Init
 	int Aantal := len(Bundle)
 	Progress.Create("LOADFIELD",Aantal,255,200,145)
 	For idx,File in iPairs(Bundle)
-		Progress.LOADFIELD=idx
+		Progress.LOADFIELD=idx+1
 		Loading()
 		Table Gespleten := XSplit(File,"/")
 		String Gestript := Upper(Gespleten[len(Gespleten)-1])
