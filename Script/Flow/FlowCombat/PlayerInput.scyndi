@@ -35,7 +35,14 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
-#use "Script/Use/Misc/Box"
+Module abcdefghijklmnopqrstuvwxyz_PI
+
+#use "Libs/UseWhenNeeded"
+
+#use "Script/Use/Misc/CBox"
+
+#accept "Stage"
+
 
 Bool Always()
 	Return True
@@ -102,7 +109,7 @@ Class PIM
 	End
 End
 
-Class __PlayerInput Extends Stage
+Class PlayerInput //Extends Stage
 	Static Var ThisStage 
 	Var NTAUD
 	
@@ -161,4 +168,4 @@ Init
 	Stage.Register("PLAYERINPUT",__PlayerInput.ThisStage)
 End
 
-Return __PlayerInput.ThisStage
+//Return __PlayerInput.ThisStage
