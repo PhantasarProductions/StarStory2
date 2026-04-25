@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/Foe.scyndi
 // 
-// 	  Version: 26.04.24 XIX
+// 	  Version: 26.04.25 IV
 // 	
 // 	  Copyright (C) 2022-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -76,6 +76,7 @@ Class Foe Extends Fighter
 	String Letter
 	Table Drops
 	Table Steal
+	Bool Guarding = False
 	
 	Var StatusChanges
 	Var TrueStatusChanges
@@ -323,7 +324,7 @@ Class Foe Extends Fighter
 		if NF.RawData.Value("STAT","Script")!=""
 			StatScript[ NF.RawData.Value("STAT","Script") ] (NF)
 		else
-			For s in Each(Any.Resistance.Stats)
+			For _,s in Pairs(Any.Resistance.Stats)
 				String ckey=s
 				Int MinS := Lua.tonumber(NF.RawData.Value("STAT.MIN",s)) || 1
 				Int MaxS := Lua.tonumber(NF.RawData.Value("STAT.MAX",s)) || 2
@@ -354,18 +355,21 @@ Class Foe Extends Fighter
 					end
 					NFS["BASE_"..ckey]=val
 					CSay("Setting BASE_"..ckey.." (pos) => "..C.Stat["BASE_"..ckey])
-				end			
-				string formscript := "SUM:"..NF.Tag
-				for i1,v1 in ipairs{ [0]="BASE_", "POWERUP_", "BUFF_", "END_"}
+					CSayF("END_%s = %d",ckey,NF.Stat["END_"..ckey])
+				end	
+				
+				// Dummied! No longer needed!
+				//string formscript := "SUM:"..NF.Tag
+				//for i1,v1 in ipairs{ [0]="BASE_", "POWERUP_", "BUFF_", "END_"}
 					//RPGChar.DefStat(Foe.Tag,v1..ckey,0)
 					//--CSay("Added Stat: "..v1..ckey)
-					if v1!="BASE_"
-						NFS[v1..ckey] = 0
-					end
-					if v1!="END_"
-						formscript += "."..v1..ckey
-					end
-				end			
+				//	if v1!="BASE_"
+				//		NFS[v1..ckey] = 0
+				//	end
+				//	if v1!="END_"
+				//		formscript += "."..v1..ckey
+				//	end
+				//end				
 				//RPGChar.ScriptStat(Foe.Tag,"END_"..ckey,"Script/CharStats/General.lua","CALC_"..ckey)
 				
 				// Next two lines are old!
@@ -383,7 +387,10 @@ Class Foe Extends Fighter
 		// HP
 		SHP := RPGChar[NF.Tag].Points.HP
 //		SHP.MaxCopy = "END_HP"
-		SHP.Have = SHP.Maximum
+//		SHP.Have = SHP.Maximum
+		SHP.Maximum = RPGChar[NF.Tag].Stat.END_HP
+		SHP.Have = SHP.Maximum 
+		Lua.assert(SHP.Maximum>0,"HP Zero!\t"..NF.Tag)
 		
 		// Name
 		RPGChar[NF.Tag].Name = NF.RawData.Value("META","NAME")
