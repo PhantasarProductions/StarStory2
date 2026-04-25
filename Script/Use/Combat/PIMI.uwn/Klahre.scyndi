@@ -34,14 +34,22 @@
 // **********************************************
 // 
 // 
-// version: 26.04.25 I
+// version: 26.04.25 XIV
 // 
 // End License
 
 
 Module Klahre_For_PIMI
 
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Graphics"
+
 #use "Script/Use/Anyway"
+
+#accept PIMI
+#accept Stage
+#accept PITAR
+#accept FlowCombat
 
 Global Var PIMI_Klahre = new TLinkedList()
 locExtern ret "Scyndi.Globals.PIMI_Klahre"
@@ -71,7 +79,7 @@ Class __PIMI_ARMS //Extends Stage
 		Graphics.Alpha(100)
 		Graphics.Rect(kit_uBox.x,kit_uBox.y,kit_uBox.w,kit_uBox.h)
 		Graphics.Alpha(255)
-		Abl.Klahre.View(kit_uBox,ch,"Combat_UserMenu")
+		Abl.ABL_Klahre.View(kit_uBox,ch,"Combat_UserMenu")
 		Any.Mouse.Draw()
 		if M.ML && (M.MX<kit_uBox.x || M.MY<kit_ubox.y || M.MX>kit_ubox.x+kit_ubox.w || M.MY>kit_ubox.y+kit_ubox.h)
 			Stage.Current = nil
@@ -84,37 +92,37 @@ End
 var PIMI_ARMS = new __PIMI_ARMS()
 
 Void ARM_Action(string armtag,_ARM)
-	var xarg = {["KlareARM"]=true,["XCard"]=_ARM.XRepeat, ["XPower"]=_ARM.XPower}
-	var act = new Action(armTag,"Klahre",{},xarg)
-	print(serialize("ARM Klahre.\nArgs",xarg))
+	xarg := {["KlareARM"]=true,["XCard"]=_ARM.XRepeat, ["XPower"]=_ARM.XPower}
+	act := new Action(armTag,"Klahre",{},xarg)
+	//print(serialize("ARM Klahre.\nArgs",xarg))
 	PITAR.ComeToMe(act,FlowCombat.Cards.Lijst[1])
 End
 Init
-	abl.Klahre.Action=ARM_ACTION
+	abl.ABL_Klahre.Action=ARM_ACTION
 End
 
 
-Bool HasAmmo(string ch,Var Card)
+Bool HasAmmo(string ch, Card)
 	Return RPGChar[ch].Points.Ammo.Have>0
 End
 
-Bool HasNoAmmo(string ch,Var Card)
+Bool HasNoAmmo(string ch, Card)
 	Return RPGChar[Ch].Points.Ammo.Have<RPGChar[Ch].Points.Ammo.Maximum
 End
 
-Void Shoot(string ch,Var Card)
-	Var act = new Action("ACT_SHOOT",Ch,{},{["UseAmmo"]=true})
+Void Shoot(string ch, Card)
+	act := new Action("ACT_SHOOT",Ch,{},{["UseAmmo"]=true})
 	PITAR.ComeToMe(act,Card)
 	//Lua.error("Shooting not yet implemented")
 End
 
-Void Reload(string ch,Var Card)
+Void Reload(string ch, Card)
 	//Lua.error("Reload not yet implemented")
-	Var act = new Action("ACT_RELOAD",Ch,{ch},{})
+	act := new Action("ACT_RELOAD",Ch,{ch},{})
 	FlowCombat.Execution.ComeToMe(Act,Card)
 End
 
-Void ARMS(string ch,Var Card)
+Void ARMS(string ch, Card)
 	//Lua.error("ARMS not yet implemented")
 	Stage.Current = PIMI_ARMS
 End
@@ -129,4 +137,4 @@ Init
 	Ret.AddLast(new PIMI("Guard",PIMI.ChPIMI.ZGuard))
 End
 
-Return Ret
+//Return Ret
