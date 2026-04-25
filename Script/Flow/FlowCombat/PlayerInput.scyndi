@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/PlayerInput.scyndi
 // 
-// 	  Version: 26.04.25 VI
+// 	  Version: 26.04.25 VII
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -126,7 +126,8 @@ Class PIM
 End
 
 Class PlayerInput //Extends Stage
-	Static Var ThisStage 
+	Static Var ThisStage
+	String RegName
 	Var NTAUD
 	
 	// Current Player Input Menu
