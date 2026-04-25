@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat.scyndi
 // 
-// 	  Version: 26.04.23 VI
+// 	  Version: 26.04.25
 // 	
 // 	  Copyright (C) 2021-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -96,7 +96,7 @@ Init
 	Progress.Create("LOADCOMBAT",Aantal,255,0,0)
 	CSayF("Loading %d combat sub-modules!",len(Bundle))
 	For idx,File in iPairs(Bundle)
-		Progress.LOADCOMBAT=idx
+		Progress.LOADCOMBAT=idx+1
 		Loading()
 		Gespleten := XSplit(File,"/")
 		String Gestript := Upper(Gespleten[Len(Gespleten)-1])
