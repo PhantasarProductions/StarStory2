@@ -35,6 +35,8 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
+Module ZItems_For_PIMI
+
 group it_uBox
 	const int X = 100
 	const int Y = 100
@@ -87,11 +89,11 @@ Init
 	__md.SelItem = NeilUse("Script/Flow/FieldMenu/Items")
 end
 
-void _Z(string ch,Var _Card)
+GLobal void PIMI_ZItems(string ch,Var _Card)
 	__Pimi_Items.Card = _Card
 	__PIMI_Items.Ch   = ch
 	Stage.Current=__md
 End
 
 
-Return _Z
+//Return _Z
