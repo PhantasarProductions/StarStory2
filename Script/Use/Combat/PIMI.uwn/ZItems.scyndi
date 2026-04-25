@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Combat/PIMI.uwn/ZItems.scyndi
 // 
-// 	  Version: 26.04.25 I
+// 	  Version: 26.04.25 II
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -107,7 +107,7 @@ Init
 	__md.SelItem = NeilUse("Script/Flow/FieldMenu/Items")
 end
 
-GLobal void PIMI_ZItems(string ch,Var _Card)
+GLobal void PIMI_ZItems(string ch,_Card)
 	__Pimi_Items.Card = _Card
 	__PIMI_Items.Ch   = ch
 	Stage.Current=__md
