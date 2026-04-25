@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/CLASS_Fighter.scyndi
 // 
-// 	  Version: 26.04.25
+// 	  Version: 26.04.26
 // 	
 // 	  Copyright (C) 2022-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -334,7 +334,7 @@ Class Fighter
 
 #region Targetable
 	Get Bool TargettableByHero
-		If Team=="Foe" && Self.Gone 
+		If Team=="Foe" && Me.Gone 
 			Return False
 		End
 		Return HP>0 || Team=="Hero"
