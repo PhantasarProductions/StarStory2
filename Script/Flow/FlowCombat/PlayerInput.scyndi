@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/PlayerInput.scyndi
 // 
-// 	  Version: 26.04.25 IX
+// 	  Version: 26.04.25 X
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -98,7 +98,7 @@ Class PIM
 	Get Int MaxWidth
 		Int Ret = 0
 		For I in Items.Each
-			Ret = math.max(Ret,Fnt.TextWidth(I.Caption))
+			Ret = math.max(Ret,Fnt.Width(I.Caption))
 		End
 		Return Ret
 	End
