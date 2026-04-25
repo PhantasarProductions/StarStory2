@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Any.uwn/IAA.scyndi
 // 
-// 	  Version: 26.04.22 XV
+// 	  Version: 26.04.25
 // 	
 // 	  Copyright (C) 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -118,7 +118,7 @@ Bool Give(String Item,Int N=1,CheckOnly)
 		if ItemSlot[i]==Item && ItemNum[i]+N<=Any.Caps.InvItemsPerSlot
 			if !CheckOnly
 				ItemNum[i]++			
-				Lua.Neil.Globals.Any.IAA[Item].Given++
+				Lua.Scyndi.Globals.Any.IAA[Item].Given++
 			End
 			Return True
 		End
@@ -130,7 +130,7 @@ Bool Give(String Item,Int N=1,CheckOnly)
 			if !CheckOnly
 				ItemSlot[i]=Item
 				ItemSlot[i]=N
-				Lua.Neil.Globals._module_IAA[Item].Given++
+				Lua.Scyndi.Globals._module_IAA[Item].Given++
 			end
 			Return True
 		End
