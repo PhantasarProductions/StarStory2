@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/PlayerInputTarget.scyndi
 // 
-// 	  Version: 26.04.25 X
+// 	  Version: 26.04.25 XII
 // 	
 // 	  Copyright (C) 2022/'23, 2026 Jeroen Petrus Broks
 // 	
@@ -64,6 +64,10 @@ Class _PITar //Extends Stage
 	End
 	
 	String RegName
+	ReadOnly Bool DontCheckForVictory = false
+	Get String FlashChar
+		Return Act.ExeTag
+	End
 
 	Var Act
 	Var Card
