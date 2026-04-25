@@ -35,6 +35,12 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
+Module Class_Action_For_Combat
+
+#use "Script/Use/Anyway"
+
+#accept FlowCombat
+
 #undef TarFilterDebug
 
 Void __ReadOnly()
@@ -99,9 +105,11 @@ Class Action
 	Int TarFilter()
 		Table NTargets
 		NTargets = {}
-		Int CTars = #TarTags
-		for i=1,CTars		
-			Var Tgt=Fighter.ByTag[TarTags[i]]
+		Int CTars = LenFT(TarTags)
+		//for i=1,CTars		
+		//	Var Tgt=Fighter.ByTag[TarTags[i]]
+		for i,TTgs in Pairs(TarTags)
+			Tgt:=Fighter.ByTag[TTgs]
 			//if Tgt==nil
 			//	if TarTags[i]=="Jake_Fairy"
 			//		Tgt=Fighter.ByTag.Jake_Human
@@ -115,11 +123,11 @@ Class Action
 			//end				
 			if Tgt.Team!="Foe" || (Tgt.HP>0 && (!Tgt.Gone))
 				NTargets+=TarTags[i]
-			#if TarFilterDebug
-				CSayF("Target #%d Accepted! Team: %s; Tag: %s! HP: %06d; Gone: %s! Accepted: %d",i,Tgt.Team,TarTags[i],Tgt.HP,Lua.tostring(tgt.Gone),#NTargets)
-			Else
-				CSayF("Target #%d rejected! Team: %s; Tag: %s! HP: %06d; Gone: %s",i,Tgt.Team,TarTags[i],Tgt.HP,Lua.tostring(tgt.Gone))
-			#fi
+			//#if TarFilterDebug
+			//	CSayF("Target #%d Accepted! Team: %s; Tag: %s! HP: %06d; Gone: %s! Accepted: %d",i,Tgt.Team,TarTags[i],Tgt.HP,Lua.tostring(tgt.Gone),#NTargets)
+			//Else
+			//	CSayF("Target #%d rejected! Team: %s; Tag: %s! HP: %06d; Gone: %s",i,Tgt.Team,TarTags[i],Tgt.HP,Lua.tostring(tgt.Gone))
+			//#fi
 			End
 		End
 		If #NTargets==#Targets
@@ -127,9 +135,9 @@ Class Action
 		End
 		For i=1,CTars
 			TarTags[i]=NTargets[i]
-			#if TarFilterDebug
-			CSayF("Target %d: %s",i,Lua.tostring(NTargets[i]))
-			#fi
+			//#if TarFilterDebug
+			//CSayF("Target %d: %s",i,Lua.tostring(NTargets[i]))
+			//#fi
 		End
 		Return #TarTags
 	End
@@ -184,5 +192,7 @@ Class Action
 End
 
 
-// This is just for multifunctionality
-Return Action
+Global Var Class_Action
+Init
+	Class_Action=Action
+End
