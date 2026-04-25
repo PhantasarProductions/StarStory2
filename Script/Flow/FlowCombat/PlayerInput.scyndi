@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/PlayerInput.scyndi
 // 
-// 	  Version: 26.04.25 X
+// 	  Version: 26.04.25 XIII
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -115,7 +115,7 @@ Class PIM
 		X = math.max(0,X)
 		Y = math.max(0,Y)
 		// Player Input Menu Box
-		PIMB = Lua.Neil.Globals.Box(X,Y,W,H)
+		PIMB = new Box(X,Y,W,H)
 	End
 	
 	Static Var GetMenu(String CharTag)
@@ -130,8 +130,14 @@ Class __PlayerInput //Extends Stage
 	String RegName
 	Var NTAUD
 	
+	bool DONTCHECKFORVICTORY = false
+	
 	// Current Player Input Menu
 	Var CPIM
+	
+	Get String FlashChar
+		return CPIM.Tag
+	End
 	
 	Void Draw()
 		__White
