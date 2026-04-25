@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/Foe.scyndi
 // 
-// 	  Version: 26.04.25 IV
+// 	  Version: 26.04.26 I
 // 	
 // 	  Copyright (C) 2022-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -107,6 +107,7 @@ Class Foe Extends Fighter
 	
 	Bool Gone = False
 	
+	
 		Var EachStatusChange()
 		TrueStatusChanges = TrueStatusChanges || {}
 		//Static Var Tabel
@@ -164,7 +165,7 @@ Class Foe Extends Fighter
 	Void KillDraw()
 		Int H2 := H-KillH
 		If KillH==0
-			CSayF("%s has been killed!",Self.CharTag)
+			CSayF("%s has been killed!",Me.CharTag)
 			// Experience
 			For i=1,Lnk.Party.Count
 				If __skill==1 || (RPGChar[RPGParty[i]].Points.HP.Have>0 && RPGChar[RPGParty[i]].Stats.Level<Self.Char.Stats.Level+Any.Caps.LevelMargin)
@@ -275,7 +276,7 @@ Class Foe Extends Fighter
 	End
 	
 	Get String TargetName
-		Return sprintf("Lv %06d. %s. %s",RPGChar[self.CharTag].Stats.Level,Letter,RPGChar[Self.CharTag].Name)
+		Return sprintf("Lv %06d. %s. %s",RPGChar[Me.CharTag].Stats.Level,Letter,RPGChar[Me.CharTag].Name)
 	End
 
 	Get Bool Scanned
@@ -303,7 +304,8 @@ Class Foe Extends Fighter
 		NF.File = F
 		CSayF("Compiling foe %s on spot %d",f,idx)
 		NF.RawData = GINIE.Load("Data/Combat/Foes/"..f,"FOE:"..idx)
-		NF.Letter = Chr( ((idx-1) % 26) + 65 )
+		//NF.Letter = Chr( ((idx-1) % 26) + 65 )
+		NF.Letter = Chr( ((idx) % 26) + 65 )
 		NF.Boss = NF.RawData.Value("META","BOSS")=="TRUE"
 		NF.Tag = sprintf("FOE%03d",idx)
 		Fighter.ByTag[NF.Tag] = NF
