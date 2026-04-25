@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/PlayerInput.scyndi
 // 
-// 	  Version: 26.04.25 XIII
+// 	  Version: 26.04.25 XV
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -59,6 +59,7 @@ Module abcdefghijklmnopqrstuvwxyz_PI
 #accept Stage
 #accept FlowCombat
 
+locextern MySelf "self"
 
 Bool Always()
 	Return True
@@ -83,8 +84,8 @@ End
 
 Class PIM
 	Static Var ChMenus
-	Const Int PorWid = 120
-	Const Int Siz=30
+	static Const Int PorWid = 120
+	static Const Int Siz=30
 	Static ReadOnly Var Fnt = ObtainFont("BOXTEXT")	
 	ReadOnly String Tag
 	ReadOnly Var Items
@@ -138,6 +139,8 @@ Class __PlayerInput //Extends Stage
 	Get String FlashChar
 		return CPIM.Tag
 	End
+	
+	ReadOnly Bool TargetMode = false
 	
 	Void Draw()
 		__White
