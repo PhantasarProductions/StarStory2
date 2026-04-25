@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/Cards.scyndi
 // 
-// 	  Version: 26.04.24 XVI
+// 	  Version: 26.04.25
 // 	
 // 	  Copyright (C) 2021-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -184,7 +184,7 @@ Class Cards
 		End
 	End
 	
-	Static Var __NumberIndex(Int i)
+	Static Var StaticNumIndex(Int i)
 		Lijst[i] = Lijst[i] || New Cards("None")
 		Return Lijst[i]
 	End
