@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Subs/SubParty.scyndi
 // 
-// 	  Version: 26.04.22
+// 	  Version: 26.04.26
 // 	
 // 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -344,7 +344,7 @@ Group SubParty
 		MiniCur = MiniCur || {}
 		int x=0
 		for mlin in Each(MiniCur)
-			x+=Fnt.TextWidth(Mlin.Msg)
+			x+=Fnt.Width(Mlin.Msg)
 		End
 		Var Lin = new TMiniMsg()
 		Lin.X=X
