@@ -1,0 +1,141 @@
+// License:
+// 	  src/Code/Script/Flow/FieldMenu/Meta.scyndi
+// 
+// 	  Version: 26.04.21 XVIII
+// 	
+// 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+
+Module
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/GINIE"
+#use "Libs/SCI/Graphics"
+
+#use "Script/Use/Anyway"
+
+LocExtern ll "#"
+
+ReadOnly Var MetaData = GINIE.Load("Data/Characters/MetaData.ini","CHARMETA")
+ReadOnly Var Fnt = ObtainFont("BOXTEXT")
+
+Int Procent(int a)
+	Return math.max(0,math.min(100,a))
+End
+	
+String SProcent(int a)
+	Return sprintf("%3d%%",Procent(a))
+End
+	
+Int Y
+	
+	
+	
+
+Void Flow(uBox,string FMChar,string FMSituation)
+	
+	//Void Write(string m,int x=5,int align=0)
+	ddef Write
+		String m
+		plua x
+		plua align
+		m,x,align=infinity
+		x=x||5
+		align=align||0
+		Fnt.Text(m,x+ubox.x,y,align)
+		//CSayF("Meta.Write(<ubox>, \"%s\", %d, %d): coordinates(%d,%d)",m,x,align,ubox.x+x,y)
+	End
+	
+	//Void WriteLn(string m,int x=5,int align=0)
+	ddef WriteLn
+		String m
+		plua x
+		plua align
+		m,x,align=Infinity
+		Write(m,x || 5,align || 0)
+		y+=30
+	End
+
+	ddef QT
+		//(string m,int x,int y,int a=0)
+		string m
+		int x
+		int y
+		plua a 
+		//print("QT",infinity)
+		m,x,y,a = infinity		
+		Fnt.Text(m,x+ubox.x,y,a||0)
+	End
+		
+	Int X2:=ubox.w-10
+	Int X1:=ubox.w div 2
+	__White
+	Y=ubox.y+5
+	WriteLn(MetaData.Value(FMChar,"FName"))
+	WriteLn(sprintf("%s %s",MetaData.Value(FMChar,"Race"),MetaData.Value(FMChar,"Sex")))
+	WriteLn(sprintf("%s (Earth) years old",MetaData.Value(FMChar,"Age")))
+	WriteLn(MetaData.Value(FMChar,"Class"))
+	If prefixed(FMChar,"Z_")
+		Return
+	End
+	WriteLn("")
+	For i,s in Pairs(Any.Resistance.Elements)
+		if s!="None"
+			Int iy=y+(i*30)
+			String SV := Any.Resistance.ERes(FMChar,s)
+			__White
+			QT(s,5,iy)
+			Any.Resistance.EResCol(FMChar,s)
+			QT(SV,X2-5,iy,1)
+		end
+	End
+	y+=(30*(ll Any.Resistance.Elements))
+		For i,s in Pairs(Any.Resistance.Status)
+		if s!="None"
+			Int iy=y+(i*30)
+			String SV := SProcent(RPGChar[FMChar].Stat["END_ZSR_"..s])
+			__White
+			QT(s ,   5,iy)			
+			QT(SV,X2-5,iy,1)
+		End
+	End
+
+End
+//End

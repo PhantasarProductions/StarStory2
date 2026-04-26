@@ -1,0 +1,103 @@
+// License:
+// 	  src/Code/Script/Flow/FlowField/MOD_Script.scyndi
+// 
+// 	  Version: 26.04.13
+// 	
+// 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+
+Module
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Kthura"
+
+#use "Script/Use/Misc/AQS"
+
+#accept FlowField
+
+	Get Bool HasAQS
+		//Return FlowField.Map.KthuraMap.Meta.UseAQS:upper()=="YES"
+		return Upper(Kthura.MetaData.UseAQS)
+	End
+
+	Get Bool HasNeil
+		//Return FlowField.Map.KthuraMap.Meta.UseNeil:upper()=="YES"		
+		return Upper(Kthura.MetaData.UseNeil) == "YES"
+		// Please note! The Kthura maps still refer to Neil and it'll only cause needless bugs if I try to change that!
+	End
+	
+	Void RunAQS(string chunk,Infinity)
+		Lua.assert(HasAQS,"Call to AQS done, while no AQS is present")
+		Lua.assert(AQS.HasChunk("BEHAVIOR",Chunk),"Behavior AQS to non-existent chunk: "..Chunk)
+		//CSayF("Calling behavior chunk: %s",Chunk)
+		AQS.Call("BEHAVIOR",Chunk,Infinity)
+	End
+	
+	Void RunNeil(string func,Infinity)
+		Lua.assert(HasNeil,"Call to Scyndi Script done, while no Scyndi MapScript is present")
+		Sys.Call("MAPSCRIPT",func,Infinity)
+	End
+	
+	Void Run(string fc,Infinity)
+		If HasAQS && AQS.HasChunk("BEHAVIOR",fc)
+			RunAQS(fc,Infinity)
+		ElseIf HasNeil
+			RunNeil(fc,Infinity)
+		Else
+			Lua.error("No way known to run: "..fc)
+		End
+	End
+
+	Void CBLoadMap(string MapBundle)
+		If HasAQS
+			CSay("= Loading AQS")
+			AQS.Load("BEHAVIOR","Kthura/"..FlowField.Map.LoadedMap.."/Behavior")
+		End
+		If HasNeil
+			CSay("= Loading Neil Map Script")
+			Sys.Load("MAPSCRIPT","Kthura/"..FlowField.Map.LoadedMap.."/MapScript.lbc")
+		End
+		If HasAQS
+			CSay("= Executing AQS Chunk LOAD")
+			AQS.Call("BEHAVIOR","LOAD")
+		End			
+	End
+
+//End

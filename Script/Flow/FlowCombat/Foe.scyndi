@@ -1,0 +1,495 @@
+// License:
+// 	  src/Code/Script/Flow/FlowCombat/Foe.scyndi
+// 
+// 	  Version: 26.04.26 III
+// 	
+// 	  Copyright (C) 2022-'23, 2026 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+
+Module Foe_146194267
+
+#use "libs/xmath"
+#use "Libs/UseWhenNeeded"
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/JCR6"
+#use "Libs/SCI/GINIE"
+#use "Libs/SCI/SString"
+#use "Libs/SCI/InterVar"
+#use "Libs/SCI/Graphics"
+
+#use "Script/Use/Anyway"
+
+#accept EXPRate
+#accept CharMsg
+#accept Fighter
+
+LocExtern Me "self"
+
+Class Foe Extends Fighter
+
+	Static ReadOnly Number GuardModifier = ({0.95,0.50,0})[__skill]
+	
+	static ReadOnly Var StatScript = UWN("Script/Use/Combat/StatScript.uwn")
+
+	Var RawData
+	Bool Boss
+	String File
+	String CardTag
+	String Letter
+	Table Drops
+	Table Steal
+	Bool Guarding = False
+	
+	Var StatusChanges
+	Var TrueStatusChanges
+	Var EndStats
+	String CharTag
+	String Team
+	Int _W
+	Int _H
+	Int _X
+	Int _Y
+	
+	Var ImgNor
+	Var ImgNeg
+	Var Imgs
+	Bool Neg
+	
+	Bool Humanoid
+	
+	Var AI
+	Var ActionsRaw
+	Var Actions
+	
+	Get Int X; Return _X; End
+	Get Int Y; Return _Y; End
+	Set Int X; _X=Value; End
+	Set Int Y; _Y=Value; End
+	
+	
+	Bool Gone = False
+	
+	
+		Var EachStatusChange()
+		TrueStatusChanges = TrueStatusChanges || {}
+		//Static Var Tabel
+		LocExtern Tabel "d3fc66994bae3626ac6fc1d8987fb3b9ce9864a56e19d189e234ef04f2050996_Tabel_for_EachStatusChange"
+		Int i = 0-1
+		Tabel = Tabel || {}
+		
+		For k,v in pairs(TrueStatusChanges)
+			If v
+				i++
+				Tabel[i]=k
+			end
+		End
+		Tabel[i+1]=nil
+		i=0-1
+		ddef Ret			
+			i++
+			if i>=len(Tabel)
+				return nil,nil
+			end
+			if !Tabel[i]
+				return nil,nil
+			end
+			return Tabel[i],StatusChanges[Tabel[i]]
+		End
+		Return Ret
+	End
+
+	
+	Get Int W
+		if Humanoid
+			Return Me._W*2
+		Else
+			Return Me._W
+		End
+	End
+	
+	Get Int H
+		if Humanoid
+			Return Me._H*2
+		Else
+			Return Me._H
+		End
+	End
+	
+	Int EleRes(string elem)
+		Int Ret := Lua.tonumber(RawData.Value("RESISTELEMENT",elem)) || 3
+		Ret = math.min(6,Ret)
+		Ret = math.max(0,Ret)
+		Return Ret
+	End
+	
+	Int KillH = 0
+	
+	Void KillDraw()
+		Int H2 := H-KillH
+		If KillH==0
+			CSayF("%s has been killed!",Me.CharTag)
+			// Experience
+			For i=1,Lnk.Party.Count
+				If __skill==1 || (RPGChar[RPGParty[i]].Points.HP.Have>0 && RPGChar[RPGParty[i]].Stats.Level<Self.Char.Stats.Level+Any.Caps.LevelMargin)
+					Int E := math.floor( ( (Self.Char.Stats.Level/RPGChar[RPGParty[i]].Stats.Level) * 250) * (ExpRate[ RPGParty[i] ] || 1))
+					RPGChar[RPGParty[i]].Points.EXP.Have += E
+					CSayF("%d>%s has gained %d experience points",i,RPGParty[i],E)					
+				End
+				if RPGParty[i]=="Ashley" && RPGChar.Ashley.Points.HP.Have>0
+					CSay("Ashley was there when a kill was made!")
+					gInt.AshleyKills++
+					if gInt.AshleyKills==1
+						CSayF("Ashley has now witnessed 1 kill")
+					Else
+						CSayF("Ashley has now witnessed %d kills",gInt.AshleyKills)
+					End
+				End
+				Int C=0
+				Int TLvl
+				For i=1,4
+					String PT = RPGParty[i]
+					if PT!=""
+						C++
+						TLvl+=RPGChar[PT].Stat.Level
+					End
+				End				
+				If C>0 
+					int ALvl := TLvl Div C
+					
+					if ALvl>=10 && ALvl<(Self.Char.Stats.Level*2) || Self.Char.Stats.Level==1000000
+						Lnk.Ach.Award("TROPHY_DAVID")
+					End
+				End
+			End
+			// Item or money drops
+			int R=math.random(1,2+__Skill)
+			Switch R
+				Case 1
+					if math.random(0,lnk.party.level)<self.Level
+						// TODO: Phantasar -> Shilders
+						if gbool.OnPhantasar
+							if any.Aurina.RateShilders==1
+								CharMsg(Self.CharTag,"Dropped shilder",0,180,255)
+							Else
+								CharMsg(Self.CharTag,sprintf("Dropped %d shilders",Any.Aurina.RateShilders),0,180,255)								
+							End
+							Any.Aurina.HaveShilders += Any.Aurina.RateShilders
+						Else
+							if any.Aurina.Rate==1
+								CharMsg(Self.CharTag,"Dropped aurina",0,180,255)
+							Else
+								CharMsg(Self.CharTag,sprintf("Dropped %d aurinas",Any.Aurina.Rate),0,180,255)								
+							End
+							Any.Aurina.Have += Any.Aurina.Rate
+						End
+					end
+				case 2
+					if Len(Drops)>0
+						string it := Drops[math.random(0,Len(Drops)-1)]
+						var itd := Any.iaa[it]
+						if itd.Give
+							CharMsg(Self.CharTag,sprintf("Dropped %s",itd.title),0,180,255)
+						End
+					end
+				default
+					CSayF("Roll %d, is no go for drops",R)
+			End
+									
+			gInt.Kills++
+			CSayF("Total kills: %d",gInt.Kills)
+		End	
+		//CSayF("=> Killed foe disappearing: %d/%d=>%d",H,KillH,H2) 
+		//ImgNor.AltStretch("COMBAT",Me.X-(W div 2),self.Y-H2,W,H2)
+		ImgNor.Stretch(Me.X-(W div 2),Me.Y-H2,W,H2)
+		KillH++
+		Gone = Gone || KillH>=H
+	End
+	
+	Void Draw()
+		If Gone
+			Return
+		End
+		Lua.assert(Imgs[Neg],sprintf("No data in image data %s",Neg))
+		If self.HP<=0
+			Self.KillDraw()
+		Else
+			//Imgs[Neg].AltStretch("COMBAT",Me.X-(W div 2),self.Y-H,W,H)
+			Imgs[Neg].Stretch(Me.X-(W div 2),self.Y-H,W,H)
+		End
+	End
+	
+	Bool Pose(Action)
+		Static Int _C=0
+		Static Int _H=0
+		_C = (_C+1)%5
+		if _C==0
+			Neg = !Neg
+			_H=(_H+1)%5		
+			If _C==0 && _H==0
+				Neg=False
+				Return True
+			End
+		End
+		Return False
+	End
+	
+	Get Bool ShowHPBar
+		return (__skill!=3 && gbool["ANALYSED_"..File]) || __skill==1
+	End
+	
+	Get String TargetName
+		Return sprintf("Lv %06d. %s. %s",RPGChar[Me.CharTag].Stats.Level,Letter,RPGChar[Me.CharTag].Name)
+	End
+
+	Get Bool Scanned
+		Return gbool["ANALYSED_"..File]
+	End
+	
+	Set Bool Scanned
+		gbool["ANALYSED_"..File] = Value
+	End
+	
+	Get String Description
+		String Ret := RawData.Value("Meta","Description")
+		for i=0,255
+			Ret = Replace(Ret,sprintf("<<<<%d>>>>",i),Chr(i))
+		End
+		Return Ret
+	End
+	
+	Get Table DescriptionLines
+		Return XSplit(Description,"\n")
+	End
+	
+	Static Void Compile(int idx, string f, int level, int xc, int Yc)
+		Var NF = new Foe()		
+		NF.File = F
+		CSayF("Compiling foe %s on spot %d",f,idx)
+		NF.RawData = GINIE.Load("Data/Combat/Foes/"..f,"FOE:"..idx)
+		//NF.Letter = Chr( ((idx-1) % 26) + 65 )
+		NF.Letter = Chr( ((idx) % 26) + 65 )
+		NF.Boss = NF.RawData.Value("META","BOSS")=="TRUE"
+		NF.Tag = sprintf("FOE%03d",idx)
+		Fighter.ByTag[NF.Tag] = NF
+		Fighter.ByTeam.Foe[NF.Tag] = NF
+		If NF.Boss
+			NF.CardTag = "FOE_"..NF.Letter
+		Else
+			NF.CardTag = "BOSS_"..NF.Letter
+		End
+		RPGChar.Create(NF.Tag)
+		NF.Char.Stat.Level=Level
+		Var NFS := RPGChar[NF.Tag].Stats
+		Int MinLvl := Lua.tonumber(NF.RawData.Value("STAT.MIN","Level")) || 1
+		Int MaxLvl := Lua.tonumber(NF.RawData.Value("STAT.MAX","Level")) || 2
+		Int RNG    := math.abs(MaxLvl-MinLvl)
+		
+		// Statistics
+		if NF.RawData.Value("STAT","Script")!=""
+			StatScript[ NF.RawData.Value("STAT","Script") ] (NF)
+		else
+			For _,s in Pairs(Any.Resistance.Stats)
+				String ckey=s
+				Int MinS := Lua.tonumber(NF.RawData.Value("STAT.MIN",s)) || 1
+				Int MaxS := Lua.tonumber(NF.RawData.Value("STAT.MAX",s)) || 2
+				int sint := math.abs(MaxS-MinS)
+				C := NF.Char
+				//int rng = math.abs(lvmax - lvmin)
+				number sinc := sint / rng
+				//--CSay("Compiling stat: "..ckey)
+				if NF.Level<MinLvl
+					Int ldif := minlvl - NF.Level
+					int tstat := xmath.round(Mins-(sinc*ldif))
+					if tstat<5
+						tstat = 5
+					end
+					NFS["BASE_"..ckey] = tstat //RPGStats.DefStat(Foe.Tag,"BASE_"..ckey,tstat)
+					CSay("Setting BASE_"..ckey.." (neg) => "..C.Stat["BASE_"..ckey])
+				else
+					Int ldif := NF.Level - minlvl
+					int val := xmath.round(mins+(sinc*ldif))
+					////RPGStats.DefStat(Foe.Tag,"BASE_"..ckey,round(cvalue[1]+(sinc*ldif)))
+					if val!=math.floor(val)
+						CSay("WARNING! Non-integer value: "..val)
+						val=math.floor(val)
+						if val!=val
+							CSay("Value even appears to be a NAN. Converting to zero!")
+							val = 0
+						end
+					end
+					NFS["BASE_"..ckey]=val
+					CSay("Setting BASE_"..ckey.." (pos) => "..C.Stat["BASE_"..ckey])
+					CSayF("END_%s = %d",ckey,NF.Stat["END_"..ckey])
+				end	
+				
+				// Dummied! No longer needed!
+				//string formscript := "SUM:"..NF.Tag
+				//for i1,v1 in ipairs{ [0]="BASE_", "POWERUP_", "BUFF_", "END_"}
+					//RPGChar.DefStat(Foe.Tag,v1..ckey,0)
+					//--CSay("Added Stat: "..v1..ckey)
+				//	if v1!="BASE_"
+				//		NFS[v1..ckey] = 0
+				//	end
+				//	if v1!="END_"
+				//		formscript += "."..v1..ckey
+				//	end
+				//end				
+				//RPGChar.ScriptStat(Foe.Tag,"END_"..ckey,"Script/CharStats/General.lua","CALC_"..ckey)
+				
+				// Next two lines are old!
+				//RPGChar[NF.Tag].StatScript["END_"..ckey] = formscript
+				//CSayF("Scripting stat %s for %s with script '%s' (%d=>%d)",ckey,nf.tag,formscript,C.Stat["BASE_"..ckey],C.Stat["END_"..ckey])
+			end
+		End
+		
+		// Luck
+		NFS["BASE_Luck"] = math.random(0,__skill+1)
+		NFS["POWERUP_Luck"] = 0
+		NFS["BUFF_LUCK"] = 0		
+		//RPGChar[NF.Tag].StatScript["END_Luck"] = "SUM:"..NF.Tag..".BASE_Luck.POWERUP_Luck.BUFF_Luck"
+		
+		// HP
+		SHP := RPGChar[NF.Tag].Points.HP
+//		SHP.MaxCopy = "END_HP"
+//		SHP.Have = SHP.Maximum
+		SHP.Maximum = RPGChar[NF.Tag].Stat.END_HP
+		SHP.Have = SHP.Maximum 
+		Lua.assert(SHP.Maximum>0,"HP Zero!\t"..NF.Tag)
+		
+		// Name
+		RPGChar[NF.Tag].Name = NF.RawData.Value("META","NAME")
+		
+		// Images
+		String NorF := NF.RawData.Value("META","NORMSPRITE")
+		String NegF := NF.RawData.Value("META","NEGASPRITE")
+		if Suffixed(NorF,"/")
+			Dr  := JCR6.Dir(NorF)
+			GNr := {}
+			GNg := {}
+			for DF in each(Dr)
+				string DFU = Upper(DF)
+				if suffixed(DFU,".NEGATIVE.PNG")
+					GNg += DF
+				elseif suffixed(DFU,".PNG")
+					GNr += DF
+				End
+			End
+			Lua.assert(Len(GNR)>0,"I could not work out foe picture folder "..NorF)
+			int kies := math.random(0,Len(GNr)-1)
+			NorF = GNr[kies]
+			//NegF = GNg[kies]
+			NegF = Replace(Upper(NorF),".PNG",".NEGATIVE.PNG")
+		end
+		NF.ImgNor = LoadImage(NorF,"IMG_FOE_NOR_"..idx)
+		NF.ImgNeg = LoadImage(NegF,"IMG_FOE_NEG_"..idx)
+		NF.Imgs   = { [false]=NF.ImgNor,[true]=NF.ImgNeg }
+		NF.Neg    = False
+		
+		// Width & Height
+		NF._W = NF.ImgNor.Width
+		NF._H = NF.ImgNor.Height
+		NF.Humanoid = Upper(NF.RawData.Value("META","HUMANOID"))=="TRUE"
+		
+		// Positions
+		NF._X = XC
+		NF._Y = YC
+		if Upper(f)=="BOSS/BLOEMSCHOEN"
+			NF._X = screen.w div 3
+			NF._Y = screen.h - 130
+		end
+		
+		// AI
+		NF.AI = NeilUse("Script/Use/Combat/AI/"..NF.RawData.Value("AI","SCRIPT"))
+		NF.ActionsRaw = NF.RawData.ListCopy("AI","ACTIONS")
+		NF.Actions = {}
+		For A in Each(NF.ActionsRaw)
+			String AT = "ACTION:"..A			
+			If (Lua.tonumber(NF.RawData.Value(AT,"MINLEVEL"..__skill)) || 1) <= level
+				For i=1,(Lua.tonumber(NF.RawData.Value(AT,"RATE"..__skill)) || 1)
+					NF.Actions += A
+					//CSayF("%s: Added action: %s",NF.Tag,A)  
+				End
+			End
+		End
+		
+		// Drops & Steals
+		NF.Drops = {}
+		NF.Steal = {}
+		For it in Each(NF.RawData.ListCopy("ITEMS","LIST"))
+			String itt  := "Item:"..it
+			Int DMinLvl := NF.RawData.IntValue(itt,"DropMinLevel"..__skill)
+			int DRate   := NF.RawData.IntValue(itt,"DropRate" ..   __skill)
+			Int SMinLvl := NF.RawData.IntValue(itt,"StealMinLevel"..__skill)
+			int SRate   := NF.RawData.intValue(itt,"StealRate" ..   __skill)
+			if DMinLvl!=0 && DMinLvl<=Level
+				For i=1,DRate
+					NF.Drops +=it
+				End
+			End
+			if SMinLvl!=0 && SMinLvl<=Level
+				For i=1,SRate
+					NF.Steal +=it
+				End
+			End
+		End
+		
+		// Status Resistance
+		For s in Each{"Bio","Stamina","Will"}
+			NF.Stat["END_ZSR_"..s]=NF.RawData.NValue("ResistStatus",s)
+		End
+		
+		// This is to make it possible enemies start with certain statuses
+		Var InitialStatus = {}
+		Fighter.FSetUp(NF,NF.CharTag,"Foe")
+		Fighter.FInitStatusChanges(NF,InitialStatus)
+	End
+	
+	Static Void RemoveAll()
+		For k,v In Pairs(Fighter.ByTag)
+			If v.Team=="Foe"
+				CSay("Killing RPFCHAR: "..k)
+				RPGChar.Kill(k)
+				v.Gone=true
+			End
+		End
+	End
+
+End

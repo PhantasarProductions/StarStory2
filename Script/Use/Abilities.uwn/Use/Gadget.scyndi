@@ -1,0 +1,366 @@
+// License:
+// 	  src/Code/Script/Use/Abilities.uwn/Use/Gadget.scyndi
+// 
+// 	  Version: 26.04.22 XIX
+// 	
+// 	  Copyright (C) 2022, 2023, 2026 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+Module Gadget_18cf19d3ab06f8685fefb0b5f2b82e79
+
+#use "Libs/FitText"
+#use "Libs/LinkedList"
+
+#use "Libs/SCI/Sys"
+#use "libs/SCI/GINIE"
+#use "libs/SCI/Events"
+#use "Libs/SCI/Graphics"
+
+#use "Script/Use/Anyway"
+
+plua Gadget_18cf19d3ab06f8685fefb0b5f2b82e79_Pics
+
+QuickMeta GPU_Pic
+	Index
+		//Static Var Pics
+		LocExtern Pics "Gadget_18cf19d3ab06f8685fefb0b5f2b82e79_Pics"
+		Pics = Pics || {}
+		Key = Upper(Key)
+		Pics[Key] = Pics[Key] || LoadNewImage("GFX/Gadget/"..key..".bmp","GADGET_POWERUP_"..Key)
+		Return Pics[Key]
+	End
+	NewIndex
+	End
+End
+
+
+Class Gadget_Item
+	ReadOnly Var Parent
+	ReadOnly String ATag	
+	Get String Exe
+		Return Parent.Tag
+	End
+	Get String FullTag
+		Return "ABL_"..Exe.."_"..ATag
+	End
+	Get Var Abl
+		Return Any.IAA[fULLtAG]
+	End
+	Get Bool Unlocked
+		If Upper(ATag)=="ZTRANSFER"
+			Return RPGParty[3]=="Doctor"
+		End
+		Return Upper(Parent.Stuff.Value("Unlocked",atag))=="TRUE"
+	End
+	Set Bool Unlocked
+		Parent.Stuff.Value("Unlocked",atag,Upper(tostring(value)))
+	End
+	Get String Name
+		Return Abl.Name
+	End
+	Get Int EP_Cost
+		String T := "APCOST_"..Exe
+		If Upper(Parent.Stuff.Value("EP_Cut",atag))=="TRUE"
+			Switch __Skill
+				case 1
+					return math.max(Abl[T] div 4,1)
+				case 2
+					return math.max(Abl[T] div 2,1)
+				case 3
+					return math.max(math.ceil(ABL[T] * 0.75),1)
+				default
+					return 123456789
+			end
+		else
+			return Abl[T]
+		End
+	End
+	
+	Get Bool AllowSpread
+		Return Abl.AllowPowerUp_Spread
+	End
+	Get Bool Spread
+		Return AllowSpread && upper(Parent.Stuff.Value("Spread",atag))=="TRUE"
+	End
+	Bool SelectedSpread = False
+	
+	Get Bool AllowDouble
+		Return Abl.AllowPowerUp_DBLPower
+	End
+	Get Bool Double
+		Return AllowDouble && Upper(Parent.Stuff.Value("Double",atag))=="TRUE"
+	End
+	Bool SelectedDouble
+	
+	Get Int AllowXCards
+		Return math.min(30 div __skill,Abl.AllowPowerup_ExtraCards)
+	End
+	Get Int XCards
+		Return math.min(AllowXCards,Parent.Stuff.NValue("XCards",atag))
+	End
+	Int SelectedXCards
+	
+	Set Bool Double
+		Lua.assert(AllowDouble,"Doubling this gadget was not allowed")
+		Parent.Stuff.Value("Double",atag,Upper(Lua.tostring(value)))
+	End
+	Set Bool Spread
+		Lua.assert(AllowSpread,"Spread this gadget was not allowed")
+		Parent.Stuff.Value("Spread",atag,Upper(Lua.tostring(value)))
+	End
+	Set Int XCards
+		Parent.Stuff.Value("XCards",atag,Lua.tostring(value))
+	End
+	
+	
+	Constructor(_ouwe,_tag,_unlockedfromstart)
+		Parent = _ouwe
+		ATag   = _tag
+		If _unlockedfromstart
+			Parent.Stuff.Value("Unlocked",_tag,"TRUE")
+		End
+		CSayF("Added %s to character %s. Unlocked from start is %s. Actually unlocked is %s",ATag,Exe,_unlockedfromstart,Unlocked)
+	End
+End
+
+//Class Gadget_Class
+Class Gadget
+	ReadOnly String Tag
+	ReadOnly Var Stuff 
+	ReadOnly Var Items
+	Static Get Int MX
+		return Any.Mouse.MX
+	End
+	Static Get Int MY
+		return Any.Mouse.MY
+	End
+	Static Get Bool ML
+		Return Any.Mouse.ML
+	End
+	
+	static var fnt = ObtainFont("BOXTEXT")
+	
+	var SelectedItem=nil
+	Int TS
+		
+	bool S_DBL = False
+	bool S_SPR = False
+	Int  S_CRD = 0
+	
+	Void ShowAll(ubox,Situation)
+		Int BX := ubox.x + 10
+		Int BY := ubox.y + 10
+		Int CY := BY		
+		Int EX := BX + (ubox.w-20)
+		Int EY := BY + (ubox.y-20)
+		Hover  := nil
+		For GI in Items.Each
+			Int HX = 0
+			If Any.Mouse.MX>BX && Any.Mouse.MX<EX && Any.Mouse.MY>CY && Any.Mouse.MY<CY+30
+				HX = 20
+				If Any.Mouse.ML && GI.Unlocked
+					SelectedItem = GI
+					TS = os.time()
+					Events.Flush()
+				Else
+					Hover = GI
+				End
+			End
+			Int CX := BX + HX			
+			If GI.Unlocked
+				__White
+				Fnt.Text(GI.Name,CX,CY)
+				__Yellow
+				Fnt.Text(""..GI.EP_Cost,EX,CY,1)
+			Else
+				Graphics.Color(100,100,100)
+				Fnt.Text("---",CX,CY)
+			End
+			CY += 30
+		End
+		If Hover && Hover.Unlocked
+			Static Var DFt = ObtainFont("MINITEXT")
+			Var AR := Hover			
+			String ITg := AR.FullTag 
+			Var IT := any.iaa[ITg]
+			//Lua.assert(ITg!="",sprintf("Hovering slot #%d gives no an empty string",Hover))
+			Int X:=MX+10
+			Int Y:=MY+15
+			Ex := IT.ExplainTable
+			//String Updates = sprintf("Extra Power: %d; Repeat: %d; Hit: %03d%%",AR.XPower,AR.XRepeat,AR.Hit)
+			Int W:=math.max(Fnt.Width(IT.Title),0)			
+			w = math.max(Dft.Width(IT.Desc),w)
+			For i,e in ipairs(EX)
+				W=math.max(W,DFt.Width(e))
+			End			
+			W+=8
+			__Black
+			Graphics.Alpha(120)
+			Graphics.Rect(math.max(math.min(X-(W div 2),Screen.W-W),0),Y,W,50+(Len(EX)*20))
+			Graphics.Alpha(255)
+			__SkyBlue
+			FitText.Dark(Fnt,IT.Title,X,Y,2)
+			__Ember
+			FitText.Dark(DFt,IT.Desc,X,(Y+30),2)
+			Graphics.Color(180,255,0)
+			//FitText.Dark(Dft,Updates,X,(Y+60),2) // Not applicable on gadgets and rage abilities. Only on ARMS.
+			__White
+			For i,e in ipairs(EX)
+				FitText.Dark(DFt,e,X,(Y+60)+(i*20),2)
+			End
+		End
+	End
+	
+	Void QC(Bool Condition)
+		if Condition
+			__White
+		Else
+			int c=math.random(80,90)
+			graphics.color(c,c,c)
+		end
+	End
+	
+		
+	Void ShowItem(ubox,Situation)
+		Int BX := ubox.x + 10
+		Int BY := ubox.y + 10
+		Int EX := BX + (ubox.w-20)
+		Int EY := BY + (ubox.h-20)
+		int BW := EX-BX
+		If Any.Mouse.MR || math.abs(os.time()-TS)>5 || (!SelectedItem)
+			CSayF("Unselect. Any of these was true: MR%sTM%s(%d);SINil%s",Any.Mouse.MR , math.abs(os.time()-TS)>5,math.abs(os.time()-TS), (!SelectedItem))
+			SelectedItem=nil
+			return			
+		End
+		TS = os.time()
+		__White
+		Fnt.Text(SelectedItem.Name,BX,BY)
+		__Yellow
+		Fnt.Text(""..SelectedItem.EP_Cost,EX,BY,1)
+		If SelectedItem.AllowSpread
+			Pic    := GPU_Pic[sprintf("Spread_%s",SelectedItem.Spread)]
+			int ix := BX
+			int iy := BY+60
+			if MX>ix && MY>iy && ML && MX<ix+Pic.Width && MY<iy+Pic.Height && SelectedItem.Spread
+				SelectedItem.SelectedSpread=!SelectedItem.SelectedSpread
+				Events.Flush()
+			End
+			self.QC(SelectedItem.SelectedSpread)
+			Pic.Draw(BX,BY+60)
+		End
+		If SelectedItem.AllowDouble
+			Pic    := GPU_Pic[sprintf("2x Power_%s",SelectedItem.Double)]
+			int ix := BX+(ubox.w div 2)
+			int iy := BY+60
+			if MX>ix && MY>iy && ML && MX<ix+Pic.Width && MY<iy+Pic.Height && SelectedItem.Double
+				SelectedItem.SelectedDouble=!SelectedItem.SelectedDouble
+				Events.Flush()
+			End
+			self.QC(SelectedItem.SelectedDouble)
+			Pic.Draw(ix,iy)
+		End
+		For i=1,SelectedItem.AllowXCards
+			int i2 := i-1
+			int ix := BX+((i2 div 15)*(BW div 2))
+			int iy := BY+120+((i2 % 15)*30)
+			Pic    := GPU_Pic[sprintf("+%02d Cards_%s",i,SelectedItem.XCards>=i)]
+			if MX>ix && MY>iy && ML && MX<ix+Pic.Width && MY<iy+Pic.Height && SelectedItem.XCards>=i
+				if SelectedItem.SelectedXCards==i
+					SelectedItem.SelectedXCards=0
+				else
+					SelectedItem.SelectedXCards = i
+				end
+				//S_CRD = i
+				Events.Flush()
+			End
+			self.QC(SelectedItem.SelectedXCards==i)
+			Pic.Draw(ix,iy)
+		End
+		// Okay
+		__White
+		Int CanX := BX+10
+		if prefixed(Situation:upper(),"COMBAT")
+			Static Var Okay = GPU_Pic["Okay_True"]
+			Int OkX := BX
+			Int OkY := EY - Okay.Height
+			Okay.Draw(OkX,OkY)
+			CanX += Okay.Width + 10
+			if ML && MX>OkX && MY>OkY && MX<OkX+Okay.Width && MY<EY
+				CSay("Click on okay button!")
+				Static Var CUG 
+				CUG = CUG || NeilUse("Script/Use/Abilities.uwn/Use/GadgetUseCombat")
+				//CUG(Tag,SelectedItem,S_DBL,S_SPR,S_CRD)
+				CUG(Tag,SelectedItem,SelectedItem.SelectedDouble,SelectedItem.SelectedSpread,SelectedItem.SelectedXCards)
+				SelectedItem=nil
+		End
+
+		End
+		__White
+		// Cancel
+		Static Var Cancel = GPU_Pic["Cancel_True"]
+		Int CanY := EY - Cancel.Height
+		Cancel.Draw(CanX,CanY)
+		//CSayF("%s/%d/%d",ML,MX,MY) // debug only
+		if ML && MX>CanX && MY>CanY && MX<CanX+Cancel.Width && MY<EY
+			CSay("Click on cancel button!")
+			SelectedItem=nil
+		End
+	End
+	
+	Void Show(ubox,Situation)
+		If SelectedItem
+			self.ShowItem(ubox,situation)
+		Else
+			self.ShowAll(ubox,situation)
+		End
+	End
+	
+	
+	Constructor(string _T,A)
+		Tag = _T
+		Stuff = GINIE.CreateNew(sprintf("%s_GADGET",Upper(_T)))
+		Items = New TLinkedList()
+		For k,v in sPairs(A)
+			Items.AddLast(new Gadget_Item(Self,k,v))
+		End
+	End
+End
+
+
+//Return Gadget_Class

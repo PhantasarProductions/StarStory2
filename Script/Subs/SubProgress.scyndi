@@ -1,0 +1,190 @@
+// License:
+// 	  src/Code/Script/Subs/SubProgress.scyndi
+// 
+// 	  Version: 26.04.24 I
+// 	
+// 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+Script
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
+
+#macro __inactive 0
+#macro __opening 1
+#macro __closing 2
+
+Class ProgressBar
+	ReadOnly Int R = 255
+	ReadOnly Int G = 180
+	ReadOnly Int B = 0
+	ReadOnly Int MaxValue = 1
+	
+	Static ReadOnly Int TimeClose = 4
+	Static ReadOnly Int TimeOpen  = 4
+	Static ReadOnly Var Door = ObtainImage("LOADDOOR")
+	Static Int DoorState = 0
+	Static Int DoorY = 0
+	Static Number DoorY2 = 0
+	Static Int DoorTime = 0
+	Static Int DoorOldTime = os.time()
+	Static ReadOnly Number DoorSpeed = 7.8
+	
+	Int CurrentValue
+	
+	Void Draw(int Y)
+		Int L := math.floor( (self.CurrentValue/self.MaxValue) * Graphics.W)
+		Graphics.Color(80,80,80)
+		Graphics.Rect(0,Y,Graphics.W,15)
+		Graphics.Color(R,G,B)
+		Graphics.Rect(0,Y,L,15)
+	End
+	
+	Constructor(Int Mx,Int Rood = 255, int Groen = 180, Int Blauw = 0)
+		MaxValue = Mx
+		R = Rood
+		G = Groen
+		B = Blauw
+	End
+	
+	Void Define(int V)
+		CurrentValue = math.max(0,math.min(V,MaxValue))
+	End
+	
+	Static Table Register = {}
+	
+	Static Void Create(string Tag,Int Mx,Int Rood = 255, int Groen = 180, Int Blauw = 0)
+		Register[Upper(Tag)] = new ProgressBar(mx,Rood,Groen,Blauw)
+	End
+	
+	Static Void Kill(string Tag)
+		Register[Upper(Tag)] = nil
+	End
+		
+	
+	Static Void DrawAll()
+		Int Y = Graphics.H 
+		For k,bar in Spairs(Register)
+			Y -= 20
+			bar.Draw(y)
+		End
+	End
+	
+	Static Void DrawDoor(string fl="")		
+		DoorTime = os.Time() - DoorOldTime 
+		Switch DoorState
+			Case __inactive
+				Return
+			Case __Opening
+				//DoorY = Graphics.H - math.ceil( (DoorTime/TimeOpen) * (Graphics.H+5) )
+				//If DoorY<=0
+				//	DoorState=__inactive
+				//End
+				DoorY2-=DoorSpeed
+				If DoorY2<0-(Graphics.H+5)
+					DoorState=__inactive
+				End
+			Case __Closing
+				//DoorY = math.min(Graphics.H,math.ceil( (DoorTime/TimeClose) * (Graphics.H+5) ))
+				DoorY2 = math.min(0,DoorY2+DoorSpeed)
+			Default
+		End
+		Graphics.Color(255,255,255)
+		If Fl!=""
+			Sys.Call(fl,"PRGL","nil")
+		End
+		Graphics.Color(255,255,255)
+		Door.Tile(0,math.ceil(DoorY2),Graphics.W,Graphics.H)
+	End
+	
+	Static Void CloseDoor(string fl)
+		static Var AU = Audio.Obtain("LOADCLOSE")
+		AU.Play()
+		//if DoorState!=__Closing
+		//	DoorOldTime = os.time()
+			DoorY2=0-Graphics.H
+		//End
+		DoorState = __Closing
+		Repeat
+			Graphics.Cls()
+			self.DrawDoor(fl)
+			Graphics.Flip()
+			Events.Poll()
+			Sys.WaitMinTicks()
+		//LoopWhile (DoorState == __closing) && (DoorTime < TimeClose)
+		LoopWhile (DoorState == __closing) && (DoorY2<0)
+		self.LDNG()
+	End
+
+	Static Void OpenDoor(string fl)
+		Static Var AU = Audio.Obtain("LOADOPEN")
+		AU.Play()
+		//if DoorState!=__Opening
+		//	DoorOldTime = os.time()
+			DoorY2=0
+		//End
+		DoorState = __Opening		
+		Repeat
+			Graphics.Cls()
+			Self.DrawDoor(fl)
+			Graphics.Flip()
+			Events.Poll()
+			Sys.WaitMinTicks()
+		LoopWhile DoorState == __opening
+	End	
+	
+	Static Void LDNG()
+		Graphics.Cls()
+		Graphics.Color(255,255,255)
+		Door.Tile(0,0,Graphics.W,Graphics.H)
+		//Static Var Back = Image.Obtain("BACKGROUND")
+		Static Var Banner = ObtainImAGE("LOADING")
+		Banner.HotCenter()
+		Graphics.Color(255,255,255)
+		//Back.Tile(0,0,Graphics.W,Graphics.H)
+		Banner.Draw(Graphics.W div 2, Graphics.H div 2)
+		Self.DrawAll()
+		Graphics.Flip()
+		Events.Poll()
+	End
+
+End

@@ -1,0 +1,313 @@
+// License:
+// 	  src/Code/Script/Use/Misc/AQS.scyndi
+// 
+// 	  Version: 26.04.20 III
+// 	
+// 	  Copyright (C) 2026 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+
+Module
+
+plua AQS_DEBUG = false
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Bank"
+#use "Libs/SCI/InterVar"
+
+// AQS Main Instructions
+#macro MI_End 0
+#macro MI_Chunk 1
+#macro MI_sChunk 2
+#macro MI_csChunk 3
+#macro MI_DicSize 4
+#macro MI_DicEntry 5
+#macro MI_Instruction 6
+
+
+// AQS Chunk Instructions
+#macro CI_EndChunk 0
+#macro CI_Call 1
+#macro CI_Jump 2
+#macro CI_JumpTrue 3
+#macro CI_JumpFalse 4
+#macro CI_Check 5
+#macro CI_Done 6
+#macro CI_Exit 7
+
+
+// AQS Parameter Types
+#macro PT_Null 0
+#macro PT_Identifier 1
+#macro PT_String 2
+#macro PT_Integer 3
+#macro PT_Label 4
+#macro PT_iv_Boolean 5
+#macro PT_iv_Integer 6
+#macro PT_iv_String 7
+
+
+Void Chat(Infinity)
+	If AQS_Debug
+		For it in Each{[0]=infinity}
+			printf("\x1b[32mAQS Debug:\t\x1b[93m%s\x1b[37m\n",it);			
+		End
+	End
+End	
+
+Void ChatF(String fmt,Infinity)
+	Chat(sprintf(fmt,Infinity))
+End
+		
+
+plua DBits = { [8]="ReadByte", [16]="ReadUInt16", [32]="ReadUInt32",[64]="ReadUInt64" }
+
+
+Class AQS_Param
+	ReadOnly Var Parent
+	ReadOnly Int Type
+	ReadOnly Var Value
+	Constructor(p,int t,v)
+		Parent=p
+		Type=t
+		Value=v
+	End
+End
+
+Class AQS_Instruction
+	ReadOnly Var Parent
+	ReadOnly Int Type
+	ReadOnly Var Params
+	Constructor(p,int t)
+		Parent=p
+		Type=t
+		Params={}
+	End
+End
+
+Class AQS_Chunk
+	ReadOnly Var Parent
+	ReadOnly Int Type
+	ReadOnly String State
+	ReadOnly String Func
+	ReadOnly Var Instructions
+	Constructor(p,int t,S,F)
+		Parent=p
+		Type=t
+		State=S
+		Func=F
+		Instructions={}
+	End
+End
+
+Class AQS_VM
+	ReadOnly Var Dictionary
+	ReadOnly Var Chunks
+	ReadOnly String Src
+		
+	String GetString(BNK,int BS)
+		idx:=BNK[DBits[BS]]()
+		Lua.assert(Dictionary[idx],sprintf("Non-Existent dictionary entry: %d",idx))
+		return Dictionary[idx]
+	End
+	
+	Constructor(String S)
+		Src=S
+		Dictionary = {}
+		Chunks = {}
+	End
+End
+
+plua VMs
+
+Init
+	VMs={}
+End
+
+
+
+
+
+Bool HasChunk(String VM,String Chunk)
+	Return VMs[Upper(VM)].Chunks[Upper(Chunk)]!=nil
+End	
+
+
+plua ParamExpand(P,int i=0) 
+	if i>=len(P); 
+		return nil; 
+	end
+	return P[i].Value,ParamExpand(P,i+1)
+End
+
+Void Call(String VM,String Chunk,Infinity)
+	//CSayF("AQS.Call(\"%s\",\"%s\")",VM,Chunk)
+	Lua.assert(HasChunk(VM,Chunk),sprintf("AQS %s has no chunk named %s",VM,Chunk))
+	VM=Upper(VM)
+	Chunk=Upper(Chunk)
+	Chn:=VMs[VM].Chunks[Chunk]
+	ins:=VMs[VM].Chunks[Chunk].Instructions
+	int inidx:=0
+	LastCheck:=false
+	Switch Chn.Type
+		Case MI_Chunk
+			Chat("Well, a normal chunk so nothing to do here!")
+		Case MI_csChunk
+			ChatF("%s::%s\tCalling function %s",VM,Chunk,Chn.Func)
+			//Chat(Infinity)
+			//Lua.error("breakoff!")
+			//Lua.Scyndi.AllIdentifiers[Chn.Func](Infinity)
+			Sys.Call("FLOW_FIELD",Chn.Func,Infinity)
+			return
+		Default; Lua.error(sprintf("Unknown AQS chunk type: %d (%s)",Chn.Type,Chunk))
+	End
+	While inidx<Len(ins)
+		cin:=ins[inidx]
+		Switch cin.Type
+			case CI_EndChunk
+				Break
+			Case CI_Call				 
+				Call(VM,ParamExpand(cin.Params))
+			Case CI_Check
+				switch(cin.Params[0].Type)
+					case PT_iv_Boolean
+						LastCheck=gbool[cin.Params[0].Value]
+					default
+						Lua.error("Cannot CHECK parameter type "..cin.Params[0].Type)
+				end
+			Case 3
+				if LastCheck
+					assert(cin.Params[0].Type==PT_Label,"Jump-True requires an address!")
+					inidx=cin.Params[0].Value-1
+				end
+			Case 4
+				if !LastCheck
+					assert(cin.Params[0].Type==PT_Label,"Jump-False requires an address!")
+					inidx=cin.Params[0].Value-1
+				end				
+			Case CI_Done
+				LastCheck=Done[cin.Params[0].Value]
+			CAse CI_Exit
+				Return
+			Default; Lua.error(sprintf("Unknown AQS in-chunk instruction %02x::%03d",cin.Type,cin.Type))
+		End
+		inidx++
+	End
+	//CSayF("\x07AQS.Call(\"%s\",\"%s\")",VM,Chunk)
+End
+
+
+ 
+
+Var Load(String VM,String File)
+	VM=Upper(VM)
+	ret:=New AQS_VM(File)
+	BS:=8 // Bit size for dictionary
+	CSayF("Loading: \"%s\" -> %s",File,VM)
+	BT:=Bank.Load(File,"Load_AQS")
+	CSay(BT.Tag)
+	For chk in each{[0]='AQS',26}
+		CSayF("Check: %0x -> %s",chk,chr(chk))
+		Lua.assert(chk==BT.ReadByte(),"AQS header error")
+	End
+	Tag:=255
+	cChunk:=nil
+	Repeat
+		Tag=BT.ReadByte()
+		ChatF("Tag: %02x",Tag)
+		Switch Tag
+			Case MI_DicSize
+				BS=BT.ReadByte()
+				Lua.assert(DBits[BS],sprintf("Unknown directory bit size: %02d",BS))
+			Case MI_DicEntry
+				idx:=BT[DBits[BS]]()
+				Ret.Dictionary[idx] = BT.ReadString()
+				ChatF("Dictionary: [%02d] %08x -> %s",BS,idx,Ret.Dictionary[idx])
+			Case MI_CsChunk MI_sChunk
+				ch:=ret.GetString(BT,BS)
+				st:=ret.GetString(BT,BS)
+				fn:=ret.GetString(BT,BS)
+				ChatF("%x: sChunk %s -> %s::%s",Tag,ch,st,fn)
+				assert(!ret.Chunks[Upper(ch)],"Dupe chunk!")
+				ret.Chunks[Upper(ch)]=new AQS_Chunk(ret,Tag,st,fn)
+			Case MI_Chunk
+				ch:=ret.GetString(BT,BS)
+				st:=ret.GetString(BT,BS)
+				fn:=ret.GetString(BT,BS)
+				ChatF("%x:  Chunk %s -> %s::%s",Tag,ch,st,fn)				
+				ret.Chunks[Upper(ch)] = ret.Chunks[Upper(ch)] || new AQS_Chunk(ret,Tag,st,fn)
+				assert(ret.Chunks[Upper(ch)].Type==MI_Chunk,"Chunk mismatch!")
+				cChunk = ret.Chunks[Upper(ch)] 
+			Case MI_Instruction				
+				ic:=BT.ReadByte(BT)
+				assert(cChunk,sprintf("Instruction %d requires a chunk",ic))
+				ni:=New AQS_Instruction(cChunk,ic)
+				ps:=BT.ReadByte(BT)
+				ChatF("Instruction %d with %d parameters",ic,ps)
+				For i=1,ps
+					tp:=BT.ReadByte(BT)
+					np:=nil
+					Switch tp
+						case PT_Null
+							np=New AQS_Param(ni,tp,nil)
+						case PT_Integer 
+							np=New AQS_Param(ni,tp,BT.ReadInt32())
+						case PT_Label
+							np=New AQS_Param(ni,tp,BT.ReadUInt32())
+						case PT_String PT_Identifier
+							np=New AQS_Param(ni,PT_String,ret.GetString(BT,BS))
+						case PT_iv_Boolean PT_iv_Integer PT_iv_String
+							np=New AQS_Param(ni,tp,ret.GetString(BT,BS))
+						default
+							Lua.error(sprintf("Unknown parameter type: %d (%d)",tp,i))
+					End
+					Lua.assert(np,"Creation of new parameter failed")
+					ChatF("- Parameter %d -> %s",np.Type,np.Value)
+					ni.Params += np
+				End
+				cChunk.Instructions+=ni
+			Case MI_End
+				Break // Please note, break only affects the loop! Not the Switch. This is not C/C++ you know.
+			Default
+				Lua.error(sprintf("Unknown AQS global tag %02x/%03d on position %08x::%09d",Tag,Tag,BT.Position-1,BT.Position-1))
+		End
+	Forever
+	VMs[VM]=ret
+	return ret
+End

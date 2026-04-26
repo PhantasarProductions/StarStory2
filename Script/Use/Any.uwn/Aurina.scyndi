@@ -1,0 +1,211 @@
+// License:
+// **********************************************
+// 
+// src/Code/Script/Use/Any.uwn/Aurina.scyndi
+// (c) Jeroen Broks, 2022, 2023, 2026, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// 
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// 
+// version: 26.04.14 V
+// 
+// End License
+
+Module
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Anyway"
+
+	Var Buzz = Audio.Obtain("BUZZ")
+	Var ChaChing = Audio.Obtain("CHACHING")
+
+	const int miljard = 1000000000
+
+	get Int Have 
+		return gint.AurinaHave
+	end
+	
+	get Int HaveShilders 
+		return gint.ShildersHave
+	end
+	
+	Set Int Have
+		gint.AurinaHave = math.min(MaxHave,value)
+	End
+	Set Int HaveShilders
+		gint.ShildersHave = math.min(MaxHave,value)
+	End
+	
+	Get Int Rate
+		return math.max(1,gint.AurinaRate)
+	End
+	
+	Set Int Rate
+		gint.AurinaRate = math.min(Value,MaxRate)
+	End
+	
+	
+	Get Int RateShilders
+		return math.max(1,gint.ShilderRate)
+	End
+	
+	Set Int RateShilders
+		gint.ShilderRate = math.min(Value,MaxRate)
+	End
+	
+	Get Int MaxRate
+		Return 1000*(10^(4-__skill))
+	end
+	
+	Get Int MaxHave
+		return 1500000000 div __skill
+	End
+	
+	Get Int SpentNeed
+		return math.max(3,gint.AurinaSpentNeed)
+	End
+	Set Int SpentNeed
+		gint.AurinaSpentNeed = math.min(Value,miljard)
+	End
+	
+	Get Int Spent
+		Return gint.AurinaSpent
+	End
+	
+	Set Int Spent
+		gint.AurinaSpent = Value
+		while Spent>SpentNeed
+			gint.AurinaSpent -= SpentNeed
+			Switch __skill
+				Case 1
+					SpentNeed = math.ceil(SpentNeed * 1.25)
+					Rate += math.random(1,6)
+				Case 2
+					SpentNeed = math.ceil(SpentNeed * 1.5)
+					Rate += math.random(1,4)
+				Case 3
+					SpentNeed = SpentNeed * 2
+					Rate ++
+				Default
+					Lua.error("Spent skill error: "..__skill)
+			End
+			CSayF("Aurina rate increased to: %d",Rate)
+		End		 
+	End
+	
+	Void BonusRate()
+		Number A=1
+		if Done.RateDoubled
+			CSay("Bonus rate - Already done, so won't do it again")
+			Return
+		End
+		Switch __Skill
+		case 1
+			A=4
+		case 2
+			A=2
+		case 3
+			A=1.10
+		default
+			Lua.error("Skill error on Bonus Rate")
+		end
+		CSayF("Rate %d will be increased by factor %1.3f",Rate,A)
+		Rate = math.floor(Rate * A)
+		CSayF("Rate is now %d",Rate)
+		
+	End
+	
+	Void Incr(int v=1)
+		Rate += v
+	End
+	
+	Get Int SpentShilders
+		Return gint.ShildersSpent
+	End
+	
+	Set Int SpentShilders
+		gint.ShildersSpent = Value
+		while SpentShilders>SpentNeed
+			gint.ShildersSpent -= SpentNeed
+			Switch __skill
+				Case 1
+					SpentNeed = math.ceil(SpentNeed * 1.5)
+					RateShilders += math.random(1,5)
+				Case 2
+					SpentNeed += SpentNeed
+					RateShilders += math.random(1,3)
+				Case 3
+					SpentNeed = SpentNeed ^ 2
+					RateShilders ++
+				Default
+					Lua.error("Spent skill error: "..__skill)
+			End
+			CSayF("Shilder rate increased to: %d",Rate)
+		End		 
+	End
+	
+	Bool Pay(int bedrag)
+		If bedrag>Have
+			Buzz.Play()
+			Lnk.Party.MiniMsg(SprintF("You are %d aurinas short",Bedrag-Have))
+			Return False
+		End
+		Have -= bedrag
+		Spent += bedrag
+		ChaChing.Play()
+		Return True
+	End
+	
+	Bool PayShilders(int bedrag)
+		If bedrag>HaveShilders
+			Buzz.Play()
+			Lnk.Party.MiniMsg(SprintF("You are %d Shilders short",Bedrag-HaveShilders))
+			Return False
+		End
+		HaveShilders -= bedrag
+		SpentShilders += bedrag
+		ChaChing.Play()
+		Return True	
+	End
+	
+	Bool XPay(int Bedrag, String Currency)
+		static var A={["Aurina"]=Pay,["Shilder"]=PayShilders}
+		Return A[Currency](Bedrag)		
+	End
+	
+	Void PayShildersGv(int bedrag)
+		gbool.PayShildersSucces=PayShilders(bedrag)
+	end
+				
+	
+//End

@@ -1,0 +1,135 @@
+// License:
+// 	  src/Code/Script/Flow/FlowCombat/Start.scyndi
+// 
+// 	  Version: 26.04.24 IV
+// 	
+// 	  Copyright (C) 2022/2023, 2026 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+
+#use "Libs/Music"
+
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/JCR6"
+
+#use "Script/Use/Anyway"
+
+
+#accept Foe
+#accept Hero
+#accept EXPRate
+#accept Fighter
+#accept FlowCombat
+#accept EXPBaseRate
+
+Module
+
+String Music
+String Arena
+Table Enemies
+String Wipe
+Bool OpenDoor
+		
+LocExtern _ASW "Scyndi.Class.Graphics.W"
+LocExtern _ASH "Scyndi.Class.Graphics.H"
+
+Void NewEnemy(String Foe,Int Level,Int X,Int Y)
+	Int Enem := Len(Enemies)+1
+	Int PX := math.ceil(Enem/3)
+	Int PY = (Len(Enemies) % 3)
+	If X<0
+		X = (((_ASW div 3) div 3) * PX) - ((_ASW div 24)*PY)  
+	End
+	If Y<0
+		Int H := (_ASH div 2)
+		Y = H + (H div 4) + ((H div 5)*PY)  
+	End
+	NF := {["Foe"]=Foe,["Level"]=math.min(100000,math.max(1,Level)),["X"]=X,["Y"]=Y}
+	Enemies += NF
+	CSayF("Enemy added: %s, level %d --> (%04d,%04d)",NF.Foe,NF.Level,NF.X,NF.Y)
+End
+
+Void StartPreparation()
+	CSay("Request to start configuring a battle received")
+	Arena = ""
+	Music = ""
+	Enemies = {}
+	OpenDoor = True
+End
+	
+Void StartMusic()
+	If prefixed(Lua.Scyndi.Class.Start.Music,"*")
+		Switch Upper(Lua.Scyndi.Class.Start.Music)
+			case  "*NOCHANGE" "*NOCHANGE*"
+				Return
+			default
+				Lua.error("Unknown special music instruction: "..Music)
+		End
+	End
+	if Suffixed(Music,"/")
+		M := JCR6.Dir(Lua.Scyndi.Class.Start.Music)
+		CSayF("Music folder \"%s\" contain %d entries",Lua.Scyndi.Class.Start.Music,len(m))
+		Lua.assert(Lua.Scyndi.Class.Start.Music.." has no music entries")
+		Lua.Scyndi.Class.Music.Play(M[math.random(0,Len(M)-1)])
+	else
+		Lua.Scyndi.Class.Music.Play(Music)
+	end
+End
+	
+Void Start()
+	Fighter.ClearAll()
+	// Compile Heroes
+	For i=1,Lnk.Party.Count
+		Hero.Compile(RPGParty[i])
+		EXPRate[RPGParty[i]]=EXPBaseRate
+	End
+	
+	For i,f in ipairs(Enemies)
+		Foe.Compile(i,f.Foe,f.Level,f.X,f.Y)
+	End
+	
+	FlowCombat.Arena.Load(Arena)
+	FlowCombat.Cards.SetupInitialCards(true)
+	FlowCombat.Cards.StartEffectCards()
+	FlowCombat.AAA_Stage.Current = nil
+	StartMusic()
+End
+
+

@@ -1,0 +1,147 @@
+// License:
+// 	  src/Code/Script/Flow/FieldMenu/UseItem.scyndi
+// 
+// 	  Version: 26.04.21 III
+// 	
+// 	  Copyright (C) 2022, 2023, 2026 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+
+
+// This should prevent conflicts
+Module UseItem_bdb56bc7447ad317a0a6b89094561ec297d9a8267bc675cea0b9de379691f2b113d59a87760565348b3d5fa59886129acaa3d498c2ffcfb7d36ed61f7a61a2d5
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Audio"
+
+#use "Script/Use/Anyway"
+
+
+plua buzz = Audio.Obtain("BUZZ")
+
+void _UseItem(string ch,int Slot,string ittag)
+	//static var buzz = Audio.Obtain("BUZZ")
+	It   := Any.IAA[ittag]
+	Char := RPGChar[ch]
+	HP   := Char.Points.HP
+	switch It.Item_Type
+		Case "" "Consumable"
+			Bool Success = False
+			If it.Attack && it.Attack_Element=="Healing" && HP.Have<HP.Maximum				
+				Switch it.Attack_Type
+					Case "Absolute"
+						HP.Have += it.Attack
+						Success=true
+					Case "PercentHP"
+						HP.Have += math.ceil(HP.Maximum * (it.Attack/100))
+						Success=true
+					Case "PercentStat"
+						HP.Have += math.ceil(Char.Stat[it.Attack_OffenseStat] * (it.Attack/100))
+						Success=true
+					Case "BattleStat"
+						Buzz.Play()
+						lnk.Party.MiniMsg(sprintf("The healing powers of the item '%s' can only be called upon in combat",It.Title),255,0,0)
+						Success=true // Appears odd, but this prevents double error messages!
+					default
+				End
+			End	
+			If It.X_Level
+				Char.Points.EXP.Have = Char.Points.EXP.Maximum
+				Success=true
+			ElseIf IT.X_Experience
+				Char.Points.EXP.Have += IT.X_Experience div (__skill+1)
+				CSayF("%s now has %d experience points",ch,Char.Points.EXP.Have)
+				Success=true
+			End
+			If Success
+				Any.IAA.SlotNum[Slot]--
+			Else
+				Buzz.Play()
+				lnk.Party.MiniMsg(sprintf("Using the item '%s' had no effect at all",It.Title),255,0,0)
+			End
+		Case "Jewel"
+			Static Var NU = NeilUse("Script/Flow/FieldMenu/Status")
+			Int JewSlot = 0
+			string JewTag
+			Repeat
+				JewSlot++
+				JewTag=sprintf("Jewel_%02d",JewSlot)
+				If JewSlot>NU.JewelSlots(Char.Stat.Level)
+					Buzz.Play()
+					lnk.Party.MiniMsg(sprintf("%s has no empty jewel slots",Char.Name),255,0,0)
+					Return
+				End
+			Until Char.Data[JewTag]==""
+			CSayF("Gonna equip %s on %s on slot %d (%s)",ittag,ch,JewSlot,JewTag)
+			Char.Data[JewTag]=ittag
+			Any.IAA.SlotNum[Slot]--	
+			//Lua.error("Jewels not yet scripted")
+			Lnk.Party.StatRecalc(ch)
+		Default
+			Buzz.Play()			
+			lnk.Party.MiniMsg(sprintf("The item '%s' cannot be used that way",It.Title),255,0,0)
+	End
+end
+
+Void _SellItem(string ch,int Slot,string ittag)	
+	Item := Any.iaa[ittag]
+	If (Any.IAA.SlotNum[Slot]<=0)
+		Any.Aurina.Buzz.Play()
+		lnk.Party.MiniMsg("Slot #%d is empty",slot)
+		Return
+	End
+	Any.Aurina.ChaChing.Play()
+	Any.Aurina.Have += Item.Sell_Price
+	Any.IAA.SlotNum[Slot]--	
+End
+
+Void _UseItemSel(string ch,int Slot,string ittag,string situation)
+	Switch Upper(situation)
+		Case "SHOP_HEIJN" "SHOP_PHAN"
+			_SellItem(ch,slot,ittag)
+		Default
+			_UseItem(ch,slot,ittag)
+	End
+End
+
+Global Void UseItem(Infinity)
+	_UseItemSel(Infinity)
+End
+
+//Return _UseItemSel

@@ -1,0 +1,85 @@
+// License:
+// 	  src/Code/Script/Flow/FlowField/MOD_Welcome.scyndi
+// 
+// 	  Version: 26.04.13
+// 	
+// 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/JCR6"
+#use "Libs/SCI/Graphics"
+#use "Libs/SCI/InterVar"
+
+Module
+	Const Int MaxTime=255
+	Var Img
+	Int CntDn=0
+	Int Alpha=255
+	
+	Void Draw()
+		If (!Img) || (CntDn<=0 && Alpha<=0)
+			Return
+		End
+		if CntDn==MaxTime && Alpha<255
+			Alpha++
+		Elseif CntDn<=0
+			Alpha--
+		Else
+			CntDn--
+		End
+		//CSayF("Welcome banner draw> CountDown: %03d;  Alpha: %03d",CntDn,Alpha)
+		Graphics.Color(255,255,255)
+		Graphics.Alpha(Alpha)
+		Img.Draw(Graphics.W div 2, Graphics.H div 2)
+		Graphics.Alpha(255)
+	End
+	
+	Void CBLoadMap(string MB)
+		String Pic := sprintf("Kthura/%s/Welcome.png",MB)
+		If JCR6.EntryExists(Pic) && (!Done["WELCOME_"..MB])
+			Img = LoadImage(Pic,"WELCOME")
+			Img.HotCenter()			
+			CntDn=MaxTime
+			Alpha=0
+		End
+	End
+	
+//End

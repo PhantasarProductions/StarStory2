@@ -1,0 +1,211 @@
+// License:
+// 	  src/Code/Script/Flow/FieldMenu/Status.scyndi
+// 
+// 	  Version: 26.04.21 X
+// 	
+// 	  Copyright (C) 2022, 2023, 2026 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+Module
+
+	#use "Libs/SCI/Sys"
+	#use "Libs/SCI/Audio"
+	#use "Libs/SCI/Graphics"
+	
+	#use "Script/Use/Anyway"
+	
+	locExtern llen "#"
+	
+	Int JewelSlots(lvl)
+		number a = 100000
+		Switch __skill
+			Case 1
+				for b=90,1,-1
+					if a<=lvl
+						//return math.floor(a)
+						return b
+					end
+					a=a*0.89
+				end
+				return 2
+			Case 2
+				For b=45,1,-1
+					//If b<=lvl
+					if a<=lvl
+						//return math.floor(a)
+						return b
+					end
+					a=a*0.8
+				end
+				Return 1
+			Case 3
+				int a = 1
+				int b = 1
+				if lvl==100000
+					return 30
+				end
+				while (a<100000)
+					//print(b,math.floor(a))
+					if b>=lvl
+						Return math.min(30,math.ceil(a))
+					End
+					a += (a*0.5)
+					b += 1
+				end
+				Return 0
+			Default
+				Return 0
+		End
+	End
+	
+	get int MX
+		return Any.Mouse.MX
+	end
+	
+	get int MY
+		return Any.Mouse.MY
+	end
+	
+	get bool ML
+		return Any.Mouse.ML
+	End
+
+	Void Flow(uBox,string FMChar,string FMSituation)
+		Static Var Fnt = ObtainFont("BOXTEXT")
+		Static Var MiniText = ObtainFont("MINITEXT")
+		Static Var Banner = {}
+		Static Var APN = { ["Yorno"]="Energy",["Doctor"]="Energy",["Ashley"]="Rage" }
+		Ch:=RPGChar[FMChar]
+		__White
+		Banner[FMChar] = Banner[FMChar] || LoadImage(sprintf("GFX/CharLogo/%s.png",FMChar),"CHARBANNER_"..FMChar)
+		Banner[FMChar].HotCenter()
+		Banner[FMChar].Draw(ubox.x+(ubox.w div 2),ubox.y+100)
+		if (prefixed(FMChar,"Z_"))
+			Return
+		End
+		__White
+		Fnt.Text("HP",ubox.x+5,200)
+		__SkyBlue
+		Fnt.Text(sprintf("%d of %d",Ch.Points.HP.Have,Ch.Points.HP.Maximum),(ubox.x+ubox.w)-5,200,1)
+		if Ch.Points.AP.Maximum>0
+			__White			
+			Fnt.Text(APN[FMChar] || "AP",ubox.x+5,230)
+			__SkyBlue
+			Fnt.Text(sprintf("%d of %d",Ch.Points.AP.Have,Ch.Points.AP.Maximum),(ubox.x+ubox.w)-5,230,1)
+		End
+		For i,s in pairs(Any.Resistance.Stats)
+			int y=270+(i*30)
+			if s!="HP"
+				__White
+				Fnt.Text(s,ubox.x+5,y)
+				__SkyBlue
+				Fnt.Text(Ch.Stat["END_"..s],(ubox.x+ubox.w)-5,y,1)
+			end
+		End
+		__White
+		Fnt.Text("Luck",ubox.x+5,270+((llen Any.Resistance.Stats)*30))
+		__SkyBlue
+		Fnt.Text(Any.Resistance.Luck(FMChar),(ubox.x+ubox.w)-5,270+((llen Any.Resistance.Stats)*30),1)
+		
+		int js := JewelSlots(Ch.Stat.Level)
+		//const int jh = 12
+		LocExtern jh "12"
+		int jy := (ubox.y+ubox.h)-(6*jh)-5
+		static int jscroll = 0
+		switch js
+			case 0
+				// Do nothing
+			case 1
+				__SkyBlue
+				MiniText.Text("1 jewel slot",ubox.x+5,jy)
+			default	
+				__SkyBlue
+				MiniText.Text(sprintf("%d jewel slots",js),ubox.x+5,jy)
+		End
+		for i=1,4
+			int j := i+jscroll
+			string jn = "---" 
+			if Ch.Data[sprintf("Jewel_%02d",j)]!=""
+				jn = Any.IAA[Ch.Data[sprintf("Jewel_%02d",j)]].Title
+			end
+			if j<=js
+				if MX>ubox.x && MX<ubox.x+ubox.w && MY>jy+(i*jh) && MY<jy+((i+1)*jh)
+					__black
+					graphics.rect(ubox.x+5,jy+(i*jh),ubox.w-10,jh)
+					if ML
+						If Any.IAA.Give(Ch.Data[sprintf("Jewel_%02d",j)])
+							Ch.Data[sprintf("Jewel_%02d",j)]=""
+							Lnk.Party.StatRecalc(FMChar)
+						Else
+							static var buzz = Audio.Obtain("BUZZ")
+							buzz.play()
+							lnk.Party.MiniMsg("Inventory full! Remove something else first before you unequip this jewel!",255,0,0)
+						End
+					end
+				end
+				__white				
+			else
+				Graphics.Color(80,80,80)
+			end
+			MiniText.Text(sprintf("%02d: %s",j,jn),ubox.x+10,jy+(i*jh))
+		end
+		if MX>ubox.x && MY>jy && MX<ubox.x+ubox.w && MY<ubox.y+ubox.h
+			jscroll-=Any.Mouse.Wheel
+			jscroll=math.min(jscroll,(90 div __skill)-4)
+			jscroll=math.max(jscroll,0)
+		end
+	End
+//End
+
+Global Void CONSOLE_JewelSlots()
+	NU := NeilUse("Script/Flow/FieldMenu/Status")
+	//for i=1,90 div __skill
+	int o = 0
+	for i=1,100000
+		int n := NU.JewelSlots(i)
+		if o!=n
+			csayf("Level %6d: > %02d",i,n)
+			o=n
+		end
+	end
+end
+
+Init
+	Sys.ConsoleLocal("JEWELS","CONSOLE_JewelSlots")
+End

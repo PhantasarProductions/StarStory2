@@ -1,0 +1,104 @@
+// License:
+// **********************************************
+// 
+// src/Code/Script/Use/lnk.uwn/BoxText.scyndi
+// (c) Jeroen Broks, 2020-'22, 2026, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// 
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// 
+// version: 26.04.20 I
+// 
+// End License
+
+
+
+Module
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Anyway"
+
+// Plua makes sure this function cannot be called outside this module! (Don't confuse with 'global plua')
+plua BTLoad()
+	Sys.LoadNewState("BOXTEXT","Script/Subs/SubBoxText.lbc")	
+end
+
+void _MapText(string ATag,string RF="FLOW_FIELD",int ANum=0)
+	static string AScen="MAPTEXT"
+	BTLoad()
+	//State.Call("BOXTEXT","FlowBoxText.Serial",sprintf("\"%s\", \"%s\", \"%s\", %d",AScen,ATag,RF,ANum or 1))
+	Sys.Call("BOXTEXT","FlowBoxText.Serial",AScen,ATag,RF,ANum || 0)
+end
+
+void _CharMapText(string ATag,string RF="FLOW_FIELD",int ANum=0)
+	static string AScen="MAPTEXT"
+	BTLoad()
+	//State.Call("BOXTEXT","FlowBoxText.Serial",sprintf("\"%s\", \"%s\", \"%s\", %d",AScen.."_"..Lnk.Map.Leader,ATag,RF,ANum or 1))
+	Sys.Call("BOXTEXT","FlowBoxText.Serial",AScen.."_"..Lnk.Map.Leader,ATag,RF,ANum || 0)
+End
+
+void _MapTextLeader(string ATag,string RF="FLOW_FIELD",int ANum=0)
+	_MapText(sprintf("%s_%s",ATag,lnk.Map.Leader),RF,ANum)
+end
+
+//module	 
+	Link Map = _MapText
+	Link MapLeader = _MapTextLeader
+	get string lang
+		//State.LoadNew("GV","Script/Subs/SubGV.Neil")
+		//return ISGET.Str("GV","gv.gstring["..chr(34).."LANG"..chr(34).."] or "..chr(34)..chr(34))
+		return GStr.Lang
+	end
+	
+	void Load(string Tag,string File)
+		BTLoad()
+		//State.Call("BOXTEXT","Scenario.Load",sprintf("\"%s\",\"%s\"",File,tag))
+		//State.Call("BOXTEXT","TFT_LoadScen",sprintf("\"%s\",\"%s\", false",Trim(File),Trim(Tag)))
+		Sys.Call("BOXTEXT","TFT_LoadScen",Trim(File),Trim(Tag),false)
+	end
+	
+	void Serial(string AScen, string ATag, string RF="FLOW_FIELD", ANum)
+		BTLoad()
+		Events.Flush()
+//		State.Call("BOXTEXT","FlowBoxText.Serial",sprintf("\"%s\", \"%s\", \"%s\", %d",AScen,ATag,RF,ANum or 1))
+		Sys.Call("BOXTEXT","FlowBoxText.Serial",AScen,ATag,RF,ANum || 0)
+	end
+	
+	Void Tutor(string Tag,string RF="FLOW_FIELD")
+		Static Bool Loaded=False
+		If !Loaded
+			Load("TUTORIALS","TUTORIALS")
+		End
+		Serial("TUTORIALS",Tag,RF)
+	End
+//end

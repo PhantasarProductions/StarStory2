@@ -1,0 +1,278 @@
+// License:
+// 	  src/Code/Script/Flow/FlowNewGame.scyndi
+// 
+// 	  Version: 26.04.13
+// 	
+// 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+Script
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/JCR6"
+#use "Libs/SCI/GINIE"
+#use "Libs/SCI/SString"
+#use "Libs/SCI/Graphics"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Anyway"
+
+#macro __alphabet a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z
+
+Global Delegate PRGL = NIKS 
+
+Class NGS
+	Abstract Void Flow()
+	
+	Static ReadOnly Var Big = ObtainFont("BIGTEXT")
+	Static ReadOnly Var Fnt = ObtainFont("BOXTEXT")
+	Static ReadOnly Var Skl = ObtainFont("NEWTEXT")
+	
+	Static Table Stages = {}
+	Static Int Stage = 1
+	
+	Static Get Var Current
+		Return Stages[Stage]
+	End
+	
+	Static Void Next()
+		Stage++
+		CSayF("Went to stage %d",Stage)
+		If !Current
+			RPGParty.Max=4
+			For i,ch in Lua.ipairs{"Z_Wendicka","Z_Sue","Z_Admiral"}
+				Lnk.Party.CreateCharacter(ch,0)
+				RPGParty[i]=ch
+			End
+			CDLoading()
+			GINIE.Create("PERMAKILL")
+			GINIE.Create("INVENTORY")
+			Sys.LoadFlow("FIELD","Script/Flow/FlowField.lbc")
+			Lnk.Map.GoToMap("Hawk","BRIDGE","Start",true,true)
+			Lnk.Schedule.Add(":OPENDOOR:")
+			//Lua.error("No script yet when all stages have been done!")
+			Sys.CurrentFlow="FIELD"
+		End
+	End
+	
+End
+
+Class NGSkill Extends NGS
+
+	Static Int MEX
+	Static ReadOnly Table SklNames = {"I never played an RPG before","I know the genre","Why are all games piss-easy? I have no life!"}
+	Const Int ith=25
+	
+	Void Para(string a,int esety=0)
+		static int y
+		if esety>0
+			y = esety
+		end
+		__white
+		NGS.Skl.Text(a,5,y)
+		y+=ith
+	End
+	
+	Void ParaF(string fmt,__alphabet)
+		self.Para( sPrintf(fmt,__alphabet))
+	End
+
+	Void Flow()
+		LocExtern Para "self.Para"
+		LocExtern ParaF "self.ParaF"
+		__Skill = 0
+		__SkyBlue
+		NGS.Big.Text("How tough are you?",Graphics.W div 2,10,2)
+		For i,name in Pairs(SklNames)
+			int y := (i*ith)+30
+			int m = 0
+			__SkyBlue
+			if __Mouse.MX<10+NGS.FNT.Width(Name) && __Mouse.MY>y && __Mouse.MY<y+ith
+				__Cyan
+				__Skill = i
+				m = 5 
+			End
+			NGS.Fnt.Text(Name,5+m,y)
+		End
+		
+		If __skill>0
+			string desc = "??"
+			string Store = ""
+			string cname = ""
+			switch __skill
+				case 1
+					CName = "easy"
+					Desc = "This mode is only for beginners. Many things have been simplefied."
+					Store = "Prices in stores cut by 50%"
+				case 2
+					CName = "casual"
+					Desc = "This mode shows you the game the way it was meant to be."
+				case 3
+					Cname = "hard"
+					Desc = "When you want a hard game. This is for you. Next to impossible!"
+					Store = "Prices in stores are doubled"
+			end
+			Para(Desc,150)
+			Para("A few parameters on how this mode affects the difficulty")
+			ParaF("Inventory slots: %d",Any.Caps.InvSlots)
+			ParaF("Number of (same) items per inventory slot: %d",Any.Caps.InvItemsPerSlot)
+			ParaF("Level cap (first cycle): %d",Any.Caps.MaxLevel)
+			ParaF("Experience needed compared to hard mode: %03.2f%%",(Any.Caps.ExpNeeded / MEX) * 100)
+			If __Skill>1
+				ParaF("When you are %d level higher then your enemy no more experience points for you",Any.Caps.LevelMargin)
+			End
+			If Store!=""
+				Para(Store)
+			End
+			Para("")
+			Para("The changes in the game are not limited just to this.")
+			Para("Enemies can also show different behavior some puzzles can be harder or easier based on your pick")
+			Para("And there can be many more things different.")
+			Para("")
+			Para("For that reason you can NOT change the difficulty once the game has begun, so CHOOSE WISELY!")
+			If __Mouse.ML
+				If Sys.Yes("So you have chosen for the "..CName.." mode?\n\nPlease note you can NOT change this mode afterward.\n\nAre you sure?")
+					Self.Next()
+				End
+			End
+		End
+	End
+	
+End
+
+Class LRec
+	Static Int Total = 0
+	ReadOnly Int Num
+	Get Int Col
+		Return Num % 4
+	End
+	Get Int Row
+		Return Num div 4
+	End
+	Get Int X
+		Return Col * (Graphics.W div 4)
+	End
+	Get Int Y
+		Return (Row * 30)+100
+	End
+	
+	ReadOnly String Lang
+	
+	Constructor(string L)
+		Lang = L
+		Num = Total
+		Total++
+		CSayF("%03d> Added language '%s' as num %d",Total,Lang,Num)
+	End
+End
+	
+
+Class NGLang Extends NGS
+
+	Table Langs = {}
+	Int ExY
+	
+	Constructor
+		D := JCR6.Dir("Scenario")
+		For LT in Each(D)
+			pLua LS := XSplit(LT,"/")
+			String LN := LS[1]
+			Langs[LN] = Langs[LN] || new LRec(LN)
+			ExY = math.max(Langs[LN].Y+50)
+		End
+	End
+
+	Void Flow()
+		__skyblue
+		NGS.Big.Text("Which language do you desire for the scenario?",Graphics.W div 2,5,2)
+		For Lang,Data in Pairs(Langs)
+			__skyblue
+			If __Mouse.MX>Data.X && __Mouse.MY>Data.Y && __Mouse.MX<Data.X+NGS.Fnt.width(Lang) && __Mouse.MY<Data.Y+25
+				__Cyan
+				If __Mouse.ML
+					__Lang=Lang
+					Self.Next()
+				End
+			End
+			NGS.Fnt.Text(Lang,Data.X,Data.Y)
+		End
+		__White
+		NGS.Fnt.Text("Your choice only affects the scenario!"              ,5,Exy+000)
+		NGS.Fnt.Text("System messages, ability names, item names and so on",5,Exy+025)
+		NGS.Fnt.Text("Will ALWAYS be shown in English regardless of"       ,5,Exy+050)
+		NGS.Fnt.Text("The language you chose."                             ,5,Exy+075)
+	End
+End
+
+
+Class NGReady Extends NGS
+
+	Const Int MaxTime = 800 
+
+	Void Flow()
+		Static Int Time = 0
+		__White
+		NGS.Fnt.Text("Very good."                      ,5,000)
+		NGS.Fnt.Text("Your adventure is about to begin",5,025)
+		NGS.Fnt.Text("Have fun!"                       ,5,075)
+		Time = (Time+1) % MaxTime
+		If Time==0
+			Self.Next()
+		End
+	End
+End
+
+Global Void MainFlow()
+	//__Dev.ToConsole()
+	NGS.Current.Flow()
+	__Mouse.Draw()
+	WantQuit()
+End
+
+
+
+Init
+	gClear()
+	__skill=3
+	NGSkill.MEX = Any.Caps.EXPNeeded
+	NGS.Stages += "Ignore me!"
+	NGS.Stages += new NGSkill()
+	NGS.Stages += new NGLang()
+	NGS.Stages += new NGReady()
+End

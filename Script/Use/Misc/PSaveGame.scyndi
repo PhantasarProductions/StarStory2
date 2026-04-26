@@ -1,0 +1,225 @@
+// License:
+// 	  src/Code/Script/Use/Misc/PSaveGame.scyndi
+// 
+// 	  Version: 26.04.02 V
+// 	
+// 	  Copyright (C) 2021, 2022, 2023, 2026 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+
+Module
+
+#use "Libs/SCI/GINIE"
+#use "Libs/SCI/SString"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Anyway"
+
+void MakeHeader()
+	//if gStr.MapTitle==""
+	//	gStr.MapTitle="???"
+	//end
+	//string r = "Map:"..gStr.MapTitle.."\n"
+	////r += "Difficulty:"..({"Easy","Casual","Hard"})[gInt.skill].."\n"
+	////r += "Saved:"..gInt.Saved.."\n"
+	////r += "PureTime:"..gint.time.."\n"	
+	////r += "LevelCap:"..gInt.LevelCap.."\n"
+	////r += "Chapter:"..__Chapter.."\n"
+	//r+=sprintf("Cycle:%d\n",Any.Caps.Cycle)
+	//if RPGParty[1]=="Z_Wendicka"
+	//	r += "Lvl:Wendicka\n"
+	//else
+	//	R += sprintf("Lvl:Klahr|'e level %06d/%06d\n",RPGChar.Klahre.Stat.Level,Any.Caps.MaxLevel)
+	//End		
+	//For i=1,4
+	//	String Ch
+	//	Ch=RPGParty[i]
+	//	If Ch!=""
+	//		r += sPrintF("P%d:%s=%d\n",i,Ch,RPGChar[Ch].Stat.Level)
+	//	End
+	//End			
+	//SaveGame.Data.Head = r
+end
+
+Global Void PerformSaveGame(string f)
+	//gInt.Saved++
+	//CSayF("Saving: %s",f)	
+	//State.Call("FLOW_FIELD","FlowField.Time.Update","nil")
+	//SaveGame.Clear()
+	//SaveGame.Assign(f)
+	//SaveGame.Data["*PARTY"] = "YES"
+	//SaveGame.Data["Vars.ini"] = gINIE
+	//SaveGame.Data["Permakill.ini"] = GINIE.UnParse("PERMAKILL")
+	//SaveGame.Data["Inventory.ini"] = GINIE.Unparse("INVENTORY")
+	////SaveGame.Data["Achievements.ini"] = GINIE.UnParse("ACHIEVEMENTS")
+	////SaveGame.Data["Achievements.ini"] = Lnk.Ach.Source
+	//For k in Each{[0]="Klahre_ARMS","Yorno_Gadget","Doctor_Gadget","Doctor_XItem","Ashley_Rage"}
+	//	if GINIE.Has(Upper(k))
+	//		SaveGame.Data[sprintf("Abilities/%s.ini",k)] = GINIE.UnParse(Upper(k))
+	//	else
+	//		printf("\x1b[31mNOTE!\x1b[0m\t No data yet for %s, so skipping that!\n",k) 
+	//	end
+	//End
+	//Lnk.Map.SG()
+	//if f=="QUIT"
+	//	SaveGame.Data["KILL ME"]="KILL ME"
+	//end
+	//MakeHeader()
+	//SaveGame.Save()	
+	//lnk.Party.MiniMsg("The game has been saved")
+	//Lua.error("Saving not yet implemented")
+End
+
+Global Void PerformLoadgame(string f)
+	////Lua.error("Loading not yet implemented")
+	
+	//static var tfnt
+	//Int MProcess=18
+	//Progress.Create("AAA_LOADSAVEGAME",MProcess,180,255,0)
+	//Loading()
+	//Progress.AAA_LOADSAVEGAME = 1
+	//Loading()
+	//CSay("Clearing SaveGame buffer")
+	//Progress.AAA_LOADSAVEGAME = 2
+	//Loading()
+	//SaveGame.Clear()
+	//Progress.AAA_LOADSAVEGAME = 3
+	//Loading()
+	//SaveGame.Assign(f)
+	//CSayF("Loading: %s",f)
+	//try
+	
+		// Load in general
+		//Progress.AAA_LOADSAVEGAME = 4
+		//Loading()
+		//SaveGame.Load()
+		
+		
+		// Game Vars (must be first, as some data I need later is in there!
+		//Progress.AAA_LOADSAVEGAME = 5
+		//Loading()
+		//CSayF("Parsing Game Vars")
+		////NeilDoString(SaveGame.Data["GAMEVARS.NEIL"],"SG:GameVars.Neil")
+		//gINIE = SaveGame.Data["VARS.INI"]
+		
+		// Inventory
+		//Progress.AAA_LOADSAVEGAME = 6
+		//Loading()
+		//CSay("Loading Inventory")		
+		//GINIE.Parse("INVENTORY",SaveGame.Data["INVENTORY.INI"])
+		//Progress.AAA_LOADSAVEGAME = 7
+		
+		//CSay("Ability")		
+		// TODO: Ability sheet
+		//Progress.AAA_LOADSAVEGAME = 8
+		//For i,k in ipairs{[0]="Klahre_ARMS","Yorno_Gadget","Doctor_Gadget","Doctor_XItem","Ashley_Rage"}
+		//	Progress.AAA_LOADSAVEGAME = 7+i
+		//	Loading()
+		//	CSayF("Ability: %d: %s",i,k)
+		//	GINIE.Parse(k:upper(),SaveGame.Data[sprintf("Abilities/%s.ini",k)] )
+		//End
+		
+		
+		
+		// Map
+		//Progress.AAA_LOADSAVEGAME = 13
+		//Loading()
+		//CSay("Loading Field Flow")
+		//Flow.Load("FIELD","Script/Flow/FlowField.neil")
+		//CSay("Map stuff")
+		//Progress.AAA_LOADSAVEGAME = 14
+		
+		//CSay("Parsing Permakills")
+		//Loading()
+		////State.Call("FLOW_FIELD","FlowField.Kill.LG","nil")
+		//GINIE.Parse("PERMAKILL",SaveGame.Data["PERMAKILL.INI"])		
+		//Progress.AAA_LOADSAVEGAME = 15		
+		//Loading()
+		
+		//State.Call("FLOW_FIELD","FlowField.Map.LG","nil")	
+		//Progress.AAA_LOADSAVEGAME = 16
+		//Loading()
+		
+		
+		//CSay("Achievements")		
+		////GINIE.Parse("ACHIEVEMENTS",SaveGame.Data["ACHIEVEMENTS.INI"])
+		//CSay("SKipped")
+		//Progress.AAA_LOADSAVEGAME = 17
+		//Loading()
+
+		
+		//CSay("Mutilate if applicable")
+		//Progress.AAA_LOADSAVEGAME = 18
+		//Loading()
+	////catch e
+	//// Lua.error("Loading game not yet implemented. Working on it!")
+	//if SaveGame.HasData("KILL ME")
+		//CSay("Mutilate the savegame, yeah!")
+		//SaveGame.Mutilate()
+	//end
+	//Progress.Kill("AAA_LOADSAVEGAME")
+	//Lnk.Party.MiniMsg("Welcome back!")
+	//return true
+	
+End
+
+
+global string GetSGFileName(int page,int slot)
+	return SPRINTF("Star Story II - The Virus Strikes Back.%06d.%03d",page,slot)
+end
+
+global table GetHeader(int page,int i)
+	table ret
+	//string h := SaveGame.GetHeader(GetSGFileName(page,i))
+	//// cout("<SaveGame Header ",i,">\n",h,"\n</SaveGame Header>\n")
+	//table lines := XSplit(h,"\n")
+	//for _,line in ipairs(lines)
+		//// cout("Parse> ",line,"\n")
+		//table chopped := XSplit(line,":")
+		////print(Serialize("chopped",chopped),#chopped)
+		//if len(chopped)==2
+		//	ret[chopped[0]] = chopped[1]
+		//end
+	//end
+	//print(Serialize("SG"..page.."."..i,ret))
+	return ret
+end
+
+Init
+End

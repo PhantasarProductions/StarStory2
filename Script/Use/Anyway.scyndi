@@ -1,0 +1,128 @@
+// License:
+// 	  src/Code/Script/Use/Anyway.scyndi
+// 
+// 	  Version: 26.04.23
+// 	
+// 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+Module
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
+
+#use "Libs/UseWhenNeeded"
+#use "Libs/Music"
+
+
+#macro __dev Any.Dev
+//#macro __Mouse Any.Mouse
+Extern __BoxText "Scyndi.Globals.Lnk.BoxText"
+Extern __MapText "Scyndi.Globals.Lnk.BoxText.Map"
+Extern __LMap    "Scyndi.Globals.Lnk.Map"
+
+Extern __Mouse "Scyndi.Globals.Any.Mouse"
+
+
+Extern __Game "'Star Story II'"
+
+
+#macro __Chapter gv.gint.Chapter
+Extern __PartyLevel "Scyndi.Globals.gint.PartyLevel"
+
+//#macro __skill gv.gint.skill
+Extern __skill "Scyndi.Globals.gint.skill"
+
+Extern __Cash "Scyndi.Globals.Any.Aurina.Have"
+
+Extern __white   "Scyndi.Class.Graphics.Color(255,255,255)"
+Extern __skyblue "Scyndi.Class.Graphics.Color(  0,180,255)"
+Extern __cyan    "Scyndi.Class.Graphics.Color(  0,255,255)"
+Extern __black   "Scyndi.Class.Graphics.Color(  0,  0,  0)"
+Extern __ember   "Scyndi.Class.Graphics.Color(255,180,  0)"
+Extern __Yellow  "Scyndi.Class.Graphics.Color(255,255,  0)"
+Extern __Red     "Scyndi.Class.Graphics.Color(255,  0,  0)"
+Extern __Green   "Scyndi.Class.Graphics.Color(000,255,000)"
+
+Extern __lang    "Scyndi.Globals.gstring.lang"
+
+readonly global var Any = UWN("Script/Use/Any.uwn")
+readonly global var Lnk = UWN("Script/Use/Lnk.uwn")
+readonly global var Abl = UWN("Script/Use/Abilities.uwn")
+readonly global var Cnv = UWN("Script/Use/Cnv.uwn")
+
+readonly var _LLoading = Lnk.Loading_h
+
+
+// Empty function required to make sure some things won't crash!
+Global Void NIKS()
+End
+
+
+// A few voids
+Extern Screen "Scyndi.Class.Graphics"
+Extern Loading "Scyndi.Globals.Lnk.Loading_h.ShowLoading"
+Extern CDLoading "Scyndi.Globals.Lnk.Loading_h.CD"
+Extern ODLoading "Scyndi.Globals.Lnk.Loading_h.OD"
+Extern Progress "Scyndi.Globals.Lnk.Loading_h.Progress"
+
+Extern MapText "Scyndi.Globals.Lnk.BoxText._MapText"
+Extern CharMapText "Scyndi.Globals.Lnk.BoxText._CharMapText"
+Extern MapTextLeader "Scyndi.Globals.Lnk.BoxText._MapTextLeader"
+
+Extern NeilUse "Scyndi.Globals.Cnv.OldNeilUse"
+
+Extern ISSet "Scyndi.Globals.Cnv.ISTrans.Src_ISSet"
+
+
+// Convert to statistician
+Extern RPGChar  "Scyndi.Globals.Cnv.RPG2Statistician.RPGChar"
+Extern RPGParty "Scyndi.Globals.Cnv.RPG2Statistician.RPGParty"
+
+Global Void WantQuit()
+	if Events.AppTerminate() && Events.Yes("Do you really want to quit?\n\n(Warning unsaved data will be lost)")
+		Sys.Quit()
+	End
+End
+
+
+
+//Init
+	//Print(ApolloState.Name.."> Script runs in '"..Any.Dev.Mode.."' mode!")
+//End

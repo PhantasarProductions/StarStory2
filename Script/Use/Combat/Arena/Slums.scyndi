@@ -1,0 +1,133 @@
+// License:
+// 	  src/Code/Script/Use/Combat/Arena/Slums.scyndi
+// 
+// 	  Version: 26.04.24 VII
+// 	
+// 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+
+
+
+Module Arena_Slums
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/JCR6"
+#use "Libs/SCI/Graphics"
+
+#use "Script/Use/Anyway"
+
+
+Var Tex
+Int JunkNum
+
+Void ATex(string k,string v)
+	Tex = Tex || {}
+	Tex[Upper(k)] = v
+	CSay("Arena slums> Registered texture "..v.." at tag: "..k)
+End
+
+Var LoadTex(string Tag)
+	Tag = Upper(Tag)
+	CSayF("Tag %s -> %s",Tag,Tex[Tag])
+	Return LoadNewImage(Tex[Tag],"ARENA_SLUMS_"..Tag)
+End
+
+Init
+	ATex("METAL","GFX/TextureS/Metal/metal027.png")
+	ATex("FLOOR","GFX/TextureS/MetalFloor/Metal Floor.png")
+	For _i,a in ipairs(JCR6.Dir("GFX/TEXTURES/JUNK/"))
+		i:=_i+1
+		ATex("JUNK_"..i,a)
+		JunkNum = math.max(i,JunkNum)
+	End
+	CSayF("JunkNum = %d",JunkNum)
+	CSayF("Slums arena loaded!")
+End
+
+
+//Module
+
+	Get Int HH 
+		Return Screen.Height div 2
+	End
+
+	Var Junk
+	Var TexMetal
+	Var TexJunk
+	Var TexFloor 
+	
+	Void Load()
+		TexMetal = LoadTex("METAL")
+		TexFloor = LoadTex("FLOOR")
+		TexJunk = {}
+		for i=1,JunkNum
+			TexJunk[i]=LoadTex("JUNK_"..i)
+			TexJunk[i].HotBottomCenter()
+		End
+	End
+	
+	Void UnLoad()
+		TexMetal = nil
+		TexFloor = nil
+		TexJunk  = nil
+		//Image.KillByPrefix("ARENA_SLUMS_")
+		for _,T in pairs(Tex)
+			//Graphics.Kill(T)
+			Lua.Graphics.KillImage(T)
+		End
+	End
+	
+	Void NewBattle()
+		Int N = math.random(20,100)
+		Junk = {}
+		For i=1,N
+			Junk += {["Tex"]=TexJunk[math.random(1,JunkNum)], ["X"]=math.random(0,screen.w),["Y"]=math.random(HH,HH+100)}			
+		End
+	End
+	
+	Void Draw()
+		TexMetal.Tile(0, 0,Screen.W,HH)
+		TexFloor.Tile(0,HH,Screen.W,HH)
+		For J in Each(Junk)
+			J.Tex.Draw(J.X,J.Y)
+		End
+	End
+	
+//End

@@ -1,0 +1,449 @@
+// License:
+// 	  src/Code/Script/Flow/FlowCombat/CLASS_Fighter.scyndi
+// 
+// 	  Version: 26.04.26 I
+// 	
+// 	  Copyright (C) 2022-'23, 2026 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+
+
+Module F_d3fc66994bae3626ac6fc1d8987fb3b9ce9864a56e19d189e234ef04f2050996
+
+#use "Libs/Fittext"
+#use "Libs/UseWhenNeeded"
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Graphics"
+
+
+#use "Script/Use/Anyway"
+
+#accept Stage
+#accept FlowCombat
+
+locExtern Me "self"
+
+Class Fighter
+
+#region Draw and Pose
+	
+	Abstract Void Draw()
+	Abstract Bool Pose(Action)
+	
+#endregion
+
+	Abstract Int EleRes(string elem)
+
+
+
+#region Tags and stuff
+
+	Static Var StChange = UWN("Script/Use/Combat/StatusChanges.uwn")
+
+	String CharTag
+	String Team
+	Bool Guarding = False
+	
+	
+	
+	
+	Table StatusChanges
+	Table TrueStatusChanges
+	
+	//Void InitStatusChanges(Initial)
+	Static Void FInitStatusChanges(MF,Initial)
+		Static Var Func = {[true]="Cause", [false]="Cure"}
+		MF.TrueStatusChanges = {}
+		If Initial
+			for S in Each(Initial)
+				MF.TrueStatusChanges[Upper(s)] = true
+			End
+		End
+		
+		//void S(SF,string K,V)
+		ddef S
+			plua SF
+			string K
+			plua V
+			SF,K,V = Infinity
+			Bool Value := V!=nil && v!=false
+			Bool Was   := MF.TrueStatusChanges[K]!=nil && MF.TrueStatusChanges[K]!=false
+			K = Upper(K)
+			MF.TrueStatusChanges[K]=Value//TrueStatusChanges[K] || True
+			If Value!=Was
+				StChange[K][Func[Value]](MF,K)
+			End
+		End
+		
+		//Var G(SF,string k)
+		ddef G
+			plua SF
+			String K
+			SF,K = Infinity
+			If MF.TrueStatusChanges[Upper(K)]
+				return StChange[K]
+			else
+				Return Nil
+			End
+		End
+		MF.StatusChanges = SetMetaTable({},{["__index"]=G, ["__newindex"]=S})
+	End
+	
+	
+	
+	
+	Get String Tag
+		Return CharTag
+	End
+	
+	Set String Tag
+		CharTag = Value
+	End
+	
+	Get Bool DrawThis
+		Return True
+	End
+	
+	Static Table ByTag = {}
+	Static Table ByTeam = {}
+	
+	Static Table GetTags(string _Team="*")
+		Ret := {}
+		For Tag,Dat in sPairs(ByTag)
+			If _Team=="*" || _Team==Dat.Team
+				Ret += Tag
+			End
+		End
+		Return Ret
+	End
+	
+	Static Void ClearAll()
+		ByTag = {}
+		ByTeam = {["Hero"] = {}, ["Foe"]={} }
+	End
+	
+	Static Void ClearGroup(string _Gr)
+		ByTag = {}
+		For T,G in pairs(ByTeam)
+			If T!=_GR
+				For TG,DT in pairs(G)
+					ByTag[TG]=DT
+				End
+			End
+		End
+		ByTeam[_Gr]={}
+	End	
+	
+	Get Int Level
+		Return Me.Char.Stat.Level
+	End
+
+#endregion
+	
+
+#region Positions
+
+	
+	// Seems odd, but this makes extra functions possible when expanding.
+	Int _X
+	Int _Y
+	Int _W
+	Int _H
+	
+	//Get Int W
+	//	Return _W
+	//End
+	
+	//Get Int H
+	//	Return _H
+	//End
+	
+	
+	//Get Int X
+	//	Return _X
+	//End
+	
+	//Get Int Y
+	//	Return _Y
+	//End
+
+	//Final 
+	Var TrueCoords(IgnoreMe,NX,NY)
+		//Return Screen.AltRectData("COMBAT",X,Y,W,H)
+		_X = NX || _X
+		_Y = NY || _Y
+		Return _X,_Y,_W,_H
+	End
+	
+	
+	Get Int TX
+		Int RX
+		Int RY
+		Int RW
+		Int RH
+		RX,RY,RW,RH = Me.TrueCoords()
+		Return RX
+	End
+		
+	Get Int TY
+		Int RX
+		Int RY
+		Int RW
+		Int RH
+		RX,RY,RW,RH = Me.TrueCoords()
+		Return RY
+	End
+	
+	Get Int TW
+		Int RX
+		Int RY
+		Int RW
+		Int RH
+		RX,RY,RW,RH = Me.TrueCoords()
+		Return RW
+	End
+	
+	Get Int TH
+		Int RX
+		Int RY
+		Int RW
+		Int RH
+		RX,RY,RW,RH = Me.TrueCoords()
+		Return RH
+	End
+
+	Set Int TX
+		Int RX
+		Int RY
+		RX,RY = Me.TrueCoords("COMBAT",Value,0)
+		Me.X = RX
+	End
+	Set Int TY
+		Int RX
+		Int RY
+		RX,RY = Me.TrueCoords("COMBAT",0,Value)
+		Me.Y = RY
+	End
+#endregion
+
+
+#region StatusChanges
+	// Final
+	Var EachStatusChange()
+		TrueStatusChanges = TrueStatusChanges || {}
+		//Static Var Tabel
+		LocExtern Tabel "d3fc66994bae3626ac6fc1d8987fb3b9ce9864a56e19d189e234ef04f2050996_Tabel_for_EachStatusChange"
+		Int i = 0-1
+		Tabel = Tabel || {}
+		
+		For k,v in pairs(TrueStatusChanges)
+			If v
+				i++
+				Tabel[i]=k
+			end
+		End
+		Tabel[i+1]=nil
+		i=0-1
+		ddef Ret			
+			i++
+			if i>=len(Tabel)
+				return nil,nil
+			end
+			if !Tabel[i]
+				return nil,nil
+			end
+			return Tabel[i],StatusChanges[Tabel[i]]
+		End
+		Return Ret
+	End
+#endregion
+
+#region Quick Links
+	Get Var Char
+		Return RPGChar[CharTag]
+	End
+	
+	Get Var Stat
+		Return Char.Stat
+	End
+	
+	Get Var Points
+		Return Char.Points
+	End
+	
+	Get Var Data
+		Return Char.Data
+	End
+	
+	Get Int HP
+		Return Points.HP.Have
+	End
+	
+	Set Int HP
+		Points.HP.Have = Value
+	End
+	
+	Get Int HPMax
+		Return Points.HP.Maximum
+	End
+	
+	Var EndStats
+	
+	Get String Name
+		Return Char.Name
+	End
+	
+#endregion
+
+#region Targetable
+	Get Bool TargettableByHero
+		If Team=="Foe" && Me.Gone 
+			Return False
+		End
+		Return HP>0 || Team=="Hero"
+	End
+	
+	Get Bool TargettableByFoe
+		Return HP>0
+	End
+	
+	Void TOverview()
+		Static var f = ObtainFont("MINITEXT")		
+		int y=20
+		for k,v in spairs(FlowCombat.PlayerInputTarget.Targeted)
+			f.DarkText(sprintf("%20s => %5s (Can be targeted: %5s)",k,v,ByTag[k].TargettableByHero),3,y)
+			y+=20
+		end
+	End
+	
+	Get Bool IsTargeted
+		//ObtainFont("MINITEXT").Text(sprintf("Stage.Current: %s; PlayerInputTarget: %s; Targeted: %s",Stage.Current,FlowCombat.PlayerInputTarget,FlowCombat.PlayerInputTarget.Targeted),3,3) // Debug only!
+		//ObtainFont("MINITEXT").Text(sprintf("Stage: %s; CanTarget: %s; Has List: %s",Stage.Current.RegName,Stage.Current.TargetMode,FlowCombat.PlayerInputTarget.Targeted!=nil),2,5)
+		if (!Stage.Current.TargetMode) || (!FlowCombat.PlayerInputTarget.Targeted)
+			Return False
+		End
+		//TOverview() // Debug only
+		Return FlowCombat.PlayerInputTarget.Targeted[CharTag]
+	End
+	
+	
+#endregion
+
+#region Start Up
+
+// First upper rest lower
+	Static String FURL(string s)
+		Switch Upper(s)
+			Case "HP" "AP" "EXP" 
+				return Upper(s)
+			Default
+				Return (Upper(Left(s,1)))..lower(Right(s,len(s)-1)) 
+		End
+	End
+
+	//Void SetUp(string _Tag,string _Team)
+	Static Void FSetup(S,string _Tag,string _Team)
+		S.CharTag  = _Tag
+		S.Team = _Team
+		ByTag[_Tag] = S
+		ByTeam[S.Team][_Tag] = S
+		S.StatusChanges = {}
+		
+		//Int _stat_index(s,string Key)
+		ddef _stat_index
+			plua a
+			string Key
+			a,Key = infinity
+			return S.Char.Stat["END_"..self.FURL(Key)]
+			//return Char.Stat["END_"..Key]
+		End
+		S.EndStats = Lua.setmetatable({},{["__index"]=_stat_index})
+		CSayF("Created fighter '%s' for team: %s",_Tag,_Team)
+	End
+#endregion
+
+
+	Static Void DrawAll(Bool AllowTarget)
+		Static Var Fnt = ObtainFont("MINITEXT")
+		For FTag,FDat in Pairs(ByTag)
+			If FDat.DrawThis
+				__White
+				For k,d in FDat.EachStatusChange()
+					If FDat.HP<=0
+						FDat.StatusChanges[k]=nil
+						Break
+					ElseIf d
+						Invoke(d.Draw,FDat)
+					Else
+						Printf("\007WARNING! DrawAll: nil for data received on status: %s\n",k)
+					End
+				End
+				// CSayF("DEBUG> %s: Draw(%d,%d)  %dx%d",FTag,FDat.x,FDat.y,FDat.W,FDat.H) // DEBUG ONLY!!!
+				FDat.Draw()
+			End
+		End
+		For FTag,FDat in Pairs(ByTag)			
+			If FDat.DrawThis && FDat.IsTargeted
+				__White
+				Int NY := Fdat.Y-(Fdat.W div 4)
+				Int BY := NY+20
+				//FitText.Dark(fnt,fdat.TargetName,Fdat.X,NY)
+				fnt.DarkText(fdat.TargetName,Fdat.X,NY)
+				if Fdat.ShowHPBar
+					Int W := fnt.Width(fdat.TargetName)
+					Graphics.Color(80,80,80)
+					Graphics.Rect(Fdat.X,BY,W,10)
+					Number Breuk = Fdat.HP/Fdat.HPMax
+					Int G:=math.ceil(Breuk*255)
+					Int B:=math.ceil(Breuk*W)
+					Graphics.Color(255-G,G,0)
+					Graphics.Rect(fdat.X,BY,B,10)
+				End
+			End
+		End
+	End
+
+End
+
+Global Var Class_Fighter
+Init
+	Class_Fighter = Fighter
+End
+//Return Fighter

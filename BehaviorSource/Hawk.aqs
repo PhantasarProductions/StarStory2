@@ -1,0 +1,122 @@
+; License Information:
+; **********************************************
+; 
+; src/Tricky Script/.BehaviorSource/Hawk.aqs
+; (c) Jeroen Broks, 2022, 2023, All Rights Reserved.
+; 
+; This file contains material that is related
+; to a storyline that is which is strictly
+; copyrighted to Jeroen Broks.
+; 
+; This file may only be used in an unmodified
+; form with an unmodified version of the
+; software this file belongs to.
+; 
+; You may use this file for your study to see
+; how I solved certain things in the creation
+; of this project to see if you find valuable
+; leads for the creation of your own.
+; 
+; Mostly this file comes along with a project
+; that is for most part released under an
+; open source license and that means that if
+; you use that code with this file removed
+; from it, you can use it under that license.
+; Please check out the other files to find out
+; which license applies.
+; This file comes 'as-is' and in no possible
+; way the author can be held responsible of
+; any form of damages that may occur due to
+; the usage of this file
+; 
+; 
+; **********************************************
+; 
+; version: 23.08.31
+; End License Information
+
+; Behavior Apollo Quick Script for 'E:/Projects/Applications/Apollo/Games/Star Story 2/src/Tricky Story/Kthura/Hawk'
+; Created 3/30/2022 4:43:01 PM
+
+Include Basis.aqs
+
+cschunk crch,lnk.party.createcharacter
+csChunk GoToSave,FlowField.GoToSave
+
+
+Chunk Load
+	call CSay,"Welcome to The Hawk"
+	call LHide,Bridge
+	chk &AfterPrologue
+	JmpTrue AfterPrologue
+; call CSay,"Party Pop!"
+;	call iPop,Start,South
+	:AfterPrologue
+	call CSay,All pre-do stuff taken care of!
+
+
+Chunk ZA_Wendicka
+	call CSay,"Game Start Event"
+	call LHide,Bridge
+	call Kill,BridgeBlock
+;Check up if this is the start of the game, or the coming together for the New Game+
+	Done Done_Wendicka_Prologue
+	JmpTrue AfterPrologue
+; Jump to end (debug only!)
+	;	jmp skipstart
+; Pop!
+	call CSay,"Party Pop!"
+	call iPop,Start,South
+	call Hide,PLAYER2
+	call print,Debug1,Debug2,Debug3
+; Ashley and Wendicka walk to each other
+	call xWalkTo,PLAYER1,WT_Z_Wendicka
+	call xWalkTo,PLAYER3,WT_Z_Admiral
+; Start Scenario
+	call MapText,START1
+	call Show,PLAYER2
+; Sue comes in
+	call xWalkTo,PLAYER2,WT_Z_Sue
+	call MapText,START2
+;Start the actual game!
+	:skipstart
+	call crch,Klahre
+	call crch,Yorno
+	call party,Klahre,Yorno
+	call GoToMap,"001_HyperloopStation","GATE27","Start_Klahre"
+	exit
+	
+;Post Game	
+	:AfterPrologue
+	Done EpilogueDone
+	jmptrue JustShowKlahre
+	call iPop,Start,South
+	call xWalkTo,PLAYER1,WT_Z_Wendicka
+	call xWalkTo,PLAYER2,WT_Z_Sue
+	call xWalkTo,PLAYER3,WT_Z_Admiral
+	call MapText,END1
+	call xWalkTo,PLAYER1,KL_Z_Wendicka
+	call xWalkTo,PLAYER2,KL_Z_Sue
+	call xWalkTo,PLAYER3,KL_Z_Admiral
+	call Show,NPC_Klahre
+	call MapText,END2
+	exit
+	
+;Make sure Klahre shows	
+	:JustShowKlahre
+	call Show,NPC_Klahre
+	exit
+	
+	
+Chunk NPC_Terminal
+	call MapText,TERMINAL
+	call GoToSave
+	exit
+	
+CsChunk NewGamePlus,Lnk.NewGamePlus
+CsChunk KillAllPerma,FlowField.Kill.KillAllPerma
+Chunk NPC_Klahre
+	call MapText,KLAHRE
+	call KillAllPerma
+	call NewGamePlus
+	exit
