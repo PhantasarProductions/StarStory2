@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/Victory.scyndi
 // 
-// 	  Version: 26.04.24 XV
+// 	  Version: 26.04.26
 // 	
 // 	  Copyright (C) 2021-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -62,7 +62,8 @@ Module Victory_We_Are_The_Champions
 Class Stage_Victory extends Stage
 
 	String RegName
-
+	Bool DontCheckForVictory = True
+		
 	Static Var Vic
 	Static Var VicTune = Audio.LoadNew("Music/Combat/Victory/Victory.ogg","VIC_TUNE")
 	Static Var Banner  = LoadNewImage("GFX/Combat/End/YouWin.png","VIC_YOUWIN")
