@@ -2,4 +2,5 @@
 *.saskia linguist-language=SASKIA linguist-detectable=true
 *.SASKIA linguist-language=SASKIA linguist-detectable=true
 *.aqs linguist-language=Apollo_Quick_Script linguist-detectable=true
-*.neil linguist-language=Neil linquist-detectble=true
+*.neil linguist-language=Neil linguist-detectble=true
+*.ini linguist-language=GINIE linguist-detectable=true
