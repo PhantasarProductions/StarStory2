@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Cnv.uwn/RPG2Statistician.scyndi
 // 
-// 	  Version: 26.04.20 IV
+// 	  Version: 26.04.26 II
 // 	
 // 	  Copyright (C) 2026 Jeroen Petrus Broks
 // 	
@@ -59,6 +59,15 @@ locExtern NT "type"
 Var RPGChar
 Var RPGParty
 
+Bool PartyHas(string tag)
+	for i=0,3
+		if _rpgstat.Party[i]==tag
+			return true
+		end
+	end
+	return false
+End
+
 QuickMeta _RPGParty
 	NewIndex
 		switch NT(Key)
@@ -91,6 +100,8 @@ QuickMeta _RPGParty
 					case "MAX"
 						//CSayF("Max Party set to %d",Value)
 						return _rpgstat.Party.Max
+					case "HAS"
+						return PartyHas
 					default
 						Lua.error("R:RPG Party key unknown: "..key)
 				end
@@ -244,6 +255,8 @@ QuickMeta _RPGChar
 				return __RPGChar.NewChar
 			case "EXISTS"
 				return _rpgstat.HasChar
+			case "KILL"
+				return _RPGStat.KillChar
 			default
 				//Lua.error(sprintf("RPGChar does not have a readable member called \"%s\"",Key))
 				__RPGChar.Lijst=__RPGChar.Lijst||{}
