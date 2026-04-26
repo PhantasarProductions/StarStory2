@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Any.uwn/IAA.scyndi
 // 
-// 	  Version: 26.04.25
+// 	  Version: 26.04.26 I
 // 	
 // 	  Copyright (C) 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -43,6 +43,7 @@
 // End License
 
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/JCR6"
 #use "Libs/SCI/GINIE"
 #use "Libs/SCI/SString"
 
@@ -224,6 +225,11 @@ end
 Var GetIAA(String F)
 	string Rec:="REC:"..F
 	Lua.assert(F!="","Tagless item request")
+	If !JCR6.EntryExists("Data/IAA/"..F..".INI")
+		Sys.Traceback()
+		printf("\x1b[37m%s\n",Lua.debug.traceback())
+		Lua.error("404: Data/IAA/"..F..".INI")
+	End
 	Data := GINIE.LoadNew("Data/IAA/"..F..".INI",Rec)
 	//Var GIndex(s,String Key)
 	ddef GIndex
