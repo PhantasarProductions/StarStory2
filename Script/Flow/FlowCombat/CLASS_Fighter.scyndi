@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/CLASS_Fighter.scyndi
 // 
-// 	  Version: 26.04.26
+// 	  Version: 26.04.26 I
 // 	
 // 	  Copyright (C) 2022-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -144,10 +144,10 @@ Class Fighter
 	Static Table ByTag = {}
 	Static Table ByTeam = {}
 	
-	Static Table GetTags(string Team="*")
+	Static Table GetTags(string _Team="*")
 		Ret := {}
 		For Tag,Dat in sPairs(ByTag)
-			If Team=="*" || Team==Dat.Team
+			If _Team=="*" || _Team==Dat.Team
 				Ret += Tag
 			End
 		End

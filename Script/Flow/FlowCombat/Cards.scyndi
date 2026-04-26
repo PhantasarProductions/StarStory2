@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/Cards.scyndi
 // 
-// 	  Version: 26.04.25
+// 	  Version: 26.04.26
 // 	
 // 	  Copyright (C) 2021-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -87,12 +87,12 @@ Class Cards
 		Return Lijst[Highest]
 	End
 	
-	Static Var Add(Int idx,String FighterTag,Action,Joker)
+	Static Var Add(Int idx,String _FighterTag,_Action,_Joker)
 		While Lijst[idx] && (!Lijst[idx].None)
 			idx++
 		End
 		Old := Lijst[idx]		
-		Lijst[idx] = new Cards(FighterTag,Action,Joker)
+		Lijst[idx] = new Cards(_FighterTag,_Action,_Joker)
 		If Old
 			Lijst[idx].X = Old.X
 		Else
@@ -105,9 +105,9 @@ Class Cards
 		Return this.Add
 	End
 	
-	Static Void Replace(Int idx,String FighterTag,Action,Joker)
+	Static Void Replace(Int idx,String _FighterTag,_Action,_Joker)
 		Old := Lijst[idx]		
-		Lijst[idx] = new Cards(FighterTag,Action,Joker)
+		Lijst[idx] = new Cards(_FighterTag,_Action,_Joker)
 		if Old
 			Lijst[idx].X = Old.X
 		end
