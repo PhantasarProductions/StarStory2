@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/Victory.scyndi
 // 
-// 	  Version: 26.04.26
+// 	  Version: 26.04.26 I
 // 	
 // 	  Copyright (C) 2021-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -183,7 +183,7 @@ Class Stage_Victory extends Stage
 				Events.Poll()
 				Sys.WaitMinTicks()
 			Until math.abs(os.time()-CheckStamp)>TotalTime
-			If !Prefixed(FlowCombat.Start.Music:upper(),"*NOCHANGE")
+			If !Prefixed(Upper(FlowCombat.Start.Music),"*NOCHANGE")
 				Music.Pop()
 			End
 			Return
