@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/CLS_Clickable.scyndi
 // 
-// 	  Version: 26.04.20 II
+// 	  Version: 26.04.26 I
 // 	
 // 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -113,10 +113,10 @@ Class Clickable
 		Return Ret
 	End
 	
-	Static Void BlueTrans(string Tag)
-		Sys.LoadNewState("FLOW_BLUETRANS","Script/Flow/FlowBlueTransporter.neil")
+	Static Void BlueTrans(string _Tag)
+		Sys.LoadNewState("FLOW_BLUETRANS","Script/Flow/FlowBlueTransporter.lbc")
 		//State.Call("FLOW_BLUETRANS","LoadTrans",sprintf("\"%s\"",Tag))
-		Sys.Call("FLOW_BLUETRANS","LoadTrans",Tag)
+		Sys.Call("FLOW_BLUETRANS","LoadTrans",_Tag)
 		Sys.CurrentFlow="BLUETRANS"
 	End
 	
