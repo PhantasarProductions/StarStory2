@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Any.uwn/IAA.scyndi
 // 
-// 	  Version: 26.04.26 I
+// 	  Version: 26.04.26 II
 // 	
 // 	  Copyright (C) 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -246,7 +246,7 @@ Var GetIAA(String F)
 				// Second parameter true will only make the checkups, but won't do the actual giving
 				Return Give(F,1,true)
 			Case "GIVEN"
-				Return GData.NValue("Given",F)
+				Return GData.IntValue("Given",F)
 			Case "NUM"
 				Return ItemNum
 			Case "EXPLAIN"
