@@ -34,6 +34,8 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
+Script
 #use "script/use/anyway"
 
 Var    Data
@@ -126,9 +128,10 @@ Global Void LoadTrans(string T)
 	End
 End
 
-Global Void Apollo_Flow()
-	__Dev.ToConsole()
-	Static Var Fnt = ImageFont.Obtain("BOXTEXT") 
+Global Void MainFlow()
+	//__Dev.ToConsole()
+	WantQuit()
+	Static Var Fnt = ObtainFont("BOXTEXT") 
 	Graphics.Cls()
 	Var Hover = nil
 	For i,v in pairs(Menu)
