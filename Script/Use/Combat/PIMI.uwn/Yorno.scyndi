@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Use/Combat/PIMI.uwn/Yorno.neil
-// (c) Jeroen Broks, 2022, 2023, All Rights Reserved.
+// src/Code/Script/Use/Combat/PIMI.uwn/Yorno.scyndi
+// (c) Jeroen Broks, 2022/2023, 2026, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,9 +33,30 @@
 // 
 // **********************************************
 // 
-// version: 23.01.23
-// End License Information
-Var Ret = new TLinkedList()
+// 
+// version: 26.04.26 VI
+// 
+// End License
+
+Module Yorno_PIMI_Stuff
+
+#use "Libs/LinkedList"
+
+#use "Libs/SCI/Graphics"
+
+#use "Script/Use/Anyway"
+
+
+#accept PIMI
+#accept Stage
+#accept PITAR
+#accept FlowCombat
+
+
+//Var Ret = new TLinkedList()
+global Var PIMI_Yorno = new TLinkedList()
+LocExtern Ret "Scyndi.Globals.PIMI_Yorno"
+
 
 group Yor_uBox
 	const int X = 100
@@ -44,7 +66,11 @@ group Yor_uBox
 end
 
 
-Class __PIMI_YornoGadget Extends Stage
+Class __PIMI_YornoGadget 
+	//Extends Stage
+	String RegName
+	ReadOnly Bool DontCheckForVictory = False
+	
 	Static var Card
 	Static var ch
 	static var M = Any.Mouse
@@ -70,7 +96,7 @@ End
 var PIMI_YornoGadget = new __PIMI_YornoGadget()
 
 
-Void Gadget(string CH,Var Card)
+Void Gadget(string CH, Card)
 	//Lua.error("Gadgets not yet supported")
 	Stage.Current = PIMI_YornoGadget
 End
@@ -83,6 +109,11 @@ Init
 			Ret.AddLast(Kl)
 		End
 	End
+	//Ret.AddLast(new PIMI("Shoot",PIMI.ChPIMI.Klahre.Shoot,PIMI.ChPIMI.Klahre.HasAmmo,true))
+	//Ret.AddLast(new PIMI("Reload",PIMI.ChPIMI.Klahre.Reload,PIMI.ChPIMI.Klahre.HasNoAmmo,true))
+	//Ret.AddLast(new PIMI("Gadget",Gadget))
+	//Ret.AddLast(new PIMI("Items",PIMI.ChPIMI.ZItems))
+	//Ret.AddLast(new PIMI("Guard",PIMI.ChPIMI.ZGuard))
 End
 
-Return Ret
+//Return Ret
