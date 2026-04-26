@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/Execution.scyndi
 // 
-// 	  Version: 26.04.26 V
+// 	  Version: 26.04.26 XXI
 // 	
 // 	  Copyright (C) 2021-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -48,6 +48,7 @@ Module Execution_cf76831219806b83d0f0eaa69aee9c58
 #define StarStory2Inventory
 #undef skillexp
 
+#use "Libs/SCI/Sys"
 #use "Libs/SCI/JCR6"
 #use "Libs/SCI/Audio"
 #use "Libs/SCI/Graphics"
@@ -55,11 +56,27 @@ Module Execution_cf76831219806b83d0f0eaa69aee9c58
 #use "Script/Use/Anyway"
 #Use "Script/Use/Misc/CBox"
 
+#accept Stage
+#accept Effect
+#accept Fighter
+#accept CharMsg
+#accept EXPRate
+#accept FlowCombat
+#accept LastAction
+#accept EXPBaseRate
+
 #Macro __Execution CombatFlow.Execution
+
+locextern myself "self"
 
 Class Stage_Execution 
 	//Extends Stage
 	String RegName
+	ReadOnly Bool DontCheckForVictory = False
+	ReadOnly Bool TargetMode = False
+	Get String FlashChar
+		return Ternary(myself.Act.Executor.Team=="Hero",myself.Act.Executor.Tag,"")
+	End
 
 	#region Basic crap
 	Static ReadOnly Int ASiz = 60
@@ -73,12 +90,12 @@ Class Stage_Execution
 	Static Bool DoShowBox
 	Static Void ComeToMe(_Act,_Card)
 		Static Var Buzz = Audio.Obtain("BUZZ")
-		Act          = _Act
-		Card         = _Card || FlowCombat.Cards[1]
-		ExStage      = "Start"
-		Time         = 75
-		Self.Current = "Execution"
-		DoShowBox    = True
+		Act           = _Act
+		Card          = _Card || FlowCombat.Cards[1]
+		ExStage       = "Start"
+		Time          = 75
+		Stage.Current = "Execution"
+		DoShowBox     = True
 		If Act.DeductAP && Act.Executor.Team=="Hero"
 			Var AP = Act.Executor.Char.Points.AP			
 			If Act.APCost>AP.Have
@@ -123,20 +140,20 @@ Class Stage_Execution
 		End
 		
 		// TFT
-		#if BasicInventory
-		if Act.ConsumeItem && Act.Executor.Team=="Hero"			
-			If Act.Act.Has<1
-				Lnk.Party.MiniMsg("Out of Items",255,0,0)
-				Buzz.Play()
-				FlowCombat.Cards.DelShift()
-				Stage.Current = Nil
-				DoShowBox    = False
-				// It should not be possible this happens, but this is to be 100% sure!
-			Else
-				Act.Act.Has--
-			End
-		End
-		#endif
+		//#if BasicInventory
+		//if Act.ConsumeItem && Act.Executor.Team=="Hero"			
+		//	If Act.Act.Has<1
+		//		Lnk.Party.MiniMsg("Out of Items",255,0,0)
+		//		Buzz.Play()
+		//		FlowCombat.Cards.DelShift()
+		//		Stage.Current = Nil
+		//		DoShowBox    = False
+		//		// It should not be possible this happens, but this is to be 100% sure!
+		//	Else
+		//		Act.Act.Has--
+		//	End
+		//End
+		//#endif
 		#if StarStory2Inventory
 		If Act.ConsumeItem>0 && Act.Executor.Team=="Hero"			
 			if Any.IAA.SlotNum[Act.ConsumeItem]<=0
@@ -153,7 +170,7 @@ Class Stage_Execution
 			End
 			//Lua.error("TODO: Removing item from inventory when it's being consumed!")
 		End
-		#fi
+		//s#fi
 		If Act.TarFilter()==0
 			Lnk.Party.MiniMsg("No valid targets",255,0,0)
 			Buzz.Play()
@@ -204,7 +221,7 @@ Class Stage_Execution
 			AFnt.DarkText(Act.Act.Title,Screen.W div 2,AYPS + (ASiz div 2),2,2)
 			If Card
 				//Image.Rotate = -30
-				card.Img.XDraw(50,AYPS + (ASiz div 2))
+				card.Img.Draw(50,AYPS + (ASiz div 2))
 				//Image.Rotate = 0
 			End
 		End
@@ -233,7 +250,7 @@ Class Stage_Execution
 				Ch = Act.Executor.RawData.value("META","VOCALTAG")
 			End
 			String Voc := sPrintF("Vocals/Combat/%s/%s/Action/%s.ogg",Act.Executor.Team,Ch,Act.Act.Voice)
-			If JCR6.HasEntry(Voc)
+			If JCR6.EntryExists(Voc)
 				Audio.LoadNew(Voc,sprintf("CombatVoice.%s.%s.%s",Act.Executor.Team,Ch,Act.Act.Voice)).Play()
 			End
 		End
@@ -266,7 +283,8 @@ Class Stage_Execution
 			Return
 		End
 		if !Initiated
-			SpellAni = NeilUse("Script/Use/Combat/SpellAni/"..Act.Act.SpellAni_Script)
+			Lua.Scyndi.Use("Script/Use/Combat/SpellAni/"..Act.Act.SpellAni_Script)
+			SpellAni = Lua.Scyndi.Globals["SA_"..Act.Act.SpellAni_Script]
 			SpellAni.Start(Act,Act.Act.SpellAni_Param)
 			Initiated = True
 		End
