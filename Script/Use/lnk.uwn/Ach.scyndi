@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/lnk.uwn/Ach.scyndi
 // 
-// 	  Version: 26.04.22 II
+// 	  Version: 26.04.26
 // 	
 // 	  Copyright (C) 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -95,7 +95,7 @@ Class Achievement
 		DC("Awarded: "..Tag)
 		If !Awarded
 			Lnk.Party.MiniWrt("You have earned the achievement: ",255,0,255)
-			Lnk.Party.MiniMsg(self.Name,255,255,0)
+			Lnk.Party.MiniMsg(me.Name,255,255,0)
 			Any.Good.Play()
 			Medals.Award(Tag)
 		End
