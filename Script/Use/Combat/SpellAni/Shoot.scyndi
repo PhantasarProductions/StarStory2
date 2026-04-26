@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Combat/SpellAni/Shoot.scyndi
 // 
-// 	  Version: 26.04.26 I
+// 	  Version: 26.04.26 V
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -47,6 +47,7 @@
 
 #use "libs/linkedlist"
 
+#use "Libs/SCI/Sys"
 #use "Libs/SCI/Audio"
 #use "Libs/SCI/Graphics"
 
@@ -57,13 +58,13 @@ Module SpellAni_Shoot_Module
 Class SA_Shoot
 	Static ReadOnly Var Img = LoadNewImage("GFX/Combat/SpellAni/Laser.png","SPELLANI_LASER")
 	Static ReadOnly Var Aud = Audio.LoadNew("Audio/Combat/SpellAni/photon.ogg","SPELLANI_LASER")
-	Static ReadOnly Var Lst = new LinkedList()
+	Static ReadOnly Var Lst = new TLinkedList()
 	Static ReadOnly Delegate Update = NIKS
 	
 	Static Void Start(Act,string Param)
 		Lst.Clear()
 		For i,T in ipairs(Act.Targets_Tag)
-			var beam = new SA_Shoot(Act.Targets[i],Act.Executor)
+			beam := new SA_Shoot(Act.Targets[i],Act.Executor)
 			if !beam.afgekeurd
 				Lst.AddLast(beam)
 			end
