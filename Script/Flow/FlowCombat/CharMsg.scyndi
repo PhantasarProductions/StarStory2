@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/CharMsg.scyndi
 // 
-// 	  Version: 26.04.24 V
+// 	  Version: 26.04.26
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -43,7 +43,7 @@
 // End License
 
 
-Module
+Module d35c0e09fa62382e6c5d3b319ade6f81
 
 #use "Libs/LinkedList"
 
