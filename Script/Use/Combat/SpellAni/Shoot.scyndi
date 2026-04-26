@@ -34,10 +34,18 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
+
+
 #use "libs/linkedlist"
 
-Module Class
-	Static ReadOnly Var Img = Image.LoadNew("GFX/Combat/SpellAni/Laser.png","SPELLANI_LASER")
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Graphics"
+
+Module SpellAni_Shoot_Module
+
+Class SA_Shoot
+	Static ReadOnly Var Img = LoadNewImage("GFX/Combat/SpellAni/Laser.png","SPELLANI_LASER")
 	Static ReadOnly Var Aud = Audio.LoadNew("Audio/Combat/SpellAni/photon.ogg","SPELLANI_LASER")
 	Static ReadOnly Var Lst = new LinkedList()
 	Static ReadOnly Delegate Update = NIKS
@@ -45,7 +53,7 @@ Module Class
 	Static Void Start(Act,string Param)
 		Lst.Clear()
 		For i,T in ipairs(Act.Targets_Tag)
-			var beam = new Self(Act.Targets[i],Act.Executor)
+			var beam = new SA_Shoot(Act.Targets[i],Act.Executor)
 			if !beam.afgekeurd
 				Lst.AddLast(beam)
 			end
