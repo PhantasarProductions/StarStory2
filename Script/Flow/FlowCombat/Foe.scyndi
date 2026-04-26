@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/Foe.scyndi
 // 
-// 	  Version: 26.04.26 II
+// 	  Version: 26.04.26 III
 // 	
 // 	  Copyright (C) 2022-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -223,7 +223,7 @@ Class Foe Extends Fighter
 					end
 				case 2
 					if Len(Drops)>0
-						string it := Drops[math.random(0,Len(Drops))]
+						string it := Drops[math.random(0,Len(Drops)-1)]
 						var itd := Any.iaa[it]
 						if itd.Give
 							CharMsg(Self.CharTag,sprintf("Dropped %s",itd.title),0,180,255)
