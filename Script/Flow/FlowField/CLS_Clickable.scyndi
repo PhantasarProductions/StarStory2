@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/CLS_Clickable.scyndi
 // 
-// 	  Version: 26.04.27 I
+// 	  Version: 26.04.27 III
 // 	
 // 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -221,8 +221,8 @@ Class Clickable
 				ElseIf Prefixed(T,"ARM_")
 					CSayF("= ARMS Chest: %s",T)
 					Var S := Self.Spot(Lay,T)
-					Self.Create(L,T,S.X,S.Y,Abl.Klahre.Obtain,T)	
-					If Abl.Klahre.HasARM(T)
+					Self.Create(L,T,S.X,S.Y,Abl.ABL_Klahre.Obtain,T)	
+					If Abl.ABL_Klahre.HasARM(T)
 						CSayF("==> Already opened")
 						//Lay.Obj(T).Texture="GFX/Treasure/ARMS_Chest_Open.png"
 						Kthura.obj[T].Texture="GFX/Treasure/ARMS_Chest_Open.png"
