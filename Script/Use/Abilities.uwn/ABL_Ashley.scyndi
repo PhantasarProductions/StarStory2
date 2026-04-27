@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 26.04.27 II
+// version: 26.04.27 VI
 // 
 // End License
 
@@ -43,8 +43,12 @@ Module Ashley_Rage_Ability_List
 
 #use "libs/linkedlist"
 
+#use "Libs/SCI/Sys"
 #use "Libs/SCI/GINIE"
 #use "Libs/SCI/Graphics"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Anyway"
 
 // debug only!
 #define autoremove
@@ -78,12 +82,12 @@ Class __AshleyRage
 	End
 
 	Static Void View(ubox)
-		int SX = ubox.x+10
-		int SY = ubox.y+10
-		int EX = (ubox.x+ubox.w)-20
-		int EY = (ubox.y+ubox.h)-20
-		int Y = SY		
-		var Hover=nil
+		int SX := ubox.x+10
+		int SY := ubox.y+10
+		int EX := (ubox.x+ubox.w)-20
+		int EY := (ubox.y+ubox.h)-20
+		int Y  := SY		
+		Hover:=nil
 		For RI,RL in List.Each
 			int HX = 0
 			#if autoremove
@@ -94,7 +98,7 @@ Class __AshleyRage
 			#fi
 			if RI.Unlocked
 				__White
-				String N = RI.Name
+				String N := RI.Name
 				If Len(N)>15
 					N = Left(N,15).."..."
 				End
@@ -132,15 +136,15 @@ Class __AshleyRage
 		End
 		If Hover
 			Static Var DFt = ObtainFont("MINITEXT")
-			Var AR = Hover			
-			String ITg = AR.Tag 
-			Var IT = Hover.Abl
+			AR := Hover			
+			String ITg := AR.Tag 
+			IT := Hover.Abl
 			//Lua.assert(ITg!="",sprintf("Hovering slot #%d gives no an empty string",Hover))
-			Int X=MX+10
-			Int Y=MY+15
+			Int X:=MX+10
+			Int Y:=MY+15
 			Ex := IT.ExplainTable
 			//String Updates = sprintf("Extra Power: %d; Repeat: %d; Hit: %03d%%",AR.XPower,AR.XRepeat,AR.Hit)
-			Int W=math.max(Fnt.TextWidth(IT.Title),0)			
+			Int W:=math.max(Fnt.TextWidth(IT.Title),0)			
 			w = math.max(Dft.TextWidth(IT.Desc),w)
 			For i,e in ipairs(EX)
 				W=math.max(W,DFt.TextWidth(e))
@@ -164,7 +168,7 @@ Class __AshleyRage
 	End
 	
 	Static Get Int AshleyKills
-		Return gv.gInt.AshleyKills
+		Return gInt.AshleyKills
 	End
 	#EndRegion
 	
