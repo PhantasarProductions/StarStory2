@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 26.04.27 IX
+// version: 26.04.27 X
 // 
 // End License
 
@@ -99,6 +99,8 @@ Class __PIMI_Rage
 	//Extends Stage
 	String RegName
 	Bool DontCheckForVictory = false
+	ReadOnly String FlashChar = "Ashley"
+		
 		
 	Static var Card
 	Static var ch
