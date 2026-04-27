@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Use/Abilities.uwn/Ashley.neil
-// (c) Jeroen Broks, 2022, 2023, All Rights Reserved.
+// src/Code/Script/Use/Abilities.uwn/ABL_Ashley.scyndi
+// (c) Jeroen Broks, 2022/'23, 2026, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,10 +33,18 @@
 // 
 // **********************************************
 // 
-// version: 23.09.18
-// End License Information
+// 
+// version: 26.04.27 II
+// 
+// End License
+
+
+Module Ashley_Rage_Ability_List
 
 #use "libs/linkedlist"
+
+#use "Libs/SCI/GINIE"
+#use "Libs/SCI/Graphics"
 
 // debug only!
 #define autoremove
@@ -43,21 +52,21 @@
 //1 yksi
 //2 kaksi
 //3 Kolme
-//4 Nelj?
+//4 Nelja
 //5 Viisi
 //6 Kuusi
 //7 Seitseman
 //8 Kahdeksan
-//9 yhdeks?n
+//9 yhdeksan
 //10 kymmenen
 
-
+global Var ABL_Ashley
 
 
 Class __AshleyRage
 	#region Statics
-	ReadOnly Static Var Fnt = ImageFont.Obtain("BOXTEXT")
-	ReadOnly Static Var List  = new LinkedList()
+	ReadOnly Static Var Fnt = ObtainFont("BOXTEXT")
+	ReadOnly Static Var List  = new TLinkedList()
 	ReadOnly Static Var Stuff = GINIE.CreateNew("ASHLEY_RAGE")
 	Static Delegate Chosen = NIKS
 	
@@ -86,7 +95,7 @@ Class __AshleyRage
 			if RI.Unlocked
 				__White
 				String N = RI.Name
-				If #N>15
+				If Len(N)>15
 					N = Left(N,15).."..."
 				End
 				if Any.Mouse.MX>SX && Any.Mouse.MX<EX && Any.Mouse.MY>Y && Any.Mouse.MY<Y+30
@@ -122,14 +131,14 @@ Class __AshleyRage
 			Y+=30
 		End
 		If Hover
-			Static Var DFt = ImageFont.Obtain("MINITEXT")
+			Static Var DFt = ObtainFont("MINITEXT")
 			Var AR = Hover			
 			String ITg = AR.Tag 
 			Var IT = Hover.Abl
 			//Lua.assert(ITg!="",sprintf("Hovering slot #%d gives no an empty string",Hover))
 			Int X=MX+10
 			Int Y=MY+15
-			var Ex = IT.ExplainTable
+			Ex := IT.ExplainTable
 			//String Updates = sprintf("Extra Power: %d; Repeat: %d; Hit: %03d%%",AR.XPower,AR.XRepeat,AR.Hit)
 			Int W=math.max(Fnt.TextWidth(IT.Title),0)			
 			w = math.max(Dft.TextWidth(IT.Desc),w)
@@ -139,7 +148,7 @@ Class __AshleyRage
 			W+=8
 			__Black
 			Graphics.Alpha(120)
-			Graphics.Rect(math.max(math.min(X-(W div 2),Screen.W-W),0),Y,W,50+(#EX*20))
+			Graphics.Rect(math.max(math.min(X-(W div 2),Screen.W-W),0),Y,W,50+(Len(EX)*20))
 			Graphics.Alpha(255)
 			__SkyBlue
 			FitText.Dark(Fnt,IT.Title,X,Y,2)
@@ -247,6 +256,7 @@ Init
 		__AshleyRage.List.AddLast(new __AshleyRage(sprintf("ABL_ASHLEY_STRIKE%X",i),a*__skill,i div __skill))
 		a += a
 	End
+	ABL_Ashley = __AshleyRage
 End
 
-Return __AshleyRage
+//Return __AshleyRage
