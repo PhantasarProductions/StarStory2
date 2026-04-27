@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/MOD_Treasure.scyndi
 // 
-// 	  Version: 26.04.22 XI
+// 	  Version: 26.04.27 II
 // 	
 // 	  Copyright (C) 2022-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -72,7 +72,7 @@ Void Load(string MapBundle)
 	CSayF("Loading trasure data for %s",MapBundle)
 	TreasureData = GINIE.Load("Kthura/"..MapBundle.."/Treasures","TREASURES")
 	Treasures = {}
-	For tr in TreasureData.ListEach("Main","List")
+	For tr in Each(TreasureData.List("Main","List"))
 		Int Rate := V2(tr,"Rate")
 		Int MinCycle := V2(tr,"MinCycle")
 		CSayF("Item '%s', Rate: %d, Minimal cycle: %d!",tr,rate,mincycle)
@@ -151,7 +151,7 @@ void CreateRandomTreasure(string T,string Layer)
 	O.Visible = P.Visible
 	O.Alpha=255
 	O.Texture = "GFX/Treasure/Bag.png"
-	O.Label = P.Label
+	O.Labels = P.Labels
 	O.Data.Treasure = Treasures[math.random(0,Len(Treasures)-1)]
 	FlowField.Clickable.Create(Layer,Tag,O.X,O.Y,RandomTreasure,Tag)
 	CSayF("Random treasure '%s' in layer '%s' created: %s (%04d,%04d)",T,Layer,O.Data.Treasure,O.X,O.Y)

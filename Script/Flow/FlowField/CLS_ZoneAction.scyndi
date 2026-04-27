@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/CLS_ZoneAction.scyndi
 // 
-// 	  Version: 26.04.20
+// 	  Version: 26.04.27 III
 // 	
 // 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -273,7 +273,11 @@ class ZoneAction
 	End
 	
 	Static Void NewSecret(String T,String Lay,Tab)
-		FlowField.Map.KthuraMap.Layer(Lay).HideByLabel(T)
+		//FlowField.Map.KthuraMap.Layer(Lay).HideByLabel(T)
+		Old:=Kthura.CurrentLayer
+		Kthura.CurrentLayer=Lay
+		Kthura.HideByLabel(T)
+		Kthura.CurrentLayer=Old
 		if Tab && Tab[T.."_ENTERSECRET"] && Tab[T.."_LEAVESECRET"]
 			Return
 		End

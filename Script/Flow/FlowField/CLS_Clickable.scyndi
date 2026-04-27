@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/CLS_Clickable.scyndi
 // 
-// 	  Version: 26.04.26 I
+// 	  Version: 26.04.27 I
 // 	
 // 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -191,7 +191,7 @@ Class Clickable
 						FlowField.Treasure.Load(MapBundle)
 						TreasuresLoaded=true
 					End
-					FlowField.Treasure.Self.CreateRandomTreasure(T,L)
+					FlowField.Treasure.CreateRandomTreasure(T,L)
 				// Random trasure TFT style. SS2 does this by its own methods
 				//ElseIf Prefixed(T,"RNDITEM_")
 				//	If Math.Random(1,__skill^2)==1 
