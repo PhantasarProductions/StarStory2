@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 26.04.27
+// version: 26.04.27 I
 // 
 // End License
 
@@ -89,7 +89,11 @@ Class __PIMI_ARMS //Extends Stage
 	Void Update()
 	End
 End
-var PIMI_ARMS = new __PIMI_ARMS()
+
+var PIMI_ARMS
+Init
+	PIMI_ARMS= new __PIMI_ARMS()
+End
 
 Void ARM_Action(string armtag,_ARM)
 	xarg := {["KlareARM"]=true,["XCard"]=_ARM.XRepeat, ["XPower"]=_ARM.XPower}
