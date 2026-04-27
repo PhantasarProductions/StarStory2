@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 26.04.27
+// version: 26.04.27 III
 // 
 // End License
 
@@ -70,6 +70,7 @@ Class __PIMI_YornoGadget
 	//Extends Stage
 	String RegName
 	ReadOnly Bool DontCheckForVictory = False
+	ReadOnly String FlashChar = "Yorno"
 	
 	Static var Card
 	Static var ch
@@ -93,7 +94,11 @@ Class __PIMI_YornoGadget
 	Void Update()
 	End
 End
-var PIMI_YornoGadget = new __PIMI_YornoGadget()
+
+Var PIMI_YornoGadget 
+Init
+	PIMI_YornoGadget = new __PIMI_YornoGadget()
+End	
 
 
 Void Gadget(string CH, Card)

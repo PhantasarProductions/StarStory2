@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 26.04.27 I
+// version: 26.04.27 III
 // 
 // End License
 
@@ -66,6 +66,8 @@ Class __PIMI_ARMS //Extends Stage
 	Static var Card
 	Static var ch
 	String RegName
+	ReadOnly Bool DontCheckForVictory = False
+	ReadOnly String FlashChar = "Klahre"
 
 
 	static var SelItem
