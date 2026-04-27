@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Combat/SpellAni/Flame.scyndi
 // 
-// 	  Version: 26.04.28 I
+// 	  Version: 26.04.28 II
 // 	
 // 	  Copyright (C) 2021/'22, 2026 Jeroen Petrus Broks
 // 	
@@ -46,7 +46,7 @@
 module SA_Flame
 
 #use "Libs/SCI/Audio"
-#use "Lins/SCI/Graphics"
+#use "Libs/SCI/Graphics"
 
 bool DrawOvertake
 var Flame
