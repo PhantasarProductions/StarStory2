@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/CLS_ZoneAction.scyndi
 // 
-// 	  Version: 26.04.27 III
+// 	  Version: 26.04.27 XV
 // 	
 // 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -60,7 +60,16 @@ bool KettingInitDone
 	//static readonly delegate assert = Lua.assert
 	//static readonly delegate error = Lua.error
 	//static readonly delegate tonumber = Lua.tonumber
-	static readonly delegate ZAXPand = Expand
+	//static readonly delegate ZAXPand = Expand
+	
+plua ZAXPand(Tab,int i=0)
+	if i>=Len(Tab)
+		return nil
+	End
+	return Tab[i],ZAXPand(Tab,i+1)
+End
+		
+		
 Extern ToNumber "tonumber"
 Extern Assert "assert"
 Extern Error "error"
@@ -246,6 +255,8 @@ class ZoneAction
 					if Zone.WordtInZone == self.CheckDels[Event].Wordt && Zone.WasInZone == self.CheckDels[Event].Was
 						switch Zone.ActType
 							case "function" "delegate"
+								CSay("ZA Func",ZAXPand(Zone.ActParams)) // DEBUG ONLY!
+								for i,v in pairs(Zone.ActParams); CSayF("%09d -> %s",i,v); end // debug only
 								Zone.Act(ZAXPand(Zone.ActParams))
 								ret=true
 							case "string"
@@ -265,11 +276,13 @@ class ZoneAction
 	end
 	
 	Static Void EnterSecret(String T)
-		FlowField.Map.CurLayer.ShowByLabel(T)
+		//FlowField.Map.CurLayer.ShowByLabel(T)
+		Kthura.ShowByLabel(T)
 	End
 	
 	Static Void LeaveSecret(String T)
-		FlowField.Map.CurLayer.HideByLabel(T)
+		//FlowField.Map.CurLayer.HideByLabel(T)
+		Kthura.HideByLabel(T)
 	End
 	
 	Static Void NewSecret(String T,String Lay,Tab)
@@ -330,12 +343,13 @@ class ZoneAction
 				elseif prefixed(T,"TO_") || Prefixed(T,"GOTO_") || prefixed(T,"GO_")
 					var P = xsplit(T,"_")
 					assert(P[1],"ZoneAction automated layer relocation without layer data: "..T)
-					D[T] = D[T] || new ZoneAction("Enter",T,Lnk.Map.GoToLayer,{P[1],P[2] || "Start"})
+					CSayF("%s:::TO: %s -> %s",P[0],P[1],P[2] || "Start (no specific spot given)")
+					D[T] = D[T] || new ZoneAction("Enter",T,Lnk.Map.GoToLayer,{[0]=P[1],P[2] || "Start"})
 				elseif prefixed(T,"TOMAP_") || prefixed(T,"GOTOMAP_") || prefixed(T,"MAP_") || prefixed(T,"GOMAP_") 
 					var P = xsplit(T,"_")
 					assert(P[1],"ZoneAction automated map + layer relocation without map data: "..T)
 					assert(P[2],"ZoneAction automated map + layer relocation without layer data: "..T)
-					D[T] = D[T] || new ZoneAction("Enter",T,Lnk.Map.GoToMap,P[1],{P[2],P[3] || "Start"})	
+					D[T] = D[T] || new ZoneAction("Enter",T,Lnk.Map.GoToMap,{[0]=P[1],P[2],P[3] || "Start"})	
 				elseif prefixed(T,"SECRET")
 					Self.NewSecret(T,L,D)
 				elseif prefixed(T,"ASHLEYSCAN")
@@ -361,7 +375,7 @@ class ZoneAction
 			self.ActParams = { [0]=param }
 		End
 		self.List[Event].AddLast(self)
-		CSayF("%s:%s event created in zone %s",gstr.LoadedMap.."*"..Self.ActMap,Event,Zone)
+		CSayF("%s:%s event created in zone %s (%d arguments)",gstr.LoadedMap.."*"..Self.ActMap,Event,Zone,len(self.ActParams))
 	end
 
 	Static Void ShowList()
