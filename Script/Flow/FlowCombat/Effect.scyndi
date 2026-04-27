@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/Effect.scyndi
 // 
-// 	  Version: 26.04.27
+// 	  Version: 26.04.27 I
 // 	
 // 	  Copyright (C) 2022/'23, 2026 Jeroen Petrus Broks
 // 	
@@ -56,7 +56,7 @@ Module
 #accept CharMsg
 #accept FlowCombat
 
-Const Var FX = UWN("Script/Use/Combat/Effect.uwn")
+Const Var FX = UWN("Script/Use/Combat/Effect.uwn","AE_")
 
 //Group Effect
 
