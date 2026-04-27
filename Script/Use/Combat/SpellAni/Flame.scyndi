@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Combat/SpellAni/Flame.scyndi
 // 
-// 	  Version: 26.04.28
+// 	  Version: 26.04.28 I
 // 	
 // 	  Copyright (C) 2021/'22, 2026 Jeroen Petrus Broks
 // 	
@@ -45,59 +45,50 @@
 
 module SA_Flame
 
-	bool DrawOvertake
-	var Flame
-	var MAudio
-	readonly int skipmax = 7
-	int skip 
-	int Frame
-	var Act
-	
-	// The difference between a CONSTRUCTOR and the and Init function
-	// Is that CONSTRUCTOR is only automatically loaded when this
-	// module is called fo the first time in a combat.
-	// Init will be called EVERY time a move is being performed.
-	Init
-		Flame = Image.LoadNew("gfx/Combat/SpellAni/Flame.jpbf","SPELLANI_Flame")
-		MAudio = Audio.LoadNew("Audio/Combat/SpellAni/Fire.ogg","SPELLANI_Flame")
-		Flame.HotBottomCenter()
-	end	
+#use "Libs/SCI/Audio"
+#use "Lins/SCI/Graphics"
 
-	void Start(aact)
-		Act = aact
-		skip = 0
-		Frame = 0
-		MAudio.Play()
-	end
+bool DrawOvertake
+var Flame
+var MAudio
+readonly int skipmax = 7
+int skip 
+int Frame
+var Act
+	
+Init
+	Flame = LoadNewImage("gfx/Combat/SpellAni/Flame.jpbf","SPELLANI_Flame")
+	MAudio = Audio.LoadNew("Audio/Combat/SpellAni/Fire.ogg","SPELLANI_Flame")
+	Flame.HotBottomCenter()
+end	
+
+void Start(aact)
+	Act = aact
+	skip = 0
+	Frame = 0
+	MAudio.Play()
+end
 	
 	
-	void Draw()
-		// End it if we go overquota! This one is only a safety precaution
-		if Frame>=10
-			return 
-		end
-		// Draw it all!
-		for tart in each(act.Targets_Tag)
-		//for tarf,tart,tari in Act.Targets.Each
-			var tar = Fighter.ByTag[tart]
-			//Lua.assert(tar,sPrintF("SpellAni.Flame: Nil received for target tag: %d/%s",tart,tari))
-			Flame.Draw(tar.TX,tar.TY,Frame)
-		end		
-	end
-	
-	void Update()
-		// Calc results
-		//skip++
-		//if skip>skipmax
-		//	skip = 0
-		//	return
-		//end
-		Frame++
+void Draw()
+	// End it if we go overquota! This one is only a safety precaution
+	if Frame>=10
 		return 
 	end
-	
-	get bool Ended
-		return Frame>=10
-	end
-	
+	// Draw it all!
+	for tart in each(act.Targets_Tag)
+	//for tarf,tart,tari in Act.Targets.Each
+		var tar = Fighter.ByTag[tart]
+		//Lua.assert(tar,sPrintF("SpellAni.Flame: Nil received for target tag: %d/%s",tart,tari))
+		Flame.Draw(tar.TX,tar.TY,Frame)
+	end		
 end
+	
+void Update()
+	Frame++
+end
+	
+get bool Ended
+	return Frame>=10
+end
+	
