@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Any.uwn/Voorwaarde.scyndi
 // 
-// 	  Version: 26.04.27
+// 	  Version: 26.04.27 III
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -45,19 +45,19 @@
 
 Module
 
-#use "Libs/SCIInterVar"
+#use "Libs/SCI/InterVar"
 #use "Script/Use/Anyway"
 
-	void GoToMap(string voorwaarde,string map, string layer, string start)
-		if gbool[voorwaarde]
-			Lnk.Map.GoToMap(map,layer,start)
-		end
+void GoToMap(string voorwaarde,string map, string layer, string start)
+	if gbool[voorwaarde]
+		Lnk.Map.GoToMap(map,layer,start)
 	end
-	
-	Void Kill(string voorwaarde, string Tag)
-		if gbool[voorwaarde]
-			Lnk.Map.Kill(Tag,False)
-		End
-	End
-	
 end
+	
+Void Kill(string voorwaarde, string Tag)
+	if gbool[voorwaarde]
+		Lnk.Map.Kill(Tag,False)
+	End
+End
+	
+
