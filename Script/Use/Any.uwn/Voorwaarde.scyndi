@@ -36,14 +36,17 @@
 // End License Information
 Module
 
+#use "Libs/InterVar"
+#use "Script/Use/Anyway"
+
 	void GoToMap(string voorwaarde,string map, string layer, string start)
-		if gv.gbool[voorwaarde]
+		if gbool[voorwaarde]
 			Lnk.Map.GoToMap(map,layer,start)
 		end
 	end
 	
 	Void Kill(string voorwaarde, string Tag)
-		if gv.gbool[voorwaarde]
+		if gbool[voorwaarde]
 			Lnk.Map.Kill(Tag,False)
 		End
 	End
