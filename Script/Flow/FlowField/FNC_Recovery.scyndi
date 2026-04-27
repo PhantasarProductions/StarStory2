@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Flow/FlowField/Recovery.neil
-// (c) Jeroen Broks, 2022, All Rights Reserved.
+// src/Code/Script/Flow/FlowField/FNC_Recovery.scyndi
+// (c) Jeroen Broks, 2022, 2026, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,11 +33,18 @@
 // 
 // **********************************************
 // 
-// version: 22.04.13
-// End License Information
+// 
+// version: 26.04.27
+// 
+// End License
 
 
-Void _Rec()
+Module Recovery_for_FlowField
+
+#accept RPGChar
+#accept RPGParty
+
+Global Void Recovery()
 	For i=1,4
 		If RPGParty[i] && RPGParty[i]!=""
 			Var C = RPGChar[RPGParty[i]].Points
@@ -54,4 +62,4 @@ Void _Rec()
 		End
 	End
 End
-Return _Rec
+//Return _Rec
