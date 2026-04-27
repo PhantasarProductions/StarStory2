@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/PlayerInput.scyndi
 // 
-// 	  Version: 26.04.27
+// 	  Version: 26.04.27 I
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -108,6 +108,7 @@ Class PIM
 		CSayF("Constructing Player Input Menu for %s",_Tag)
 		Tag = _Tag
 		Items = PIMI.ChPIMI[Tag]
+		Lua.assert(Items,"PIMI.ChPIMI.".._Tag.." got nil")
 		W = 120 + MaxWidth + 15
 		H = math.max(Siz*(Items.Count+1),PorWid)
 		X = (Screen.W div 2) - (W div 2)
