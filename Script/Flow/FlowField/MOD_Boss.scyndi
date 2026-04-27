@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/MOD_Boss.scyndi
 // 
-// 	  Version: 26.04.28
+// 	  Version: 26.04.28 I
 // 	
 // 	  Copyright (C) 2021-'22, 2026 Jeroen Petrus Broks
 // 	
@@ -68,7 +68,7 @@ Void Start(string src,string scr)
 	Lnk.Combat.PrepareCombat()
 	Lnk.Combat.Arena    = Arena
 	Lnk.Combat.Music    = Stuff.Value(src,"Tune")
-	Lnk.Combat.OpenDoor = Stuff.Value(src,"OpenDoor"):upper()!="FALSE" 
+	Lnk.Combat.OpenDoor = Upper(Stuff.Value(src,"OpenDoor"))!="FALSE" 
 	Lnk.Combat.Wipe     = "GameOver"
 	For i=1,9
 		String F := Stuff.Value(src,"FOE"..i)
