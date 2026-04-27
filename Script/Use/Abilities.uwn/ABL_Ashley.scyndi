@@ -34,13 +34,14 @@
 // **********************************************
 // 
 // 
-// version: 26.04.27 VI
+// version: 26.04.27 IX
 // 
 // End License
 
 
 Module Ashley_Rage_Ability_List
 
+#use "Libs/FitText"
 #use "libs/linkedlist"
 
 #use "Libs/SCI/Sys"
@@ -190,9 +191,11 @@ Class __AshleyRage
 	End
 	Set Bool Unlocked
 		if AshleyKills<NeedToUnlock
-			Return
+			//Return
+		//End
+		Else
+			Stuff.Value(Tag,"Unlocked",Lua.tostring(Value):upper())
 		End
-		Stuff.Value(Tag,"Unlocked",Lua.tostring(Value):upper())
 	End
 	
 	Get Int NeedMore
