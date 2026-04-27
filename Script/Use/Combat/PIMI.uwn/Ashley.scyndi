@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Use/Combat/PIMI.uwn/Ashley.neil
-// (c) Jeroen Broks, 2022, 2023, All Rights Reserved.
+// src/Code/Script/Use/Combat/PIMI.uwn/Ashley.scyndi
+// (c) Jeroen Broks, 2022/'23, 2026, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,8 +33,10 @@
 // 
 // **********************************************
 // 
-// version: 23.09.01
-// End License Information
+// 
+// version: 26.04.27 VII
+// 
+// End License
 
 
 //group Ash_uBox
@@ -42,6 +45,26 @@
 //	const int W = Screen.W - 200
 //	const int H = Screen.H - 400
 //end
+
+Module PIMI_Ashley_Module_249e744f24248a948bc4146fe
+
+#use "Libs/LinkedList"
+
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Graphics"
+
+#use "Script/Use/Anyway"
+
+#accept PIMI
+#accept Stage
+#accept PITAR
+#accept FlowCombat
+
+
+Global Var PIMI_Ashley
+LocExtern Ret "Scyndi.Globals.PIMI_Ashley"
+
 
 Init
 	Print(PIMI.ChPIMI.Klahre," <-- Just to make sure Ash_uBox is also loaded")
@@ -57,9 +80,9 @@ end
 
 
 Var Rage = Abl.Ashley
-Var Ret = new LinkedList()
+Var Ret = new TLinkedList()
 
-Void Attack(String Ch,Var Card)	
+Void Attack(String Ch, Card)	
 	For a in Rage.List.Each
 		if a.NeedMore<=0 && (!a.Unlocked)
 			var act = new Action(a.Tag,"Ashley",{},{["AshleyLearn"]=a.NeedToUnlock})
@@ -68,11 +91,15 @@ Void Attack(String Ch,Var Card)
 			Return
 		end
 	End
-	Var act = new Action("ACT_ATTACKASHLEY",Ch,{})
+	act := new Action("ACT_ATTACKASHLEY",Ch,{})
 	PITAR.ComeToMe(act,Card)
 End
 
-Class __PIMI_Rage Extends Stage
+Class __PIMI_Rage 
+	//Extends Stage
+	String RegName
+	Bool DontCheckForVictory = false
+		
 	Static var Card
 	Static var ch
 
@@ -98,11 +125,11 @@ End
 var PIMI_Rage = new __PIMI_Rage()
 
 Void RageSelect(_Act)
-	var act = new Action(_Act.Tag,"Ashley",{},{["DeductAP"]=true,["APCost"]=_Act.APCost,["Ashley"]=_Act,["XPower"]=math.ceil(_Act.PowerUp*(0.1*_Act.PowerUp))})
+	act := new Action(_Act.Tag,"Ashley",{},{["DeductAP"]=true,["APCost"]=_Act.APCost,["Ashley"]=_Act,["XPower"]=math.ceil(_Act.PowerUp*(0.1*_Act.PowerUp))})
 	PITAR.ComeToMe(act,FlowCombat.Cards.Lijst[1])
 End
 
-Void Rage_Item(String Ch,Var Card)
+Void Rage_Item(String Ch, Card)
 	Stage.Current = PIMI_Rage
 End
 
@@ -114,4 +141,4 @@ Init
 	Ret.AddLast(new PIMI("Guard",PIMI.ChPIMI.ZGuard))
 End
 
-Return Ret
+//Return Ret
