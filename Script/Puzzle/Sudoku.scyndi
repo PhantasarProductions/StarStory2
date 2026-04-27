@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Puzzle/Sudoku.scyndi
 // 
-// 	  Version: 26.04.27
+// 	  Version: 26.04.27 I
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -70,7 +70,7 @@ Group Sudoku
 			CSayF("Sudoku: Checking %d >>> %d==%d    %s >>> %s",i,CurrentAnswer[N],CorrectAnswer[N],CurrentAnswer[N]==CorrectAnswer[N],Goed)
 		End
 		If Goed
-			Lnk.Map.Script(SolvedAction)
+			Lnk.Map._Script(SolvedAction)
 			For i=1,lnk.Party.Count
 				RPGChar[RPGParty[i]].Points.EXP.Have += 500
 			End
