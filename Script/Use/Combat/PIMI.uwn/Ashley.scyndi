@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 26.04.27 VII
+// version: 26.04.27 IX
 // 
 // End License
 
@@ -79,8 +79,8 @@ group Ash_uBox
 end
 
 
-Var Rage = Abl.Ashley
-Var Ret = new TLinkedList()
+Var Rage = Abl.ABL_Ashley
+//Var Ret = new TLinkedList()
 
 Void Attack(String Ch, Card)	
 	For a in Rage.List.Each
@@ -135,6 +135,7 @@ End
 
 Init
 	Rage.Chosen = RageSelect
+	Ret = new TLinkedList()
 	Ret.AddLast(new PIMI("Attack",Attack))
 	Ret.AddLast(new PIMI("Rage",Rage_item))
 	Ret.AddLast(new PIMI("Items",PIMI.ChPIMI.ZItems))
