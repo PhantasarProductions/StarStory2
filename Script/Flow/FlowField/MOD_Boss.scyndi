@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/MOD_Boss.scyndi
 // 
-// 	  Version: 26.04.27
+// 	  Version: 26.04.27 III
 // 	
 // 	  Copyright (C) 2021-'22, 2026 Jeroen Petrus Broks
 // 	
@@ -70,8 +70,8 @@ Void Start(string src,string scr)
 	Lnk.Combat.OpenDoor = Stuff.Value(src,"OpenDoor"):upper()!="FALSE" 
 	Lnk.Combat.Wipe     = "GameOver"
 	For i=1,9
-		String F = Stuff.Value(src,"FOE"..i)
-		Int Lvl = IVal(src,"LEVEL"..i.."_"..__skill)
+		String F := Stuff.Value(src,"FOE"..i)
+		Int Lvl := IVal(src,"LEVEL"..i.."_"..__skill)
 		If Lvl>=100000
 			// No recalc on the Black Hole Dweller.
 			Lnk.Combat.NewEnemy(F,Lvl)
@@ -95,13 +95,13 @@ Void Regular()
 	FlowField.Kill.Kill("BOSS_Activate",False)
 End
 	
-	Void Vital(string Tag,String Script,String Disappear="")
-		Lnk.party.MiniMsg("Prepare for the battle!",255,0,0)
-		Start("BOSS::VITAL::"..Tag,Script)
-		For D in each(Split(Disappear,","))
-			FlowField.Kill(D,true)
-		End
+Void Vital(string Tag,String Script,String Disappear="")
+	Lnk.party.MiniMsg("Prepare for the battle!",255,0,0)
+	Start("BOSS::VITAL::"..Tag,Script)
+	For D in each(Split(Disappear,","))
+		FlowField.Kill(D,true)
 	End
+End
 	
 
-End
+
