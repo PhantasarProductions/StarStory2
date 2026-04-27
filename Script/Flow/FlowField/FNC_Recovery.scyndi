@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 26.04.27 I
+// version: 26.04.27 II
 // 
 // End License
 
@@ -43,8 +43,8 @@ Module Recovery_for_FlowField
 
 #use "Libs/SCI/Sys"
 
-#accept RPGChar
-#accept RPGParty
+
+#use "Script/Use/Anyway"
 
 Global Void Recovery()
 	For i=1,4
