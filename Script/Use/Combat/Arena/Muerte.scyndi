@@ -34,7 +34,10 @@
 // 
 // version: 22.05.13
 // End License Information
-Module
+
+
+Module Arena_Muerte
+
 	Const String WallFile = "GFX/TextureS/Brick/brick004.png"
 	Const String FloorFile = "GFX/TextureS/Floor/drock047.png"
 	
