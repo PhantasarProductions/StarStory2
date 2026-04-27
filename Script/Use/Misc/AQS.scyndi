@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Misc/AQS.scyndi
 // 
-// 	  Version: 26.04.27 I
+// 	  Version: 26.04.27 II
 // 	
 // 	  Copyright (C) 2026 Jeroen Petrus Broks
 // 	
@@ -194,6 +194,10 @@ Void Call(String VM,String Chunk,Infinity)
 			//Lua.error("breakoff!")
 			//Lua.Scyndi.AllIdentifiers[Chn.Func](Infinity)
 			Sys.Call("FLOW_FIELD",Chn.Func,Infinity)
+			return
+		Case MI_sChunk
+			ChatF("%s::%s\tCalling function %s from state",VM,Chunk,Chn.Func,Chn.State)
+			Sys.Call(Chn.State,Chn.Func,Infinity)
 			return
 		Default; Lua.error(sprintf("Unknown AQS chunk type: %d (%s)",Chn.Type,Chunk))
 	End
