@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Combat/Effect.uwn/HPDrain.scyndi
 // 
-// 	  Version: 26.04.27 I
+// 	  Version: 26.04.27 II
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -48,7 +48,7 @@ Module abc2440724027ef9844141ed313098ffa31398bbbbe
 #accept Fighter
 #accept FlowCombat
 
-Bool AE_HPDrain(Act,TarTag,Arg)
+Global Bool AE_HPDrain(Act,TarTag,Arg)
         //String MyArg = Act.EffectScript_Arg
         Tar := Fighter.ByTag[TarTag]
         String MyArg := Arg
