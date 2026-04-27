@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/Cards.scyndi
 // 
-// 	  Version: 26.04.27
+// 	  Version: 26.04.27 II
 // 	
 // 	  Copyright (C) 2021-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -179,7 +179,11 @@ Class Cards
 				wx=MxX 
 			End
 			If i==1 || crd.x>0 || (Lijst[i-1] && Lijst[i-1].X-crd.x>100)
-				crd.x = Math.Min(wx,crd.x+4)
+				dsx:=crd.x-wx
+				//crd.x = Math.Min(wx,crd.x+4)
+				If dsx>0
+					crd.x = Math.min(wx,crd.x+math.max(4,dsx div 20))
+				End
 			End
 		End
 	End
