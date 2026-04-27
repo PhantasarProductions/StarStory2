@@ -37,6 +37,10 @@
 
 module 
 
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Graphics"
+
+
 	bool DrawOvertake
 	var Glitter
 	var MyAudio
@@ -48,9 +52,9 @@ module
 	// Is that CONSTRUCTOR is only automatically loaded when this
 	// module is called fo the first time in a combat.
 	// Init will be called EVERY time a move is being performed.
-	CONSTRUCTOR
-		self.Glitter = Image.Load(     "GFX/Combat/SpellAni/Glitter.png","SPELLANI_Glitter")
-		self.MyAudio = Audio.LoadNew("Audio/Combat/SpellAni/Glitter.ogg","SPELLANI_Glitter")
+	Init
+		Glitter = LoadImage(    "GFX/Combat/SpellAni/Glitter.png","SPELLANI_Glitter")
+		MyAudio = Audio.LoadNew("Audio/Combat/SpellAni/Glitter.ogg","SPELLANI_Glitter")
 	end	
 	
 	bool _Ended = false
@@ -88,4 +92,4 @@ module
 		return _Ended
 	end
 	
-end
+//end
