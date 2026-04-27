@@ -36,7 +36,7 @@
 ; End License Information
 Chunk Load
 	Call CSay,"Loading the Sudoku script"
-	Call NewState,"PUZ_Sudoku","Script/Puzzle/Sudoku.neil"
+	Call NewState,"PUZ_Sudoku","Script/Puzzle/Sudoku.lbc"
 	
 	
 SChunk Start_Sudoku,PUZ_Sudoku,Sudoku.Start	
