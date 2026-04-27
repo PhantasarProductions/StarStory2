@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 26.04.27 IX
+// version: 26.04.27 XI
 // 
 // End License
 
@@ -187,14 +187,14 @@ Class __AshleyRage
 	Get Bool Unlocked
 		//Return AshleyKills>=NeedToUnlock &&
 		//Print(Tag,"Unlocked",Stuff.Value(Tag,"Unlocked")) // DEBUG ONLY
-		Return Stuff.Value(Tag,"Unlocked"):upper()=="TRUE" 
+		Return Upper(Stuff.Value(Tag,"Unlocked"))=="TRUE" 
 	End
 	Set Bool Unlocked
 		if AshleyKills<NeedToUnlock
 			//Return
 		//End
 		Else
-			Stuff.Value(Tag,"Unlocked",Lua.tostring(Value):upper())
+			Stuff.Value(Tag,"Unlocked",Upper(Lua.tostring(Value)))
 		End
 	End
 	
@@ -244,7 +244,7 @@ Class __AshleyRage
 		NeedToUnlock = Need
 		AllowPowerUp = APU
 		//Used = 0
-		Stuff.Value(Tag,"Unlocked",Lua.tostring(Need==0 || Unlocked):upper())
+		Stuff.Value(Tag,"Unlocked",Upper(Lua.tostring(Need==0 || Unlocked)))
 		CSayF("%s has been added to Ashley's rage list",Name) 
 	End
 	
@@ -260,6 +260,7 @@ Init
 	//__AshleyRage.List.AddLast(new __AshleyRage("ABL_ASHLEY_READYCHARGE",1000*(10^__skill)))
 	int a = 25
 	for i=1,10 
+		CSayF("Init Ashley strike: %2d",i)
 		__AshleyRage.List.AddLast(new __AshleyRage(sprintf("ABL_ASHLEY_STRIKE%X",i),a*__skill,i div __skill))
 		a += a
 	End
