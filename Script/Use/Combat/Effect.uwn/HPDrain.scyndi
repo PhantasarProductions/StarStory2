@@ -34,13 +34,18 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
-Bool _PA(Act,TarTag,Arg)
+
+Module abc2440724027ef9844141ed313098ffa31398bbbbe
+
+#accept FlowCombat
+
+Bool AE_HPDrain(Act,TarTag,Arg)
         //String MyArg = Act.EffectScript_Arg
-        Var Tar = Fighter.ByTag[TarTag]
-        String MyArg = Arg
-        Var Exe = Act.Executor
-        Int DrainPrc = Lua.tonumber(MyArg) || 10
-        Int HPDrain  = math.ceil(Tar.Char.Points.HP.Maximum * (DrainPrc / 100))
+        Tar := Fighter.ByTag[TarTag]
+        String MyArg := Arg
+        Exe := Act.Executor
+        Int DrainPrc := Lua.tonumber(MyArg) || 10
+        Int HPDrain  := math.ceil(Tar.Char.Points.HP.Maximum * (DrainPrc / 100))
         HPDrain = math.min(Tar.Char.Points.HP.Have,HPDrain)
         HPDrain = math.min(Exe.Char.Points.HP.Maximum-Exe.Char.Points.HP.Have,HPDrain)
         Tar.Char.Points.HP.Have -= HPDrain
@@ -50,4 +55,4 @@ Bool _PA(Act,TarTag,Arg)
         Return True
 End
 
-Return _PA
+//Return _PA
