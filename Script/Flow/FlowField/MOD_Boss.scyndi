@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/MOD_Boss.scyndi
 // 
-// 	  Version: 26.04.27 III
+// 	  Version: 26.04.28
 // 	
 // 	  Copyright (C) 2021-'22, 2026 Jeroen Petrus Broks
 // 	
@@ -46,6 +46,7 @@
 Module
 
 #use "Libs/SCI/Kthura"
+#use "Libs/SCI/SString"
 #use "Script/Use/Anyway"
 
 #accept FlowField
@@ -76,7 +77,7 @@ Void Start(string src,string scr)
 			// No recalc on the Black Hole Dweller.
 			Lnk.Combat.NewEnemy(F,Lvl)
 		ElseIf F!="" && Lvl>0
-			int RC = Any.Caps.LevelRecalc(lvl)
+			int RC := Any.Caps.LevelRecalc(lvl)
 			Lnk.Combat.NewEnemy(F,RC)
 		End
 	End
@@ -95,10 +96,10 @@ Void Regular()
 	FlowField.Kill.Kill("BOSS_Activate",False)
 End
 	
-Void Vital(string Tag,String Script,String Disappear="")
+Void Vital(string Tag,String _Script,String Disappear="")
 	Lnk.party.MiniMsg("Prepare for the battle!",255,0,0)
-	Start("BOSS::VITAL::"..Tag,Script)
-	For D in each(Split(Disappear,","))
+	Start("BOSS::VITAL::"..Tag,_Script)
+	For D in each(XSplit(Disappear,","))
 		FlowField.Kill(D,true)
 	End
 End
