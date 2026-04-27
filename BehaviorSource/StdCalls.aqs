@@ -38,7 +38,7 @@
 ;Essential Standard Calls
 CSCHUNK CSay,CSay
 CSCHUNK CSayF,CSayF
-CSCHUNK MapScript,Lnk.Map.Script
+CSCHUNK MapScript,Lnk.Map._Script
 CSCHUNK BoxText,Lnk.BoxText.Serial
 CSCHUNK MapText,Lnk.BoxText.Map
 CSCHUNK LeaderText,Lnk.BoxText.MapLeader
