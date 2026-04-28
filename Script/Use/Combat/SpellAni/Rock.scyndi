@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Combat/SpellAni/Rock.scyndi
 // 
-// 	  Version: 26.04.28
+// 	  Version: 26.04.28 III
 // 	
 // 	  Copyright (C) 2021/2022, 2026 Jeroen Petrus Broks
 // 	
@@ -45,34 +45,38 @@
 
 module SA_Rock
 
-	readonly var Template 
+#use "Libs/SCI/Sys"
+
+#use "Script/Use/Combat/SpellAni/Template/Projectile"
+
+//var Template
+locExtern Template "Scyndi.Class.Projectile"
 	
-	bool _Ended = false
+bool _Ended = false
 	
 
-	void Start(A)
-		_Ended = false
-		string img = "GFX/Combat/SpellAni/Rock.png"
-		Template.Start(img,A,true,true)
-		Template.Speed = 8
-	end
-	
-	void Draw()
-		Template.Draw()
-	end
-		
-	void Update()
-		_Ended = Template.Update()
-	end
-	
-	get bool Ended
-		return _Ended
-	end
-	
-	Constructor
-		CSay("Shoot SpellANI - Loaded!")
-		Template = Lua.Neil.Use("Script/Use/Combat/SpellAni/Template/Projectile")
-		CSay("Shoot SpellANI -  Projectile Template loaded!")
-	end
-	
+void Start(A)
+	_Ended = false
+	string img = "GFX/Combat/SpellAni/Rock.png"
+	Template.Start(img,A,true,true)
+	Template.Speed = 8
 end
+	
+void Draw()
+	Template.Draw()
+end
+		
+void Update()
+	_Ended = Template.Update()
+end
+	
+get bool Ended
+	return _Ended
+end
+	
+Init
+	CSay("Shoot SpellANI - Loaded!")
+	//Template = Lua.Scyndi.Use("Script/Use/Combat/SpellAni/Template/Projectile")
+	CSay("Shoot SpellANI -  Projectile Template loaded!")
+end
+	
