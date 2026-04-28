@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 26.04.27 III
+// version: 26.04.28 I
 // 
 // End License
 
@@ -68,6 +68,7 @@ Class __PIMI_ARMS //Extends Stage
 	String RegName
 	ReadOnly Bool DontCheckForVictory = False
 	ReadOnly String FlashChar = "Klahre"
+	ReadOnly Bool TargetMode = False
 
 
 	static var SelItem
@@ -124,7 +125,8 @@ End
 
 Void Reload(string ch, Card)
 	//Lua.error("Reload not yet implemented")
-	act := new Action("ACT_RELOAD",Ch,{ch},{})
+	act := new Action("ACT_RELOAD",Ch,{[0]=ch},{})
+	CSay("Reload: "..ch)
 	FlowCombat.Execution.ComeToMe(Act,Card)
 End
 
