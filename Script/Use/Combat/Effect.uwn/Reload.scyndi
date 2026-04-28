@@ -35,9 +35,11 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
-Bool __RL(_Act,string _TarTag,String EffectParam)	
+Module ACTION_RELOAD_ARM_316946285629856
+
+Global Bool __RL(_Act,string _TarTag,String EffectParam)	
 	_Act.Executor.Points.Ammo.Have = _Act.Executor.Points.Ammo.Maximum 
 	Return True
 End
 
-Return __RL
+//Return __RL
