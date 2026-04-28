@@ -34,8 +34,10 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
-void _QA(string f)
+
+Module QuickAudio_5223f58902ca037312632e3020f6ab60
+
+Global Void QuickAudio(string f)
 	Audio.Load(f,"QUICK_EFFECT").Play()
 End
 
-Return _QA
