@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Combat/PIMI.uwn/ZItems.scyndi
 // 
-// 	  Version: 26.04.27
+// 	  Version: 26.04.28 I
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -62,11 +62,17 @@ end
 
 
 Class __PIMI_Items //Extends Stage
-	String RegName	
+	String RegName
+	ReadOnly bool DONTCHECKFORVICTORY = false
+	ReadOnly Bool TargetMode = false
 
 	Static var Card
 	Static var ch
 
+	Get String FlashChar
+		return ch
+	End
+	
 
 	static var SelItem 
 	
