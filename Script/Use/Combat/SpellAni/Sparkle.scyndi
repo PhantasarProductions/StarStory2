@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Combat/SpellAni/Sparkle.scyndi
 // 
-// 	  Version: 26.04.28 IV
+// 	  Version: 26.04.28 V
 // 	
 // 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -87,7 +87,7 @@ module SA_Sparkle
 				for i=1,35
 					Graphics.SetAlpha(255)
 					Graphics.Color(math.random(0,255),math.random(0,255),math.random(0,255))
-					Glitter.Draw(tar.tX+(math.random(0,tar.tW*2)-tar.tW),tar.tY-math.random(0,tar.tH))
+					Glitter.Draw(tar.X+(math.random(0,tar.W*2)-tar.W),tar.Y-math.random(0,tar.H))
 				end
 			end
 		end
