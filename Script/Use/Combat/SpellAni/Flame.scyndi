@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Combat/SpellAni/Flame.scyndi
 // 
-// 	  Version: 26.04.28 II
+// 	  Version: 26.04.28 IV
 // 	
 // 	  Copyright (C) 2021/'22, 2026 Jeroen Petrus Broks
 // 	
@@ -48,6 +48,8 @@ module SA_Flame
 #use "Libs/SCI/Audio"
 #use "Libs/SCI/Graphics"
 
+#accept Fighter
+
 bool DrawOvertake
 var Flame
 var MAudio
@@ -80,7 +82,7 @@ void Draw()
 	//for tarf,tart,tari in Act.Targets.Each
 		var tar = Fighter.ByTag[tart]
 		//Lua.assert(tar,sPrintF("SpellAni.Flame: Nil received for target tag: %d/%s",tart,tari))
-		Flame.Draw(tar.TX,tar.TY,Frame)
+		Flame.Draw(tar.X,tar.Y,Frame)
 	end		
 end
 	
