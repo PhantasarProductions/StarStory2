@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/Execution.scyndi
 // 
-// 	  Version: 26.04.27
+// 	  Version: 26.04.28 II
 // 	
 // 	  Copyright (C) 2021-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -160,7 +160,7 @@ Class Stage_Execution
 				Buzz.Play()
 				Lnk.Party.MiniMsg("Inventory slot #%d appears to be empty",255,0,0)
 				Stage.Current = Nil
-			elseif Any.IAA.Slot[Act.ConsumeItem]:upper()!=Act.Act.Tag			
+			elseif Upper(Any.IAA.Slot[Act.ConsumeItem])!=Act.Act.Tag			
 				Buzz.Play()
 				Lnk.Party.MiniMsg("Inventory slot #%d appears to be set with a different item now",255,0,0)
 				Stage.Current = Nil
@@ -187,7 +187,7 @@ Class Stage_Execution
 			lnk.Party.MiniWrt(Act.Act.Title,255,255,0)
 			lnk.Party.MiniMsg("'.",180,0,255)
 			RPGChar.Ashley.Points.EXP.Have+=Act.AshleyLearn
-			Abl.Ashley.Stuff.Value(Act.Act.Tag,"Unlocked","TRUE")
+			Abl.ABL_Ashley.Stuff.Value(Act.Act.Tag,"Unlocked","TRUE")
 			CSayF("Ashley unlocks '%s' earning %d experience points!",Act.Act.Tag,Act.Ashleylearn)
 		End
 	End
@@ -284,7 +284,7 @@ Class Stage_Execution
 		End
 		if !Initiated
 			Lua.Scyndi.Use("Script/Use/Combat/SpellAni/"..Act.Act.SpellAni_Script)
-			SpellAni = Lua.Scyndi.Globals["SA_"..Act.Act.SpellAni_Script]
+			SpellAni = Lua.Scyndi.AllIdentifiers["SA_"..Act.Act.SpellAni_Script]
 			SpellAni.Start(Act,Act.Act.SpellAni_Param)
 			Initiated = True
 		End
