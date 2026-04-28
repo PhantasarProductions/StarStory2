@@ -1,0 +1,31 @@
+
+
+Module Doctor_Salprdrita_Ability_lists
+	
+#use "Libs/SCI/GINIE"
+
+#use "Script/Use/Abilities.uwn/Use/Gadget"
+
+Table DAbl 
+//DefTable DAbl
+Init
+	DAbl = {}	
+	For i=1,6
+		DABL[sprintf("HEAL%d",i)]=i==1
+	End
+End
+
+	//ReadOnly Var Stuff = GINIE.CreateNew("DOCTOR_GADGET")
+	ReadOnly Var XITEM = GINIE.CreateNew("DOCTOR_XITEM")
+
+	ReadOnly Var Stuff 
+
+	Void View(ubox,situation)
+		Stuff.Show(ubox,situation)
+	End
+	
+	Constructor
+		Stuff = new Gadget("Doctor",DAbl)
+	End
+
+	
