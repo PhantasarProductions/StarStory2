@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Abilities.uwn/Use/Gadget.scyndi
 // 
-// 	  Version: 26.04.27
+// 	  Version: 26.04.29 III
 // 	
 // 	  Copyright (C) 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -132,7 +132,7 @@ Class Gadget_Item
 		Return math.min(30 div __skill,Abl.AllowPowerup_ExtraCards)
 	End
 	Get Int XCards
-		Return math.min(AllowXCards,Parent.Stuff.NValue("XCards",atag))
+		Return math.min(AllowXCards,Parent.Stuff.IntValue("XCards",atag))
 	End
 	Int SelectedXCards
 	
@@ -296,9 +296,12 @@ Class Gadget
 			Pic.Draw(ix,iy)
 		End
 		For i=1,SelectedItem.AllowXCards
+			//int i2 := i-1
+			//int ix := BX+((i2 div 15)*(BW div 2))
+			//int iy := BY+120+((i2 % 15)*30)
 			int i2 := i-1
-			int ix := BX+((i2 div 15)*(BW div 2))
-			int iy := BY+120+((i2 % 15)*30)
+			int ix := BX+((i2 div 10)*(BW div 2))
+			int iy := BY+120+((i2 % 10)*30)
 			Pic    := GPU_Pic[sprintf("+%02d Cards_%s",i,SelectedItem.XCards>=i)]
 			if MX>ix && MY>iy && ML && MX<ix+Pic.Width && MY<iy+Pic.Height && SelectedItem.XCards>=i
 				if SelectedItem.SelectedXCards==i
@@ -315,7 +318,7 @@ Class Gadget
 		// Okay
 		__White
 		Int CanX := BX+10
-		if prefixed(Situation:upper(),"COMBAT")
+		if prefixed(Upper(Situation),"COMBAT")
 			Static Var Okay = GPU_Pic["Okay_True"]
 			Int OkX := BX
 			Int OkY := EY - Okay.Height

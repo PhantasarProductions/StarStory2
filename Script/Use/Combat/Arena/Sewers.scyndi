@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Combat/Arena/Sewers.scyndi
 // 
-// 	  Version: 26.04.29
+// 	  Version: 26.04.29 III
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -44,35 +44,41 @@
 
 
 
-Module
+Module Arena_Sewers
 
+#use "Libs/SCI/Sys"
 #use "Libs/SCI/Graphics"
 
-	Const String WallFile = "GFX/TextureS/Stone/RockWall.png"
-	Const String FloorFile = "GFX/TextureS/Stone/Floor.png"
+#use "Script/Use/Anyway"
+
+Const String WallFile = "GFX/TextureS/Stone/RockWall.png"
+Const String FloorFile = "GFX/TextureS/Stone/Floor.png"
 	
-	Const Var NewBattle = NIKS
+Const Var NewBattle = NIKS
 	
-	Var Wall
-	Var Floor
+Var Wall
+Var Floor
 	
-	Void Load()
-		Wall  = LoadNewImage(WallFile, "Arena_Sewers_Wall")
-		Floor = LoadNewImage(FloorFile,"Arena_Sewers_Floor")
-	End
+Void Load()
+	Wall  = LoadNewImage(WallFile, "Arena_Sewers_Wall")
+	Floor = LoadNewImage(FloorFile,"Arena_Sewers_Floor")
+End
 	
-	Void UnLoad()
-		//Wall = nil
-		//Floor = nil
-		//Image.KillByPrefix("Arena_Muerte")
-	End
+Void UnLoad()
+	//Wall = nil
+	//Floor = nil
+	//Image.KillByPrefix("Arena_Muerte")
+End
 		
-	Void Draw()
-		Static Int HH = Screen.H div 2
-		__White
-		 Wall.Tile(0, 0,Screen.W,HH)
-		__Yellow
-		Floor.Tile(0,HH,Screen.W,HH)
-	End
-	
+Void Draw()
+	Static Int HH = Screen.H div 2
+	__White
+	 Wall.Tile(0, 0,Screen.W,HH)
+	__Yellow
+	Floor.Tile(0,HH,Screen.W,HH)
+End
+
+Init
+	// Lie detector
+	CSayF("Hey, there is a class named 'Arena_Sewers' located at memory address %s",Lua.Scyndi.Class.Arena_Sewers)
 End
