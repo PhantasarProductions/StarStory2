@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Use/Abilities.uwn/Use/GadgetUseCombat.neil
-// (c) Jeroen Broks, 2022, All Rights Reserved.
+// src/Code/Script/Use/Abilities.uwn/Use/GadgetUseCombat.scyndi
+// (c) Jeroen Broks, 2022, 2026, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,16 +33,28 @@
 // 
 // **********************************************
 // 
-// version: 22.09.03
-// End License Information
+// 
+// version: 26.04.29 V
+// 
+// End License
+
+
+Module GUC_3a6dbb427f26e624941a2982a1b202a7
+
+#use "Libs/SCI/Sys"
+
+#use "Script/Use/Anyway"
 
 // !!COMBAT ONLY!!
 #use "Script/Use/Abilities.uwn/Use/Gadget"
 
-Void _Ret(string ch,abl,bool DBL, Bool SPREAD, int XCard)
+#accept PITAR
+#accept FlowCombat
+
+global Void GadGetUseCombat(string ch,abl,bool DBL, Bool SPREAD, int XCard)
 	//int BaseAPCost = Abl["APCost_"..ch]
-	int BaseAPCost = Abl.EP_Cost
-	int APCost = BaseAPCost
+	int BaseAPCost := Abl.EP_Cost
+	int APCost := BaseAPCost
 	
 	if DBL
 		APCost += BaseAPCost*( ({0.75,1,2.75})[__skill])
@@ -55,8 +68,8 @@ Void _Ret(string ch,abl,bool DBL, Bool SPREAD, int XCard)
 		end
 	end
 	CSayF("Gadget %s => %d EP",abl.FullTag,APCost)
-	var act = new Action(abl.fulltag,ch,{},{ ["DoublePower"]=DBL, ["Spread"]=Spread, ["DeductAP"]=true, ["APCost"]=APCost,["XCard"]=XCard })
+	act := new Action(abl.fulltag,ch,{},{ ["DoublePower"]=DBL, ["Spread"]=Spread, ["DeductAP"]=true, ["APCost"]=APCost,["XCard"]=XCard })
 	PITAR.ComeToMe(act,FlowCombat.Cards.Lijst[1])
 End
 
-return _Ret
+//return _Ret
