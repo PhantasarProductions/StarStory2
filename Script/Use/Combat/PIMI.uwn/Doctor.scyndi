@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 26.04.29 VII
+// version: 26.04.29 X
 // 
 // End License
 
@@ -45,6 +45,7 @@ Module Doctor_7109719721972987e9797197379ff79173987a787b797d98e7
 
 #use "Script/Use/Anyway"
 
+#accept PIMI
 #accept Stage
 #accept PITAR
 #accept Fighter
@@ -89,7 +90,7 @@ class __PIMI_DoctorGadget
 		Graphics.Alpha(100)
 		Graphics.Rect(Doc_uBox.x,Doc_uBox.y,Doc_uBox.w,Doc_uBox.h)
 		Graphics.Alpha(255)
-		Abl.Doctor.View(Doc_uBox,"Combat_UserMenu")
+		Abl.ABL_Doctor.View(Doc_uBox,"Combat_UserMenu")
 		Any.Mouse.Draw()
 		if M.ML && (M.MX<Doc_uBox.x || M.MY<Doc_uBox.y || M.MX>Doc_uBox.x+Doc_uBox.w || M.MY>Doc_uBox.y+Doc_uBox.y)
 			Stage.Current = nil
@@ -99,7 +100,10 @@ class __PIMI_DoctorGadget
 	Void Update()
 	End
 End
-var PIMI_DoctorGadget = new __PIMI_DoctorGadget()
+var PIMI_DoctorGadget
+Init
+	PIMI_DoctorGadget = new __PIMI_DoctorGadget()
+End
 
 Void HGadget(String Ch,Card)
 	Stage.Current = PIMI_DoctorGadget

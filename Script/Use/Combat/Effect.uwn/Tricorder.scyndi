@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Combat/Effect.uwn/Tricorder.scyndi
 // 
-// 	  Version: 26.04.29 V
+// 	  Version: 26.04.29 VII
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -56,7 +56,7 @@ Module Tricorder_Output_Effect_Module
 Var Fnt = ObtainFont("BOXTEXT")
 Var MFnt = ObtainFont("MINITEXT")
 
-Global bool Tricorder(_Act,string _TarTag,String EffectParam)
+Global bool AE_Tricorder(_Act,string _TarTag,String EffectParam)
 	Tar := Fighter.ByTag[_TarTag]
 	if Tar.Team!="Foe"
 		Lnk.Party.MiniMsg("ERROR!  ",255,0,0)
@@ -78,8 +78,8 @@ Global bool Tricorder(_Act,string _TarTag,String EffectParam)
 			Graphics.Color(R,G,B)
 			MFnt.Text(l,Screen.W div 2,(ln*20)+40,2)
 		End
-		For ei,en in ipairs(Any.Resistance.Elements)
-			if en:upper()!="NONE"
+		For ei,en in pairs(Any.Resistance.Elements)
+			if Upper(en)!="NONE"
 				Int ey = (ei*30)+150
 				int ex = Screen.W-10
 				__White
