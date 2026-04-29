@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 26.04.27 III
+// version: 26.04.29 II
 // 
 // End License
 
@@ -62,7 +62,7 @@ group Yor_uBox
 	const int X = 100
 	const int Y =  90
 	const int W = Screen.W - 200
-	const int H = Screen.H - 380
+	const int H = Screen.H - 280
 end
 
 
@@ -71,6 +71,7 @@ Class __PIMI_YornoGadget
 	String RegName
 	ReadOnly Bool DontCheckForVictory = False
 	ReadOnly String FlashChar = "Yorno"
+	ReadOnly Bool TargetMode = False
 	
 	Static var Card
 	Static var ch
@@ -84,7 +85,7 @@ Class __PIMI_YornoGadget
 		Graphics.Alpha(100)
 		Graphics.Rect(Yor_uBox.x,Yor_uBox.y,Yor_uBox.w,Yor_uBox.h)
 		Graphics.Alpha(255)
-		Abl.Yorno.View(Yor_uBox,"Combat_UserMenu")
+		Abl.ABL_Yorno.View(Yor_uBox,"Combat_UserMenu")
 		Any.Mouse.Draw()
 		if M.ML && (M.MX<Yor_uBox.x || M.MY<Yor_uBox.y || M.MX>Yor_uBox.x+Yor_uBox.w || M.MY>Yor_uBox.y+Yor_uBox.y)
 			Stage.Current = nil
