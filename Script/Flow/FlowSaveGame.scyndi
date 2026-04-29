@@ -335,6 +335,9 @@ Void Action_Save(int Spot)
 		s.Text[_T..".ini"]=GINIE.CreateNew(sprintf("%s_GADGET",Upper(_T))).Source
 	End
 	
+	CSay("Klahre's ARMS")
+	s.Text["Klahre.ini"]=GINIE.CreateNew("KLAHRE_ARMS")
+	
 	
 	CSay("Registering party data")
 	S.SetStat("SS2","SS2")
@@ -395,10 +398,13 @@ void Action_Load(int Spot)
 	CSay("Parsing inventory")
 	Plua Inv = GINIE.CreateNew("INVENTORY")
 	Inv.Source = S.Text["Inventory.ini"]
-	CSay("Parsing Ashley's rage")
 	do
+		CSay("Parsing Ashley's rage")
 		ARage := GINIE.CreateNew("ASHLEY_RAGE")
 		ARage.Source = S.Text["Ashley.ini"]
+		CSay("Parsing Klahre's ARMS")		
+		KARMS:=GINIE.CreateNew("KLAHRE_ARMS")
+		KARMS.Source = S.Text["Klahre.ini"]
 	end
 	for _T in each{[0]="Yorno","Doctor"}
 		DGadget:=GINIE.CreateNew(sprintf("%s_GADGET",Upper(_T)))

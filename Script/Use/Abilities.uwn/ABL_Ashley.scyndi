@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 26.04.29 II
+// version: 26.04.29 III
 // 
 // End License
 
@@ -67,6 +67,7 @@ Module Ashley_Rage_Ability_List
 
 global Var ABL_Ashley
 
+LocExtern Me "self"
 
 Class __AshleyRage
 	#region Statics
@@ -163,7 +164,7 @@ Class __AshleyRage
 			//FitText.Dark(Dft,Updates,X,(Y+60),2) // Not applicable on gadgets and rage abilities. Only on ARMS.
 			__White
 			For i,e in ipairs(EX)
-				FitText.Dark(DFt,e,X,(Y+30)+(i*20),2)
+				FitText.Dark(DFt,e,X,(Y+30)+((i+1)*20),2)
 			End
 		End
 	End
@@ -206,17 +207,17 @@ Class __AshleyRage
 		return Lua.tonumber(Stuff.Value(Tag,"Used")) || 0
 	End
 	Set Int Used
-		int OldPU = Self.PowerUp
+		int OldPU = Me.PowerUp
 		CSayF("Abilities.Ashley.%s.Used = %d",Tag,Value)
 		Stuff.Value(Tag,"Used",sprintf("%d",Value))
-		If Used>Self.TrueAPCost*(0.1*__skill) && (!Self.PU_HalfAP)
+		If Used>Me.TrueAPCost*(0.1*__skill) && (!Me.PU_HalfAP)
 			Stuff.Value(Tag,"HalfAP","TRUE")
 			Lnk.Party.MiniWrt("Ashley ",255,180,0)
 			Lnk.Party.MiniMsg(sprintf("gained the powerup 'half rage cost' on ability '%s'",Name),0,180,255)
 		End
-		if OldPu<Self.PowerUp
+		if OldPu<Me.PowerUp
 			Lnk.Party.MiniWrt("Ashley ",255,180,0)
-			Lnk.Party.MiniMsg(sprintf("gained the powerup 'extra power level %d' on ability '%s'",Self.PowerUp,Name),180,255,0)
+			Lnk.Party.MiniMsg(sprintf("gained the powerup 'extra power level %d' on ability '%s'",Me.PowerUp,Name),180,255,0)
 		End		
 	End
 	
