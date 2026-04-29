@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Use/Combat/PIMI.uwn/Doctor.neil
-// (c) Jeroen Broks, 2022, 2023, All Rights Reserved.
+// src/Code/Script/Use/Combat/PIMI.uwn/Doctor.scyndi
+// (c) Jeroen Broks, 2022/'23, 2026, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,20 +33,53 @@
 // 
 // **********************************************
 // 
-// version: 23.02.07
-// End License Information
-Var Ret = new LinkedList()
+// 
+// version: 26.04.29 VII
+// 
+// End License
 
-Void Tri(String CH,Var Card)
+
+Module Doctor_7109719721972987e9797197379ff79173987a787b797d98e7
+
+#use "Libs/SCI/Graphics"
+
+#use "Script/Use/Anyway"
+
+#accept Stage
+#accept PITAR
+#accept Fighter
+#accept FlowCombats
+
+//Var Ret = new TLinkedList()
+global Var PIMI_Doctor
+locExtern Ret "Scyndi.Globals.PIMI_Doctor"
+
+
+group Doc_uBox
+	const int X = 100
+	const int Y =  90
+	const int W = Screen.W - 200
+	const int H = Screen.H - 380
+end
+
+
+Void Tri(String CH, Card)
 	//Lua.error("Tricorder not yet supported")
-	Var act = new Action("ACT_TRICORDER",Ch,{})
+	act := new Action("ACT_TRICORDER",Ch,{})
 	PITAR.ComeToMe(act,Card)
 End
 
-class __PIMI_DoctorGadget Extends Stage
+class __PIMI_DoctorGadget 
+	//Extends Stage
 	Static var Card
 	Static var ch
 	static var M = Any.Mouse
+	
+	String RegName
+	ReadOnly Bool DontCheckForVictory = False
+	ReadOnly String FlashChar = "Yorno"
+	ReadOnly Bool TargetMode = False
+	
 
 
 	static var SelItem 
@@ -53,11 +87,11 @@ class __PIMI_DoctorGadget Extends Stage
 	void Draw()
 		__Black
 		Graphics.Alpha(100)
-		Graphics.Rect(kit_uBox.x,kit_uBox.y,kit_uBox.w,kit_uBox.h)
+		Graphics.Rect(Doc_uBox.x,Doc_uBox.y,Doc_uBox.w,Doc_uBox.h)
 		Graphics.Alpha(255)
-		Abl.Doctor.View(kit_uBox,"Combat_UserMenu")
+		Abl.Doctor.View(Doc_uBox,"Combat_UserMenu")
 		Any.Mouse.Draw()
-		if M.ML && (M.MX<kit_uBox.x || M.MY<kit_ubox.y || M.MX>kit_ubox.x+kit_ubox.w || M.MY>kit_ubox.y+kit_ubox.y)
+		if M.ML && (M.MX<Doc_uBox.x || M.MY<Doc_uBox.y || M.MX>Doc_uBox.x+Doc_uBox.w || M.MY>Doc_uBox.y+Doc_uBox.y)
 			Stage.Current = nil
 		end
 	end
@@ -67,15 +101,16 @@ class __PIMI_DoctorGadget Extends Stage
 End
 var PIMI_DoctorGadget = new __PIMI_DoctorGadget()
 
-Void HGadget(String Ch,Var Card)
+Void HGadget(String Ch,Card)
 	Stage.Current = PIMI_DoctorGadget
 End
 
-Void ItemExt(String Ch,Var Card)
+Void ItemExt(String Ch,Card)
 	Lua.error("Item extender not yet supported")
 End
 
 Init
+	Ret = new TLinkedList()
 	Ret.AddLast(new PIMI("Tricorder",Tri))
 	Ret.AddLast(new PIMI("Heal Gadget",HGadget))
 	//Ret.AddLast(new PIMI("Item Extender",ItemExt))
@@ -84,4 +119,4 @@ Init
 	RPGChar.Doctor.Name = "Doctor Sal'pr'drita"
 End
 
-Return Ret
+//Return Ret
