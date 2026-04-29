@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Abilities.uwn/ABL_Doctor.scyndi
 // 
-// 	  Version: 26.04.28 I
+// 	  Version: 26.04.29
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -42,8 +42,8 @@
 // 	  3. This notice may not be removed or altered from any source distribution.
 // End License
 
-
-Module Doctor_Salprdrita_Ability_lists
+Module
+//Module Doctor_Salprdrita_Ability_lists
 	
 #use "Libs/SCI/GINIE"
 

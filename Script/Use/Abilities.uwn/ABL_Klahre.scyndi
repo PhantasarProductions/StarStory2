@@ -205,7 +205,7 @@ End
 			Add(_ARM)
 			TARM._TrueList = nil
 		Else
-			Lnk.BoxText.Serial("ARM","NO_"..Lead:upper())
+			Lnk.BoxText.Serial("ARM","NO_"..Upper(Lead))
 		End
 	End
 	
