@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 26.04.27 XI
+// version: 26.04.29 II
 // 
 // End License
 
@@ -82,7 +82,7 @@ Class __AshleyRage
 		Return Any.Mouse.MY
 	End
 
-	Static Void View(ubox)
+	Static Void View(ubox)                                                              
 		int SX := ubox.x+10
 		int SY := ubox.y+10
 		int EX := (ubox.x+ubox.w)-20
@@ -91,12 +91,12 @@ Class __AshleyRage
 		Hover:=nil
 		For RI,RL in List.Each
 			int HX = 0
-			#if autoremove
-				If Y>EY
-					RL.UnLink()
-					CSayF("Unlinked '%s'(%s). Beyond box bottom!",RI.Name,RI.Tag)
-				End
-			#fi
+			//#if autoremove
+			//	If Y>EY
+			//		RL.UnLink()
+			//		CSayF("Unlinked '%s'(%s). Beyond box bottom!",RI.Name,RI.Tag)
+			//	End
+			//#fi
 			if RI.Unlocked
 				__White
 				String N := RI.Name
@@ -145,10 +145,10 @@ Class __AshleyRage
 			Int Y:=MY+15
 			Ex := IT.ExplainTable
 			//String Updates = sprintf("Extra Power: %d; Repeat: %d; Hit: %03d%%",AR.XPower,AR.XRepeat,AR.Hit)
-			Int W:=math.max(Fnt.TextWidth(IT.Title),0)			
-			w = math.max(Dft.TextWidth(IT.Desc),w)
+			Int W:=math.max(Fnt.Width(IT.Title),0)			
+			w = math.max(Dft.Width(IT.Desc),w)
 			For i,e in ipairs(EX)
-				W=math.max(W,DFt.TextWidth(e))
+				W=math.max(W,DFt.Width(e))
 			End			
 			W+=8
 			__Black
