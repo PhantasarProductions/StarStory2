@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 26.04.27 X
+// version: 26.04.29 I
 // 
 // End License
 
@@ -98,10 +98,10 @@ End
 Class __PIMI_Rage 
 	//Extends Stage
 	String RegName
-	Bool DontCheckForVictory = false
+	ReadOnly Bool DontCheckForVictory = False
 	ReadOnly String FlashChar = "Ashley"
-		
-		
+	ReadOnly Bool TargetMode = False
+
 	Static var Card
 	Static var ch
 
@@ -124,7 +124,10 @@ Class __PIMI_Rage
 	Void Update()
 	End
 End
-var PIMI_Rage = new __PIMI_Rage()
+var PIMI_Rage
+Init
+	PIMI_Rage = new __PIMI_Rage()
+End
 
 Void RageSelect(_Act)
 	act := new Action(_Act.Tag,"Ashley",{},{["DeductAP"]=true,["APCost"]=_Act.APCost,["Ashley"]=_Act,["XPower"]=math.ceil(_Act.PowerUp*(0.1*_Act.PowerUp))})
