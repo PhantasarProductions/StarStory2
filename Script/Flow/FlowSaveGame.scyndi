@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowSaveGame.scyndi
 // 
-// 	  Version: 26.04.29 I
+// 	  Version: 26.04.29 III
 // 	
 // 	  Copyright (C) 2023-2026 Jeroen Petrus Broks
 // 	
@@ -330,6 +330,11 @@ Void Action_Save(int Spot)
 	CSay("Ashley's Rage")
 	s.Text["Ashley.ini"]="# Ashley's Rage Data\n#(c) J.P. Broks\n\n"..GINIE.CreateNew("ASHLEY_RAGE").Source
 	
+	For _T In Each{[0]="Yorno","Doctor"}
+		CSayF("%s's gadgets",_T)
+		s.Text[_T..".ini"]=GINIE.CreateNew(sprintf("%s_GADGET",Upper(_T))).Source
+	End
+	
 	
 	CSay("Registering party data")
 	S.SetStat("SS2","SS2")
@@ -394,6 +399,10 @@ void Action_Load(int Spot)
 	do
 		ARage := GINIE.CreateNew("ASHLEY_RAGE")
 		ARage.Source = S.Text["Ashley.ini"]
+	end
+	for _T in each{[0]="Yorno","Doctor"}
+		DGadget:=GINIE.CreateNew(sprintf("%s_GADGET",Upper(_T)))
+		DGadget.Source=s.Text[sprintf("%s.ini",_T)]
 	end
 	CSay("Loading the FlowField")
 	//State.LoadNew("FLOW_FIELD","Script/Flow/FlowField.lbc")
