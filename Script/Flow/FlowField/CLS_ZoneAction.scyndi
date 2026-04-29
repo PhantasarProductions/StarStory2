@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/CLS_ZoneAction.scyndi
 // 
-// 	  Version: 26.04.27 XV
+// 	  Version: 26.04.29
 // 	
 // 	  Copyright (C) 2021, 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -97,6 +97,7 @@ class ZoneAction
 		end
 		Kthura.CurrentLayer = sprintf("#%03d",nLay + inc)
 		Lnk.Map.SpawnPlayer(exitpoint)
+		Kthura.Remap()
 	end
 	
 	static var AltNext
