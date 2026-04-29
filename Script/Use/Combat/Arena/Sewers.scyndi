@@ -35,6 +35,9 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 Module
+
+#use "Libs/SCI/Graphics"
+
 	Const String WallFile = "GFX/TextureS/Stone/RockWall.png"
 	Const String FloorFile = "GFX/TextureS/Stone/Floor.png"
 	
@@ -44,14 +47,14 @@ Module
 	Var Floor
 	
 	Void Load()
-		Wall  = Image.LoadNew(WallFile, "Arena_Sewers_Wall")
-		Floor = Image.LoadNew(FloorFile,"Arena_Sewers_Floor")
+		Wall  = LoadNewImage(WallFile, "Arena_Sewers_Wall")
+		Floor = LoadNewImage(FloorFile,"Arena_Sewers_Floor")
 	End
 	
 	Void UnLoad()
-		Wall = nil
-		Floor = nil
-		Image.KillByPrefix("Arena_Muerte")
+		//Wall = nil
+		//Floor = nil
+		//Image.KillByPrefix("Arena_Muerte")
 	End
 		
 	Void Draw()
