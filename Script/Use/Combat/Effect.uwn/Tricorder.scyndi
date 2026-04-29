@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Combat/Effect.uwn/Tricorder.scyndi
 // 
-// 	  Version: 26.04.29 I
+// 	  Version: 26.04.29 V
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -51,18 +51,20 @@ Module Tricorder_Output_Effect_Module
 
 #use "Script/Use/Anyway"
 
+#accept Fighter
+
 Var Fnt = ObtainFont("BOXTEXT")
 Var MFnt = ObtainFont("MINITEXT")
 
 Global bool Tricorder(_Act,string _TarTag,String EffectParam)
-	Var Tar = Fighter.ByTag[_TarTag]
+	Tar := Fighter.ByTag[_TarTag]
 	if Tar.Team!="Foe"
 		Lnk.Party.MiniMsg("ERROR!  ",255,0,0)
 		Lnk.Party.MiniMsg("Invalid target for tricorder!",255,0,255)
 		Return False
 	End
 	For i=Screen.W,0,-1
-		FPS.WaitMinTicks()
+		Sys.WaitMinTicks()
 		Events.Poll()
 		Graphics.Cls()
 		__White
@@ -70,9 +72,9 @@ Global bool Tricorder(_Act,string _TarTag,String EffectParam)
 		__SkyBlue
 		Fnt.Text(Tar.Name,Screen.W div 2, 5,2)
 		For ln,l in ipairs(Tar.DescriptionLines)
-			Int R = math.floor(math.abs(math.sin(ln+i)*255))
-			Int G = 255-R
-			Int B = math.floor( (i/Screen.W) * 255 )
+			Int R := math.floor(math.abs(math.sin(ln+i)*255))
+			Int G := 255-R
+			Int B := math.floor( (i/Screen.W) * 255 )
 			Graphics.Color(R,G,B)
 			MFnt.Text(l,Screen.W div 2,(ln*20)+40,2)
 		End
