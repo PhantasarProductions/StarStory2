@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowSaveGame.scyndi
 // 
-// 	  Version: 26.04.27
+// 	  Version: 26.04.29 I
 // 	
 // 	  Copyright (C) 2023-2026 Jeroen Petrus Broks
 // 	
@@ -327,6 +327,10 @@ Void Action_Save(int Spot)
 	CSay("Unparsing inventory")
 	s.Text["Inventory.ini"] = GINIE.CreateNew("INVENTORY").Source
 	
+	CSay("Ashley's Rage")
+	s.Text["Ashley.ini"]="# Ashley's Rage Data\n#(c) J.P. Broks\n\n"..GINIE.CreateNew("ASHLEY_RAGE").Source
+	
+	
 	CSay("Registering party data")
 	S.SetStat("SS2","SS2")
 	
@@ -334,8 +338,8 @@ Void Action_Save(int Spot)
 	S.Save()
 	
 	CSay("Updating page data")
-	var d 
-	d = SlotData.Obtain(spot)
+	//var d 
+	d := SlotData.Obtain(spot)
 	d.Location = Kthura.MetaData.Title
 	//d.Myrah    = sprintf("%d",Party.GetLevel("Myrah"))
 	//d.Time     = "<Time Comes Later>" //GameTime.FShow
@@ -386,6 +390,11 @@ void Action_Load(int Spot)
 	CSay("Parsing inventory")
 	Plua Inv = GINIE.CreateNew("INVENTORY")
 	Inv.Source = S.Text["Inventory.ini"]
+	CSay("Parsing Ashley's rage")
+	do
+		ARage := GINIE.CreateNew("ASHLEY_RAGE")
+		ARage.Source = S.Text["Ashley.ini"]
+	end
 	CSay("Loading the FlowField")
 	//State.LoadNew("FLOW_FIELD","Script/Flow/FlowField.lbc")
 	CSay("Loading the map")
