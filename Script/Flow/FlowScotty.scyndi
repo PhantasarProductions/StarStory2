@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 26.04.30
+// version: 26.04.30 III
 // 
 // End License
 
@@ -45,6 +45,7 @@ Script
 #use "Libs/LinkedList"
 
 #use "Libs/SCI/GINIE"
+#use "Libs/SCI/Graphics"
 #use "Libs/SCI/InterVar"
 
 ReadOnly Var Stuff = GINIE.LOAD("Data/General/Scotty.ini","SCOTTY")
@@ -112,11 +113,11 @@ Init
 End
 
 Global Void Apollo_Flow()
-	Static Var Fnt = ImageFont.Obtain("BOXTEXT")
+	Static Var Fnt = ObtainFont("BOXTEXT")
 	Static Int ScrollY = 0
 	Static Var Chosen = Nil
 	Static Var M = Any.Mouse	
-	Int Cnt=0-ScrollY	
+	Int Cnt:=0-ScrollY	
 	__Dev.ToConsole()
 	__Ember
 	Fnt.Text("Where do you want to go?",Screen.W div 2,0,2)
@@ -193,7 +194,7 @@ Global Void Apollo_Flow()
 End
 
 Global Void PRGL()
-	Static Var Fnt = ImageFont.Obtain("BOXTEXT")
+	Static Var Fnt = ObtainFont("BOXTEXT")
 	__Ember
 	Fnt.Text("Beaming out!",Screen.W div 2, Screen.H div 2,2,2)
 End
