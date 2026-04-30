@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Flow/FieldMenu/ABLUpgrade.uwn/Gadget.neil
-// (c) Jeroen Broks, 2022, 2023, All Rights Reserved.
+// src/Code/Script/Flow/FieldMenu/ABLUpgrade.uwn/Gadget.scyndi
+// (c) Jeroen Broks, 2022/'23, 2026, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,46 +33,20 @@
 // 
 // **********************************************
 // 
-// version: 23.01.23
-// End License Information
- // License Information:
-// **********************************************
 // 
-// src/Tricky Script/Script/Flow/FieldMenu/ABLUpgrade.uwn/Gadget.neil
-// (c) Jeroen Broks, 2022, All Rights Reserved.
+// version: 26.05.01 IX
 // 
-// This file contains material that is related
-// to a storyline that is which is strictly
-// copyrighted to Jeroen Broks.
-// 
-// This file may only be used in an unmodified
-// form with an unmodified version of the
-// software this file belongs to.
-// 
-// You may use this file for your study to see
-// how I solved certain things in the creation
-// of this project to see if you find valuable
-// leads for the creation of your own.
-// 
-// Mostly this file comes along with a project
-// that is for most part released under an
-// open source license and that means that if
-// you use that code with this file removed
-// from it, you can use it under that license.
-// Please check out the other files to find out
-// which license applies.
-// This file comes 'as-is' and in no possible
-// way the author can be held responsible of
-// any form of damages that may occur due to
-// the usage of this file
-// 
-// 
-// **********************************************
-// 
-// version: 22.08.16
-// End License Information
+// End License
+
+
+Module Gadget_Upgrade_For_Helmut
 
 #use "libs/xmath"
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Graphics"
+
+#use "Script/Use/Anyway"
 
 var Upgrades
 
@@ -82,11 +57,15 @@ Init
 	Upgrades.DPower.Show = "Enbl Double Power"
 	Upgrades.DPower.Key = "Double"
 	Upgrades.DPower.Value = True
-	Bool _RD(G)
+	ddef _RD
+		//(G)
+		G:=Infinity
 		return G.Double
 	End
 	Upgrades.DPower.Reject = _RD
-	Int _PD(G)
+	ddef _PD
+		//(G)
+		G:=Infinity
 		return G.Abl.GadgetInstallPrice*__skill
 	End
 	Upgrades.DPower.Price = _PD 
@@ -96,11 +75,15 @@ Init
 	Upgrades.Spread.Show = "Enbl Spread"
 	Upgrades.Spread.Key = "Spread"
 	Upgrades.Spread.Value = True
-	Bool _RS(G)
+	DDef _RS
+		//(G)
+		G:=Infinity
 		return G.Spread
 	End
 	Upgrades.Spread.Reject = _RS
-	Int _PS(G)
+	dDef _PS
+		//(G)
+		G:=Infinity
 		return G.Abl.GadgetInstallPrice*(__skill^2)
 	End
 	Upgrades.Spread.Price = _PS 
@@ -110,11 +93,15 @@ Init
 	Upgrades.XCard.Show = "Enbl extra card"
 	Upgrades.XCard.Key    = "XCards"
 	Upgrades.XCard.Value  = 1
-	Bool _RXC(G)
+	DDef _RXC
+		//(G)
+		G:=Infinity
 		Return G.XCards>=G.AllowXCards
 	End
 	Upgrades.XCard.Reject = _RXC
-	Int _PXC(G)
+	DDef _PXC
+		//(G)
+		G:=Infinity
 		Return math.floor((G.Abl.GadgetInstallPrice*(__skill+(__skill / 10)))*(G.XCards+1))
 	End
 	Upgrades.XCard.Price  = _PXC
@@ -126,16 +113,16 @@ Init
 End
 
 Void Upgrade(SG,string t,ubox,prnt)
-	int lx = ubox.x + 15
-	int rx = (ubox.w+ubox.x)-30
-	int y = 15 + ubox.y	
+	int lx := ubox.x + 15
+	int rx := (ubox.w+ubox.x)-30
+	int y  := 15 + ubox.y	
 	static var MS = Any.Mouse
 	For K,U in spairs(Upgrades)
 		//CSayF("%6s> Allow: (%s)%s; Reject: (%s)%s; -> %s",K,Lua.type(SG["Allow"..U.Key]),SG["Allow"..U.Key] , Lua.type(U.Reject(SG)),U.Reject(SG), Lua.tostring(SG["Allow"..U.Key] && (!U.Reject(SG))))
 		If SG["Allow"..U.Key] && (!U.Reject(SG))			
-			int price = U.Price(SG)
+			int price := U.Price(SG)
 			if MS.MX>lx && MS.MY>y && MS.MX<rx && MS.MY<y+30
-				number c = math.abs(xmath.sin(FPS.Ticks div 5))
+				number c := math.abs(xmath.sin(Sys.Ticks div 5))
 				Graphics.Color(math.floor(c*255),math.floor(c*180),0)
 				Graphics.Rect(ubox.x,y,ubox.w,30)
 				if MS.ML && Any.Aurina.Pay(price)
@@ -163,7 +150,7 @@ Void Upgrade(SG,string t,ubox,prnt)
 End
 
 String TR(string s,int l)
-	if #s<=l
+	if Len(s)<=l
 		return s
 	else
 		return left(s,l-3).."..."
@@ -171,9 +158,9 @@ String TR(string s,int l)
 end
 
 Void Install(G,string t,ubox,prnt)
-	int lx = ubox.x + 15
-	int rx = (ubox.w+ubox.x)-30
-	int y = 15 + ubox.y
+	int lx := ubox.x + 15
+	int rx := (ubox.w+ubox.x)-30
+	int y  := 15 + ubox.y
 
 	For GI in G.Items.Each
 		if !GI.Unlocked
@@ -197,8 +184,8 @@ Void Install(G,string t,ubox,prnt)
 	end
 end
 
-Void _GR(string t,ubox,prnt)
-	Var G = Abl[t].Stuff
+Global Void Upgrade_Gadget(string t,ubox,prnt)
+	G := Abl["ABL_"..t].Stuff
 	If G.SelectedItem
 		Upgrade(G.SelectedItem,t,ubox,prnt)
 	Else
@@ -208,4 +195,4 @@ Void _GR(string t,ubox,prnt)
 	prnt.fnt.text(sprintf("Aurinas: %d",__Cash),ubox.x+16,(ubox.y+ubox.h)-15,0,1)
 End
 
-Return _GR
+//Return _GR
