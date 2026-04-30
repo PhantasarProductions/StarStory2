@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 26.04.30 I
+// version: 26.04.30 III
 // 
 // End License
 
@@ -45,7 +45,7 @@ Module
 
 	
 Var Fnt = ObtainFont("BOXTEXT")
-Var WTD = UWN("Script/Flow/FieldMenu/ABLUpgrade.uwn")
+Var WTD = UWN("Script/Flow/FieldMenu/ABLUpgrade.uwn","UPGRADE_")
 
 Void Flow(uBox,string FMChar,string FMSituation)
 	WTD[FMChar](ubox,FMSituation,UpgradeARMGadget)
