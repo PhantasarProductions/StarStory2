@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/lnk.uwn/Ach.scyndi
 // 
-// 	  Version: 26.04.27
+// 	  Version: 26.04.30
 // 	
 // 	  Copyright (C) 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -182,7 +182,7 @@ End
 							case "%"
 								R = R && (gint[k]>=vi)
 							case "&"
-								R = R && (gbool[k] && v:upper()=="TRUE")
+								R = R && (gbool[k] && Upper(v)=="TRUE")
 							case "*"
 								switch k
 									Case "KLAHRE"
