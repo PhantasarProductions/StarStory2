@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 26.04.30 III
+// version: 26.04.30 IX
 // 
 // End License
 
@@ -44,6 +44,7 @@ Script
 #use "Script/Use/Anyway"
 #use "Libs/LinkedList"
 
+#use "Libs/SCI/Sys"
 #use "Libs/SCI/GINIE"
 #use "Libs/SCI/Graphics"
 #use "Libs/SCI/InterVar"
@@ -87,7 +88,7 @@ Class ScLocation
 End
 
 Class ScMap
-	ReadOnly Static Var Maps = new LinkedList()
+	ReadOnly Static Var Maps = new TLinkedList()
 	ReadOnly Var Locs 
 	ReadOnly String Kthura
 	ReadOnly String Name
@@ -97,7 +98,7 @@ Class ScMap
 	Constructor(string _m)		
 		Kthura=_m
 		Maps.AddLast(Self)
-		Locs = new LinkedList()
+		Locs = new TLinkedList()
 		for L in Each(Stuff.ListCopy(sprintf("KAART:%s",_m),"Lokaties"))
 			Locs.AddLast(new ScLocation(self,L))
 		End
@@ -112,19 +113,20 @@ Init
 	End
 End
 
-Global Void Apollo_Flow()
+Global Void MainFlow()
 	Static Var Fnt = ObtainFont("BOXTEXT")
 	Static Int ScrollY = 0
 	Static Var Chosen = Nil
 	Static Var M = Any.Mouse	
 	Int Cnt:=0-ScrollY	
-	__Dev.ToConsole()
+	//__Dev.ToConsole()
+	WantQuit()
 	__Ember
 	Fnt.Text("Where do you want to go?",Screen.W div 2,0,2)
 	For krt in ScMap.Maps.Each
 		If krt.Unlocked
 			Cnt++
-			Int Y=Cnt*30
+			Int Y:=Cnt*30
 			Int X=5
 			If Y>0 && Y<Screen.H-120
 				If M.MY>Y && M.MY<Y+30 && M.MX<(Screen.W div 2)
@@ -156,7 +158,7 @@ Global Void Apollo_Flow()
 						__SkyBlue
 						CSayF("Lnk.Map.GoToMap(%s, %s, %s)",Loc.Kthura,Loc.Layer,Loc.Obj)
 						Lnk.Map.GoToMap(Loc.Kthura,Loc.Layer,Loc.Obj)
-						Flow.Current="FIELD"			
+						Sys.CurrentFlow="FIELD"			
 						For Tag in Each{"Klahre","Yorno","Doctor","Ashley"}
 							Lnk.Party.LuckRoll(Tag)
 							CSayF("New luck base value %s => %d",Tag,RPGChar[Tag].Stat["BASE_Luck"])
@@ -174,16 +176,16 @@ Global Void Apollo_Flow()
 			End
 		End
 	End
-	static int CanW=Fnt.TextWidth("Cancel")
-	static int CanH=Fnt.TextHeight("Cancel")
-	static int CanX=Screen.W-CanW
-	static int CanY=Screen.H-CanH
+	int CanW:=Fnt.Text("Cancel")
+	int CanH:=Fnt.Text("Cancel")
+	int CanX:=Screen.W-CanW
+	int CanY:=Screen.H-CanH
 	if M.MX>CanX && M.MY>CanY
 		__Red
 		Graphics.Rect(CanX,CanY,CanW,CanH)
 		__Yellow
 		if M.ML
-			Flow.Current="FIELD"
+			Sys.CurrentFlow="FIELD"
 		end
 	else
 		__Red
