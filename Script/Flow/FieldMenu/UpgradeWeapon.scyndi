@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 26.04.30 IV
+// version: 26.04.30 VII
 // 
 // End License
 
@@ -98,7 +98,7 @@ Void Flow(uBox,string FMChar,string FMSituation)
 		NoDoc.Stretch(bx,by,tw,th)
 		Return
 	End
-	For i,st in pairs(any.resistances.stats)
+	For i,st in pairs(any.resistance.stats)
 		__White
 		Fnt.Dark(sprintf("Updates %d/%d",Updates(FMChar),MaxUpdates),bx+(tw div 2),by,2)
 		string stag := sprintf("UpgradeCount.%s.%s",FMChar,st)
@@ -108,7 +108,7 @@ Void Flow(uBox,string FMChar,string FMSituation)
 			hx = 10
 			If any.mouse.ml && Updates(FMChar)<MaxUpdates
 				If any.aurina.pay(Price(FMChar,st))
-					int roll = any.luck.roll(FMChar,1,7-__skill)
+					int roll := any.luck.roll(FMChar,1,7-__skill)
 					Lnk.Party.MiniWrt(RPGChar[FMChar].Name,255,180,0)
 					Lnk.Party.MiniWrt("'s ",255,0,255)
 					Lnk.Party.MiniWrt(st,0,255,255)
@@ -122,10 +122,10 @@ Void Flow(uBox,string FMChar,string FMSituation)
 				End
 			End
 		End
-		Int sx = bx + hx
-		Int ux = ubox.x + (ubox.w div 2)
-		int px = ex - hx
-		Int pr = Price(FMChar,st)
+		Int sx := bx + hx
+		Int ux := ubox.x + (ubox.w div 2)
+		int px := ex - hx
+		Int pr := Price(FMChar,st)
 		__White
 		Fnt.Dark(st,sx,y)
 		__Ember
