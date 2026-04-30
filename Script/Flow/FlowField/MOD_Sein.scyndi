@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/MOD_Sein.scyndi
 // 
-// 	  Version: 26.04.27
+// 	  Version: 26.04.30
 // 	
 // 	  Copyright (C) 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -132,7 +132,8 @@ Module
 								end
 								Lua.assert(Val>0,"Low level check failure")
 							Case "MEDAL" "MEDALS"
-								Val = math.ceil(Medals.AltPercent)
+								//Val = math.ceil(Medals.AltPercent)
+								Val = math.ceil(Lnk.Ach.Rate)
 							Case "TRUEMEDAL" "TRUEMEDALS"
 								Val = math.ceil(Medals.Percent)
 							Case "CYCLE" "CYCLES" "CYC"
