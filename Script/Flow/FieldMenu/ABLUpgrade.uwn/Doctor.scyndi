@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Flow/FieldMenu/ABLUpgrade.uwn/Doctor.neil
-// (c) Jeroen Broks, 2022, All Rights Reserved.
+// src/Code/Script/Flow/FieldMenu/ABLUpgrade.uwn/Doctor.scyndi
+// (c) Jeroen Broks, 2022, 2026, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,10 +33,13 @@
 // 
 // **********************************************
 // 
-// version: 22.08.14
-// End License Information
-Void _R(ubox,sit,parent)	
+// 
+// version: 26.05.01
+// 
+// End License
+Module Dokter_Salprdrita_Laat_Zijn_Gadget_Upgraden_Door_Helmut
+
+Global Void Upgrade_Doctor(ubox,sit,parent)	
 	parent.WTD.Gadget("Doctor",ubox,parent)	
 End
 
-Return _R
