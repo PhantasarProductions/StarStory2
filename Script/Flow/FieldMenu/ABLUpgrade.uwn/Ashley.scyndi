@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Flow/FieldMenu/ABLUpgrade.uwn/Ashley.neil
-// (c) Jeroen Broks, 2022, All Rights Reserved.
+// src/Code/Script/Flow/FieldMenu/ABLUpgrade.uwn/Ashley.scyndi
+// (c) Jeroen Broks, 2022, 2026, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,12 +33,17 @@
 // 
 // **********************************************
 // 
-// version: 22.08.13
-// End License Information
-Void _R(ubox,sit,parent)
-	__White
+// 
+// version: 26.04.30 I
+// 
+// End License
+
+
+Module Ashley_Heeft_Geen_ARMS_Of_Gadgets
+
+Global Void Upgrade_Ashley(ubox,sit,parent)
+	Lua.Scyndi.Class.Graphics.Color(255,255,255)
 	parent.fnt.text("Ashley has neither ARMS",ubox.x+15,ubox.y+15)
 	parent.fnt.text("nor gadgets to upgrade",ubox.x+17,ubox.y+50)	
 End
 
-Return _R
