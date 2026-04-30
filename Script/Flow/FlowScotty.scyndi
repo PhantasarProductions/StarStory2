@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 26.04.30 IX
+// version: 26.04.30 XII
 // 
 // End License
 
@@ -77,7 +77,7 @@ Class ScLocation
 	End
 	
 	Get Bool Unlocked
-		Return gbool[sprintf("TRANS_ACTIVATED_%s_%s_%s",Kthura,Layer,Obj)] || Stuff.Value(Tag,"OpenVanafAanvang"):upper()=="YES"
+		Return gbool[sprintf("TRANS_ACTIVATED_%s_%s_%s",Kthura,Layer,Obj)] || Upper(Stuff.Value(Tag,"OpenVanafAanvang"))=="YES"
 	End
 	
 	Constructor(_Parent,string _Tag)
@@ -93,7 +93,7 @@ Class ScMap
 	ReadOnly String Kthura
 	ReadOnly String Name
 	Get Bool Unlocked
-		Return (( (Lua.tonumber(left(Kthura,3)) || 0)<=7) && Kthura:upper()!="PHAN_ARRIVAL") || gbool["ScottyUnlocked_"..Kthura]
+		Return (( (Lua.tonumber(left(Kthura,3)) || 0)<=7) && Upper(Kthura)!="PHAN_ARRIVAL") || gbool["ScottyUnlocked_"..Kthura]
 	End
 	Constructor(string _m)		
 		Kthura=_m
@@ -176,8 +176,8 @@ Global Void MainFlow()
 			End
 		End
 	End
-	int CanW:=Fnt.Text("Cancel")
-	int CanH:=Fnt.Text("Cancel")
+	int CanW:=Fnt.Width("Cancel")
+	int CanH:=Fnt.Width("Cancel")
 	int CanX:=Screen.W-CanW
 	int CanY:=Screen.H-CanH
 	if M.MX>CanX && M.MY>CanY
