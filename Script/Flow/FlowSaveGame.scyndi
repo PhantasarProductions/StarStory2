@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowSaveGame.scyndi
 // 
-// 	  Version: 26.04.30
+// 	  Version: 26.04.30 I
 // 	
 // 	  Copyright (C) 2023-2026 Jeroen Petrus Broks
 // 	
@@ -336,7 +336,7 @@ Void Action_Save(int Spot)
 	End
 	
 	CSay("Klahre's ARMS")
-	s.Text["Klahre.ini"]=GINIE.CreateNew("KLAHRE_ARMS")
+	s.Text["Klahre.ini"]=GINIE.CreateNew("KLAHRE_ARMS").Source
 	
 	
 	CSay("Registering party data")
