@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Kthura/000_BlackBox/BBX.neil
-// (c) Jeroen Broks, 2022, All Rights Reserved.
+// src/Code/Script/MapScript/BBX.scyndi
+// (c) Jeroen Broks, 2022, 2026, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,11 +33,25 @@
 // 
 // **********************************************
 // 
-// version: 22.06.18
-// End License Information
+// 
+// version: 26.04.30 IX
+// 
+// End License
+
+
+Script
+
+// DO NOT confuse this with '#include'. The effect is entirely different.
+#inclusion "SCI" "Kthura/000_BlackBox/Behavior.lbc"
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Kthura"
+#use "Libs/SCI/InterVar"
+
 #use "Script/Use/AnyWay"
 
-Var __BBX
+//Var __BBX
+LocExtern __BBX "Scyndi.Class.BBX"
 
 // Quin Return. Nothing to do with those damn QR Codes
 Group QR
@@ -61,28 +76,30 @@ Group BBX
 		Return lnk.BoxText.Map
 	End
 
-	Link TransPermission = gv.gbool.You_Have_Permission_To_Use_The_Transporter
+	Link TransPermission = gbool.You_Have_Permission_To_Use_The_Transporter
 
 	Get String QuinoSituation
-		if gv.gstr.QuinoSituation==""
+		if gstr.QuinoSituation==""
 			return "Welcome"
 		else
-			return gv.gstr.QuinoSituation
+			return gstr.QuinoSituation
 		End
 	End
 	
 	Set String QuinoSituation
-		gv.gstr.QuinoSituation = Value:upper()
+		gstr.QuinoSituation = Upper(Value)
 	End
 
 	Void Update()
-		Lnk.Map.SetObj("STARS","InsertX",lnk.Map.CamX div 3) 
-		Lnk.Map.SetObj("STARS","InsertY",lnk.Map.CamY div 3)
+		//Lnk.Map.SetObj("STARS","InsertX",lnk.Map.CamX div 3) 
+		//Lnk.Map.SetObj("STARS","InsertY",lnk.Map.CamY div 3)
+		Kthura.Obj.Stars.InsertX = lnk.Map.CamX div 3
+		Kthura.Obj.Stars.InsertY = lnk.Map.CamY div 3
 	End
 	
 	Void TransUnlock(string m, string l, string o)
-		gv.gbool["ScottyUnlocked_"..m] = true
-		gv.gbool[sprintf("TRANS_ACTIVATED_%s_%s_%s",m,l,o)] = true
+		gbool["ScottyUnlocked_"..m] = true
+		gbool[sprintf("TRANS_ACTIVATED_%s_%s_%s",m,l,o)] = true
 	End
 	
 	Void Quino()
@@ -99,7 +116,7 @@ Group BBX
 	End
 	
 	Void QRDo(string v)
-		if gv.bool[v]
+		if gbool[v]
 			if !Done[v.."__QR_BBX"]
 				Lnk.Map.Pop("Q","North")
 				QR[v]()
@@ -108,7 +125,7 @@ Group BBX
 	End
 	
 	Void QuinReturn()
-		QRDo("Visited_BFOC")
+		BBX.QRDo("Visited_BFOC")
 	End
 	
 	Void Helmut()
@@ -120,8 +137,8 @@ Group BBX
 		If Self.TransPermission
 			lnk.boxtext.MapLeader("SCOTT")
 			Loading()
-			State.LoadNew("FLOW_SCOTTY","Script/Flow/FlowScotty.neil")
-			Flow.Current="SCOTTY"
+			Sys.LoadNewState("FLOW_SCOTTY","Script/Flow/FlowScotty.lbc")
+			Sys.CurrentFlow="SCOTTY"
 		Else
 			lnk.BoxText.Map("SCOTT_NO")
 		End
@@ -134,6 +151,6 @@ Group BBX
 		
 End
 
-Init 
-	__BBX = BBX
-End
+//Init 
+//	__BBX = BBX
+//End

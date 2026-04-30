@@ -48,14 +48,14 @@ sChunk NPC_Scott,BBX,BBX.Scott
 csChunk GoToSave,FlowField.GoToSave
 sChunk ZA_Quin_Return,BBX,BBX.QuinReturn
 
-csChunk ReloadKlahre,Abl.Klahre.ReloadAll
+csChunk ReloadKlahre,Abl.ABL_Klahre.ReloadAll
 
 Chunk Update
 	call _Update
 
 Chunk Load
 	call CSay,"Welcome to The Black Box"
-	call NewState,BBX,"Kthura/000_BlackBox/BBX.neil"
+	call NewState,BBX,"Kthura/000_BlackBox/Behavior.lbc"
 	call CSay,"Recover effect"
 	call Recover
 	call CSay,"Make sure all of Klahre's ARMS are reloaded"
