@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Flow/FieldMenu/ABLUpgrade.uwn/Klahre.neil
-// (c) Jeroen Broks, 2022, All Rights Reserved.
+// src/Code/Script/Flow/FieldMenu/ABLUpgrade.uwn/Klahre.scyndi
+// (c) Jeroen Broks, 2022, 2026, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,12 +33,19 @@
 // 
 // **********************************************
 // 
-// version: 22.08.14
-// End License Information
+// 
+// version: 26.04.30 I
+// 
+// End License
 
+Module Helmut_Gaat_De_ARMS_Van_Klahre_Upgraden
+
+#use "Script/Use/Anyway"
+
+#use "Libs/SCI/Graphics"
 
 ReadOnly Table Updates = { ["AmmoMax"] = {["Name"]="Ammo", ["CS"]="%d", ["Plus"]=4-__skill}, ["XPower"]={["Name"]="Extra Power",["CS"]="%d",["Plus"]=(12 div __skill)}, ["XRepeat"]={["Name"]="Repeat", ["CS"]="%dx", ["Plus"]=1},["Hit"]={["Name"]="Hit", ["CS"]="%03d%%",["Plus"]=4-__skill}}
-var ARMS = Abl.Klahre
+var ARMS = Abl.ABL_Klahre
 
 Var SelectedARM = Nil
 
@@ -49,7 +57,7 @@ Init
 	ARMS.Action = sARM
 End
 
-Void _R(ubox,sit,parent)
+Global Void Upgrade_Klahre(ubox,sit,parent)
 	__White
 	//parent.fnt.text("ARMS not yet available",ubox.x,ubox.y+15)
 	if !SelectedARM
@@ -57,10 +65,10 @@ Void _R(ubox,sit,parent)
 		return
 	end
 	parent.fnt.text(SelectedARM.IAA.Title,ubox.x+15,ubox.y+15)
-	int y = ubox.y+100
-	int lx = ubox.x+15
-	int cx = ubox.x+(ubox.w div 2)
-	int rx = (ubox.x+ubox.w)-30
+	int y  := ubox.y+100
+	int lx := ubox.x+15
+	int cx := ubox.x+(ubox.w div 2)
+	int rx := (ubox.x+ubox.w)-30
 	For k,d in sPairs(Updates)
 		If SelectedARM.ARM["Cost"..k]>0 && SelectedARM.ARM["Cost"..k]<Any.Aurina.MaxHave
 			if Any.Mouse.MX>lx && Any.Mouse.MY>y && Any.Mouse.MX<rx && Any.Mouse.MY<y+30
@@ -92,4 +100,4 @@ Void _R(ubox,sit,parent)
 	parent.fnt.text(sprintf("Aurinas: %d",__Cash),lx,(ubox.y+ubox.h)-15,0,1)
 End
 
-Return _R
+//Return _R
