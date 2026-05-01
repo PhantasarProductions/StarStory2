@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/MOD_Boss.scyndi
 // 
-// 	  Version: 26.05.01
+// 	  Version: 26.05.01 II
 // 	
 // 	  Copyright (C) 2021-'22, 2026 Jeroen Petrus Broks
 // 	
@@ -45,6 +45,7 @@
 
 Module
 
+#use "Libs/SCI/Sys"
 #use "Libs/SCI/Kthura"
 #use "Libs/SCI/SString"
 #use "Script/Use/Anyway"
@@ -64,12 +65,14 @@ Void Start(string src,string scr)
 	If Stuff.Value(src,"Arena")!=""
 		Arena=Stuff.Value(src,"Arena")
 	End
+	CSayF("Start Boss: %s::%s -- OpenDoor: %s->%s",src,src,Upper(Stuff.Value(src,"OpenDoor")),Upper(Stuff.Value(src,"OpenDoor"))!="FALSE") 
 	Lnk.Map.StopWalking()
 	Lnk.Combat.PrepareCombat()
 	Lnk.Combat.Arena    = Arena
 	Lnk.Combat.Music    = Stuff.Value(src,"Tune")
 	Lnk.Combat.OpenDoor = Upper(Stuff.Value(src,"OpenDoor"))!="FALSE" 
 	Lnk.Combat.Wipe     = "GameOver"
+	
 	For i=1,9
 		String F := Stuff.Value(src,"FOE"..i)
 		Int Lvl := IVal(src,"LEVEL"..i.."_"..__skill)

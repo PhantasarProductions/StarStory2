@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Cnv.uwn/ISTrans.scyndi
 // 
-// 	  Version: 26.04.27
+// 	  Version: 26.05.01 II
 // 	
 // 	  Copyright (C) 2026 Jeroen Petrus Broks
 // 	
@@ -48,6 +48,10 @@ Module
 
 void SRC_ISSET(String T,String State,String Key,Value)
 	// T is ignored, as the system can handle all this automatically, but as this is only an Apollo conversion function, this would have to do.
+	If Value==nil
+		printf("\x1b[37m%s\n",lua.debug.traceback())
+		Lua.error("Trying to transfer nil to key "..Key.." of state "..State)
+	end
 	Sys.Call(State,"Cnv.ISTrans.TAR_ISSET",Key,Value)
 End
 
