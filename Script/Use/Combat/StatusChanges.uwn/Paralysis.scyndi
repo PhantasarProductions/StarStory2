@@ -45,13 +45,15 @@
 
 Module
 
+#use "Libs/SCI/Graphics"
+
 Const String Resistance = "Bio"
 	
 Delegate MW = Lnk.Party.MiniWrt
 Delegate MM = Lnk.Party.MiniMsg
 
-	Var ParaImg = Image.LoadNew("GFX/Combat/Status/Paralysis.png","COMBAT_STATUS_PARALYSIS")
-	Const Var LetGo = {["Hero"]={4,10,50},["Foe"]={50,10,2}}
+Var ParaImg = LoadNewImage("GFX/Combat/Status/Paralysis.png","COMBAT_STATUS_PARALYSIS")
+Const Var LetGo = {["Hero"]={4,10,50},["Foe"]={50,10,2}}
 
 
 	Void Draw(Chr)
@@ -89,4 +91,4 @@ Delegate MM = Lnk.Party.MiniMsg
 	Const Delegate PreTurn = NIKS
 	Const Delegate AltAI = NIKS
 	
-End
+
