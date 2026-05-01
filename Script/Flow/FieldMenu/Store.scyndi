@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FieldMenu/Store.scyndi
 // 
-// 	  Version: 26.05.01 V
+// 	  Version: 26.05.01 VI
 // 	
 // 	  Copyright (C) 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -112,7 +112,7 @@ Class TCat
 	ReadOnly Static Var Lst = New TLinkedList()
 End
 
-Const Var Merchant = uwn("Script/Use/Merchant.uwn")
+Const Var Merchant = uwn("Script/Use/Merchant.uwn","MERCHANT_")
 
 
 //Module
