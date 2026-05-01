@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Combat/Effect.uwn/Tricorder.scyndi
 // 
-// 	  Version: 26.04.29 VII
+// 	  Version: 26.05.02
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -56,7 +56,7 @@ Module Tricorder_Output_Effect_Module
 Var Fnt = ObtainFont("BOXTEXT")
 Var MFnt = ObtainFont("MINITEXT")
 
-Global bool AE_Tricorder(_Act,string _TarTag,String EffectParam)
+Global bool AE_Tricorder(_Act,string _TarTag,String EffectParam)	
 	Tar := Fighter.ByTag[_TarTag]
 	if Tar.Team!="Foe"
 		Lnk.Party.MiniMsg("ERROR!  ",255,0,0)
@@ -67,15 +67,22 @@ Global bool AE_Tricorder(_Act,string _TarTag,String EffectParam)
 		Sys.WaitMinTicks()
 		Events.Poll()
 		Graphics.Cls()
+		If Events.MouseHitLeft
+			Events.Flush()
+			Break
+		ENd
 		__White
 		Tar.Draw()
 		__SkyBlue
 		Fnt.Text(Tar.Name,Screen.W div 2, 5,2)
 		For ln,l in ipairs(Tar.DescriptionLines)
-			Int R := math.floor(math.abs(math.sin(ln+i)*255))
-			Int G := 255-R
-			Int B := math.floor( (i/Screen.W) * 255 )
-			Graphics.Color(R,G,B)
+			//Int R := math.floor(math.abs(math.sin(ln+i)*255))
+			//Int G := 255-R
+			//Int B := math.floor( (i/Screen.W) * 255 )
+			//Graphics.Color(R,G,B)
+			LocExtern Hue "Tricorder_Hue"
+			Hue = ((Hue || 0)+1) % 360
+			Graphics.ColorHSV((Hue+(ln*2))%360,1,1)
 			MFnt.Text(l,Screen.W div 2,(ln*20)+40,2)
 		End
 		For ei,en in pairs(Any.Resistance.Elements)
