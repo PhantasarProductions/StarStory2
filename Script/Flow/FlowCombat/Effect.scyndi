@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/Effect.scyndi
 // 
-// 	  Version: 26.04.28
+// 	  Version: 26.05.01
 // 	
 // 	  Copyright (C) 2022/'23, 2026 Jeroen Petrus Broks
 // 	
@@ -213,7 +213,7 @@ Const Var FX = UWN("Script/Use/Combat/Effect.uwn","AE_")
 	
 	Get Bool Cause
 		Bool Ret = False
-		For St in Each(Any.Resistance.StatusChanges)
+		For _,St in Pairs(Any.Resistance.StatusChanges)
 			If iAct["Cause_"..St]
 				//Int Res=Target.EndStats["ZSR_"..Fighter.StChange[st].Resistance]
 				Int Res = Target.Char.Stat["END_ZSR_"..Fighter.StChange[st].Resistance]
@@ -237,7 +237,7 @@ Const Var FX = UWN("Script/Use/Combat/Effect.uwn","AE_")
 	
 	Get Bool Cure
 		Bool Ret = False
-		For St in Each(Any.Resistance.StatusChanges)
+		For _,St in Pairs(Any.Resistance.StatusChanges)
 			If iAct.HasField("Cure_"..St) && iAct["Cure_"..St] && Target.StatusChanges[st] 
 				Target.StatusChanges[st]=False
 				charmsg("Cure: Target.CharTag",St,180,255,180)
