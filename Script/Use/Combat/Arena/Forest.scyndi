@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Combat/Arena/Forest.scyndi
 // 
-// 	  Version: 26.05.01
+// 	  Version: 26.05.01 I
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -46,6 +46,7 @@
 Module Arena_Forest
 
 #use "Libs/SCI/Sys"
+#use "Lobs/SCI/Graphics"
 
 Var Tex
 Int JunkNum
@@ -57,8 +58,8 @@ Void ATex(string k,string v)
 End
 
 Var LoadTex(string Tag)
-	Tag = Tag:upper()
-	Return Image.LoadNew(Tex[Tag],"ARENA_FOREST_"..Tag)
+	Tag = Upper(Tag)
+	Return LoadNewImage(Tex[Tag],"ARENA_FOREST_"..Tag)
 End
 
 Init
@@ -96,13 +97,13 @@ Void Load()
 	//End
 End
 	
-	Void UnLoad()
-		TexMetal = nil
-		TexFloor = nil
-		//TexJunk  = nil
-		TexTree  = nil
-		Image.KillByPrefix("ARENA_TREES_")
-	End
+Void UnLoad()
+//	TexMetal = nil
+//	TexFloor = nil
+	//TexJunk  = nil
+//	TexTree  = nil
+//	Image.KillByPrefix("ARENA_TREES_")
+End
 	
 	Void NewBattle()
 		//Int N = math.random(20,100)
