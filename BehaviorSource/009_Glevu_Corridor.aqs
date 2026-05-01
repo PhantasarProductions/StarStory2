@@ -54,7 +54,7 @@ Chunk ZA_MarcMarion
 	call ipop,"MM","North"
 	call maptext,"MARCMARION"
 	;The jmp instruction is only for debugging purposes
-	jmp dbgskip
+	;jmp dbgskip
 	Call VitalBoss,"MarcMarion","",""
 	:dbgskip
 	Call Schedule,"After_MarcMarion"
