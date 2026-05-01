@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Combat/SpellAni/Frost.scyndi
 // 
-// 	  Version: 26.05.01 II
+// 	  Version: 26.05.01 III
 // 	
 // 	  Copyright (C) 2021-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -44,8 +44,8 @@
 
 Module SA_Frost
 
-#use "Libs/Audio"
-#use "Libs/Graphics"
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Graphics"
 
 bool DrawOvertake
 var Glitter
