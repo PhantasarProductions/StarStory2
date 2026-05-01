@@ -37,11 +37,15 @@
 
 
 // Generated: 6/10/2022 12:59:34 PM
+// Manually converted: 05/01/2026
+
+Module Merchant_Heijn_Data
 
 const int BookMax = 2
 const int MediMax = 5
 
-Var _RET = New TMerchant("Heijn", "Heijn's shop", "Aurina")
+Global Var Merchant_Heijn = New TMerchant("Heijn", "Heijn's shop", "Aurina")
+LocExtern _RET "Scyndi.Globals.Merchant_Heijn"
 
 Init
 	_RET.CHealing.AddLast(New TStockItem("ITM_ADHBANDAGE", "Heijn", True))
