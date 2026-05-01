@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Combat/StatusChanges.uwn/Paralysis.scyndi
 // 
-// 	  Version: 26.05.01
+// 	  Version: 26.05.01 III
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -47,6 +47,8 @@ Module
 
 #use "Libs/SCI/Graphics"
 
+#use "Script/Use/Anyway"
+
 Const String Resistance = "Bio"
 	
 Delegate MW = Lnk.Party.MiniWrt
@@ -56,25 +58,24 @@ Var ParaImg = LoadNewImage("GFX/Combat/Status/Paralysis.png","COMBAT_STATUS_PARA
 Const Var LetGo = {["Hero"]={4,10,50},["Foe"]={50,10,2}}
 
 
-	Void Draw(Chr)
-		Static Var MdX = {[true]=10,[false]=0}
-		Static Var Md
-		Md = Md || {}
-		Int R
-		Int G
-		Int B
-		R,G,B = Graphics.GetColor()
-		__White
-		Md[Chr.CharTag] = !Md[Chr.CharTag]
-		Bool Mdd=Md[Chr.CharTag]
-		ParaImg.Tile(Chr.X-(Chr.W div 2)-5-MdX[Mdd],Chr.Y-Chr.H,16,Chr.H)
-		ParaImg.Tile(Chr.X+(Chr.W div 2)+5+MdX[Mdd],Chr.Y-Chr.H,16,Chr.H)		
-		Graphics.Color(R,G,B)
-		
-	End
+Void Draw(Chr)
+	Static Var MdX = {[true]=10,[false]=0}
+	Static Var Md
+	Md = Md || {}
+	Int R
+	Int G
+	Int B
+	R,G,B = Graphics.GetColor()
+	__White
+	Md[Chr.CharTag] = !Md[Chr.CharTag]
+	Bool Mdd:=Md[Chr.CharTag]
+	ParaImg.Tile(Chr.X-(Chr.W div 2)-5-MdX[Mdd],Chr.Y-Chr.H,16,Chr.H)
+	ParaImg.Tile(Chr.X+(Chr.W div 2)+5+MdX[Mdd],Chr.Y-Chr.H,16,Chr.H)		
+	Graphics.Color(R,G,B)		
+End
 	
-	Const Delegate Cause = NIKS
-	Const Delegate Cure = NIKS
+Const Delegate Cause = NIKS
+Const Delegate Cure = NIKS
 	
 	Bool SkipTurn(Chr)
 		If Any.Luck.Roll(Chr.CharTag,1,LetGo,false)==1
@@ -88,7 +89,7 @@ Const Var LetGo = {["Hero"]={4,10,50},["Foe"]={50,10,2}}
 	
 	
 		
-	Const Delegate PreTurn = NIKS
-	Const Delegate AltAI = NIKS
+Const Delegate PreTurn = NIKS
+Const Delegate AltAI = NIKS
 	
 
