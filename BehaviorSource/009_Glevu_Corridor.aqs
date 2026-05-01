@@ -37,7 +37,7 @@
 
 cschunk ALN,Audio.LoadNew
 ;cschunk AQP,Audio.QPlay
-cschunk AQP,Any.QuickAudio
+cschunk AQP,Any.QuickAudioTag
 cschunk NAR,abl.ABL_Klahre.Add
 
 Include Basis.aqs
