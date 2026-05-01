@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Combat/SpellAni/Spark.scyndi
 // 
-// 	  Version: 26.05.01 VI
+// 	  Version: 26.05.01 VII
 // 	
 // 	  Copyright (C) 2020-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -84,7 +84,7 @@ void Draw()
 			for i=1,35 
 				//Image.Rotation = math.random(1,360)
 				Graphics.Color(math.random(0,255),math.random(0,255),math.random(0,255))
-				Glitter.DrawR(tar.TX+(math.random(0,tar.W*2)-tar.TW),tar.TY-math.random(0,tar.TH),math.random(1,360))
+				Glitter.DrawR(Tar.X+(math.random(0,tar.W*2)-Tar.W),Tar.Y-math.random(0,Tar.H),math.random(1,360))
 			end
 		end
 		//Image.Rotation = 0
