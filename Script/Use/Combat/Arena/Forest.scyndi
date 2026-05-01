@@ -48,6 +48,8 @@ Module Arena_Forest
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/Graphics"
 
+#use "Script/Use/Anyway"
+
 Var Tex
 Int JunkNum
 
