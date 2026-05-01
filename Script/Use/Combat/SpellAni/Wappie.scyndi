@@ -37,7 +37,7 @@
 // This script is translated from NIL to Neil
 // For Star Story
 
-module
+module SA_Wappie
 
 	Const Int MaxTime = 100
 	Const Int CMin = 0
@@ -48,13 +48,9 @@ module
 	
 
 	
-	// The difference between a CONSTRUCTOR and the and Init function
-	// Is that CONSTRUCTOR is only automatically loaded when this
-	// module is called fo the first time in a combat.
-	// Init will be called EVERY time a move is being performed.
-	CONSTRUCTOR
+	Init
 		CSay("Load the pictures")
-		Cops = Image.LoadNew("GFX/Combat/Spellani/Wappies Rammen.jpbf","WAPPIES_RAMMEN")
+		Cops = LoadNewImage("GFX/Combat/Spellani/Wappies Rammen.jpbf","WAPPIES_RAMMEN")
 	end	
 
 	void Start(aact)
