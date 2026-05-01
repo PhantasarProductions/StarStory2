@@ -36,8 +36,9 @@
 ; End License Information
 
 cschunk ALN,Audio.LoadNew
-cschunk AQP,Audio.QPlay
-cschunk NAR,abl.Klahre.Add
+;cschunk AQP,Audio.QPlay
+cschunk AQP,abl.Any.QuickAudio
+cschunk NAR,abl.ABL_Klahre.Add
 
 Include Basis.aqs
 
