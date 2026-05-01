@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FieldMenu/Store.scyndi
 // 
-// 	  Version: 26.05.01 I
+// 	  Version: 26.05.01 II
 // 	
 // 	  Copyright (C) 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -100,7 +100,7 @@ Class TCat
 	ReadOnly Var Img
 	ReadOnly String Tag
 	Constructor(string _T)
-		Img = ObtainImage("BUY_"..(_T:upper()))
+		Img = ObtainImage("BUY_"..Upper(_T))
 		Tag = _T
 	End
 	ReadOnly Static Var Lst = New TLinkedList()
@@ -116,16 +116,16 @@ Const Var Merchant = uwn("Script/Use/Merchant.uwn")
 	
 	Var Current = nil
 	
-	Constructor
+	Inits
 		For c in Each{[0]="Healing","Attack","Assist","Jewels"}
 			TCat.Lst.AddLast(new TCat(c))
 		End
 	End
 	
 	Void Flow(uBox,string FMChar,string FMSituation)
-		int cx = ubox.x + 10
-		int cy = ubox.y + 10
-		string mtag = right(FMSituation,Len(FMSituation)-5)
+		int cx := ubox.x + 10
+		int cy := ubox.y + 10
+		string mtag := right(FMSituation,Len(FMSituation)-5)
 		
 		// Categories
 		for c in TCat.Lst.Each		
