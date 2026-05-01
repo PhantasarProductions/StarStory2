@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/MOD_Schedule.scyndi
 // 
-// 	  Version: 26.04.27
+// 	  Version: 26.05.01
 // 	
 // 	  Copyright (C) 2020-'22, 2026 Jeroen Petrus Broks
 // 	
@@ -148,7 +148,7 @@ Module
 				break
 			ElseIf s==":IGNOREME:"
 			Else 
-				Map.Script(s,"nil")
+				Map._Script(s,"nil")
 			End
 		End
 		StopRequest = False
