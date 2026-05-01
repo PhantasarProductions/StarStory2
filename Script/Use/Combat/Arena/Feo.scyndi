@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Combat/Arena/Feo.scyndi
 // 
-// 	  Version: 26.05.01
+// 	  Version: 26.05.01 II
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -55,10 +55,10 @@ Module Ladron_Feo_Is_Een_Lelijke_Dief
 #use "Libs/SCI/Graphics"
 
 Class Arena_Feo
-	Const String FloorFile = "GFX/TextureS/Floor/orang032.png"
-	Const String WallFile  = "GFX/Textures/Halfhout/Paars.png" 
+	Static Const String FloorFile = "GFX/TextureS/Floor/orang032.png"
+	Static Const String WallFile  = "GFX/Textures/Halfhout/Paars.png" 
 	
-	Const Var NewBattle = NIKS
+	Static Const Var NewBattle = NIKS
 	
 	
 	
