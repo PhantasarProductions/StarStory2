@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FieldMenu/Store.scyndi
 // 
-// 	  Version: 26.05.01 II
+// 	  Version: 26.05.01 V
 // 	
 // 	  Copyright (C) 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -46,6 +46,12 @@
 Module
 
 #use "libs/linkedlist"
+#use "Libs/UseWhenNeeded"
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Graphics"
+
+#use "Script/Use/Anyway"
 
 Class TMerchant
 	ReadOnly Static Table CatNames = {"Healing","Assist","Attack","Jewels"}
@@ -116,7 +122,7 @@ Const Var Merchant = uwn("Script/Use/Merchant.uwn")
 	
 	Var Current = nil
 	
-	Inits
+	Init
 		For c in Each{[0]="Healing","Attack","Assist","Jewels"}
 			TCat.Lst.AddLast(new TCat(c))
 		End
