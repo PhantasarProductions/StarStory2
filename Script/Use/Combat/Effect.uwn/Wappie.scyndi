@@ -34,8 +34,16 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
-Bool _PA(Act,_Tar,Arg)
-	Var Tar = Fighter.ByTag[_Tar]
+
+Module Effect_Lekker_Wappies_Rammen
+
+#Accept Effects
+#Accept Fighter
+
+#use "Script/Use/Anyway"
+
+Global Bool AE_Wappie(Act,_Tar,Arg)
+	Tar := Fighter.ByTag[_Tar]
 	Int Dmg
 	Switch __Skill
 		Case 1
@@ -53,4 +61,3 @@ Bool _PA(Act,_Tar,Arg)
 	Return True
 End
 
-Return _PA
