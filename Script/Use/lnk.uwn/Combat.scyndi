@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/lnk.uwn/Combat.scyndi
 // 
-// 	  Version: 26.05.01
+// 	  Version: 26.05.01 II
 // 	
 // 	  Copyright (C) 2022-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -72,6 +72,10 @@ Set String Tune
 End
 	
 Set Bool OpenDoor
+	if Value==nil
+		CSayF("\x07Nil value received for lnk.Combat.OpenDoor! -> False")
+		Value=False
+	End
 	ISSet("Bool","FLOW_COMBAT","FlowCombat.Start.OpenDoor",Value==true)
 End
 	
