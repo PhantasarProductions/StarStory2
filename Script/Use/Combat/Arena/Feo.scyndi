@@ -38,7 +38,14 @@
 #use "libs/linkedlist"
 #use "libs/xmath"
 
-Module Class
+Module Ladron_Feo_Is_Een_Lelijke_Dief
+
+#use "Script/Use/Anyway"
+
+#use "Libs/SCI/Anyway"
+#use "Libs/SCI/Graphics"
+
+Class Arena_Feo
 	Const String FloorFile = "GFX/TextureS/Floor/orang032.png"
 	Const String WallFile  = "GFX/Textures/Halfhout/Paars.png" 
 	
@@ -54,14 +61,14 @@ Module Class
 	
 	
 	Static Void Load()
-		Floor = Image.LoadNew(FloorFile,"Arena_Feo_Floor")
-		Wall  = Image.LoadNew(WallFile, "Arena_Feo_Wall")
+		Floor = LoadNewImage(FloorFile,"Arena_Feo_Floor")
+		Wall  = LoadNewImage(WallFile, "Arena_Feo_Wall")
 	End
 	
 	Static Void UnLoad()
-		Floor = nil
-		wall  = nil
-		Image.KillByPrefix("Arena_Feo")
+		//Floor = nil
+		//wall  = nil
+		//Image.KillByPrefix("Arena_Feo")
 	End
 		
 	Static Void Draw()	
