@@ -37,7 +37,7 @@
 
 cschunk ALN,Audio.LoadNew
 ;cschunk AQP,Audio.QPlay
-cschunk AQP,abl.Any.QuickAudio
+cschunk AQP,Any.QuickAudio
 cschunk NAR,abl.ABL_Klahre.Add
 
 Include Basis.aqs
@@ -54,7 +54,7 @@ Chunk ZA_MarcMarion
 	call ipop,"MM","North"
 	call maptext,"MARCMARION"
 	;The jmp instruction is only for debugging purposes
-	;jmp dbgskip
+	jmp dbgskip
 	Call VitalBoss,"MarcMarion","",""
 	:dbgskip
 	Call Schedule,"After_MarcMarion"
