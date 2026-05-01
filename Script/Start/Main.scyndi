@@ -113,7 +113,7 @@ Init
 	For k in Each{[0]="Status","Items","Abilities","Achievements","Weapon Upgrade","ARM_Gadget_Upgrade","Buy","Sell"}
 		LAsset.C(sprintf("GFX/MenuIcons/%s.png",k),sprintf("ICO_%s",Upper(k)),wh_Image)
 	End
-	For k in Each{"Healing","Attack","Assist","Jewels"}
+	For k in Each{[0]="Healing","Attack","Assist","Jewels"}
 		LAsset.C(sprintf("GFX/MenuIcons/B_%s.png",k),sprintf("BUY_%s",Upper(k)),wh_Image)
 	End
 
