@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Combat/SpellAni/Spark.scyndi
 // 
-// 	  Version: 26.05.01 V
+// 	  Version: 26.05.01 VI
 // 	
 // 	  Copyright (C) 2020-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -43,7 +43,7 @@
 // End License
 
 
-module 
+module SA_Spark
 
 #use "Libs/SCI/Audio"
 #use "Libs/SCI/Graphics"
