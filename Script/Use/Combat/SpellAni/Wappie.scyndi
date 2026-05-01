@@ -34,14 +34,17 @@
 // **********************************************
 // 
 // 
-// version: 26.05.01
+// version: 26.05.01 III
 // 
 // End License
 
 
 module SA_Wappie
 
+#use "Libs/SCI/Sys"
 #use "Libs/SCI/Graphics"
+
+#use "Script/Use/Anyway"
 
 Const Int MaxTime = 100
 Const Int CMin = 0
@@ -52,21 +55,21 @@ Int Time
 	
 
 	
-	Init
-		CSay("Load the pictures")
-		Cops = LoadNewImage("GFX/Combat/Spellani/Wappies Rammen.jpbf","WAPPIES_RAMMEN")
-	end	
+Init
+	CSay("Load the pictures")
+	Cops = LoadNewImage("GFX/Combat/Spellani/Wappies Rammen.jpbf","WAPPIES_RAMMEN")
+end	
 
-	void Start(aact)
-		Time = MaxTime
-		CopF = Math.random(CMin,CMax)
-	end
+void Start(aact)
+	Time = MaxTime
+	CopF = Math.random(CMin,CMax)
+end
 	
 	
-	void Draw()
-		__White
-		Cops.Stretch(0,0,Screen.W,Screen.H,CopF)
-	end
+void Draw()
+	__White
+	Cops.Stretch(0,0,Screen.W,Screen.H,CopF)
+end
 	
 void Update()
 	Time--
