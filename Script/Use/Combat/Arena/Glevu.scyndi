@@ -38,7 +38,9 @@
 #use "libs/linkedlist"
 #use "libs/xmath"
 
-Module Class
+Module Arena_Voor_Glevu
+
+Class Arena_Glevu
 	Const String FloorFile = "GFX/Textures/Black Corridor/Floor.png"
 	Const String WallFile  = "GFX/Textures/Black Corridor/WR_N.png" 
 	
