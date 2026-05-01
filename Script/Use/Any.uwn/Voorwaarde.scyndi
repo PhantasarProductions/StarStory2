@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Any.uwn/Voorwaarde.scyndi
 // 
-// 	  Version: 26.04.27 III
+// 	  Version: 26.05.01
 // 	
 // 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
 // 	
@@ -55,7 +55,7 @@ void GoToMap(string voorwaarde,string map, string layer, string start)
 end
 	
 Void Kill(string voorwaarde, string Tag)
-	if gbool[voorwaarde]
+	if gbool[voorwaarde] || (prefixed(voorwaarde,"!") && (! gbool[right(voorwaarde,len(voorwaarde)-1)]))
 		Lnk.Map.Kill(Tag,False)
 	End
 End
