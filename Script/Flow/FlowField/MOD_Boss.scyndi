@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/MOD_Boss.scyndi
 // 
-// 	  Version: 26.04.28 I
+// 	  Version: 26.05.01
 // 	
 // 	  Copyright (C) 2021-'22, 2026 Jeroen Petrus Broks
 // 	
@@ -100,7 +100,7 @@ Void Vital(string Tag,String _Script,String Disappear="")
 	Lnk.party.MiniMsg("Prepare for the battle!",255,0,0)
 	Start("BOSS::VITAL::"..Tag,_Script)
 	For D in each(XSplit(Disappear,","))
-		FlowField.Kill(D,true)
+		FlowField.Kill.Kill(D,true)
 	End
 End
 	
