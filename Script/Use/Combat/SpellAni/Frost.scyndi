@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Combat/SpellAni/Frost.scyndi
 // 
-// 	  Version: 26.05.01 IV
+// 	  Version: 26.05.02 I
 // 	
 // 	  Copyright (C) 2021-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -60,7 +60,7 @@ var Act
 	
 Init
 	Glitter = LoadNewImage("GFX/Combat/SpellAni/Ice32.png","SpellAni_Ice_32")
-	Audio = Audio.LoadNew("Audio/Combat/SpellAni/Glitter.ogg","SPELLANI_Glitter")
+	MyAudio = Audio.LoadNew("Audio/Combat/SpellAni/Glitter.ogg","SPELLANI_Glitter")
 end	
 	
 bool _Ended = false
@@ -81,11 +81,11 @@ void Draw()
 	// for tar in each(act.Targets)
 	//for ti=1,#act.Targets_Tag
 	for ti,_ in pairs(act.Targets_Tag)
-		tar := act.Targets[ti]
+		tar := act.targets[ti]
 		if tar
 			for i=1,35 
 				Graphics.Color(math.random(0,5),math.random(0,255),math.random(180,255))
-				Glitter.Draw(tar.TX+(math.random(0,tar.TW*2)-tar.TW),tar.TY-math.random(0,tar.TH))
+				Glitter.Draw(tar.X+(math.random(0,tar.W*2)-tar.W),tar.Y-math.random(0,tar.H))
 			end
 		end
 	end
