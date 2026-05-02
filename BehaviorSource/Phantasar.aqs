@@ -46,7 +46,7 @@ csChunk Pay,Any.Aurina.PayShildersGv
 
 Chunk Load
 	;done OnPhantasar
-	call LoadNewState,"FLOW_PHANTASARWORLD","Script/Flow/FlowPhantasarWorld.neil"
+	call LoadNewState,"FLOW_PHANTASARWORLD","Script/Flow/FlowPhantasarWorld.lbc"
 
 		
 

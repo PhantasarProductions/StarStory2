@@ -91,7 +91,7 @@ csChunk SetObj,Lnk.Map.SetObj
 csChunk PRecover,Lnk.Party.Recover
 csChunk SaveGame,Lnk.Map.GoToSave
 
-csChunk LoadNewState,State.LoadNew
+csChunk LoadNewState,Sys.LoadNewState
 
 
 csChunk IncAurina,Any.Aurina.Incr
