@@ -36,8 +36,8 @@
 ; End License Information
 Include Phantasar.aqs
 
-CsChunk AllowRachel,Abl.Klahre.AllowRachel
-CsChunk ObtainArkSmash,Abl.Klahre.ObtainArkSmash
+CsChunk AllowRachel,Abl.ABL_Klahre.AllowRachel
+CsChunk ObtainArkSmash,Abl.ABL_Klahre.ObtainArkSmash
 
 Chunk Load
 	Done PHANTASAR_VISIT_ISKARDERIU
