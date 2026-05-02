@@ -38,7 +38,7 @@
 Include Phantasar.aqs
 
 Chunk Load
-	call CSay,"Welcome to Phantasar"
+	call CSay,"Welcome to Phantasar!"
 	exit
 	
 Chunk ZA_Return
