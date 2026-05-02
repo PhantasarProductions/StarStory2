@@ -35,6 +35,9 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 Module
+
+#use "Scripts/Use/Anyway"
+
 	Const String Resistance = "Stamina"
 	
 	Delegate MW = Lnk.Party.MiniWrt
@@ -58,4 +61,3 @@ Module
 	
 	Const Delegate PreTurn = NIKS
 	
-End
