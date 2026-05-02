@@ -34,6 +34,13 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
+Module MasterMindPuzzle
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Kthura"
+#use "Libs/SCI/InterVar"
+
 var Kleuren
 
 Init 
@@ -68,11 +75,11 @@ class MMClass
 	readonly string Tag
 	
 	Get Bool Solved
-		Return gv.gbool["SOLVED_MASTERMIND_"..Tag]
+		Return gbool["SOLVED_MASTERMIND_"..Tag]
 	End
 	
 	Set Bool Solved
-		gv.gbool["SOLVED_MASTERMIND_"..Tag] = Value
+		gbool["SOLVED_MASTERMIND_"..Tag] = Value
 	End
 	
 	Get Int HalfGoed
@@ -134,17 +141,18 @@ Void Check(PZ,string N)
 	End
 	oldtime = os.time()
 	PZ["fdigit"..N] = (PZ["fdigit"..N] % (__Skill*4))+1 
-	FlowField.Map.CurrentLayer.Obj("MM_HGOED").Texture = sprintf(Tex,PZ.HalfGoed)
-	FlowField.Map.CurrentLayer.Obj("MM_VGOED").Texture = sprintf(Tex,PZ.VolledigGoed)
-	Var O = FlowField.Map.CurrentLayer.Obj("ZA_MM"..n)
-	O.R = Kleuren[ PZ["fdigit"..N] ] [ 1 ]
-	O.G = Kleuren[ PZ["fdigit"..N] ] [ 2 ]
-	O.B = Kleuren[ PZ["fdigit"..N] ] [ 3 ] 
+	Kthura.Obj["MM_HGOED"].Texture = sprintf(Tex,PZ.HalfGoed)
+	Kthura.Obj["MM_VGOED"].Texture = sprintf(Tex,PZ.VolledigGoed)
+	//Var O = FlowField.Map.CurrentLayer.Obj("ZA_MM"..n)
+	O:=Kthura.Obj["ZA_MM"..n]
+	O.R = Kleuren[ PZ["fdigit"..N] ] [ 1 ] - 1
+	O.G = Kleuren[ PZ["fdigit"..N] ] [ 2 ] - 1
+	O.B = Kleuren[ PZ["fdigit"..N] ] [ 3 ] - 1
 	CSayF("Digit %s now has value: %02d",N,PZ["fdigit"..N])
 	if PZ.VolledigGoed>=4
 		Audio.LoadNew("Audio/SFX/Good.ogg","AU_GOOD").Play()
 		Lnk.Party.Score(2500)
-		for t in each{"ZA_MM1","ZA_MM2","ZA_MM3","ZA_MM4","ZA_MMInit","MM_Barrier","MM_HGoed","MM_VGoed"}
+		for t in each{[0]="ZA_MM1","ZA_MM2","ZA_MM3","ZA_MM4","ZA_MMInit","MM_Barrier","MM_HGoed","MM_VGoed"}
 			Lnk.Map.PKill(t)
 			CSay("Killed: "..t)
 		End
@@ -153,9 +161,9 @@ End
 
 
 
-QuickMeta LNK_Mastermind
+QuickMeta Mastermind
 	index
-		string _Tag = sprintf("KTH___%s___LAY__%s",gv.gstr.LoadedMap,FlowField.Map.Layer)
+		string _Tag = sprintf("KTH___%s___LAY__%s",gstr.LoadedMap,FlowField.Map.Layer)
 		Puzzles = Puzzles || {}
 		key = key:upper()
 		switch key
@@ -165,7 +173,7 @@ QuickMeta LNK_Mastermind
 			case "TAG"
 				Return _Tag
 			case "SOLVED"
-				Return gv.gbool["SOLVED_MASTERMIND_".._Tag]
+				Return gbool["SOLVED_MASTERMIND_".._Tag]
 			default
 				if !prefixed(key,"ZA_MM")
 					Lua.error("Invalid Mastermind field: "..key)
@@ -180,4 +188,4 @@ QuickMeta LNK_Mastermind
 			
 End
 
-Return LNK_Mastermind
+//Return LNK_Mastermind
