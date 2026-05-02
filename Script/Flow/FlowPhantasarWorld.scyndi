@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 26.05.02 VI
+// version: 26.05.02 XI
 // 
 // End License
 
@@ -86,7 +86,7 @@ End
 	
 Global Void ComeToMe()
 	CSay("Going to the Phantasar World Map")
-	Sys.CurrentFlow="FLOW_PHANTASARWORLD"
+	Sys.CurrentFlow="PHANTASARWORLD"
 	Music.Play("Music/Hub/The Start To Fantasy.ogg")
 End
 	
@@ -156,11 +156,11 @@ Global Void MainFlow()
 		int y:=i*30
 		if v.Available
 			__White
-			If Events.MouseY()>y && Events.MouseY()<y+30
+			If Events.MouseY>y && Events.MouseY<y+30
 				__SkyBlue
-				if Events.MouseHitLeft()
+				if Events.MouseHitLeft
 					Lnk.Map.GoToMap(v.GoMap,v.GoLayer,v.GoExit)
-					Sys.CurrentFlow="FLOW_FIELD"
+					Sys.CurrentFlow="FIELD"
 				end
 			End
 			SFont.Text(v.Caption,x,y)
