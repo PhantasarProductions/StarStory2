@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 26.05.02
+// version: 26.05.02 VI
 // 
 // End License
 
@@ -45,9 +45,11 @@ Script
 #use "Libs/Music"
 
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
 #use "Libs/SCI/InterVar"
 
-ReadOnly Var SFont = ImageFont.Obtain("NEWTEXT")
+ReadOnly Var SFont = ObtainFont("NEWTEXT")
 //global readonly var Dev = Any.Dev
 
 Class Destination
@@ -145,19 +147,20 @@ End
 
 Global Void MainFlow()
 	__White
-	Dev.ToConsole()
+	//Dev.ToConsole()
+	WantQuit()
 	int i=0
 	for v in Destination.Lijst.EACH
 		i++
-		int x=i*2
-		int y=i*30
+		int x:=i*2
+		int y:=i*30
 		if v.Available
 			__White
 			If Events.MouseY()>y && Events.MouseY()<y+30
 				__SkyBlue
 				if Events.MouseHitLeft()
 					Lnk.Map.GoToMap(v.GoMap,v.GoLayer,v.GoExit)
-					Flow.Current="FLOW_FIELD"
+					Sys.CurrentFlow="FLOW_FIELD"
 				end
 			End
 			SFont.Text(v.Caption,x,y)
