@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/Effect.scyndi
 // 
-// 	  Version: 26.05.01
+// 	  Version: 26.05.02
 // 	
 // 	  Copyright (C) 2022/'23, 2026 Jeroen Petrus Broks
 // 	
@@ -165,7 +165,8 @@ Const Var FX = UWN("Script/Use/Combat/Effect.uwn","AE_")
 	Get Bool Hit
 		If iAct.ARM && Executor.Tag=="Klahre"
 			//Lua.error("ARMS hit check not yet implemented")
-			Int R := XRoll(0,100,False)
+			//Int R := XRoll(0,100,False)
+			Int R := math.random(0,100)
 			Int H := Abl.ABL_Klahre.ARM[iAct.Tag].Hit
 			CSayF("Klahre ARM hit roll %3d/%3d -> %s",R,H,R<=H)
 			Return R<=H
