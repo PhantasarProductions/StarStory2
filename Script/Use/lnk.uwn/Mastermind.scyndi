@@ -1,45 +1,57 @@
-// License Information:
-// src/Tricky Script/Script/Use/lnk.uwn/Mastermind.neil
-// Version: 22.08.28
-// Copyright (C) 2022 Jeroen Petrus Broks
+// License:
+// 	  src/Code/Script/Use/lnk.uwn/Mastermind.scyndi
 // 
-// ===========================
-// This file is part of a project related to the Phantasar Chronicles or another
-// series or saga which is property of Jeroen P. Broks.
-// This means that it may contain references to a story-line plus characters
-// which are property of Jeroen Broks. These references may only be distributed
-// along with an unmodified version of the game.
+// 	  Version: 26.05.02 VII
+// 	
+// 	  Copyright (C) 2022, 2026 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
 // 
-// As soon as you remove or replace ALL references to the storyline or character
-// references, or any termology specifically set up for the Phantasar universe,
-// or any other univers a story of Jeroen P. Broks is set up for,
-// the restrictions of this file are removed and will automatically become
-// zLib licensed (see below).
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
 // 
-// Please note that doing so counts as a modification and must be marked as such
-// in accordance to the zLib license.
-// ===========================
-// zLib license terms:
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
-// in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-// misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-// End License Information
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
 
 Module MasterMindPuzzle
 
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/Audio"
 #use "Libs/SCI/Kthura"
 #use "Libs/SCI/InterVar"
+
+#use "Script/Use/Anyway"
+
+#accept FlowField
 
 var Kleuren
 
@@ -62,6 +74,7 @@ Init
 	End
 end	
 	
+locExtern Zelf "self"
 
 class MMClass
 	readonly int cdigit1
@@ -86,7 +99,7 @@ class MMClass
 		Int R=0
 		For  i=1,4
 			for j=1,4
-				If self["fdigit"..i]==self["cdigit"..j] && j!=i
+				If Zelf["fdigit"..i]==Zelf["cdigit"..j] && j!=i
 					R++
 				End
 			End
@@ -97,7 +110,7 @@ class MMClass
 	Get Int VolledigGoed
 		Int R = 0
 		for i=1,4
-			If self["fdigit"..i]==self["cdigit"..i] && self["fdigit"..i]!=0
+			If Zelf["fdigit"..i]==Zelf["cdigit"..i] && Zelf["fdigit"..i]!=0
 				R++
 			End
 		End
@@ -145,9 +158,9 @@ Void Check(PZ,string N)
 	Kthura.Obj["MM_VGOED"].Texture = sprintf(Tex,PZ.VolledigGoed)
 	//Var O = FlowField.Map.CurrentLayer.Obj("ZA_MM"..n)
 	O:=Kthura.Obj["ZA_MM"..n]
-	O.R = Kleuren[ PZ["fdigit"..N] ] [ 1 ] - 1
-	O.G = Kleuren[ PZ["fdigit"..N] ] [ 2 ] - 1
-	O.B = Kleuren[ PZ["fdigit"..N] ] [ 3 ] - 1
+	O.R = Kleuren[ PZ["fdigit"..N] - 1 ] [ 1 ] 
+	O.G = Kleuren[ PZ["fdigit"..N] - 1 ] [ 2 ] 
+	O.B = Kleuren[ PZ["fdigit"..N] - 1 ] [ 3 ] 
 	CSayF("Digit %s now has value: %02d",N,PZ["fdigit"..N])
 	if PZ.VolledigGoed>=4
 		Audio.LoadNew("Audio/SFX/Good.ogg","AU_GOOD").Play()
@@ -165,7 +178,7 @@ QuickMeta Mastermind
 	index
 		string _Tag = sprintf("KTH___%s___LAY__%s",gstr.LoadedMap,FlowField.Map.Layer)
 		Puzzles = Puzzles || {}
-		key = key:upper()
+		key = Upper(key)
 		switch key
 			case "INIT"
 				Puzzles[_Tag] = Puzzles[_Tag] || new MMClass(_Tag)
@@ -178,7 +191,7 @@ QuickMeta Mastermind
 				if !prefixed(key,"ZA_MM")
 					Lua.error("Invalid Mastermind field: "..key)
 				elseif self.Solved
-					Return
+					Return true
 				else
 					Check(Puzzles[_Tag],Right(Key,1))
 					Return NIKS
