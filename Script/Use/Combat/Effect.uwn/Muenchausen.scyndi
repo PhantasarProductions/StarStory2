@@ -34,22 +34,27 @@
 // 
 // version: 22.08.10
 // End License Information
-Const Var KanonsKogel = Image.LoadNew("GFX/Combat/SpellAni/CANNONBALL.PNG","SPELLANI_KANONSKOGEL")
-Const Var Stars = Image.LoadNew("GFX/Intro/Starfield.png","STARFIELD")
-ReadOnly Int KanonW = KanonsKogel.W
-ReadOnly Int KanonH = KanonsKogel.H
-readonly Var Fnt = ImageFont.Obtain("BIGTEXT")
+
+Module KanonKogelVliegen_Met_De_Baron_Von_Muenchhaussen
+
+#use "Libs/SCI/Graphics"
+
+Const Var KanonsKogel = LoadNewImage("GFX/Combat/SpellAni/CANNONBALL.PNG","SPELLANI_KANONSKOGEL")
+Const Var Stars = LoadNewImage("GFX/Intro/Starfield.png","STARFIELD")
+ReadOnly Int KanonW = KanonsKogel.Width
+ReadOnly Int KanonH = KanonsKogel.Height
+readonly Var Fnt = ObtainFont("BIGTEXT")
 
 const delegate CLS=Graphics.Cls
 const delegate Flip=Graphics.Flip
 
-bool BaronVonMunchhaussen(Act,string TarTag)
+Global bool AE_Muenchaussen(Act,string TarTag)
 	
 
 	// The Baron of Munchhausen said he flew through the sky on a cannon
 	// ball.... Let's visualize that
 	
-	Var Tar = Fighter.ByTag[TarTag]
+	Tar := Fighter.ByTag[TarTag]
 	
 	if Tar.Team=="Player"
 		Lua.error("Munchhausen cannot be used on heros!\nWhat the hell went wrong here?")
@@ -100,4 +105,4 @@ bool BaronVonMunchhaussen(Act,string TarTag)
 End
 
 
-Return BaronVonMunchhaussen
+//Return BaronVonMunchhaussen
