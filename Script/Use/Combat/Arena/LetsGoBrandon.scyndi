@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Use/Combat/Arena/Letsgobrandon.neil
-// (c) Jeroen Broks, 2022, All Rights Reserved.
+// src/Code/Script/Use/Combat/Arena/LetsGoBrandon.scyndi
+// (c) Jeroen Broks, 2022, 2026, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,13 +33,20 @@
 // 
 // **********************************************
 // 
-// version: 22.08.26
-// End License Information
+// 
+// version: 26.05.02
+// 
+// End License
+
 
 #use "libs/linkedlist"
 #use "libs/xmath"
 
-Module Class
+#use "Script/Use/Anyway"
+
+Module LatenWeGaanBrandon_OfBedoeldenZeIetsAnders 
+
+Class Arena_LetsGoBrandon
 	Const String FloorFile = "GFX/Textures/Grot/F.png"
 	Const String WallFile  = "GFX/Textures/Grot/N.png" 
 	
@@ -54,14 +62,14 @@ Module Class
 	
 	
 	Static Void Load()
-		Floor = Image.LoadNew(FloorFile,"Arena_Brandon_Floor")
-		Wall  = Image.LoadNew(WallFile, "Arena_Brandon_Wall")
+		Floor = LoadNewImage(FloorFile,"Arena_Brandon_Floor")
+		Wall  = LoadNewImage(WallFile, "Arena_Brandon_Wall")
 	End
 	
 	Static Void UnLoad()
-		Floor = nil
-		wall  = nil
-		Image.KillByPrefix("Arena_Feo")
+		//Floor = nil
+		//wall  = nil
+		//Image.KillByPrefix("Arena_Brandon")
 	End
 		
 	Static Void Draw()	
