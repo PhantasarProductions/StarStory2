@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Use/Combat/Effect.uwn/Muenchausen.neil
-// (c) Jeroen Broks, 2021, 2022, All Rights Reserved.
+// src/Code/Script/Use/Combat/Effect.uwn/Muenchausen.scyndi
+// (c) Jeroen Broks, 2021/'22, 2026, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,12 +33,21 @@
 // 
 // **********************************************
 // 
-// version: 22.08.10
-// End License Information
+// 
+// version: 26.05.02 IX
+// 
+// End License
+
 
 Module KanonKogelVliegen_Met_De_Baron_Von_Muenchhaussen
 
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
 #use "Libs/SCI/Graphics"
+
+#use "Script/Use/Anyway"
+
+#accept Fighter
 
 Const Var KanonsKogel = LoadNewImage("GFX/Combat/SpellAni/CANNONBALL.PNG","SPELLANI_KANONSKOGEL")
 Const Var Stars = LoadNewImage("GFX/Intro/Starfield.png","STARFIELD")
@@ -48,7 +58,7 @@ readonly Var Fnt = ObtainFont("BIGTEXT")
 const delegate CLS=Graphics.Cls
 const delegate Flip=Graphics.Flip
 
-Global bool AE_Muenchaussen(Act,string TarTag)
+Global bool AE_MUENCHAUSEN(Act,string TarTag)
 	
 
 	// The Baron of Munchhausen said he flew through the sky on a cannon
@@ -61,26 +71,27 @@ Global bool AE_Muenchaussen(Act,string TarTag)
 	end
 	if Tar.Boss
 		// You may not use the ARM on BOSSES (I mean come on!)
+		CSay("Target is boss so request denied!")
 		return false
 	end
 	
 	
-	int y = Screen.H+500
-	int x = Screen.W
+	int y = Graphics.H+500
+	int x = Graphics.W
 	int StarPoint = 0
 	int SkyAlpha = 400
 	
 	Repeat
 		CLS()
 		__white
-		Stars.Tile(0,0,Screen.W,Screen.H) // ,StarPoint,StarPoint)
+		Stars.Tile(0,0,Graphics.W,Graphics.H) // ,StarPoint,StarPoint)
 		StarPoint-=4
 		if SkyAlpha>0
 			__SkyBlue
 			Graphics.SetAlpha(math.min(255,SkyAlpha))
-			Graphics.Rect(0,0,Screen.W,Screen.H)
+			Graphics.Rect(0,0,Graphics.W,Graphics.H)
 			//SkyAlpha--
-			SkyAlpha = math.max(0,math.floor( (y/Screen.H) * 450))
+			SkyAlpha = math.max(0,math.floor( (y/Graphics.H) * 450))
 			Graphics.SetAlpha(255)
 		end
 		__white
@@ -91,12 +102,12 @@ Global bool AE_Muenchaussen(Act,string TarTag)
 		x-=2
 		__ember
 		if y<-(KanonH*1)
-			Fnt.Text("Bye! Bye!",Screen.W div 2,Screen.H div 2)
+			Fnt.Text("Bye! Bye!",Graphics.W div 2,Graphics.H div 2)
 		elseif y<0
-			Fnt.Text("Bye!",Screen.W div 2,Screen.H div 2)
+			Fnt.Text("Bye!",Graphics.W div 2,Graphics.H div 2)
 		end
 		FLIP()
-		FPS.WaitMinTicks()
+		Sys.WaitMinTicks()
 		Events.Poll()		
 	LoopWhile y>0-(KanonH * 3)
 	//Tar.StatusChange.Gone = true
