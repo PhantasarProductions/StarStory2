@@ -425,18 +425,18 @@ Class Fighter
 				__White
 				Int NY := math.min(Fdat.Y-(Fdat.W div 4),YMax-32)
 				Int BY := NY+20				
+				Int W := fnt.Width(fdat.TargetName)
+				Int NX := math.max(0,math.min(fdat.X,Graphics.W-W-5))
 				//FitText.Dark(fnt,fdat.TargetName,Fdat.X,NY)
-				fnt.DarkText(fdat.TargetName,Fdat.X,NY)
+				fnt.DarkText(fdat.TargetName,NX,NY)
 				if Fdat.ShowHPBar
-					Int W := fnt.Width(fdat.TargetName)
-					Int NX := math.max(0,math.min(fdat.X,Graphics.W-W-5))
 					Graphics.Color(80,80,80)
-					Graphics.Rect(Fdat.X,BY,W,10)
+					Graphics.Rect(NX,BY,W,10)
 					Number Breuk = Fdat.HP/Fdat.HPMax
 					Int G:=math.ceil(Breuk*255)
 					Int B:=math.ceil(Breuk*W)
 					Graphics.Color(255-G,G,0)
-					Graphics.Rect(fdat.X,BY,B,10)
+					Graphics.Rect(NX,BY,B,10)
 				End
 			End
 		End
