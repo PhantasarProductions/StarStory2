@@ -1,34 +1,21 @@
-// License Information:
-// src/Tricky Script/Script/Use/Combat/Arena/Flowers.neil
-// Arena - Flowers
-// version: 23.01.23
-// Copyright (C) 2023 Jeroen P. Broks
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
-// in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-// misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-// End License Information
+
+
+Module Arena_Flowers
+
+#use "Libs/SCI/Sys"
+
 Var Tex
 Int JunkNum
 
 Void ATex(string k,string v)
 	Tex = Tex || {}
-	Tex[k:upper()] = v
+	Tex[Upper(k)] = v
 	CSay("Arena> Registered texture "..v.." at tag: "..k)
 End
 
 Var LoadTex(string Tag)
 	CSay("Loading: "..Tag)
-	Tag = Tag:upper()
+	Tag = Upper(Tag)
 	Return Image.LoadNew(Tex[Tag],"ARENA_FOREST_"..Tag)
 End
 
@@ -46,7 +33,7 @@ Init
 End
 
 
-Module
+//Module
 
 	Get Int HH 
 		Return Screen.Height div 3
