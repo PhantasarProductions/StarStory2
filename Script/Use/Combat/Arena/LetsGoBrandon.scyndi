@@ -34,13 +34,15 @@
 // **********************************************
 // 
 // 
-// version: 26.05.02
+// version: 26.05.02 I
 // 
 // End License
 
 
 #use "libs/linkedlist"
 #use "libs/xmath"
+
+#use "Libs/SCI/Graphics"
 
 #use "Script/Use/Anyway"
 
