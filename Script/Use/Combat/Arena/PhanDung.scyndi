@@ -38,7 +38,11 @@
 #use "libs/linkedlist"
 #use "libs/xmath"
 
-Module Class
+#use "Libs/SCI/Graphics"
+
+Module PhantasarDungeon
+
+Class Arena_PhanDung
 	Const String  WallFile = "GFX/Texture/Phantasar/Dungeon/Grey/North Wall.png"
 	Const String FloorFile  = "GFX/Texture/Phantasar/Dungeon/Grey/Floor.png" 
 	
@@ -54,14 +58,14 @@ Module Class
 	
 	
 	Static Void Load()
-		Floor = Image.LoadNew(FloorFile,"Arena_PhantasarDungeon_Floor")
-		Wall  = Image.LoadNew(WallFile, "Arena_PhantasarDungeon_Wall")
+		Floor = LoadNewImage(FloorFile,"Arena_PhantasarDungeon_Floor")
+		Wall  = LoadNewImage(WallFile, "Arena_PhantasarDungeon_Wall")
 	End
 	
 	Static Void UnLoad()
-		Floor = nil
-		wall  = nil
-		Image.KillByPrefix("Arena_PhantasarDungeon")
+		//Floor = nil
+		//wall  = nil
+		//Image.KillByPrefix("Arena_PhantasarDungeon")
 	End
 		
 	Static Void Draw()	
