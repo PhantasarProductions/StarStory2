@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Combat/SpellAni/Wind.scyndi
 // 
-// 	  Version: 26.05.03 VI
+// 	  Version: 26.05.03 X
 // 	
 // 	  Copyright (C) 2020-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -68,9 +68,9 @@ class Tornado
 		self.List = self.List || new TLinkedList()
 		self.List.AddLast(self)
 		self.target = tar
-		self.W = math.floor(tar.TW / 2)
-		self.X = tar.TX //+self.W
-		self.Y = tar.TY //+tar.Height
+		self.W = math.floor(tar.W / 2)
+		self.X = tar.X //+self.W
+		self.Y = tar.Y //+tar.Height
 		CSayF("Created tornado #%09x",self.id)
 	end
 	
@@ -79,7 +79,7 @@ class Tornado
 	end
 	
 	void Draw()
-		self.img.XDraw(self.X,self.Y)
+		self.img.Draw(self.X,self.Y)
 	end
 	
 	static void All()
@@ -118,9 +118,9 @@ void Draw()
 		Tornado.List.Clear()
 		return 
 	end
-	Graphics.SetScale(1,(750+math.ceil(xmath.sin(D)*500))/1000)
+	Graphics.Scale(1,(750+math.ceil(xmath.sin(D)*500))/1000)
 	Tornado.All()
-	Graphics.SetScale(1,1)
+	Graphics.Scale(1,1)
 	return 
 end
 	
