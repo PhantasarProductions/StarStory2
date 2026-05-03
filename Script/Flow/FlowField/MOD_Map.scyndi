@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowField/MOD_Map.scyndi
 // 
-// 	  Version: 26.04.27
+// 	  Version: 26.05.03
 // 	
 // 	  Copyright (C) 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -280,11 +280,11 @@ Module
 	End
 	
 	Void Block(String Tag)
-		CurLayer.Obj(Tag).Impassible = true
+		Kthura.Obj[Tag].Impassible = true
 	End
 	
 	Void UnBlock(string Tag)
-		CurLayer.Obj(Tag).Impassible = false
+		Kthura.Obj[Tag].Impassible = false
 	End
 	
 	Void HideLabelInAllLayers(string Label)
