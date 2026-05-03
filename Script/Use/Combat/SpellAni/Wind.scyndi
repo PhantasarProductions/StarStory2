@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Combat/SpellAni/Wind.scyndi
 // 
-// 	  Version: 26.05.03 II
+// 	  Version: 26.05.03 V
 // 	
 // 	  Copyright (C) 2020-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -47,6 +47,8 @@ Module SA_Wind
 #use "libs/xmath"
 #use "libs/linkedlist"
 
+#use "Libs/SCI/Sys"
+
 
 class Tornado
 	readonly int X
@@ -62,7 +64,7 @@ class Tornado
 	CONSTRUCTOR(tar)
 		self.count++
 		self.id = self.count
-		self.List = self.List or new TLinkedList()
+		self.List = self.List || new TLinkedList()
 		self.List.AddLast(self)
 		self.target = tar
 		self.W = math.floor(tar.TW / 2)
@@ -101,7 +103,7 @@ var Act
 	
 void Start(aact)
 	Act=aact
-	self.D=self.MaxCycles
+	D=MaxCycles
 	//for _,t in ipairs(act.Targets)
 	//for i=1,#act.Targets_Tag
 	for i,_ in Pairs(act.Targets_Tag)
@@ -110,12 +112,12 @@ void Start(aact)
 end
 	
 void Draw()
-	self.D -= 4
-	if self.D<=0
+	D -= 4
+	if D<=0
 		Tornado.List.Clear()
 		return 
 	end
-	Graphics.SetScale(1,(750+math.ceil(xmath.sin(self.D)*500))/1000)
+	Graphics.SetScale(1,(750+math.ceil(xmath.sin(D)*500))/1000)
 	Tornado.All()
 	Graphics.SetScale(1,1)
 	return 
@@ -125,7 +127,7 @@ void Update()
 end
 
 get bool Ended
-	return self.D<=0
+	return D<=0
 end
 	
 
