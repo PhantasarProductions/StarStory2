@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FieldMenu/UseItem.scyndi
 // 
-// 	  Version: 26.04.27
+// 	  Version: 26.05.03 II
 // 	
 // 	  Copyright (C) 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -119,7 +119,7 @@ void _UseItem(string ch,int Slot,string ittag)
 	End
 end
 
-Void _SellItem(string ch,int Slot,string ittag)	
+Void _SellItem(string ch,int Slot,string ittag,string sit)	
 	Item := Any.iaa[ittag]
 	If (Any.IAA.SlotNum[Slot]<=0)
 		Any.Aurina.Buzz.Play()
@@ -127,14 +127,21 @@ Void _SellItem(string ch,int Slot,string ittag)
 		Return
 	End
 	Any.Aurina.ChaChing.Play()
-	Any.Aurina.Have += Item.Sell_Price
+	switch sit
+		Case "SHOP_PHAN"
+			Any.Aurina.HaveShilders += Item.Sell_Price
+			lnk.Party.MiniMsg(sprintf("You now have %d %s",Any.Aurina.HaveShilders,Ternary(Any.Aurina.HaveShilders==1,"Shilder","Shilders")))
+		Default
+			Any.Aurina.Have += Item.Sell_Price
+			lnk.Party.MiniMsg(sprintf("You now have %d %s",Any.Aurina.Have,Ternary(Any.Aurina.Have==1,"Aurina","Aurinas")))
+	End
 	Any.IAA.SlotNum[Slot]--	
 End
 
 Void _UseItemSel(string ch,int Slot,string ittag,string situation)
 	Switch Upper(situation)
 		Case "SHOP_HEIJN" "SHOP_PHAN"
-			_SellItem(ch,slot,ittag)
+			_SellItem(ch,slot,ittag,situation)
 		Default
 			_UseItem(ch,slot,ittag)
 	End
