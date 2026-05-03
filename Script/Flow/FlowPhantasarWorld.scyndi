@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 26.05.02 XI
+// version: 26.05.03
 // 
 // End License
 
@@ -46,6 +46,7 @@ Script
 
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/Events"
+#use "Libs/SCI/Kthura"
 #use "Libs/SCI/Graphics"
 #use "Libs/SCI/InterVar"
 
@@ -134,15 +135,26 @@ end
 
 
 Global Void DoomOpen()
-	Lnk.Map.UnBlockObj("Barrier")
-	Lnk.Map.HideObj("Barrier")
-	Lnk.Map.ShowByLabel("Enter")
+	//Lnk.Map.UnBlockObj("Barrier")
+	//Lnk.Map.HideObj("Barrier")
+	//Lnk.Map.ShowByLabel("Enter")
+	B:=Kthura.Obj.Barrier
+	B.Impassible=false
+	B.Visible=false
+	Kthura.ShowByLabel("Enter")
+	Kthura.Remap()
 End
 
 Global Void DoomClose()
-	Lnk.Map.BlockObj("Barrier")
-	Lnk.Map.ShowObj("Barrier")
-	Lnk.Map.HideByLabel("Enter")
+	//Lnk.Map.BlockObj("Barrier")
+	//Lnk.Map.ShowObj("Barrier")
+	//Lnk.Map.HideByLabel("Enter")
+	B:=Kthura.Obj.Barrier
+	B.Impassible=true
+	B.Visible=true
+	Kthura.HideByLabel("Enter")
+	Kthura.Remap()
+	
 End
 
 Global Void MainFlow()
