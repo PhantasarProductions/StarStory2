@@ -35,6 +35,13 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
+Module
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Kthura"
+#use "Libs/SCI/InterVar"
+
 #use "Libs/LinkedList"
 
 Class TKeyCard
@@ -68,12 +75,12 @@ Module
 	ReadOnly Var Yeah = Audio.LoadNew("Audio/SFX/Yeah.ogg","YEAH")
 
 	Void GoElevator()
-		State.LoadNew("FLOW_ELEVATOR","Script/Flow/FlowElevator.neil")
-		Flow.Current="FLOW_ELEVATOR"
+		Sys.LoadNewState("FLOW_ELEVATOR","Script/Flow/FlowElevator.neil")
+		Sys.CurrentFlow="ELEVATOR"
 	End
 	
 	String KeyFloorTag(string Key)
-		string L = Lnk.Map.Layer
+		string L = Kthura.CurrentLayer
 		if Left(L,1)=="#"
 			L = Right(L,#L-1)
 		End
@@ -81,55 +88,55 @@ Module
 	End
 	
 	Get Bool Red
-		Return gv.vBool[KeyFloorTag("RED")]
+		Return gBool[KeyFloorTag("RED")]
 	End
 	
 	Get Bool Green
-		Return gv.vBool[KeyFloorTag("GREEN")]
+		Return gBool[KeyFloorTag("GREEN")]
 	End
 
 	Get Bool Blue
-		Return gv.vBool[KeyFloorTag("BLUE")]
+		Return gBool[KeyFloorTag("BLUE")]
 	End
 	
 	Get Bool Amber
-		Return gv.vBool[KeyFloorTag("AMBER")]
+		Return gBool[KeyFloorTag("AMBER")]
 	End
 	
 	Get Bool Purple
-		Return gv.vBool[KeyFloorTag("PURPLE")]
+		Return gBool[KeyFloorTag("PURPLE")]
 	End
 	
 	Set Bool Red
-		 gv.vBool[KeyFloorTag("RED")] = Value
+		 gBool[KeyFloorTag("RED")] = Value
 	End
 	
 	Set Bool Green
-		 gv.vBool[KeyFloorTag("GREEN")] = Value
+		 gBool[KeyFloorTag("GREEN")] = Value
 	End
 
 	Set Bool Blue
-		 gv.vBool[KeyFloorTag("BLUE")] = Value
+		 gBool[KeyFloorTag("BLUE")] = Value
 	End
 	
 	Set Bool Amber
-		 gv.vBool[KeyFloorTag("AMBER")] = Value
+		 gBool[KeyFloorTag("AMBER")] = Value
 	End
 	
 	Set Bool Purple
-		 gv.vBool[KeyFloorTag("PURPLE")] = Value
+		 gBool[KeyFloorTag("PURPLE")] = Value
 	End
 				 
 	Void CheckKey(string K)
-		gv.vBool.CheckedKey = self[K]
+		gBool.CheckedKey = self[K]
 	End
 	
 	Get Int Score
-		Return math.max(gv.gint.EFU_Elevator_Key_Score,90 div __skill)
+		Return math.max(gint.EFU_Elevator_Key_Score,90 div __skill)
 	End
 	
 	Set Int Score
-		gv.gint.EFU_Elevator_Key_Score = math.min(Value,12000 div __skill)
+		gint.EFU_Elevator_Key_Score = math.min(Value,12000 div __skill)
 		CSayF("Keycard Score set to: %d",Value)
 	End
 	
@@ -152,7 +159,7 @@ Module
 	End
 	
 	Void DrawKeys()
-		static var KC = Image.LoadNew("GFX/Textures/EFU/Keycard.png","EFU_Keycard" )
+		static var KC = LoadNewImage("GFX/Textures/EFU/Keycard.png","EFU_Keycard" )
 		KC.HotCenter()
 		int x = 10
 		int y = 70
@@ -172,4 +179,4 @@ Module
 		
 				
 
-End
+//End
