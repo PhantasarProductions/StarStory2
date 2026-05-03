@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Combat/SpellAni/Wind.scyndi
 // 
-// 	  Version: 26.05.03 V
+// 	  Version: 26.05.03 VI
 // 	
 // 	  Copyright (C) 2020-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -48,6 +48,7 @@ Module SA_Wind
 #use "libs/linkedlist"
 
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/Graphics"
 
 
 class Tornado
@@ -95,7 +96,7 @@ readonly int MaxCycles = 1440
 int D = 0
 	
 Init
-	Tornado.img = Image.LoadNew("GFX/Combat/SpellAni/Wind.png","SPELLANI_WIND")
+	Tornado.img = LoadNewImage("GFX/Combat/SpellAni/Wind.png","SPELLANI_WIND")
 	Tornado.img.HotBottomCenter()
 end
 	
