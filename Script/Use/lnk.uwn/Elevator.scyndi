@@ -1,39 +1,47 @@
-// License Information:
-// src/Tricky Script/Script/Use/lnk.uwn/Elevator.neil
-// Version: 23.09.12
-// Copyright (C) 2023 Jeroen Petrus Broks
+// License:
+// 	  src/Code/Script/Use/lnk.uwn/Elevator.scyndi
 // 
-// ===========================
-// This file is part of a project related to the Phantasar Chronicles or another
-// series or saga which is property of Jeroen P. Broks.
-// This means that it may contain references to a story-line plus characters
-// which are property of Jeroen Broks. These references may only be distributed
-// along with an unmodified version of the game.
+// 	  Version: 26.05.03 VIII
+// 	
+// 	  Copyright (C) 2023, 2026 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
 // 
-// As soon as you remove or replace ALL references to the storyline or character
-// references, or any termology specifically set up for the Phantasar universe,
-// or any other univers a story of Jeroen P. Broks is set up for,
-// the restrictions of this file are removed and will automatically become
-// zLib licensed (see below).
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
 // 
-// Please note that doing so counts as a modification and must be marked as such
-// in accordance to the zLib license.
-// ===========================
-// zLib license terms:
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
-// in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-// misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-// End License Information
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
 
 Module
 
@@ -41,8 +49,11 @@ Module
 #use "Libs/SCI/Audio"
 #use "Libs/SCI/Kthura"
 #use "Libs/SCI/InterVar"
+#use "Libs/SCI/Graphics"
 
 #use "Libs/LinkedList"
+
+#use "Script/Use/Anyway"
 
 Class TKeyCard
 	ReadOnly Int R
@@ -62,121 +73,120 @@ Class TKeyCard
 	
 End
 
-Module
 
-	Constructor
-		TKeyCard.Lijst.AddLast(New TKeyCard(255,  0,  0, "Red"))
-		TKeyCard.Lijst.AddLast(New TKeyCard(  0,255,  0, "Green"))
-		TKeyCard.Lijst.AddLast(New TKeyCard(  0,  0,255, "Blue"))
-		TKeyCard.Lijst.AddLast(New TKeyCard(255,180,  0, "Amber"))
-		TKeyCard.Lijst.AddLast(New TKeyCard(180,  0,255, "Purple"))
-	End
+Init
+	TKeyCard.Lijst.AddLast(New TKeyCard(255,  0,  0, "Red"))
+	TKeyCard.Lijst.AddLast(New TKeyCard(  0,255,  0, "Green"))
+	TKeyCard.Lijst.AddLast(New TKeyCard(  0,  0,255, "Blue"))
+	TKeyCard.Lijst.AddLast(New TKeyCard(255,180,  0, "Amber"))
+	TKeyCard.Lijst.AddLast(New TKeyCard(180,  0,255, "Purple"))
+End
 
-	ReadOnly Var Yeah = Audio.LoadNew("Audio/SFX/Yeah.ogg","YEAH")
+ReadOnly Var Yeah = Audio.LoadNew("Audio/SFX/Yeah.ogg","YEAH")
 
-	Void GoElevator()
-		Sys.LoadNewState("FLOW_ELEVATOR","Script/Flow/FlowElevator.neil")
-		Sys.CurrentFlow="ELEVATOR"
-	End
+Void GoElevator()
+	Sys.LoadNewState("FLOW_ELEVATOR","Script/Flow/FlowElevator.neil")
+	Sys.CurrentFlow="ELEVATOR"
+End
 	
-	String KeyFloorTag(string Key)
-		string L = Kthura.CurrentLayer
-		if Left(L,1)=="#"
-			L = Right(L,#L-1)
-		End
-		return sPrintF("EFU_KEY_%s_%s",Key,L)
+String KeyFloorTag(string Key)
+	string L = Kthura.CurrentLayer
+	if Left(L,1)=="#"
+		L = Right(L,Len(L)-1)
 	End
+	return sPrintF("EFU_KEY_%s_%s",Key,L)
+End
 	
-	Get Bool Red
-		Return gBool[KeyFloorTag("RED")]
-	End
+Get Bool Red
+	Return gBool[KeyFloorTag("RED")]
+End
 	
-	Get Bool Green
-		Return gBool[KeyFloorTag("GREEN")]
-	End
+Get Bool Green
+	Return gBool[KeyFloorTag("GREEN")]
+End
 
-	Get Bool Blue
-		Return gBool[KeyFloorTag("BLUE")]
-	End
+Get Bool Blue
+	Return gBool[KeyFloorTag("BLUE")]
+End
 	
-	Get Bool Amber
-		Return gBool[KeyFloorTag("AMBER")]
-	End
+Get Bool Amber
+	Return gBool[KeyFloorTag("AMBER")]
+End
 	
-	Get Bool Purple
-		Return gBool[KeyFloorTag("PURPLE")]
-	End
+Get Bool Purple
+	Return gBool[KeyFloorTag("PURPLE")]
+End
 	
-	Set Bool Red
-		 gBool[KeyFloorTag("RED")] = Value
-	End
+Set Bool Red
+	 gBool[KeyFloorTag("RED")] = Value
+End
 	
-	Set Bool Green
-		 gBool[KeyFloorTag("GREEN")] = Value
-	End
+Set Bool Green
+	 gBool[KeyFloorTag("GREEN")] = Value
+End
 
-	Set Bool Blue
-		 gBool[KeyFloorTag("BLUE")] = Value
-	End
+Set Bool Blue
+	 gBool[KeyFloorTag("BLUE")] = Value
+End
 	
-	Set Bool Amber
-		 gBool[KeyFloorTag("AMBER")] = Value
-	End
+Set Bool Amber
+	 gBool[KeyFloorTag("AMBER")] = Value
+End
 	
-	Set Bool Purple
-		 gBool[KeyFloorTag("PURPLE")] = Value
-	End
+Set Bool Purple
+	 gBool[KeyFloorTag("PURPLE")] = Value
+End
 				 
-	Void CheckKey(string K)
-		gBool.CheckedKey = self[K]
+Void CheckKey(string K)
+	gBool.CheckedKey = Elevator[K]
+End
+	
+Get Int Score
+	Return math.max(gint.EFU_Elevator_Key_Score,90 div __skill)
+End
+	
+Set Int Score
+	gint.EFU_Elevator_Key_Score = math.min(Value,12000 div __skill)
+	CSayF("Keycard Score set to: %d",Value)
+End
+	
+	
+Void GiveKey(string k)
+	//Static Int Score = 90 div __skill
+	Elevator[k] = true
+	Yeah.Play()
+	Lnk.Party.Score(Score)
+	Switch __Skill
+		case 1
+			Score += math.min(Score,5000)
+		case 2
+			Score += 120
+		case 3
+			Score++
+		Default
+			Lua.Error("Key invalid skill")
 	End
+End
 	
-	Get Int Score
-		Return math.max(gint.EFU_Elevator_Key_Score,90 div __skill)
-	End
-	
-	Set Int Score
-		gint.EFU_Elevator_Key_Score = math.min(Value,12000 div __skill)
-		CSayF("Keycard Score set to: %d",Value)
-	End
-	
-	
-	Void GiveKey(string k)
-		//Static Int Score = 90 div __skill
-		Self[k] = true
-		Yeah.Play()
-		Lnk.Party.Score(Score)
-		Switch __Skill
-			case 1
-				Score += math.min(Score,5000)
-			case 2
-				Score += 120
-			case 3
-				Score++
-			Default
-				Lua.Error("Key invalid skill")
+Void DrawKeys()
+	static var KC = LoadNewImage("GFX/Textures/EFU/Keycard.png","EFU_Keycard" )
+	KC.HotCenter()
+	int x = 10
+	int y = 70
+	for K in TKeyCard.Lijst.Each
+		if Elevator[K.Name]
+			Graphics.Color(K.R,K.G,K.B)
+			Graphics.Scale(1.25,1.25)
+		Else
+			Graphics.Color(K.R div 2,K.G div 2,K.B div 2)
+			Graphics.Scale(1,1)
 		End
+		KC.Draw(x,y)
+		x+=40
 	End
-	
-	Void DrawKeys()
-		static var KC = LoadNewImage("GFX/Textures/EFU/Keycard.png","EFU_Keycard" )
-		KC.HotCenter()
-		int x = 10
-		int y = 70
-		for K in TKeyCard.Lijst.Each
-			if self[K.Name]
-				Graphics.Color(K.R,K.G,K.B)
-				Graphics.Scale(1.25,1.25)
-			Else
-				Graphics.Color(K.R div 2,K.G div 2,K.B div 2)
-				Graphics.Scale(1,1)
-			End
-			KC.Draw(x,y)
-			x+=40
-		End
-		Graphics.Scale(1,1)
-	End
+	Graphics.Scale(1,1)
+End
 		
 				
 
-//End
+
