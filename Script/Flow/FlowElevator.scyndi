@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowElevator.scyndi
 // 
-// 	  Version: 26.05.03 II
+// 	  Version: 26.05.04 III
 // 	
 // 	  Copyright (C) 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -56,6 +56,8 @@ Script
 LocExtern Zelf "self"
 
 Class Floor
+
+	
 	ReadOnly Int IDN
 	
 	Get String ID2FMT
@@ -77,7 +79,7 @@ Class Floor
 		return Zelf[UnLockCheck]
 	End
 	
-	ReadOnly String Kthura
+	ReadOnly String KthMap
 	ReadOnly String Layer
 	ReadOnly String Start
 	
@@ -128,6 +130,13 @@ Class Floor
 		
 	
 	Static ReadOnly Var List = New TLinkedList()
+		
+	Static Void DrawAll(IgnoreClick)
+		For FL in List.Each
+			FL.Draw(IgnoreClick)
+		End
+	End
+		
 	
 	Get String Label
 		if IDN<0
@@ -145,8 +154,8 @@ Class Floor
 		If (!IgnoreClick) && Hovering && ML && Unlocked
 			Events.Flush()
 			CSayF("Clicked on button %d",IDN)
-			If (Lnk.Map.LoadedMap:upper()!=Kthura:upper())
-				Lnk.Map.GoToMap(Kthura,Layer,Start)
+			If (Upper(Lnk.Map.LoadedMap)!=Upper(KthMap))
+				Lnk.Map.GoToMap(KthMap,Layer,Start)
 				Sys.CurrentFlow="FIELD"
 			Else
 				Lnk.Map.GoToLayer(Layer,Start)
@@ -156,16 +165,12 @@ Class Floor
 		
 	End
 	
-	Static Void DrawAll(IgnoreClick)
-		For FL in List.Each
-			FL.Draw(IgnoreClick)
-		End
-	End
+
 
 	
 	Constructor(Int _IDN,String _KTh, String _Lay,String _ULC="KeyCard",String _S="Start")
 		UnLockCheck=_ULC
-		Kthura=_KTH
+		KthMap=_KTH
 		Layer=_Lay
 		IDN=_IDN
 		Start=_S
@@ -179,6 +184,7 @@ End
 
 
 Init
+	CSay("EFU Heaquarters: Elevator Floor Initiation")
 	Var NL
 	For i=20,11,-1
 		NL = New Floor(i,"015_EFU_HQ_2",sprintf("#%03d",i))
@@ -196,7 +202,9 @@ End
 Global Const Var PartyRightClick = NIKS
 Global Const Var PartyClick = NIKS
 
-global Const Var PRGL = Floor.DrawAll
+Global Void PRGL() 
+		Floor.DrawAll()
+End
 
 Global Void MainFlow()
 	Floor.DrawAll()
