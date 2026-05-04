@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/lnk.uwn/Elevator.scyndi
 // 
-// 	  Version: 26.05.03 VIII
+// 	  Version: 26.05.04 I
 // 	
 // 	  Copyright (C) 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -64,7 +64,7 @@ Class TKeyCard
 	ReadOnly Static Var Lijst = New TLinkedList()
 	
 	Constructor(Int _R,Int _G, Int _B,String _N)
-		CSay("Creating Keycard record: #%02x%02x%02x (%s)",_R,_G,_B,_N)
+		CSayF("Creating Keycard record: #%02x%02x%02x (%s)",_R,_G,_B,_N)
 		R = _R
 		G = _G
 		B = _B
@@ -85,7 +85,7 @@ End
 ReadOnly Var Yeah = Audio.LoadNew("Audio/SFX/Yeah.ogg","YEAH")
 
 Void GoElevator()
-	Sys.LoadNewState("FLOW_ELEVATOR","Script/Flow/FlowElevator.neil")
+	Sys.LoadNewState("FLOW_ELEVATOR","Script/Flow/FlowElevator.lbc")
 	Sys.CurrentFlow="ELEVATOR"
 End
 	
