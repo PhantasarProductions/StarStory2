@@ -35,8 +35,6 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
-Bool _PA(Act,TarTag,Arg)       
+Global Bool AE_NothingAtAll(Act,TarTag,Arg)       
         Return True
 End
-
-Return _PA
