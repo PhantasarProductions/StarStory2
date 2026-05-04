@@ -38,12 +38,18 @@
 #use "libs/linkedlist"
 #use "libs/xmath"
 
-Module Class
+#use "script/use/anyway"
+
+#use "libs/sci/graphics"
+
+Module Catwals_147975932653987563498563ee23132213123fa
+
+Class Arena_Catwalks
 	Const String FloorFile = "GFX/TextureS/Floor/RoosterVloer.png"
 	
 	Const Var NewBattle = NIKS
 	
-	Static Var Stars = new LinkedList()
+	Static Var Stars = new TLinkedList()
 	ReadOnly Number SpeedR
 	ReadOnly Number SpeedD
 	Number Degrees
@@ -70,12 +76,12 @@ Module Class
 	Static Var Floor
 	
 	Static Void Load()
-		Floor = Image.LoadNew(FloorFile,"Arena_CatWalks_Floor")
+		Floor = LoadNewImage(FloorFile,"Arena_CatWalks_Floor")
 	End
 	
 	Static Void UnLoad()
-		Floor = nil
-		Image.KillByPrefix("Arena_CatWalks")
+		//Floor = nil
+		//Image.KillByPrefix("Arena_CatWalks")
 	End
 		
 	Static Void Draw()
