@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/lnk.uwn/Map.scyndi
 // 
-// 	  Version: 26.04.27
+// 	  Version: 26.05.04
 // 	
 // 	  Copyright (C) 2021-'23, 2026 Jeroen Petrus Broks
 // 	
@@ -190,7 +190,14 @@ End
 	End
 	
 	Void HideLabelInAllLayers(string Label)
-		MCall("FlowField.Map.HideLabelInAllLayers",Label)
+		//MCall("FlowField.Map.HideLabelInAllLayers",Label)
+		Old:=Kthura.CurrentLayer
+		For L in Kthura.Layers.Each
+			CSayF("Hide label '%s' on layer %s",Label,L)
+			Kthura.CurrentLayer=L
+			Kthura.HideByLabel(Label)
+		End
+		Kthura.CurrentLayer = Old
 	End
 
 	Void ScrollTo(Int X,Int Y,Int Speed = 1)
