@@ -38,7 +38,14 @@
 #use "libs/linkedlist"
 #use "libs/xmath"
 
-Module Class
+#use "script/use/anyway"
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Graphics"
+
+Module Vault_Using_Astrilopup_Facility_Stuff 
+
+Class Arena_Facility
 	Const String FloorFile = "GFX/Textures/Facility/Floor.png"
 	Const String WallFile  = "GFX/Textures/Facility/North.png" 
 	
@@ -54,8 +61,8 @@ Module Class
 	
 	
 	Static Void Load()
-		Floor = Image.LoadNew(FloorFile,"Arena_Facility_Floor")
-		Wall  = Image.LoadNew(WallFile, "Arena_Facility_Wall")
+		Floor = LoadNewImage(FloorFile,"Arena_Facility_Floor")
+		Wall  = LoadNewImage(WallFile, "Arena_Facility_Wall")
 	End
 	
 	Static Void UnLoad()
