@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Use/Combat/Effect.uwn/Disintegrate.scyndi
 // 
-// 	  Version: 26.05.05
+// 	  Version: 26.05.05 II
 // 	
 // 	  Copyright (C) 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -45,14 +45,18 @@
 
 Module
 
+#use "Script/Use/Anyway"
+
 #accept Fighter
+#accept FlowCombat
+#accept CharMsg
 
 Global Bool AE_Disintegrate(Act,TarTag,Arg)
         //String MyArg = Act.EffectScript_Arg
         Tar := Fighter.ByTag[TarTag]
         If math.random(1,100)<(__Skill*5)
         	Tar.HP=0
-        	FlowCombat.charmsg(TarTag,"Disintegrated",255,0,0)
+        	charmsg(TarTag,"Disintegrated",255,0,0)
         	Return True
         Else
         	Return False
