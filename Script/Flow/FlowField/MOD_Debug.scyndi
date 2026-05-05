@@ -34,13 +34,15 @@
 // **********************************************
 // 
 // 
-// version: 26.04.27
+// version: 26.05.05 I
 // 
 // End License
 Module
 
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/Kthura"
 
+#accept Renc
 
 Global void DEBUG_Save()
 	CSay("Opening: Savegame Manager")
@@ -54,7 +56,10 @@ Global void DEBUG_Save()
 End
 
 
-
+Global Void DEBUG_Pacifist()
+	print("\x1b[93mRandom encounter rate set to zero!")
+	Renc.Layers[Kthura.CurrentLayer].ENC=0
+End
 
 
 
@@ -62,4 +67,5 @@ End
 
 INIT
 	Sys.ConsoleLocal("SAVE","DEBUG_SAVE")
+	Sys.ConsoleLocal("PACIFIST","DEBUG_PACIFIST")
 END

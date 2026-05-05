@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 26.04.28 I
+// version: 26.05.05
 // 
 // End License
 
@@ -59,7 +59,7 @@ group kit_uBox
 	const int X = 100
 	const int Y =  90
 	const int W = Screen.W - 200
-	const int H = Screen.H - 380
+	const int H = Screen.H - 280
 end
 
 Class __PIMI_ARMS //Extends Stage
