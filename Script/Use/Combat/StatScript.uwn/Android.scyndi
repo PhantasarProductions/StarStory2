@@ -34,11 +34,14 @@
 // 
 // version: 23.01.23
 // End License Information
-Void _Android(CHAR)
+
+#use "Script/Use/Anyway"
+
+Global Void Android(CHAR)
 	//Var NFS = CHAR.Char.Stats
-	For s in Each(Any.Resistance.Stats)
-		string formscript = "SUM:"..CHAR.Tag
-		for i1,v1 in ipairs{ "BASE_", "POWERUP_", "BUFF_"}
+	For _,s in Pairs(Any.Resistance.Stats)
+		//string formscript = "SUM:"..CHAR.Tag
+		for i1,v1 in ipairs{ [0]= "BASE_", "POWERUP_", "BUFF_"}
 			if S=="HP" && v1=="BASE_"
 				Char.Char.Stat.BASE_HP=RPGChar.Ashley.Stat.BASE_HP*(__Skill*5)
 				CSayF("HP set to %d",Char.Char.Stat.BASE_HP)
@@ -46,21 +49,23 @@ Void _Android(CHAR)
 				Char.char.Stat.Base_Evasion = 5 * __skill
 				CSayF("Evansion is %d",Char.char.Stat.Base_Evasion) 
 			elseif v1=="BASE_" || v1=="BUFF_" 
-				CHAR.Char.Link_Stat("Ashley",v1..s)		
+				//CHAR.Char.Link_Stat("Ashley",v1..s)
+				RPGChar.Ashley.LinkStat(Char.Tag,v1..s)				
 				CSayF("Linked %s%s to Ashley's stat",v1,s)
 			else
 				Char.Char.Stat[v1..s] = 0
 				CSayF("Set %s%s to zero",v1,s)
 			End
-			formscript += "."..v1..s
+			//formscript += "."..v1..s
 		End
-		CSayF("Scripted END_%s -> %s",s,formscript)
-		RPGChar[CHAR.Tag].StatScript["END_"..s] = formscript
+		//CSayF("Scripted END_%s -> %s",s,formscript)
+		//RPGChar[CHAR.Tag].StatScript["END_"..s] = formscript
 		CSayF("Statistic has become: %d",Char.Char.Stat["END_"..s])
 	End
-	CHAR.Char.Link_Stat("Ashley","Level")
-	CHAR.Char.Points.HP.MaxCopy="END_HP" 
+	//CHAR.Char.Link_Stat("Ashley","Level")
+	RPGChar.Ashley.LinkStat(Char.Tag,"Level")
+	//CHAR.Char.Points.HP.MaxCopy="END_HP" 
 	CHAR.Char.Points.HP.Have = CHAR.Char.Points.HP.Maximum 
 End
 
-Return _Android
+//Return _Android
