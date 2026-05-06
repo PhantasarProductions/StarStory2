@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Use/Combat/Arena/Space.neil
-// (c) Jeroen Broks, 2023, All Rights Reserved.
+// src/Code/Script/Use/Combat/Arena/Space.scyndi
+// (c) Jeroen Broks, 2023, 2026, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,14 +33,18 @@
 // 
 // **********************************************
 // 
-// version: 23.08.29
-// End License Information
+// 
+// version: 26.05.06 IV
+// 
+// End License
+
 
 Module Arena_Space_Module
 
 #use "libs/linkedlist"
 #use "libs/xmath"
 
+#use "Libs/SCI/Sys"
 #use "Libs/SCI/Graphics"
 
 #use "Script/Use/Anyway"
@@ -61,14 +66,15 @@ class Star
 	readonly byte r=math.random(180,255)
 	readonly byte g=math.random(180,255)
 	readonly byte b=math.random(180,255)
+		
+	Get Int Deg
+		return _deg
+	End
+		
 	
 	Set int Deg
 		_deg = Value
 		_rad = Value * (3.141592653589793/180)
-	End
-	
-	Get Int Deg
-		return _deg
 	End
 	
 	Get Number Rad
@@ -95,7 +101,7 @@ class Star
 	
 	Void Draw(nomotion)
 		if !nomotion
-			Motion()
+			self.Motion()
 		end
 		Graphics.Color(r,g,b)
 		Graphics.plot(x,y)
@@ -128,7 +134,7 @@ Class Arena_Space
 	End
 	
 	static get var Schwabba
-		return Fighter.ByTag["FOE001"]
+		return Fighter.ByTag["FOE000"]
 	end
 	
 	
