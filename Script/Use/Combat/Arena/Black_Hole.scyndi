@@ -38,7 +38,13 @@
 #use "libs/linkedlist"
 #use "libs/xmath"
 
-Module Class
+#use "Libs/SCI/Graphics"
+
+#use "Script/Use/Anyway"
+
+Module 
+
+Class Arena_Black_Hole
 	Const String BHFile = "GFX/Combat/Arena/Black Hole.png"
 	
 	Const Var NewBattle = NIKS
@@ -52,12 +58,12 @@ Module Class
 	
 	
 	Static Void Load()
-		BHBack = Image.LoadNew(BHFile,"BHD_Arena_Picture" )
+		BHBack = LoadNewImage(BHFile,"BHD_Arena_Picture" )
 	End
 	
 	Static Void UnLoad()
 		BHBack = nil
-		Image.KillByPrefix("BHD_Arena_Picture")
+		//Image.KillByPrefix("BHD_Arena_Picture")
 	End
 		
 	Static Void Draw()
