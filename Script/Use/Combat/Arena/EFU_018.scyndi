@@ -34,13 +34,13 @@
 // **********************************************
 // 
 // 
-// version: 26.05.06
+// version: 26.05.06 I
 // 
 // End License
 
 
 
-Module Arena_EFU_18
+Module Arena_EFU_018
 
 #use "Libs/SCI/Graphics"
 #use "Script/Use/Anyway"

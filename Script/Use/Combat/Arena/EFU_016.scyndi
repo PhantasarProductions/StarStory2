@@ -34,14 +34,14 @@
 // **********************************************
 // 
 // 
-// version: 26.05.06
+// version: 26.05.06 I
 // 
 // End License
 
 #use "Libs/SCI/Graphics"
 #use "Script/Use/Anyway"
 
-Module Arena_EFU_16
+Module Arena_EFU_016
 
 	Const String WallFile  = "GFX/TextureS/Walls/lgrey133.jpg"
 	Const String FloorFile = "GFX/TextureS/Floor/dblue017.jpg"
