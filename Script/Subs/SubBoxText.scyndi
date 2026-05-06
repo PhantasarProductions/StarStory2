@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Subs/SubBoxText.scyndi
 // 
-// 	  Version: 26.04.27
+// 	  Version: 26.05.06
 // 	
 // 	  Copyright (C) 2020-'22, 2026 Jeroen Petrus Broks
 // 	
@@ -269,7 +269,7 @@ class TextBox
 		f = TextBox.btdata[file]
 		if !f 
 			//CSay(Serialize("btdata",btdata))
-			error("Boxtext file '"..file.."' has !yet been loaded!") 
+			error("Boxtext file '"..file.."' has not yet been loaded!") 
 		end
 		tag = upper( tag )
 		t = f[tag]
@@ -280,7 +280,7 @@ class TextBox
 		rec = t[idx]
 		if !rec 
 			//CSay(Serialize("btdata",btdata))
-			lua.error("Boxtext file '"..file.."' tag '"..tag.."' does !have a record #"..idx.." (max is "..len(t)..")") 
+			lua.error("Boxtext file '"..file.."' tag '"..tag.."' does not have a record #"..idx.." (max is "..len(t)..")") 
 		end
 		CSay("= Start sb_data")
 		//if rec.PicDir:upper()=="ERIC" && __EricIsYasathar
