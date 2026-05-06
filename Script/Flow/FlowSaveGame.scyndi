@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowSaveGame.scyndi
 // 
-// 	  Version: 26.04.30 I
+// 	  Version: 26.05.06
 // 	
 // 	  Copyright (C) 2023-2026 Jeroen Petrus Broks
 // 	
@@ -290,7 +290,8 @@ Get Bool CancelRequested
 end
 
 Void Action_Save(int Spot)
-	CSayF("Starting savegame in spot %d",Spot)
+	gint.saved++
+	CSayF("Starting savegame in spot %d  (Saved: %%dx)",Spot,gint.saved)
 	Var S = SGJCR.Create()
 	//S.Assign(sprintf("SaveGames/%s/SG_%08d_%02d.jcr",gstring.session,Page,Spot))
 	S.Assign(sprintf("SaveGames/SG_%08d_%02d.jcr",Page,Spot))
