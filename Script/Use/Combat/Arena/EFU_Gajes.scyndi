@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Use/Combat/Arena/EFU_Gajes.neil
-// (c) Jeroen Broks, 2023, All Rights Reserved.
+// src/Code/Script/Use/Combat/Arena/EFU_Gajes.scyndi
+// (c) Jeroen Broks, 2023, 2026, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,9 +33,17 @@
 // 
 // **********************************************
 // 
-// version: 23.07.05
-// End License Information
-Module
+// 
+// version: 26.05.06 I
+// 
+// End License
+
+
+Module Arena_EFU_Gajes
+
+#use "Libs/SCI/Graphics"
+#use "Script/Use/Anyway"
+
 	Const String WallFile  = "GFX/TextureS/Walls/lgrey133.jpg"
 	Const String FloorFile = "GFX/TextureS/Floor/green105.jpg"
 	
@@ -44,14 +53,14 @@ Module
 	Var Floor
 	
 	Void Load()
-		Wall  = Image.LoadNew(WallFile, "Arena_Gajes_Wall")
-		Floor = Image.LoadNew(FloorFile,"Arena_Gajes_Floor")
+		Wall  = LoadNewImage(WallFile, "Arena_Gajes_Wall")
+		Floor = LoadNewImages(FloorFile,"Arena_Gajes_Floor")
 	End
 	
 	Void UnLoad()
-		Wall = nil
-		Floor = nil
-		Image.KillByPrefix("Arena_Gajes")
+		//Wall = nil
+		//Floor = nil
+		//Image.KillByPrefix("Arena_Gajes")
 	End
 		
 	Void Draw()
@@ -60,4 +69,3 @@ Module
 		Floor.Tile(0,HH,Screen.W,HH)
 	End
 	
-End
