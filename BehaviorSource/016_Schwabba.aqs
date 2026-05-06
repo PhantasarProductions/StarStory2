@@ -60,7 +60,7 @@ Chunk ZA_BackToCorridor
 	exit
 	
 Chunk NPC_Schwabba
-	;Call MapText,"PREBOSS"
+	Call MapText,"PREBOSS"
 	Call Score,5000
 	Call VitalBoss,"Final","","NPC_Schwabba"
 	Call Schedule,"Post_boss"
