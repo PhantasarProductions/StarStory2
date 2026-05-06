@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Use/Combat/Arena/EFU_016.neil
-// (c) Jeroen Broks, 2023, All Rights Reserved.
+// src/Code/Script/Use/Combat/Arena/EFU_016.scyndi
+// (c) Jeroen Broks, 2023, 2026, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,9 +33,16 @@
 // 
 // **********************************************
 // 
-// version: 23.07.11
-// End License Information
-Module
+// 
+// version: 26.05.06
+// 
+// End License
+
+#use "Libs/SCI/Graphics"
+#use "Script/Use/Anyway"
+
+Module Arena_EFU_16
+
 	Const String WallFile  = "GFX/TextureS/Walls/lgrey133.jpg"
 	Const String FloorFile = "GFX/TextureS/Floor/dblue017.jpg"
 	
@@ -44,14 +52,14 @@ Module
 	Var Floor
 	
 	Void Load()
-		Wall  = Image.LoadNew(WallFile, "Arena_016_Wall")
-		Floor = Image.LoadNew(FloorFile,"Arena_016_Floor")
+		Wall  = LoadNewImage(WallFile, "Arena_016_Wall")
+		Floor = LoadNewImage(FloorFile,"Arena_016_Floor")
 	End
 	
 	Void UnLoad()
-		Wall = nil
-		Floor = nil
-		Image.KillByPrefix("Arena_016")
+//		Wall = nil
+//		Floor = nil
+//		Image.KillByPrefix("Arena_016")
 	End
 		
 	Void Draw()
@@ -59,5 +67,3 @@ Module
 		 Wall.Tile(0, 0,Screen.W,HH)
 		Floor.Tile(0,HH,Screen.W,HH)
 	End
-	
-End
