@@ -34,11 +34,15 @@
 // **********************************************
 // 
 // 
-// version: 26.05.06
+// version: 26.05.06 VII
 // 
 // End License
 
 Module DeStatistiekenVoorSchwabba
+
+#use "Libs/SCI/Sys"
+
+#use "Script/Use/Anyway"
 
 table Chars = {[0]="Klahre","Yorno","Doctor","Ashley"}
 table Stats = {[0]="Power","Defense","Will","Resistence","Accuracy","Evasion","Speed","HP","Level"}
@@ -47,7 +51,7 @@ Delegate _S()
 	int cp:=0
 	int sp:=0-1
 	//Var Ret()
-	DeleGate Ret
+	dDef Ret
 		sp++
 		if sp>=Len(Stats)
 			sp=0
@@ -63,9 +67,8 @@ End
 
 
 Global Void  Schwabba(CH)
-	Var CHAR = CH.Char
-	Var Work
-	Work = {}
+	CHAR := CH.Char
+	Work := {}	
 	for ch,st in _S()
 		string Prefix="END_"
 		if st=="Level"
@@ -79,23 +82,23 @@ Global Void  Schwabba(CH)
 		end
 		CSayF("Char: %s; Stat %s; Value %d, Max %d",ch,st,RPGChar[ch].Stat[Prefix..st],Work[st])
 	end
-	string formscript = "SUM:"..CH.Tag
-	table md={ [0]="BASE_", "POWERUP_", "BUFF_"}
+	//string formscript := "SUM:"..CH.Tag
+	table md:={ [0]="BASE_", "POWERUP_", "BUFF_"}
 	for st,lv in pairs(Work)
 		string Prefix="BASE_"
 		if st=="Level"
 			Prefix=""
-		Else
-			string fs = FormScript
-			for i1,v1 in ipairs(md)				
-				CHAR.Stat[v1..st]=0
-				fs += "."..v1..st
-			end
-			Char.StatScript["END_"..st]=fs
+		//Else
+			//string fs := FormScript
+			//for i1,v1 in ipairs(md)				
+			//	CHAR.Stat[v1..st]=0
+			//	fs += "."..v1..st
+			//end
+			//Char.StatScript["END_"..st]=fs
 		End
 		Char.Stat[Prefix..st]=lv
 	end
-	Char.Points.HP.MaxCopy=Char.Stat.END_HP
+	Char.Points.HP.Maximum=Char.Stat.END_HP
 	Char.Points.HP.Have=Char.Points.HP.Maximum
 	
 End
