@@ -1,0 +1,585 @@
+// License:
+// **********************************************
+// 
+// src/Code/Script/Use/lnk.uwn/NewGamePlus.scyndi
+// (c) Jeroen Broks, 2023, 2026, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// 
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// 
+// version: 26.05.06
+// 
+// End License
+
+
+// Generated 8/30/2023 9:33:31 PM
+
+Module LinkUpForTheNewGamePlus
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Anyway"
+
+Global Void NewGamePlus()
+	If !Sys.Yes("Start a new game cycle?")
+		Return
+	end
+
+
+	gint["LEADER"] = 0
+	gbool["CHEAT_MERLIN"] = false
+	gbool["DONE_WENDICKA_PROLOGUE"] = false
+	gbool["DONE_GAMESTART_HYPERLOOP"] = false
+	gbool["BEEN_001_HYPERLOOPSTATION_GATE27"] = false
+	gbool["WELCOME_001_HYPERLOOPSTATION"] = false
+	gbool["BEEN_001_HYPERLOOPSTATION_HALL"] = false
+	gbool["BEEN_002_SLUMS_#001"] = false
+	gbool["DONE_SLUMS_WELCOME"] = false
+	gbool["DONE_TUTORINTERACTNPC_HYPERLOOP"] = false
+	gbool["WELCOME_002_SLUMS"] = false
+	gbool["DONE_SLUMS_TUTORIAL_TREASURE"] = false
+	gbool["BEEN_002_SLUMS_#002"] = false
+	gbool["DONE_SLUMS_TUTORIAL_TRANSPORTERS"] = false
+	gbool["BEENINBLACKBOX"] = false
+	gbool["TRANS_ACTIVATED_002_SLUMS_#002_TRANS_GENERAL__II"] = false
+	gbool["BEEN_002_SLUMS_#003"] = false
+	gbool["BEEN_002_SLUMS_#004"] = false
+	gbool["DONE_SLUMS_TUTORIAL_SEIN"] = false
+	gbool["BEEN_002_SLUMS_#005"] = false
+	gbool["SEINALWAYSOPEN"] = false
+	gbool["BEEN_002_SLUMS_#006"] = false
+	gbool["TRANS_ACTIVATED_002_SLUMS_#006_TRANS_GENERAL__III"] = false
+	gbool["BEEN_003_ASHLEY_ASHLEY"] = false
+	gbool["DONE_ASHLEY_LOCKPICKTUTORIAL"] = false
+	gbool["DONE_SLUMS_ASHLEY_EVENT_TRIGGERED"] = false
+	gbool["BEEN_004_MUERTE_#001"] = false
+	gbool["COMPLETE_002_SLUMS"] = false
+	gbool["WELCOME_004_MUERTE"] = false
+	gbool["TUTORIAL_MUERTE_GREEN"] = false
+	gbool["BEEN_004_MUERTE_#002"] = false
+	gbool["BEEN_901_FEO_LOBBY"] = false
+	gbool["FEO_WELCOME"] = false
+	gbool["TRANS_ACTIVATED_901_FEO_LOBBY_TRANS_GENERAL__V"] = false
+	gbool["ASHLEYSCAN_004_MUERTE_#002_ASHLEYSCAN_EAST"] = false
+	gbool["BEEN_004_MUERTE_#003"] = false
+	gbool["SOLVED_MUERTE_SUDOKU"] = false
+	gbool["BEEN_004_MUERTE_#004"] = false
+	gbool["TRANS_ACTIVATED_004_MUERTE_#004_TRANS_GENERAL__VI"] = false
+	gbool["BEEN_004_MUERTE_#005"] = false
+	gbool["BEEN_004_MUERTE_#006"] = false
+	gbool["BEEN_IN_SEWERS"] = false
+	gbool["MUERTE_TUTORIAL_BOSS"] = false
+	gbool["BEEN_005_DOKTORLAB_LOBBY"] = false
+	gbool["COMPLETE_004_MUERTE"] = false
+	gbool["BEEN_005_DOKTORLAB_LAB"] = false
+	gbool["BEEN_006_SEWERS_#001"] = false
+	gbool["WELCOME_006_SEWERS"] = false
+	gbool["DONE_SEWERS_WELCOME"] = false
+	gbool["TRANS_ACTIVATED_006_SEWERS_#001_TRANS_GENERAL__XII"] = false
+	gbool["BEEN_006_SEWERS_AX3Y5"] = false
+	gbool["BEEN_006_SEWERS_AX2Y5"] = false
+	gbool["BEEN_006_SEWERS_AX2Y4"] = false
+	gbool["BEEN_006_SEWERS_AX1Y4"] = false
+	gbool["BEEN_006_SEWERS_AX1Y3"] = false
+	gbool["BEEN_006_SEWERS_AX1Y2"] = false
+	gbool["BEEN_006_SEWERS_AX1Y1"] = false
+	gbool["TRANS_ACTIVATED_006_SEWERS_AX1Y1_TRANS_GENERAL__XIII"] = false
+	gbool["BEEN_006_SEWERS_AX2Y1"] = false
+	gbool["BEEN_006_SEWERS_AX2Y2"] = false
+	gbool["BEEN_006_SEWERS_AX2Y3"] = false
+	gbool["BEEN_006_SEWERS_AX3Y3"] = false
+	gbool["TRANS_ACTIVATED_006_SEWERS_AX3Y3_TRANS_GENERAL__XV"] = false
+	gbool["BEEN_006_SEWERS_AX3Y4"] = false
+	gbool["TRANS_ACTIVATED_006_SEWERS_AX3Y4_TRANS_GENERAL__XVI"] = false
+	gbool["BEEN_006_SEWERS_AX4Y4"] = false
+	gbool["BEEN_006_SEWERS_AX4Y5"] = false
+	gbool["BEEN_006_SEWERS_AX5Y5"] = false
+	gbool["BEEN_006_SEWERS_AX5Y4"] = false
+	gbool["BEEN_006_SEWERS_AX5Y3"] = false
+	gbool["BEEN_006_SEWERS_AX5Y2"] = false
+	gbool["BEEN_006_SEWERS_AX5Y1"] = false
+	gbool["TRANS_ACTIVATED_006_SEWERS_AX5Y1_TRANS_GENERAL__XVII"] = false
+	gbool["BEEN_006_SEWERS_AX4Y1"] = false
+	gbool["BEEN_006_SEWERS_AX3Y1"] = false
+	gbool["BEEN_006_SEWERS_#002"] = false
+	gstring["ARMOBTAINED"] = ""
+	gbool["COMPLETE_006_SEWERES"] = false
+	gbool["BEEN_000_BLACKBOX_BASE"] = false
+	gbool["WELCOME_000_BLACKBOX"] = false
+	gbool["ALLES"] = false
+	gstring["QUINOSITUATION"] = ""
+	gbool["YOU_HAVE_PERMISSION_TO_USE_THE_TRANSPORTER"] = false
+	gbool["BLACKBOX_SPOKEN_TOHELMUTBEFORE"] = false
+	gbool["SCOTTYUNLOCKED_901_FEO"] = false
+	gbool["TRANS_ACTIVATED_007_MULAN_#001_TRANS_GENERAL__XX"] = false
+	gbool["TRANS_ACTIVATED_007_MULAN_#005_TRANS_GENERAL__XXI"] = false
+	gbool["BLACKBOXBLOCKED"] = false
+	gbool["SCOTTYUNLOCKED_002_SLUMS"] = false
+	gbool["SCOTTYUNLOCKED_004_MUERTE"] = false
+	gbool["BEEN_006_SEWERS_#000"] = false
+	gbool["SCOTTYUNLOCKED_006_SEWERS"] = false
+	gbool["BEEN_007_MULAN_#001"] = false
+	gbool["MULAN_WELCOME"] = false
+	gbool["SCOTTYUNLOCKED_007_MULAN"] = false
+	gbool["WELCOME_007_MULAN"] = false
+	gbool["BEEN_007_MULAN_#002"] = false
+	gbool["BEEN_007_MULAN_#003"] = false
+	gbool["BEEN_007_MULAN_#004"] = false
+	gbool["BEEN_007_MULAN_#005"] = false
+	gbool["WELCOME_901_FEO"] = false
+	gbool["BEEN_991_CATWALKS_#000"] = false
+	gbool["WELCOME_991_CATWALKS"] = false
+	gbool["SCOTTYUNLOCKED_991_CATWALKS"] = false
+	gbool["TRANS_ACTIVATED_991_CATWALKS_#000_TRANS_GENERAL__XXIII"] = false
+	gbool["BEEN_991_CATWALKS_#001"] = false
+	gbool["CHEAT.WHIZZY"] = false
+	gbool["CHEAT.REGEN"] = false
+	gbool["CHEAT.JACK"] = false
+	gbool["BEEN_991_CATWALKS_#002"] = false
+	gbool["BEEN_991_CATWALKS_#003"] = false
+	gbool["BEEN_991_CATWALKS_#004"] = false
+	gbool["BEEN_991_CATWALKS_#005"] = false
+	gbool["TRANS_ACTIVATED_991_CATWALKS_#005_TRANS_GENERAL__XXIV"] = false
+	gbool["BEEN_991_CATWALKS_#006"] = false
+	gbool["BEEN_991_CATWALKS_#007"] = false
+	gbool["BEEN_991_CATWALKS_#008"] = false
+	gbool["BEEN_991_CATWALKS_#009"] = false
+	gbool["BEEN_991_CATWALKS_#010"] = false
+	gbool["COMPLETE_991_CATWALKS"] = false
+	gbool["BEEN_000_BLACKBOX_CAFE"] = false
+	gbool["BLACKBOX_SPOKEN_HEIJN"] = false
+	gbool["BEEN_IN_SEWERS-"] = false
+	gbool["TRANS_ACTIVATED_006_SEWERS_AX1Y5_TRANS_GENERAL__XIV"] = false
+	gbool["TRANS_ACTIVATED_006_SEWERS_AX5Y5_TRANS_GENERAL__XVIII"] = false
+	gbool["BEEN_006_SEWERS_AX1Y5"] = false
+	gbool["BEEN_007_MULAN_#006"] = false
+	gbool["BEEN_007_MULAN_#007"] = false
+	gbool["BEEN_007_MULAN_#008"] = false
+	gbool["BEEN_007_MULAN_#009"] = false
+	gbool["DEFEATED_FUNHOUSE"] = false
+	gbool["VISITED_BFOC"] = false
+	gbool["BEEN_008_BFOC_BFOC"] = false
+	gbool["BEEN_008_BFOC_SCHWABBA"] = false
+	gbool["SCOTTYUNLOCKED_009_GLEVU_CORRIDOR"] = false
+	gbool["TRANS_ACTIVATED_009_GLEVU_CORRIDOR_#001_TRANS_GENERAL__XXIX"] = false
+	gbool["VISITED_BFOC__QR_BBX"] = false
+	gbool["BEEN_901_FEO_CORRIDOR1"] = false
+	gbool["BEEN_901_FEO_CORRIDOR2"] = false
+	gbool["BEEN_901_FEO_CORRIDOR3"] = false
+	gbool["BEEN_901_FEO_DINING"] = false
+	gbool["BEEN_901_FEO_KITCHEN"] = false
+	gbool["BEEN_901_FEO_LIVINGROOM"] = false
+	gbool["BEEN_901_FEO_MEETING"] = false
+	gbool["BEEN_901_FEO_SLEEP"] = false
+	gbool["FEO_OPENDOORTOSTAIRS_1"] = false
+	gbool["FEO_OPENDOORTOSTAIRS_2"] = false
+	gbool["FEO_SWITCH1"] = false
+	gbool["FEO_SWITCH2"] = false
+	gbool["FEO_SWITCH3"] = false
+	gbool["FEO_SWITCH4"] = false
+	gbool["TRANS_ACTIVATED_901_FEO_SLEEP_TRANS_GENERAL__XXX"] = false
+	gbool["BEEN_901_FEO_STUDY"] = false
+	gbool["COMPLETE_901_FEO"] = false
+	gbool["CHEAT.DUMBLEDORE"] = false
+	gbool["BEEN_009_GLEVU_CORRIDOR_#001"] = false
+	gbool["BEEN_009_GLEVU_CORRIDOR_#002"] = false
+	gbool["BEEN_009_GLEVU_CORRIDOR_#003"] = false
+	gbool["BEEN_009_GLEVU_CORRIDOR_#004"] = false
+	gbool["DONE_KILLED_MARCMARION"] = false
+	gbool["TRANS_ACTIVATED_009_GLEVU_CORRIDOR_#005_TRANS_GENERAL__NKR"] = false
+	gbool["BEEN_009_GLEVU_CORRIDOR_#005"] = false
+	gbool["BEEN_009_GLEVU_CORRIDOR_#006"] = false
+	gbool["BEEN_009_GLEVU_CORRIDOR_#007"] = false
+	gbool["BEEN_009_GLEVU_CORRIDOR_#008"] = false
+	gbool["BEEN_009_GLEVU_CORRIDOR_#009"] = false
+	gbool["BEEN_009_GLEVU_CORRIDOR_#010"] = false
+	gbool["COMPLETED_009_GLEVU_CORRIDOR"] = false
+	gbool["WELCOME_009_GLEVU_CORRIDOR"] = false
+	gbool["COMPLETE_009_GLEVU_CORRIDOR"] = false
+	gbool["BEEN_010_LETSGOBRANDON_TUNNEL_#000"] = false
+	gbool["SCOTTYUNLOCKED_010_LETSGOBRANDON_TUNNEL"] = false
+	gbool["TRANS_ACTIVATED_010_LETSGOBRANDON_TUNNEL_#000_TRANS_GENERAL__XXXI"] = false
+	gbool["WELCOME_010_LETSGOBRANDON_TUNNEL"] = false
+	gbool["BEEN_010_LETSGOBRANDON_TUNNEL_#001"] = false
+	gbool["DEFEATED_BLOEMSCHOEN"] = false
+	gbool["BEEN_010_LETSGOBRANDON_TUNNEL_#002"] = false
+	gbool["BEEN_010_LETSGOBRANDON_TUNNEL_#003"] = false
+	gbool["BEEN_010_LETSGOBRANDON_TUNNEL_#004"] = false
+	gbool["BEEN_010_LETSGOBRANDON_TUNNEL_#005"] = false
+	gbool["SOLVED_MASTERMIND_KTH___010_LETSGOBRANDON_TUNNEL___LAY__#004"] = false
+	gbool["TRANS_ACTIVATED_010_LETSGOBRANDON_TUNNEL_#005_TRANS_GENERAL__XXXII"] = false
+	gbool["BEEN_010_LETSGOBRANDON_TUNNEL_#006"] = false
+	gbool["BEEN_010_LETSGOBRANDON_TUNNEL_#007"] = false
+	gbool["SOLVED_MASTERMIND_KTH___010_LETSGOBRANDON_TUNNEL___LAY__#007"] = false
+	gbool["BEEN_010_LETSGOBRANDON_TUNNEL_#008"] = false
+	gbool["COMPLETE_010_LETSGOBRANDONTUNNEL"] = false
+	gbool["BEEN_010_LETSGOBRANDON_TUNNEL_#009"] = false
+	gbool["COMPLETE_010_LETSGOBRANDON_TUNNEL"] = false
+	gbool["BEEN_010_LETSGOBRANDON_TUNNEL_#010"] = false
+	gbool["SCOTTYUNLOCKED_011_LUYTEN"] = false
+	gbool["TRANS_ACTIVATED_011_LUYTEN_#001_TRANS_GENERAL__XXXV"] = false
+	gbool["BEEN_011_LUYTEN_#001"] = false
+	gbool["WELCOME_011_LUYTEN"] = false
+	gbool["BEEN_011_LUYTEN_#002"] = false
+	gbool["BEEN_011_LUYTEN_#003"] = false
+	gbool["BEEN_011_LUYTEN_#004"] = false
+	gbool["TRANS_ACTIVATED_011_LUYTEN_#004_TRANS_GENERAL__XXXVI"] = false
+	gbool["BEEN_011_LUYTEN_#005"] = false
+	gbool["BEEN_011_LUYTEN_#006"] = false
+	gbool["BEEN_011_LUYTEN_#007"] = false
+	gbool["BEEN_011_LUYTEN_#008"] = false
+	gbool["BEEN_012_SECRETSAFE_#000"] = false
+	gbool["COMPLETE_011_LUYTEN"] = false
+	gbool["SCOTTYUNLOCKED_012_SECRETSAFE"] = false
+	gbool["TRANS_ACTIVATED_012_SECRETSAFE_#000_TRANS_GENERAL__XXXIX"] = false
+	gbool["ASHLEY_MENTIONED_THE_SECRET_DUNGEON_IN_LETSGOBRANDON_TUNNEL"] = false
+	gbool["BEEN_902_VAULT_#001"] = false
+	gbool["DISCOVEREDVAULT"] = false
+	gbool["SCOTTYUNLOCKED_902_VAULT"] = false
+	gbool["TRANS_ACTIVATED_902_VAULT_#001_TRANS_GENERAL__XL"] = false
+	gbool["WELCOME_902_VAULT"] = false
+	gbool["TRANS_ACTIVATED_902_VAULT_#003_TRANS_GENERAL__XLIII"] = false
+	gbool["BEEN_902_VAULT_#002"] = false
+	gbool["BEEN_902_VAULT_#003"] = false
+	gbool["BEEN_902_VAULT_#004"] = false
+	gbool["BEEN_902_VAULT_#005"] = false
+	gbool["BEEN_902_VAULT_#006"] = false
+	gbool["COMPLETE_902_VAULT"] = false
+	gbool["BEEN_PHAN_ARRIVAL_ARRIVAL"] = false
+	gbool["DISCOVERED_PHANTASAR"] = false
+	gbool["SCOTTYUNLOCKED_PHAN_ARRIVAL"] = false
+	gbool["TRANS_ACTIVATED_PHAN_ARRIVAL_ARRIVAL_TRANS_GENERAL__XLV"] = false
+	gbool["AANKOMST_OP_PHANTASAR"] = false
+	gbool["BEEN_PHAN_ELFENROAD_#001"] = false
+	gbool["BESTAAT_ALLEEN_MAAR_OM_ER_ZEKER_VAN_TE_ZIJN_DAT_SEIN_DATA_GEEN_CRASHES_VEROORZAAKT"] = false
+	gbool["PHANTASARUNLOCKED_CITY"] = false
+	gbool["PHANTASARUNLOCKED_DOOM"] = false
+	gbool["PHANTASARUNLOCKED_MINE"] = false
+	gbool["PHANTASARUNLOCKED_ZUID"] = false
+	gbool["METROSETTA"] = false
+	gbool["SCYNDI"] = false
+	gbool["BEEN_PHAN_ELFENROAD_#002"] = false
+	gbool["ONPHANTASAR"] = false
+	gbool["BEEN_PHAN_ELFENROAD_#003"] = false
+	gbool["COMPLETE_PHAN_ELFENROAD"] = false
+	gbool["BEEN_PHAN_ISKARDERIU_TOWN"] = false
+	gbool["WELCOME_PHAN_ARRIVAL"] = false
+	gbool["WELCOME_PHAN_ISKARDERIU"] = false
+	gbool["PHANTASARUNLOCKED_DRGN"] = false
+	gbool["BEEN_PHAN_DRAGON_#000"] = false
+	gbool["WELCOME_PHAN_DRAGON"] = false
+	gbool["BEEN_PHAN_DRAGON_#001"] = false
+	gbool["BEEN_PHAN_DRAGON_COURTYARD"] = false
+	gbool["BEEN_PHAN_DRAGON_#002"] = false
+	gbool["BEEN_PHAN_DRAGON_#003"] = false
+	gbool["PHANTASAR_DRAGON_SWITCHFLOOR2"] = false
+	gbool["COMPLETE_PHAN_DRAGON"] = false
+	gbool["WELCOME_PHAN_ELFENROAD"] = false
+	gbool["PHANTASAR_VISIT_ISKARDERIU"] = false
+	gbool["BEEN_PHAN_ISKARDERIU_ITEMS"] = false
+	gbool["BEEN_PHAN_ISKARDERIU_TOWNHALL"] = false
+	gbool["COMPLETE_PHAN_DOOM"] = false
+	gbool["BEEN_PHAN_SOUTHERN_#001"] = false
+	gbool["BEEN_PHAN_SOUTHERN_#002"] = false
+	gbool["BEEN_PHAN_SOUTHERN_#003"] = false
+	gbool["BEEN_PHAN_SOUTHERN_#004"] = false
+	gbool["BEEN_PHAN_SOUTHERN_#005"] = false
+	gbool["BEEN_PHAN_SOUTHERN_#006"] = false
+	gbool["BEEN_PHAN_SOUTHERN_#007"] = false
+	gbool["BEEN_PHAN_SOUTHERN_#008"] = false
+	gbool["BEEN_PHAN_SOUTHERN_#009"] = false
+	gbool["WELCOME_PHAN_SOUTHERN"] = false
+	gbool["BEEN_PHAN_SOUTHERN_#010"] = false
+	gbool["BEEN_PHAN_DOOM_#001"] = false
+	gbool["BEEN_PHAN_DOOM_#002"] = false
+	gbool["WELCOME_PHAN_DOOM"] = false
+	gbool["BEEN_PHAN_DOOM_#003"] = false
+	gbool["BEEN_PHAN_DOOM_#004"] = false
+	gbool["BEEN_PHAN_DOOM_#005"] = false
+	gbool["BEEN_PHAN_DOOM_#006"] = false
+	gbool["BEEN_PHAN_DOOM_#007"] = false
+	gbool["BEEN_PHAN_DOOM_#008"] = false
+	gbool["BEEN_PHAN_DOOM_#009"] = false
+	gbool["BEEN_PHAN_DOOM_#010"] = false
+	gbool["BEEN_PHAN_DOOM_#011"] = false
+	gbool["BEEN_PHAN_DOOM_#012"] = false
+	gbool["BEEN_PHAN_DOOM_#013"] = false
+	gbool["BEEN_PHAN_DOOM_#014"] = false
+	gbool["BEEN_PHAN_DOOM_#015"] = false
+	gbool["BEEN_PHAN_DOOM_#016"] = false
+	gbool["BEEN_PHAN_DOOM_#017"] = false
+	gbool["BEEN_PHAN_DOOM_#018"] = false
+	gbool["BEEN_PHAN_DOOM_#019"] = false
+	gbool["BEEN_PHAN_DOOM_#020"] = false
+	gbool["BEEN_PHAN_DOOM_#021"] = false
+	gbool["BEEN_PHAN_DOOM_#022"] = false
+	gbool["BEEN_PHAN_DOOM_#023"] = false
+	gbool["BEEN_PHAN_DOOM_#024"] = false
+	gbool["BEEN_PHAN_DOOM_#025"] = false
+	gbool["BEEN_PHAN_DOOM_#026"] = false
+	gbool["BEEN_PHAN_DOOM_#027"] = false
+	gbool["BEEN_PHAN_DOOM_#028"] = false
+	gbool["BEEN_PHAN_DOOM_#029"] = false
+	gbool["BEEN_PHAN_DOOM_#030"] = false
+	gbool["GIVEPRISMDIAMOND"] = false
+	gbool["SPOKEN_ANGEL_SAFE"] = false
+	gbool["BEEN_012_SECRETSAFE_#001"] = false
+	gbool["BEEN_012_SECRETSAFE_#002"] = false
+	gbool["COMPLETE_012_SECRETSAFE"] = false
+	gbool["BEEN_012_SECRETSAFE_#003"] = false
+	gbool["TRANS_ACTIVATED_012_SECRETSAFE_#003_TRANS_GENERAL__XLVI"] = false
+	gbool["BEEN_012_SECRETSAFE_#004"] = false
+	gbool["BEEN_012_SECRETSAFE_#005"] = false
+	gbool["BEEN_012_SECRETSAFE_#006"] = false
+	gbool["BEEN_013_BASEMENT_#012"] = false
+	gbool["SCOTTYUNLOCKED_013_BASEMENT"] = false
+	gbool["TRANS_ACTIVATED_013_BASEMENT_#012_TRANS_GENERAL__XLVIII"] = false
+	gbool["BEEN_013_BASEMENT_#011"] = false
+	gbool["SPOKENTOABELWESTHOUSE"] = false
+	gbool["BEEN_013_BASEMENT_#010"] = false
+	gbool["TRANS_ACTIVATED_013_BASEMENT_#010_TRANS_GENERAL__XLIX"] = false
+	gbool["BEEN_013_BASEMENT_#007"] = false
+	gbool["BEEN_013_BASEMENT_#008"] = false
+	gbool["BEEN_013_BASEMENT_#009"] = false
+	gbool["DONE_SEIN_BASEMENT_SHORTCUT_FLOOR_004"] = false
+	gbool["BEEN_013_BASEMENT_#005"] = false
+	gbool["BEEN_013_BASEMENT_#006"] = false
+	gbool["TRANS_ACTIVATED_013_BASEMENT_#005_TRANS_GENERAL__L"] = false
+	gbool["BEEN_013_BASEMENT_#003"] = false
+	gbool["BEEN_013_BASEMENT_#004"] = false
+	gbool["BEEN_013_BASEMENT_#002"] = false
+	gbool["BEEN_013_BASEMENT_#001"] = false
+	gbool["TRANS_ACTIVATED_013_BASEMENT_#001_TRANS_GENERAL__LI"] = false
+	gbool["COMPLETE_013_BASEMENT"] = false
+	gbool["EUF_KEY_RED_000"] = false
+	gbool["EUF_KEY_RED_001"] = false
+	gbool["EUF_KEY_RED_002"] = false
+	gbool["EUF_KEY_RED_003"] = false
+	gbool["EUF_KEY_RED_004"] = false
+	gbool["EUF_KEY_RED_005"] = false
+	gbool["EUF_KEY_RED_006"] = false
+	gbool["EUF_KEY_RED_007"] = false
+	gbool["EUF_KEY_RED_008"] = false
+	gbool["EUF_KEY_RED_009"] = false
+	gbool["EUF_KEY_RED_010"] = false
+	gbool["EUF_KEY_RED_011"] = false
+	gbool["EUF_KEY_RED_012"] = false
+	gbool["EUF_KEY_RED_013"] = false
+	gbool["EUF_KEY_RED_014"] = false
+	gbool["EUF_KEY_RED_015"] = false
+	gbool["EUF_KEY_RED_016"] = false
+	gbool["EUF_KEY_RED_017"] = false
+	gbool["EUF_KEY_RED_018"] = false
+	gbool["EUF_KEY_RED_019"] = false
+	gbool["TUT_ELEVATOR"] = false
+	gbool["BEEN_992_MIDBOSS_MIDBOSS"] = false
+	gbool["DEFEATEDMIDBOSS"] = false
+	gbool["SCOTTYUNLOCKED_992_MIDBOSS"] = false
+	gbool["TRANS_ACTIVATED_992_MIDBOSS_MIDBOSS_TRANS_GENERAL__LIII"] = false
+	gbool["BEEN_014_EFU_HQ_1_#000"] = false
+	gbool["WELCOME_014_EFU_HQ_1"] = false
+	gbool["BEEN_014_EFU_HQ_1_#001"] = false
+	gbool["EFU_KEY_AMBER_000"] = false
+	gbool["EFU_KEY_AMBER_001"] = false
+	gbool["EFU_KEY_BLUE_000"] = false
+	gbool["EFU_KEY_BLUE_001"] = false
+	gbool["EFU_KEY_GREEN_000"] = false
+	gbool["EFU_KEY_GREEN_001"] = false
+	gbool["EFU_KEY_PURPLE_000"] = false
+	gbool["EFU_KEY_PURPLE_001"] = false
+	gbool["EFU_KEY_RED_000"] = false
+	gbool["EFU_KEY_RED_001"] = false
+	gbool["EFU_KEY_RED_002"] = false
+	gbool["EFU_KEY_RED_003"] = false
+	gbool["EFU_KEY_RED_004"] = false
+	gbool["EFU_KEY_RED_005"] = false
+	gbool["EFU_KEY_RED_006"] = false
+	gbool["EFU_KEY_RED_007"] = false
+	gbool["EFU_KEY_RED_008"] = false
+	gbool["EFU_KEY_RED_009"] = false
+	gbool["EFU_KEY_RED_010"] = false
+	gbool["EFU_KEY_RED_011"] = false
+	gbool["EFU_KEY_RED_012"] = false
+	gbool["EFU_KEY_RED_013"] = false
+	gbool["EFU_KEY_RED_014"] = false
+	gbool["EFU_KEY_RED_015"] = false
+	gbool["EFU_KEY_RED_016"] = false
+	gbool["EFU_KEY_RED_017"] = false
+	gbool["EFU_KEY_RED_018"] = false
+	gbool["EFU_KEY_RED_019"] = false
+	gbool["CHECKEDKEY"] = false
+	gbool["EFU_GOODIDEAS"] = false
+	gbool["EFU_SEIN_1EVERDIEPINGOPGEEL"] = false
+	gbool["BEEN_014_EFU_HQ_1_#002"] = false
+	gbool["EFU_KEY_AMBER_002"] = false
+	gbool["EFU_KEY_BLUE_002"] = false
+	gbool["EFU_KEY_GREEN_002"] = false
+	gbool["EFU_KEY_PURPLE_002"] = false
+	gbool["EFU_CHAIR"] = false
+	gbool["BEEN_014_EFU_HQ_1_#003"] = false
+	gbool["EFU_KEY_AMBER_003"] = false
+	gbool["EFU_KEY_BLUE_003"] = false
+	gbool["EFU_KEY_GREEN_003"] = false
+	gbool["EFU_KEY_PURPLE_003"] = false
+	gbool["BEEN_014_EFU_HQ_1_SECRET1"] = false
+	gbool["EFU_KEY_AMBER_SECRET1"] = false
+	gbool["EFU_KEY_BLUE_SECRET1"] = false
+	gbool["EFU_KEY_GREEN_SECRET1"] = false
+	gbool["EFU_KEY_PURPLE_SECRET1"] = false
+	gbool["EFU_KEY_RED_SECRET1"] = false
+	gbool["BEEN_014_EFU_HQ_1_#004"] = false
+	gbool["EFU_KEY_AMBER_004"] = false
+	gbool["EFU_KEY_BLUE_004"] = false
+	gbool["EFU_KEY_GREEN_004"] = false
+	gbool["EFU_KEY_PURPLE_004"] = false
+	gint["EFU_ELEVATOR_KEY_SCORE"] = 0
+	gbool["WELCOME_013_BASEMENT"] = false
+	gbool["BEEN_014_EFU_HQ_1_#005"] = false
+	gbool["EFU_KEY_AMBER_005"] = false
+	gbool["EFU_KEY_BLUE_005"] = false
+	gbool["EFU_KEY_GREEN_005"] = false
+	gbool["EFU_KEY_PURPLE_005"] = false
+	gbool["SCOTTYUNLOCKED_014_EFU_HQ_1"] = false
+	gbool["TRANS_ACTIVATED_014_EFU_HQ_1_#005_TRANS_GENERAL__LIV"] = false
+	gbool["ALLOWRACHEL"] = false
+	gbool["BEEN_PHAN_MINE_#001"] = false
+	gbool["BEEN_PHAN_MINE_#002"] = false
+	gbool["BEEN_PHAN_MINE_#003"] = false
+	gbool["BEEN_PHAN_MINE_#004"] = false
+	gbool["BEEN_PHAN_MINE_#005"] = false
+	gbool["BEEN_PHAN_MINE_#006"] = false
+	gbool["BEEN_PHAN_MINE_#007"] = false
+	gbool["BEEN_PHAN_MINE_#008"] = false
+	gbool["BEEN_PHAN_MINE_#009"] = false
+	gbool["PHANMINEMETALTAKENFORRACHEL"] = false
+	gbool["PHANTASARARKSMASHOBTAINED"] = false
+	gbool["BEEN_014_EFU_HQ_1_#006"] = false
+	gbool["EFU_KEY_AMBER_006"] = false
+	gbool["EFU_KEY_BLUE_006"] = false
+	gbool["EFU_KEY_GREEN_006"] = false
+	gbool["EFU_KEY_PURPLE_006"] = false
+	gbool["EFU_PUPPETS"] = false
+	gbool["BEEN_014_EFU_HQ_1_#007"] = false
+	gbool["EFU_ADMIN"] = false
+	gbool["EFU_KEY_AMBER_007"] = false
+	gbool["EFU_KEY_BLUE_007"] = false
+	gbool["EFU_KEY_GREEN_007"] = false
+	gbool["EFU_KEY_PURPLE_007"] = false
+	gbool["BEEN_014_EFU_HQ_1_#008"] = false
+	gbool["EFU_KEY_AMBER_008"] = false
+	gbool["EFU_KEY_BLUE_008"] = false
+	gbool["EFU_KEY_GREEN_008"] = false
+	gbool["EFU_KEY_PURPLE_008"] = false
+	gbool["EFU_PRESS"] = false
+	gbool["BEEN_014_EFU_HQ_1_#009"] = false
+	gbool["EFU_DANCE"] = false
+	gbool["EFU_KEY_AMBER_009"] = false
+	gbool["EFU_KEY_BLUE_009"] = false
+	gbool["EFU_KEY_GREEN_009"] = false
+	gbool["EFU_KEY_PURPLE_009"] = false
+	gbool["BEEN_014_EFU_HQ_1_#010"] = false
+	gbool["EFU_KEY_AMBER_010"] = false
+	gbool["EFU_KEY_BLUE_010"] = false
+	gbool["EFU_KEY_GREEN_010"] = false
+	gbool["EFU_KEY_PURPLE_010"] = false
+	gbool["TRANS_ACTIVATED_014_EFU_HQ_1_#010_TRANS_GENERAL__LV"] = false
+	gbool["BEEN_015_EFU_HQ_2_#011"] = false
+	gbool["EFU_TORTURE"] = false
+	gbool["EFU_KEY_AMBER_011"] = false
+	gbool["BEEN_015_EFU_HQ_2_#012"] = false
+	gbool["BEEN_015_EFU_HQ_2_#013"] = false
+	gbool["EFU_KEY_BLUE_013"] = false
+	gbool["EFU_KEY_GREEN_013"] = false
+	gbool["BEEN_015_EFU_HQ_2_#014"] = false
+	gbool["BEEN_015_EFU_HQ_2_#015"] = false
+	gbool["DEFEATED_GAJES"] = false
+	gbool["SCOTTYUNLOCKED_015_EFU_HQ_2"] = false
+	gbool["TRANS_ACTIVATED_015_EFU_HQ_2_#015_TRANS_GENERAL__LVI"] = false
+	gbool["EFU_KEY_AMBER_015"] = false
+	gbool["EFU_KEY_BLUE_011"] = false
+	gbool["EFU_KEY_BLUE_015"] = false
+	gbool["EFU_KEY_GREEN_011"] = false
+	gbool["EFU_KEY_GREEN_015"] = false
+	gbool["EFU_KEY_PURPLE_011"] = false
+	gbool["EFU_KEY_PURPLE_015"] = false
+	gbool["BEEN_015_EFU_HQ_2_#016"] = false
+	gbool["EFU_KEY_AMBER_016"] = false
+	gbool["EFU_KEY_BLUE_016"] = false
+	gbool["EFU_KEY_GREEN_016"] = false
+	gbool["EFU_KEY_PURPLE_016"] = false
+	gbool["EFU_SECURITY"] = false
+	gbool["BEEN_015_EFU_HQ_2_SECRET2"] = false
+	gbool["EFU_KEY_AMBER_SECRET2"] = false
+	gbool["EFU_KEY_BLUE_SECRET2"] = false
+	gbool["EFU_KEY_GREEN_SECRET2"] = false
+	gbool["EFU_KEY_PURPLE_SECRET2"] = false
+	gbool["EFU_KEY_RED_SECRET2"] = false
+	gbool["EFU_SECRET2"] = false
+	gbool["RATEDOUBLED"] = false
+	gbool["BEEN_015_EFU_HQ_2_#017"] = false
+	gbool["EFU_KEY_AMBER_017"] = false
+	gbool["EFU_KEY_BLUE_017"] = false
+	gbool["EFU_KEY_GREEN_017"] = false
+	gbool["EFU_KEY_PURPLE_017"] = false
+	gbool["EFU_CAVETALK"] = false
+	gbool["BEEN_015_EFU_HQ_2_#018"] = false
+	gbool["EFU_KEY_AMBER_018"] = false
+	gbool["EFU_KEY_BLUE_018"] = false
+	gbool["EFU_KEY_GREEN_018"] = false
+	gbool["EFU_KEY_PURPLE_018"] = false
+	gbool["BEEN_015_EFU_HQ_2_#019"] = false
+	gbool["EFU_BOARDEDUP"] = false
+	gbool["EFU_KEY_AMBER_019"] = false
+	gbool["EFU_KEY_BLUE_019"] = false
+	gbool["EFU_KEY_GREEN_019"] = false
+	gbool["EFU_KEY_PURPLE_019"] = false
+	gbool["BEEN_015_EFU_HQ_2_#020"] = false
+	gbool["EFU_KEY_AMBER_020"] = false
+	gbool["EFU_KEY_BLUE_020"] = false
+	gbool["EFU_KEY_GREEN_020"] = false
+	gbool["EFU_KEY_PURPLE_020"] = false
+	gbool["EFU_KEY_RED_020"] = false
+	gbool["TRANS_ACTIVATED_015_EFU_HQ_2_#020_TRANS_GENERAL__LVII"] = false
+	gbool["DEFEATED_BHD"] = false
+	gbool["BEEN_016_SCHWABBA_ENTREE"] = false
+	gbool["BEEN_016_SCHWABBA_ENTRY"] = false
+	gbool["ENTER_SCHWABBA"] = false
+	gbool["WELCOME_016_SCHWABBA"] = false
+	gbool["SCHWABBA_THERE_AND_BACK_AGAIN"] = false
+	gbool["BEEN_016_SCHWABBA_GANG"] = false
+	gbool["BEEN_016_SCHWABBA_OFFICE"] = false
+	gbool["EPILOGUEDONE"] = false
+	lnk.party.party("Klahre","Yorno")
+	lnk.Map.GoToMap("001_HyperloopStation","GATE27","Start_Klahre")
+	Any.Caps.Cycle++
+End
+
+//Return _SNGP
