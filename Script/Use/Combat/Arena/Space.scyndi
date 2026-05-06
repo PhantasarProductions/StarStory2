@@ -35,8 +35,19 @@
 // version: 23.08.29
 // End License Information
 
+Module Arena_Space_Module
+
 #use "libs/linkedlist"
 #use "libs/xmath"
+
+#use "Libs/SCI/Graphics"
+
+#use "Script/Use/Anyway"
+
+
+#accept Fighter
+#accept FlowCombat
+
 
 class Star
 	static var List
@@ -108,7 +119,7 @@ class Star
 	
 end
 
-Module Class 
+Class Arena_Space 
 	
 	Const Var NewBattle = NIKS
 	
