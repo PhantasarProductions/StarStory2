@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 26.05.06 I
+// version: 26.05.06 II
 // 
 // End License
 
@@ -54,7 +54,7 @@ Module Arena_EFU_Gajes
 	
 	Void Load()
 		Wall  = LoadNewImage(WallFile, "Arena_Gajes_Wall")
-		Floor = LoadNewImages(FloorFile,"Arena_Gajes_Floor")
+		Floor = LoadNewImage(FloorFile,"Arena_Gajes_Floor")
 	End
 	
 	Void UnLoad()
