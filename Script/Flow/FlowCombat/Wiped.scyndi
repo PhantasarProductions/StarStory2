@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FlowCombat/Wiped.scyndi
 // 
-// 	  Version: 26.05.05
+// 	  Version: 26.05.06
 // 	
 // 	  Copyright (C) 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -136,10 +136,10 @@ Class Stage_Wiped extends Stage
 				Events.Poll()
 				Sys.WaitMinTicks()
 			Until math.abs(os.time()-CheckStamp)>TotalTime
-			If !Prefixed(FlowCombat.Start.Music:upper(),"*NOCHANGE")
+			If !Prefixed(Upper(FlowCombat.Start.Music),"*NOCHANGE")
 				Music.Pop()
 			End
-			switch WipeAct:upper()
+			switch Upper(WipeAct)
 				case "DEFEATED" "RESPAWN"
 					Sys.CurrentFlow="FIELD"
 					if gbool.BeenInBlackBox
