@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 26.05.07 IX
+// version: 26.05.07 XI
 // 
 // End License
 
@@ -64,7 +64,7 @@ Class Planet
 	
 	Static Var Mercury
 	
-	Static Var Lijst = New LinkedList()
+	Static Var Lijst = New TLinkedList()
 	
 	Static Void Reset()
 		For P in Lijst.Each
@@ -168,7 +168,11 @@ Void Stage_TheSun()
 		Graphics.SetAlpha(SunAlpha)
 		Graphics.Rect(0,0,Screen.W,Screen.H)
 		If SunAlpha>=255
-			Inferno = Inferno || NeilUse("Script/Use/Combat/SpellAni/Inferno")
+			//Inferno = Inferno || NeilUse("Script/Use/Combat/SpellAni/Inferno")
+			If !Inferno
+				Lua.Scyndi.Use("Script/Use/Combat/SpellAni/Inferno")
+				Inferno = Lua.Scyndi.Class.SA_Inferno
+			End
 			Inferno.Start()
 			Stage = 3
 		End
