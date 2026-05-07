@@ -39,7 +39,12 @@
 // to Neil and some needed adaptions with the Apollo engine (which is different
 // from NALA at some points)
 
+Module SA_Inferno
+
 #use "libs/linkedlist"
+
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Graphics"
 
 class SInferno_Flame
 	readonly int x
@@ -92,7 +97,7 @@ class SInferno_Flame
 end
 	
 //module SpellAni_BurnBabyBurn_DiscoInferno
-module
+//module
 
 	Get Var Flame 
 		Return SInferno_Flame.Flame
@@ -102,11 +107,11 @@ module
 	End
 	var Audio
 	
-	CONSTRUCTOR
+	Init
 		//self.Flame = LoadIfNew("gfx/Combat/SpellAni/Flame.jpbf","SPELLANI_Flame")
 		//self.Audio = LoadNewAudio("SFX/Combat/SpellAni/Flame.wav","SPELLANI_Flame")
-		Flame = Image.LoadNew("gfx/Combat/SpellAni/Flame.jpbf","SPELLANI_Flame")
-		Audio = Lua.Neil.Globals.Audio.LoadNew("Audio/Combat/SpellAni/Fire.ogg","SPELLANI_Flame")
+		Flame = LoadNewImage("gfx/Combat/SpellAni/Flame.jpbf","SPELLANI_Flame")
+		Audio = Audio.LoadNew("Audio/Combat/SpellAni/Fire.ogg","SPELLANI_Flame")
 		SInferno_Flame.List = new TLinkedList()
 	end
 	
@@ -135,4 +140,4 @@ module
 	Void Update()
 	End
 	
-end
+//end
