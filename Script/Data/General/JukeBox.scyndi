@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Data/General/JukeBox.neil
-// (c) Jeroen Broks, 2022, 2023, All Rights Reserved.
+// src/Code/Script/Data/General/JukeBox.scyndi
+// (c) Jeroen Broks, 2022, 2023, 2026, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,8 +33,13 @@
 // 
 // **********************************************
 // 
-// version: 23.08.11
-// End License Information
+// 
+// version: 26.05.07
+// 
+// End License
+
+
+Module
 
 #use "Libs/LinkedList"
 
@@ -43,12 +49,12 @@ Class TMusic
 	String Artist
 	String WebSite
 	String License
-	Static Var Lst = New LinkedList()
+	Static Var Lst = New TLinkedList()
 End
 
 Init
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Dungeon/Disaster.ogg"
 		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
 		N.Title   = "Disaster"
@@ -57,7 +63,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Dungeon/Dungeon1.ogg"
 		N.License = "Made by request of Jeroen P. Broks. Copyright still lingers with original artist. Contact him for the terms"
 		N.Title   = "Dungeon 1"
@@ -66,7 +72,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Dungeon/Future Industry 1.ogg"
 		N.License = "https://soundimage.org/attribution-info/"
 		N.Title   = "Future Industry 1"
@@ -75,7 +81,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Dungeon/In The Belly Of The Whale.ogg"
 		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
 		N.Title   = "In The Belly Of The Whale"
@@ -84,7 +90,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Dungeon/Journey to ascend.ogg"
 		N.License = "Journey To Ascend by Kevin MacLeod Link: https://incompetech.filmmusic.io/song/8951-journey-to-ascend License: https://filmmusic.io/standard-license"
 		N.Title   = "Journey to ascend"
@@ -93,7 +99,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Combat/Black Hole Dweller/Nearly There.ogg"
 		N.License = " Create Commons: By attribute, Non Commercial, Share Alike"
 		N.Title   = "Nearly There"
@@ -102,7 +108,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Dungeon/Kalimba.ogg"
 		N.License = "Creative Commons - By Attribution  (Incompetech.com)"
 		N.Title   = "Kalimba"
@@ -111,7 +117,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Dungeon/Ooze.ogg"
 		N.License = "Creative Commons - By Attribution"
 		N.Title   = "Ooze"
@@ -120,7 +126,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Dungeon/Phantasar/Moonlit_Secrets_Looping.ogg"
 		N.License = "https://soundimage.org/attribution-info/"
 		N.Title   = "Moonlit Secrets"
@@ -129,7 +135,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Dungeon/Phantasar/Sewer Monsters Town Hall Meeting.ogg"
 		N.License = "https://soundimage.org/attribution-info/"
 		N.Title   = "Sewer Monsters Town Hall Meeting"
@@ -138,7 +144,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Dungeon/Sleepwalking.ogg"
 		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
 		N.Title   = "Sleepwalking"
@@ -147,7 +153,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Dungeon/The Fabled Forest.ogg"
 		N.License = "https://soundimage.org/attribution-info/"
 		N.Title   = "The Fabled Forest"
@@ -156,7 +162,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Dungeon/The Water and the Well.ogg"
 		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
 		N.Title   = "The Water and the Well"
@@ -165,7 +171,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Hub/City Of Tomorrow.ogg"
 		N.License = "https://soundimage.org/attribution-info/"
 		N.Title   = "City Of Tomorrow"
@@ -174,7 +180,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Hub/Dance of the Satellites.ogg"
 		N.License = "https://soundimage.org/attribution-info/"
 		N.Title   = "Dance of the Satellites"
@@ -183,7 +189,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Hub/Healing.ogg"
 		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
 		N.Title   = "Healing"
@@ -192,7 +198,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Hub/Panic Stations.ogg"
 		N.License = " May not be used without Widzy's permission"
 		N.Title   = "Panic Stations"
@@ -201,7 +207,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Hub/Rising.ogg"
 		N.License = "Creative Commons - By Attribution  (Incompetech.com)"
 		N.Title   = "Rising"
@@ -210,7 +216,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Hub/The Start To Fantasy.ogg"
 		N.License = " Written by request of Jeroen P. Broks. May not be extracted from the game without prior written permission!"
 		N.Title   = "The Start To Fantasy"
@@ -219,7 +225,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Hub/Tri-Tachyon - Path to Jotunheim.ogg"
 		N.License = " CC-BY-NC license."
 		N.Title   = "Path to Jotunheim"
@@ -228,7 +234,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Town/Phantasar/Chamber of Jewels.ogg"
 		N.License = "https://soundimage.org/attribution-info/"
 		N.Title   = "Chamber of Jewels"
@@ -237,7 +243,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/O4A/Once-Around-the-Solar-System.ogg"
 		N.License = "Please check the website www.soundimage.org for the exact terms. Don't extract this file prior to checking those terms!"
 		N.Title   = "Once Around The Solar System"
@@ -246,7 +252,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Combat/Boss/Katabasis.ogg"
 		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
 		N.Title   = "Katabasis"
@@ -255,7 +261,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Combat/Phantasar/Day of Chaos.ogg"
 		N.License = "Creative Commons - By Attribution  (Incompetech.com)"
 		N.Title   = "Day of Chaos"
@@ -264,7 +270,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Combat/Phantasar/Hall Of The Mountain King.ogg"
 		N.License = "Creative Commons - By Attribution  (Incompetech.com)"
 		N.Title   = "Hall Of The Mountain King"
@@ -273,7 +279,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Combat/Phantasar/Tempting Secrets.ogg"
 		N.License = "Creative Commons - By Attribution  (Incompetech.com)"
 		N.Title   = "Tempting Secrets"
@@ -282,7 +288,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Combat/PhantasarBoss/BrutalSong.ogg"
 		N.License = " Written by request of Jeroen P. Broks. May not be extracted from the game without prior written permission!"
 		N.Title   = "Brutal Song"
@@ -291,7 +297,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Combat/PhantasarRenc/Defending the princess.ogg"
 		N.License = "https://soundimage.org/attribution-info/"
 		N.Title   = "Defending the princess"
@@ -300,7 +306,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Combat/PhantasarRenc/Fantasy Forest Battle.ogg"
 		N.License = "https://soundimage.org/attribution-info/"
 		N.Title   = "Fantasy Forest Battle"
@@ -309,7 +315,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Combat/Renc/Ancrapraxis.ogg"
 		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
 		N.Title   = "Ancrapraxis"
@@ -318,7 +324,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Combat/Renc/Forever Lying to Myself.ogg"
 		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
 		N.Title   = "Forever Lying to Myself"
@@ -327,7 +333,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Combat/Renc/Snake Trance.ogg"
 		N.License = "https://soundimage.org/attribution-info/"
 		N.Title   = "Snake Trance"
@@ -336,7 +342,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Combat/SBoss/Bloemschoen.ogg"
 		N.License = "Creative Commons - By Attribution  (Incompetech.com)"
 		N.Title   = "Exit the Premises"
@@ -345,7 +351,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Combat/SBoss/Ferdy Funhouse.ogg"
 		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
 		N.Title   = "Dissent"
@@ -354,7 +360,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Combat/SBoss/Fraudci.ogg"
 		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
 		N.Title   = "The Watchmaker's Four"
@@ -363,7 +369,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Combat/SBoss/Lilith's rage.ogg"
 		N.License = " No restrictions. Commercial use encouraged."
 		N.Title   = "Lilith's rage"
@@ -372,7 +378,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Combat/SBoss/Marc and Marion.ogg"
 		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
 		N.Title   = "Break down in the cold"
@@ -381,7 +387,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Combat/SBoss/Strangled.ogg"
 		N.License = "Creative Commons - By Attribution"
 		N.Title   = "Strangled"
@@ -390,7 +396,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Combat/SBoss/Techno-Pixel-Monster-Dance-Party.ogg"
 		N.License = "https://soundimage.org/attribution-info/"
 		N.Title   = "Techno Pixel Monster Party"
@@ -399,7 +405,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Combat/Victory/Victory.ogg"
 		N.License = "Free for personal and commercial use -- https://pixabay.com/nl/service/license/"
 		N.Title   = "Home Logo"
@@ -408,7 +414,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Dungeon/10000 People chanting -I am an individual-.ogg"
 		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
 		N.Title   = "10000 People chanting -I am an individual-"
@@ -417,7 +423,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Dungeon/Blaxland.ogg"
 		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
 		N.Title   = "Blaxland"
@@ -426,7 +432,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Dungeon/Cathedral.ogg"
 		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
 		N.Title   = "Cathedral"
@@ -435,7 +441,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Combat/Final Boss/Wabi-Sabi.mp3"
 		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
 		N.Title   = "Wabi-Sabi"
@@ -444,7 +450,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Dungeon/Creative Destruction.ogg"
 		N.License = "Creative Commons Attribution license -- http://www.nihilore.com/license/ -- Music downloaded from http://www.nihilore.com"
 		N.Title   = "Creative Destruction"
@@ -453,7 +459,7 @@ Init
 		TMusic.Lst.AddLast(N)
 	End
 	Do
-		Var N = New TMusic()
+		N:=New TMusic()
 		N.Entry   = "Music/Dungeon/Dark Techno City.ogg"
 		N.License = "https://soundimage.org/attribution-info/"
 		N.Title   = "Dark Techno City"
