@@ -1,7 +1,7 @@
 // License:
 // 	  src/Code/Script/Flow/FieldMenu/UseItem.scyndi
 // 
-// 	  Version: 26.05.03 II
+// 	  Version: 26.05.06
 // 	
 // 	  Copyright (C) 2022, 2023, 2026 Jeroen Petrus Broks
 // 	
@@ -49,6 +49,7 @@ Module UseItem_bdb56bc7447ad317a0a6b89094561ec297d9a8267bc675cea0b9de379691f2b11
 
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/Audio"
+#use "Libs/SCI/SString"
 
 #use "Script/Use/Anyway"
 
@@ -57,6 +58,10 @@ plua buzz = Audio.Obtain("BUZZ")
 
 void _UseItem(string ch,int Slot,string ittag)
 	//static var buzz = Audio.Obtain("BUZZ")
+	if Prefixed(ch,"Z_")
+		Buzz.Play()
+		Return
+	End
 	It   := Any.IAA[ittag]
 	Char := RPGChar[ch]
 	HP   := Char.Points.HP
