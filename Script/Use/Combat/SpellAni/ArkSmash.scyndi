@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Use/Combat/SpellAni/ArkSmash.neil
-// (c) Jeroen Broks, 2021, 2023, All Rights Reserved.
+// src/Code/Script/Use/Combat/SpellAni/ArkSmash.scyndi
+// (c) Jeroen Broks, 2021, 2023, 2026, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,10 +33,15 @@
 // 
 // **********************************************
 // 
-// version: 23.05.02
-// End License Information
+// 
+// version: 26.05.07
+// 
+// End License
+
 
 #use "Libs/LinkedList"
+
+#use "Script/Use/Anyway"
 
 Class Planet
 	ReadOnly Static Int Speed = 8
@@ -61,7 +67,7 @@ Class Planet
 	Constructor(string N, number S, int SX)
 		Name = N
 		Scale = S
-		Img = Image.LoadNew("GFX/Space/"..Name..".png","SPELLANI_ARKSMASH_"..(Name:upper()))
+		Img = LoadNewImage("GFX/Space/"..Name..".png","SPELLANI_ARKSMASH_"..Upper(Name))
 		Img.HotCenter()
 		StartX = SX
 		CSayF("Created Planet: %s",Name)
@@ -95,7 +101,7 @@ Class AS_Star
 		Speed = math.random(1,8)
 	End
 	
-	Static Var Lijst = new LinkedList()
+	Static Var Lijst = new TLinkedList()
 	
 	Static Void DrawAll()
 		Int Tel = 0
@@ -114,7 +120,7 @@ Class AS_Star
 	End
 End
 
-module
+//module
 	Int Stage = 1
 	Table Stages
 	Int Sun
@@ -195,4 +201,4 @@ module
 	Constructor
 		Stages = {Stage_Planets,Stage_TheSun,Stage_Inferno}
 	End
-End
+//End
