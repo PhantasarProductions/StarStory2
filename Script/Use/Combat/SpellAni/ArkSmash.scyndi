@@ -34,14 +34,22 @@
 // **********************************************
 // 
 // 
-// version: 26.05.07
+// version: 26.05.07 IX
 // 
 // End License
 
 
+Module SA_ArkSmash
+
 #use "Libs/LinkedList"
 
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Graphics"
+
 #use "Script/Use/Anyway"
+
+#accept Fighter
 
 Class Planet
 	ReadOnly Static Int Speed = 8
@@ -115,7 +123,7 @@ Class AS_Star
 			End
 		End
 		If math.random(0,Tel)<=100
-			Lijst.AddLast(New(AS_Star()))
+			Lijst.AddLast(New AS_Star())
 		End
 	End
 End
@@ -138,67 +146,67 @@ End
 		Graphics.Scale(1,1)
 		Fighter.DrawAll()
 		//Combat_Draw.DrawFighters()
-		Party.Boxes()
+		Lnk.Party.Boxes()
 		If Planet.Mercury.X>Screen.W+200
 			Stage = 2
 		End
 	End
 	
-	Void Stage_TheSun()
-		Static Var SunImage = Image.LoadNew("GFX/XSpace/SunSurface.png","SPELLANI_ARKSMASK_SUNSURFACE")
-		__white
-		Graphics.Cls()
-		AS_Star.DrawAll()
-		SunImage.Stretch(Sun,0,Screen.W,Screen.H-100)
-		//Combat_Draw.DrawFighters()
-		Fighter.DrawAll()
-		If Sun<0
-			Sun+=4
-		Else
-			__Red
-			SunAlpha++
-			Graphics.SetAlpha(SunAlpha)
-			Graphics.Rect(0,0,Screen.W,Screen.H)
-			If SunAlpha>=255
-				Inferno = Inferno || NeilUse("Script/Use/Combat/SpellAni/Inferno")
-				Inferno.Start()
-				Stage = 3
-			End
+Void Stage_TheSun()
+	Static Var SunImage = LoadNewImage("GFX/XSpace/SunSurface.png","SPELLANI_ARKSMASK_SUNSURFACE")
+	__white
+	Graphics.Cls()
+	AS_Star.DrawAll()
+	SunImage.Stretch(Sun,0,Screen.W,Screen.H-100)
+	//Combat_Draw.DrawFighters()
+	Fighter.DrawAll()
+	If Sun<0
+		Sun+=4
+	Else
+		__Red
+		SunAlpha++
+		Graphics.SetAlpha(SunAlpha)
+		Graphics.Rect(0,0,Screen.W,Screen.H)
+		If SunAlpha>=255
+			Inferno = Inferno || NeilUse("Script/Use/Combat/SpellAni/Inferno")
+			Inferno.Start()
+			Stage = 3
 		End
-		Party.Boxes()
 	End
+	Lnk.Party.Boxes()
+End
 	
-	Void Stage_Inferno()
-		Inferno = Inferno || NeilUse("Script/Use/Combat/SpellAni/Inferno")
-		Inferno.Draw()
+Void Stage_Inferno()
+	Inferno = Inferno || NeilUse("Script/Use/Combat/SpellAni/Inferno")
+	Inferno.Draw()
+End
+	
+Void Start()
+	For P in Planet.Lijst.Each
+		P.X = P.StartX
 	End
+	Sun = -Screen.W
+	SunAlpha = 0
+	Stage=1
+	Planet.Reset()
+End
 	
-	Void Start()
-		For P in Planet.Lijst.Each
-			P.X = P.StartX
-		End
-		Sun = -Screen.W
-		SunAlpha = 0
-		Stage=1
-		Planet.Reset()
+Get Delegate Draw
+	Return Stages[Stage]
+End
+	
+Void Update()
+End		
+	
+Get Bool Ended
+	if Stage<3
+		Return False
 	End
+	Inferno = Inferno || NeilUse("Script/Use/Combat/SpellAni/Inferno")
+	Return Inferno.Ended
+End
 	
-	Get Delegate Draw
-		Return Stages[Stage]
-	End
-	
-	Void Update()
-	End		
-	
-	Get Bool Ended
-		if Stage<3
-			Return False
-		End
-		Inferno = Inferno || NeilUse("Script/Use/Combat/SpellAni/Inferno")
-		Return Inferno.Ended
-	End
-	
-	Constructor
-		Stages = {Stage_Planets,Stage_TheSun,Stage_Inferno}
-	End
+Init
+	Stages = {Stage_Planets,Stage_TheSun,Stage_Inferno}
+End
 //End
