@@ -35,6 +35,10 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
+Script
+
+#use "Libs/SCI/Graphics"
+
 #use "Libs/Music"
 #use "Libs/Fittext"
 #use "Libs/Keys"
@@ -44,11 +48,11 @@
 
 const var Mouse = Any.Mouse
 
-Const Var Back  = Image.Obtain("STARFIELD")
-Const Var Fnt   = ImageFont.Obtain("BOXTEXT")
-Const Var Big   = ImageFont.Obtain("BIGTEXT")
-Const Var Dfnt  = ImageFont.Obtain("MINITEXT")
-Const Var Sfnt  = ImageFont.Obtain("MINITEXT")
+Const Var Back  = ObtainImage("STARFIELD")
+Const Var Fnt   = ObtainFont("BOXTEXT")
+Const Var Big   = ObtainFont("BIGTEXT")
+Const Var Dfnt  = ObtainFont("MINITEXT")
+Const Var Sfnt  = ObtainFont("MINITEXT")
 //Const Var Hando = Image.LoadNew("GFX/Big_Char/Hando Stillor.png","JUKE_HANDOSTILLOR")
 Const Int YMargin = 30
 
@@ -67,7 +71,7 @@ Global Void ComeToMe(String RT)
 	Flow.Current="JUKEBOX"
 End
 
-Global Void Apollo_Flow()
+Global Void MainFlow()
 	Static Var Playing
 	Back.Tile(0,0,Screen.W,Screen.H)
 	//ShowHandoStillor()
