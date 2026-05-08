@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 26.05.07
+// version: 26.05.08
 // 
 // End License
 
@@ -244,7 +244,7 @@ Init
 	End
 	Do
 		N:=New TMusic()
-		N.Entry   = "Music/O4A/Once-Around-the-Solar-System.ogg"
+		N.Entry   = "Music/Introduction/Introduction.ogg"
 		N.License = "Please check the website www.soundimage.org for the exact terms. Don't extract this file prior to checking those terms!"
 		N.Title   = "Once Around The Solar System"
 		N.Artist  = "Eric Matyas"
